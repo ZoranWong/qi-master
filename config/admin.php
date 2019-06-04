@@ -10,7 +10,7 @@ return [
     /*
      * 页面顶部 Logo
      */
-    'logo' => '<b>Laravel</b> Shop',
+    'logo' => '齐师傅',
 
     /*
      * 页面顶部小 Logo
