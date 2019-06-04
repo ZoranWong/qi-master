@@ -20,6 +20,7 @@ class CreateCategoriesTable extends Migration
             $table->unsignedInteger('parent_id')->comment('父类别ID');
             $table->unsignedTinyInteger('sort')->default(0)->comment('排序');
             $table->string('unit')->default('')->comment('产品单位');
+            $table->unsignedInteger('price')->default(0)->comment('报价');
             $table->timestamps();
         });
     }
