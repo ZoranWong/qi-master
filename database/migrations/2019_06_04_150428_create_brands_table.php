@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateBrandsTable extends Migration
 {
@@ -19,6 +19,9 @@ class CreateBrandsTable extends Migration
             $table->string('name')->comment('品牌名称');
             $table->unsignedTinyInteger('sort')->default(0)->comment('排序');
             $table->unsignedTinyInteger('status')->default(1)->comment('状态：0-关闭 1-开启');
+
+            $table->softDeletes();
+
             $table->timestamps();
         });
     }

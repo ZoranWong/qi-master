@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateServiceTypesTable extends Migration
 {
@@ -17,6 +17,9 @@ class CreateServiceTypesTable extends Migration
             $table->increments('id');
             $table->string('name')->comment('服务名称');
             $table->string('description')->comment('描述');
+
+            $table->softDeletes();
+
             $table->timestamps();
         });
     }

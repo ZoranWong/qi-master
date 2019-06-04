@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateClassificationsTable extends Migration
 {
@@ -21,6 +21,9 @@ class CreateClassificationsTable extends Migration
             $table->boolean('is_new')->default(false)->comment('是否新服务');
             $table->unsignedInteger('sort')->default(0)->comment('排序');
             $table->unsignedTinyInteger('status')->default(1)->comment('状态：0-关闭， 1-开启');
+
+            $table->softDeletes();
+
             $table->timestamps();
         });
     }
