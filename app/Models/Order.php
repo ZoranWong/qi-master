@@ -65,29 +65,17 @@ class Order extends Model
 {
     use SoftDeletes, ModelAttributesAccess;
 
-    const REFUND_STATUS_PENDING = 'pending';
-    const REFUND_STATUS_APPLIED = 'applied';
-    const REFUND_STATUS_PROCESSING = 'processing';
-    const REFUND_STATUS_SUCCESS = 'success';
-    const REFUND_STATUS_FAILED = 'failed';
-
-    const SHIP_STATUS_PENDING = 'pending';
-    const SHIP_STATUS_DELIVERED = 'delivered';
-    const SHIP_STATUS_RECEIVED = 'received';
-
-    public static $refundStatusMap = [
-        self::REFUND_STATUS_PENDING => '未退款',
-        self::REFUND_STATUS_APPLIED => '已申请退款',
-        self::REFUND_STATUS_PROCESSING => '退款中',
-        self::REFUND_STATUS_SUCCESS => '退款成功',
-        self::REFUND_STATUS_FAILED => '退款失败',
+    const STATUS_REFUND_APPLYING = 1;
+    const STATUS_REFUND_AGREED = 2;
+    const STATUS_REFUND_REFUSED = 3;
+    const STATUS_REFUND = [
+        self::STATUS_REFUND_APPLYING => '申请中',
+        self::STATUS_REFUND_AGREED => '已退款',
+        self::STATUS_REFUND_REFUSED => '拒绝退款'
     ];
 
-    public static $shipStatusMap = [
-        self::SHIP_STATUS_PENDING => '未发货',
-        self::SHIP_STATUS_DELIVERED => '已发货',
-        self::SHIP_STATUS_RECEIVED => '已收货',
-    ];
+    const STATUS_WAITING = 0;
+    const STATUS = [];
 
     protected $fillable = [
         'order_no',
@@ -129,7 +117,18 @@ class Order extends Model
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * 资金明细
+     * 由初始订单 和 追加费用 组成
+     */
+    public function payments()
+    {
+        return $this->hasMany(PaymentOrder::class);
+    }
 
+    /**
+     * 产品明细
+     */
     public function items()
     {
         return $this->hasMany(OrderItem::class);
