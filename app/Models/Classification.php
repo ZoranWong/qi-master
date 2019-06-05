@@ -23,7 +23,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $deleted_at
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property-read string $statusDesc
+ * @property-read mixed $statusDesc
  * @property-read Collection|null $serviceTypes
  * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Eloquent\Builder|Classification newModelQuery()

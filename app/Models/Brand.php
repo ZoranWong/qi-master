@@ -72,7 +72,7 @@ class Brand extends Model
         return $query->where('status', self::STATUS_ON);
     }
 
-    public function scopeInActive(Builder $query)
+    public function scopeInactive(Builder $query)
     {
         return $query->where('status', self::STATUS_OFF);
     }
