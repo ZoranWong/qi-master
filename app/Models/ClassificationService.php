@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\ModelAttributesAccess;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -12,10 +13,10 @@ use Illuminate\Support\Carbon;
  * 商品类别与服务类型中间表：商品1:n服务类型
  *
  * @property int $id
- * @property int $classification_id 类目ID
- * @property int $service_id 服务ID
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
+ * @property int $classificationId 类目ID
+ * @property int $serviceId 服务ID
+ * @property Carbon|null $createdAt
+ * @property Carbon|null $updatedAt
  * @method static Builder|ClassificationService newModelQuery()
  * @method static Builder|ClassificationService newQuery()
  * @method static Builder|ClassificationService query()
@@ -28,5 +29,7 @@ use Illuminate\Support\Carbon;
  */
 class ClassificationService extends Model
 {
+    use ModelAttributesAccess;
+
     protected $fillable = ['classification_id', 'service_id'];
 }

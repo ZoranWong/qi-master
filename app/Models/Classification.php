@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\ModelAttributesAccess;
 use Eloquent;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -15,15 +16,15 @@ use Illuminate\Support\Carbon;
  *
  * @property int $id
  * @property string $name 名称
- * @property string $icon_url 图标路径
- * @property bool $is_hot 是否热门
- * @property bool $is_new 是否新服务
+ * @property string $iconUrl 图标路径
+ * @property bool $isHot 是否热门
+ * @property bool $isNew 是否新服务
  * @property int $sort 排序
  * @property int $status 状态：0-关闭， 1-开启
- * @property Carbon|null $deleted_at
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
- * @property-read string $statusDesc
+ * @property Carbon|null $deletedAt
+ * @property Carbon|null $createdAt
+ * @property Carbon|null $updatedAt
+ * @property-read mixed $statusDesc
  * @property-read Collection|null $serviceTypes
  * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Eloquent\Builder|Classification newModelQuery()
@@ -47,7 +48,7 @@ use Illuminate\Support\Carbon;
  */
 class Classification extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, ModelAttributesAccess;
 
     protected $fillable = ['name', 'icon_url', 'is_hot', 'is_new', 'sort', 'status'];
 

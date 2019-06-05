@@ -3,7 +3,10 @@
 namespace App\Models;
 
 use App\Exceptions\CouponCodeUnavailableException;
+use App\Models\Traits\ModelAttributesAccess;
 use Carbon\Carbon;
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
@@ -17,39 +20,41 @@ use Illuminate\Support\Str;
  * @property float $value
  * @property int $total
  * @property int $used
- * @property float $min_amount
- * @property \Illuminate\Support\Carbon|null $not_before
- * @property \Illuminate\Support\Carbon|null $not_after
+ * @property float $minAmount
+ * @property \Illuminate\Support\Carbon|null $notBefore
+ * @property \Illuminate\Support\Carbon|null $notAfter
  * @property bool $enabled
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $createdAt
+ * @property \Illuminate\Support\Carbon|null $updatedAt
  * @property-read mixed $description
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CouponCode newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CouponCode newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CouponCode query()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CouponCode whereCode($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CouponCode whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CouponCode whereEnabled($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CouponCode whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CouponCode whereMinAmount($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CouponCode whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CouponCode whereNotAfter($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CouponCode whereNotBefore($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CouponCode whereTotal($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CouponCode whereType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CouponCode whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CouponCode whereUsed($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CouponCode whereValue($value)
- * @mixin \Eloquent
+ * @method static Builder|CouponCode newModelQuery()
+ * @method static Builder|CouponCode newQuery()
+ * @method static Builder|CouponCode query()
+ * @method static Builder|CouponCode whereCode($value)
+ * @method static Builder|CouponCode whereCreatedAt($value)
+ * @method static Builder|CouponCode whereEnabled($value)
+ * @method static Builder|CouponCode whereId($value)
+ * @method static Builder|CouponCode whereMinAmount($value)
+ * @method static Builder|CouponCode whereName($value)
+ * @method static Builder|CouponCode whereNotAfter($value)
+ * @method static Builder|CouponCode whereNotBefore($value)
+ * @method static Builder|CouponCode whereTotal($value)
+ * @method static Builder|CouponCode whereType($value)
+ * @method static Builder|CouponCode whereUpdatedAt($value)
+ * @method static Builder|CouponCode whereUsed($value)
+ * @method static Builder|CouponCode whereValue($value)
+ * @mixin Eloquent
  */
 class CouponCode extends Model
 {
+    use ModelAttributesAccess;
+
     // 用常量的方式定义支持的优惠券类型
     const TYPE_FIXED = 'fixed';
     const TYPE_PERCENT = 'percent';
 
     public static $typeMap = [
-        self::TYPE_FIXED   => '固定金额',
+        self::TYPE_FIXED => '固定金额',
         self::TYPE_PERCENT => '比例',
     ];
 
@@ -78,13 +83,13 @@ class CouponCode extends Model
         $str = '';
 
         if ($this->min_amount > 0) {
-            $str = '满'.str_replace('.00', '', $this->min_amount);
+            $str = '满' . str_replace('.00', '', $this->min_amount);
         }
         if ($this->type === self::TYPE_PERCENT) {
-            return $str.'优惠'.str_replace('.00', '', $this->value).'%';
+            return $str . '优惠' . str_replace('.00', '', $this->value) . '%';
         }
 
-        return $str.'减'.str_replace('.00', '', $this->value);
+        return $str . '减' . str_replace('.00', '', $this->value);
     }
 
     public function checkAvailable(User $user, $orderAmount = null)
@@ -111,11 +116,11 @@ class CouponCode extends Model
 
         $used = Order::where('user_id', $user->id)
             ->where('coupon_code_id', $this->id)
-            ->where(function($query) {
-                $query->where(function($query) {
+            ->where(function ($query) {
+                $query->where(function ($query) {
                     $query->whereNull('paid_at')
                         ->where('closed', false);
-                })->orWhere(function($query) {
+                })->orWhere(function ($query) {
                     $query->whereNotNull('paid_at')
                         ->where('refund_status', '!=', Order::REFUND_STATUS_SUCCESS);
                 });

@@ -1,9 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class CreateRegionsTable extends Migration
 {
@@ -22,12 +22,10 @@ class CreateRegionsTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
-        DB::statement("
-        alter table `regions` add primary key `region_code` use btree;
-        alter table `regions` add index key `parent_code` use btree;
-        alter table `regions` comment '行政区域表'
 
-        ");
+        DB::statement("alter table `regions` add primary key (`region_code`) using btree;");
+        DB::statement("create index `parent_code` on regions(`parent_code`) using btree;");
+        DB::statement("alter table `regions` comment '行政区域表'");
     }
 
     /**
