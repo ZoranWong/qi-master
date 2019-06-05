@@ -36,6 +36,12 @@ class Region extends Model
         'deleted_at'
     ];
 
+    const MUNICIPALITY_DIRECTLY_UNDER_THE_CENTRAL_GOVERNMENT_CODE_PREFIX = [
+        '11', '12', '31', '50'
+    ];
+
+    const ROOT_PARENT_CODE = 0;
+
     const STATUS_ON = 1;
     const STATUS_OFF = 0;
     const STATUS = [
@@ -73,11 +79,27 @@ class Region extends Model
     }
 
     /**
+     * description: 下级行政区
+     */
+    public function children()
+    {
+        return $this->hasMany(self::class, 'parent_code', 'region_code');
+    }
+
+    /**
      * 国标代码后4位为0的为省或直辖市
      */
     public function isProvince()
     {
         return substr($this->regionCode, -4, 4) === '0000';
+    }
+
+    /**
+     * 是否为直辖市
+     */
+    public function isProvinceUnderGov()
+    {
+        return in_array(substr($this->regionCode, 0, 2), self::MUNICIPALITY_DIRECTLY_UNDER_THE_CENTRAL_GOVERNMENT_CODE_PREFIX);
     }
 
     /**
@@ -104,9 +126,16 @@ class Region extends Model
         return intval(substr($this->regionCode, 0, 2) . '0000');
     }
 
+    /**
+     * 根据当前的国标代码获取所在市、直辖市
+     */
     public function getCityCode()
     {
-        return intval(substr($this->regionCode, 0, 4) . '00');
+        $cityCode = intval(substr($this->regionCode, 0, 4) . '00');
+        if (config("regionalism-codes.{$cityCode}")) {
+            return $cityCode;
+        }
+        return $this->getProvinceCode();
     }
 
     /**
@@ -140,5 +169,13 @@ class Region extends Model
     public static function getRegionNameByCode(string $regionCode)
     {
         return config("regionalism-codes.{$regionCode}");
+    }
+
+    /**
+     * description: 获取所有省份
+     */
+    public static function getProvinces()
+    {
+        return self::with('children')->whereParentCode(self::ROOT_PARENT_CODE)->get();
     }
 }
