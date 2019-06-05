@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\ModelAttributesAccess;
 use Eloquent;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -14,15 +15,15 @@ use Illuminate\Support\Carbon;
  * App\Models\Category
  *
  * @property int $id
- * @property int $classification_id 类目ID
+ * @property int $classificationId 类目ID
  * @property string $name 类别名称
- * @property int $parent_id 父类别ID
+ * @property int $parentId 父类别ID
  * @property int $sort 排序
  * @property string $unit 产品单位
  * @property int $price 报价 单位：分
- * @property Carbon|null $deleted_at
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
+ * @property Carbon|null $deletedAt
+ * @property Carbon|null $createdAt
+ * @property Carbon|null $updatedAt
  * @property-read Classification $classification
  * @property-read Category|null $parent
  * @property-read Collection|null $children
@@ -51,7 +52,7 @@ use Illuminate\Support\Carbon;
  */
 class Category extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, ModelAttributesAccess;
 
     protected $fillable = ['classification_id', 'name', 'parent_id', 'sort', 'unit', 'price'];
 

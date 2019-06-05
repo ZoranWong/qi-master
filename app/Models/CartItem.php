@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\ModelAttributesAccess;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -9,8 +10,8 @@ use Illuminate\Database\Eloquent\Model;
  * App\Models\CartItem
  *
  * @property int $id
- * @property int $user_id
- * @property int $product_sku_id
+ * @property int $userId
+ * @property int $productSkuId
  * @property int $amount
  * @property-read ProductSku $productSku
  * @property-read User $user
@@ -25,6 +26,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class CartItem extends Model
 {
+    use ModelAttributesAccess;
+
     protected $fillable = ['amount'];
     public $timestamps = false;
 

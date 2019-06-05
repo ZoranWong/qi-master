@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\ModelAttributesAccess;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -13,15 +14,15 @@ use Illuminate\Support\Carbon;
  * App\Models\Brand
  *
  * @property int $id
- * @property int $category_id 类别ID
+ * @property int $categoryId 类别ID
  * @property string $name 品牌名称
  * @property int $sort 排序
  * @property int $status 状态：0-关闭 1-开启
- * @property Carbon|null $deleted_at
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
+ * @property Carbon|null $deletedAt
+ * @property Carbon|null $createdAt
+ * @property Carbon|null $updatedAt
  * @property-read Category $category
- * @property-read mixed $status_desc
+ * @property-read mixed $statusDesc
  * @method static Builder|Brand active()
  * @method static bool|null forceDelete()
  * @method static Builder|Brand inActive()
@@ -44,7 +45,7 @@ use Illuminate\Support\Carbon;
  */
 class Brand extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, ModelAttributesAccess;
 
     protected $fillable = ['category_id', 'name', 'sort', 'status'];
 

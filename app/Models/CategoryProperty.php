@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\ModelAttributesAccess;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -11,11 +12,11 @@ use Illuminate\Support\Carbon;
  * App\Models\CategoryProperty
  *
  * @property int $id
- * @property int $category_id 类别ID
+ * @property int $categoryId 类别ID
  * @property string $title 属性标题
  * @property array $value 属性值["1", "2", "3"]
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
+ * @property Carbon|null $createdAt
+ * @property Carbon|null $updatedAt
  * @method static Builder|CategoryProperty newModelQuery()
  * @method static Builder|CategoryProperty newQuery()
  * @method static Builder|CategoryProperty query()
@@ -29,6 +30,8 @@ use Illuminate\Support\Carbon;
  */
 class CategoryProperty extends Model
 {
+    use ModelAttributesAccess;
+
     protected $fillable = ['category_id', 'title', 'value'];
 
     protected $casts = [
