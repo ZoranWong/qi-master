@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Models\Traits\ModelAttributesAccess;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Ramsey\Uuid\Uuid;
 
 /**
@@ -10,29 +12,32 @@ use Ramsey\Uuid\Uuid;
  *
  * @property int $id
  * @property string $no
- * @property int $user_id
- * @property array $address
- * @property float $total_amount
+ * @property int $userId
+ * @property string $address
+ * @property float $totalAmount
  * @property string|null $remark
- * @property \Illuminate\Support\Carbon|null $paid_at
- * @property int|null $coupon_code_id
- * @property string|null $payment_method
- * @property string|null $payment_no
- * @property string $refund_status
- * @property string|null $refund_no
- * @property bool $closed
- * @property bool $reviewed
- * @property string $ship_status
- * @property array|null $ship_data
- * @property array|null $extra
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $paidAt
+ * @property int|null $couponCodeId
+ * @property string|null $paymentMethod
+ * @property string|null $paymentNo
+ * @property string $refundStatus
+ * @property string|null $refundNo
+ * @property int $closed
+ * @property int $reviewed
+ * @property string $shipStatus
+ * @property string|null $shipData
+ * @property string|null $extra
+ * @property \Illuminate\Support\Carbon|null $createdAt
+ * @property \Illuminate\Support\Carbon|null $updatedAt
  * @property-read \App\Models\CouponCode|null $couponCode
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OrderItem[] $items
  * @property-read \App\Models\User $user
+ * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order newQuery()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Order onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order query()
+ * @method static bool|null restore()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereAddress($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereClosed($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereCouponCodeId($value)
@@ -52,10 +57,14 @@ use Ramsey\Uuid\Uuid;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereTotalAmount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Order withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Order withoutTrashed()
  * @mixin \Eloquent
  */
 class Order extends Model
 {
+    use SoftDeletes, ModelAttributesAccess;
+
     const REFUND_STATUS_PENDING = 'pending';
     const REFUND_STATUS_APPLIED = 'applied';
     const REFUND_STATUS_PROCESSING = 'processing';
@@ -67,42 +76,28 @@ class Order extends Model
     const SHIP_STATUS_RECEIVED = 'received';
 
     public static $refundStatusMap = [
-        self::REFUND_STATUS_PENDING    => '未退款',
-        self::REFUND_STATUS_APPLIED    => '已申请退款',
+        self::REFUND_STATUS_PENDING => '未退款',
+        self::REFUND_STATUS_APPLIED => '已申请退款',
         self::REFUND_STATUS_PROCESSING => '退款中',
-        self::REFUND_STATUS_SUCCESS    => '退款成功',
-        self::REFUND_STATUS_FAILED     => '退款失败',
+        self::REFUND_STATUS_SUCCESS => '退款成功',
+        self::REFUND_STATUS_FAILED => '退款失败',
     ];
 
     public static $shipStatusMap = [
-        self::SHIP_STATUS_PENDING   => '未发货',
+        self::SHIP_STATUS_PENDING => '未发货',
         self::SHIP_STATUS_DELIVERED => '已发货',
-        self::SHIP_STATUS_RECEIVED  => '已收货',
+        self::SHIP_STATUS_RECEIVED => '已收货',
     ];
 
     protected $fillable = [
-        'no',
-        'address',
-        'total_amount',
-        'remark',
-        'paid_at',
-        'payment_method',
-        'payment_no',
+        'order_no',
+        'user_id',
         'refund_status',
-        'refund_no',
-        'closed',
-        'reviewed',
-        'ship_status',
-        'ship_data',
-        'extra',
-    ];
-
-    protected $casts = [
-        'closed'    => 'boolean',
-        'reviewed'  => 'boolean',
-        'address'   => 'json',
-        'ship_data' => 'json',
-        'extra'     => 'json',
+        'master_id',
+        'type',
+        'status',
+        'total_amount',
+        'coupon_code_id'
     ];
 
     protected $dates = [
@@ -126,10 +121,14 @@ class Order extends Model
         });
     }
 
+    /**
+     * 所属用户
+     */
     public function user()
     {
         return $this->belongsTo(User::class);
     }
+
 
     public function items()
     {
@@ -147,7 +146,7 @@ class Order extends Model
         $prefix = date('YmdHis');
         for ($i = 0; $i < 10; $i++) {
             // 随机生成 6 位的数字
-            $no = $prefix.str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
+            $no = $prefix . str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
             // 判断是否已经存在
             if (!static::query()->where('no', $no)->exists()) {
                 return $no;

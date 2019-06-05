@@ -2,32 +2,29 @@
 
 namespace App\Models;
 
-use Eloquent;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Carbon;
 
 /**
  * App\Models\ServiceRequirement
  *
  * @property int $id
- * @property int $service_id 服务关系ID
- * @property int $category_id 类别ID
+ * @property int $serviceId 服务关系ID
+ * @property int $categoryId 类别ID
  * @property string $name 要求名称
  * @property array $value 要求
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
- * @method static Builder|ServiceRequirement newModelQuery()
- * @method static Builder|ServiceRequirement newQuery()
- * @method static Builder|ServiceRequirement query()
- * @method static Builder|ServiceRequirement whereCategoryId($value)
- * @method static Builder|ServiceRequirement whereCreatedAt($value)
- * @method static Builder|ServiceRequirement whereId($value)
- * @method static Builder|ServiceRequirement whereName($value)
- * @method static Builder|ServiceRequirement whereServiceId($value)
- * @method static Builder|ServiceRequirement whereUpdatedAt($value)
- * @method static Builder|ServiceRequirement whereValue($value)
- * @mixin Eloquent
+ * @property \Illuminate\Support\Carbon|null $createdAt
+ * @property \Illuminate\Support\Carbon|null $updatedAt
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ServiceRequirement newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ServiceRequirement newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ServiceRequirement query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ServiceRequirement whereCategoryId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ServiceRequirement whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ServiceRequirement whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ServiceRequirement whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ServiceRequirement whereServiceId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ServiceRequirement whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ServiceRequirement whereValue($value)
+ * @mixin \Eloquent
  */
 class ServiceRequirement extends Model
 {

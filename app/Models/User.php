@@ -12,11 +12,12 @@ use Illuminate\Notifications\Notifiable;
  * @property int $id
  * @property string $name
  * @property string $email
- * @property string|null $email_verified_at
+ * @property string $mobile
+ * @property string|null $emailVerifiedAt
  * @property string $password
- * @property string|null $remember_token
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string|null $rememberToken
+ * @property \Illuminate\Support\Carbon|null $createdAt
+ * @property \Illuminate\Support\Carbon|null $updatedAt
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\UserAddress[] $addresses
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\CartItem[] $cartItems
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Product[] $favoriteProducts
@@ -28,6 +29,7 @@ use Illuminate\Notifications\Notifiable;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereEmailVerifiedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereMobile($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereRememberToken($value)
@@ -44,7 +46,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'mobile', 'password', 'email_verified_at', 'remember_token',
     ];
 
     /**

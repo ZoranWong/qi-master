@@ -3,13 +3,9 @@
 namespace App\Models;
 
 use App\Models\Traits\ModelAttributesAccess;
-use Eloquent;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Illuminate\Database\Query\Builder;
-use Illuminate\Support\Carbon;
 
 /**
  * App\Models\Classification
@@ -21,30 +17,30 @@ use Illuminate\Support\Carbon;
  * @property bool $isNew 是否新服务
  * @property int $sort 排序
  * @property int $status 状态：0-关闭， 1-开启
- * @property Carbon|null $deletedAt
- * @property Carbon|null $createdAt
- * @property Carbon|null $updatedAt
+ * @property \Illuminate\Support\Carbon|null $deletedAt
+ * @property \Illuminate\Support\Carbon|null $createdAt
+ * @property \Illuminate\Support\Carbon|null $updatedAt
  * @property-read mixed $statusDesc
- * @property-read Collection|null $serviceTypes
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ServiceType[] $serviceTypes
  * @method static bool|null forceDelete()
- * @method static \Illuminate\Database\Eloquent\Builder|Classification newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Classification newQuery()
- * @method static Builder|Classification onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder|Classification query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Classification newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Classification newQuery()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Classification onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Classification query()
  * @method static bool|null restore()
- * @method static \Illuminate\Database\Eloquent\Builder|Classification whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Classification whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Classification whereIconUrl($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Classification whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Classification whereIsHot($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Classification whereIsNew($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Classification whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Classification whereSort($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Classification whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Classification whereUpdatedAt($value)
- * @method static Builder|Classification withTrashed()
- * @method static Builder|Classification withoutTrashed()
- * @mixin Eloquent
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Classification whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Classification whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Classification whereIconUrl($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Classification whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Classification whereIsHot($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Classification whereIsNew($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Classification whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Classification whereSort($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Classification whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Classification whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Classification withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Classification withoutTrashed()
+ * @mixin \Eloquent
  */
 class Classification extends Model
 {

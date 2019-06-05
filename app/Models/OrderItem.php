@@ -2,26 +2,31 @@
 
 namespace App\Models;
 
+use App\Models\Traits\ModelAttributesAccess;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * App\Models\OrderItem
  *
  * @property int $id
- * @property int $order_id
- * @property int $product_id
- * @property int $product_sku_id
+ * @property int $orderId
+ * @property int $productId
+ * @property int $productSkuId
  * @property int $amount
  * @property float $price
  * @property int|null $rating
  * @property string|null $review
- * @property \Illuminate\Support\Carbon|null $reviewed_at
+ * @property \Illuminate\Support\Carbon|null $reviewedAt
  * @property-read \App\Models\Order $order
  * @property-read \App\Models\Product $product
  * @property-read \App\Models\ProductSku $productSku
+ * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderItem newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderItem newQuery()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\OrderItem onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderItem query()
+ * @method static bool|null restore()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderItem whereAmount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderItem whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderItem whereOrderId($value)
@@ -31,11 +36,17 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderItem whereRating($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderItem whereReview($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderItem whereReviewedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\OrderItem withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\OrderItem withoutTrashed()
  * @mixin \Eloquent
  */
 class OrderItem extends Model
 {
-    protected $fillable = ['amount', 'price', 'rating', 'review', 'reviewed_at'];
+    use SoftDeletes, ModelAttributesAccess;
+
+    protected $fillable = [
+        'order_id', 'product_id', 'product', 'install_fee', 'other_fee', 'status', 'type', 'master_id'
+    ];
     protected $dates = ['reviewed_at'];
     public $timestamps = false;
 

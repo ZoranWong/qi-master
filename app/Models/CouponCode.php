@@ -5,8 +5,6 @@ namespace App\Models;
 use App\Exceptions\CouponCodeUnavailableException;
 use App\Models\Traits\ModelAttributesAccess;
 use Carbon\Carbon;
-use Eloquent;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
@@ -27,23 +25,23 @@ use Illuminate\Support\Str;
  * @property \Illuminate\Support\Carbon|null $createdAt
  * @property \Illuminate\Support\Carbon|null $updatedAt
  * @property-read mixed $description
- * @method static Builder|CouponCode newModelQuery()
- * @method static Builder|CouponCode newQuery()
- * @method static Builder|CouponCode query()
- * @method static Builder|CouponCode whereCode($value)
- * @method static Builder|CouponCode whereCreatedAt($value)
- * @method static Builder|CouponCode whereEnabled($value)
- * @method static Builder|CouponCode whereId($value)
- * @method static Builder|CouponCode whereMinAmount($value)
- * @method static Builder|CouponCode whereName($value)
- * @method static Builder|CouponCode whereNotAfter($value)
- * @method static Builder|CouponCode whereNotBefore($value)
- * @method static Builder|CouponCode whereTotal($value)
- * @method static Builder|CouponCode whereType($value)
- * @method static Builder|CouponCode whereUpdatedAt($value)
- * @method static Builder|CouponCode whereUsed($value)
- * @method static Builder|CouponCode whereValue($value)
- * @mixin Eloquent
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CouponCode newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CouponCode newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CouponCode query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CouponCode whereCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CouponCode whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CouponCode whereEnabled($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CouponCode whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CouponCode whereMinAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CouponCode whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CouponCode whereNotAfter($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CouponCode whereNotBefore($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CouponCode whereTotal($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CouponCode whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CouponCode whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CouponCode whereUsed($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CouponCode whereValue($value)
+ * @mixin \Eloquent
  */
 class CouponCode extends Model
 {

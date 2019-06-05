@@ -3,13 +3,9 @@
 namespace App\Models;
 
 use App\Models\Traits\ModelAttributesAccess;
-use Eloquent;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Query\Builder;
-use Illuminate\Support\Carbon;
 
 /**
  * App\Models\Category
@@ -21,34 +17,33 @@ use Illuminate\Support\Carbon;
  * @property int $sort 排序
  * @property string $unit 产品单位
  * @property int $price 报价 单位：分
- * @property Carbon|null $deletedAt
- * @property Carbon|null $createdAt
- * @property Carbon|null $updatedAt
- * @property-read Classification $classification
- * @property-read Category|null $parent
- * @property-read Collection|null $children
- * @property-read Collection|null $properties
- * @property-read Collection|null $serviceRequirements
- * @property-read Collection|null $measurements
+ * @property \Illuminate\Support\Carbon|null $deletedAt
+ * @property \Illuminate\Support\Carbon|null $createdAt
+ * @property \Illuminate\Support\Carbon|null $updatedAt
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Category[] $children
+ * @property-read \App\Models\Classification $classification
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Measurement[] $measurements
+ * @property-read \App\Models\Category $parent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\CategoryProperty[] $properties
  * @method static bool|null forceDelete()
- * @method static \Illuminate\Database\Eloquent\Builder|Category newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Category newQuery()
- * @method static Builder|Category onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder|Category query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Category newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Category newQuery()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Category onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Category query()
  * @method static bool|null restore()
- * @method static \Illuminate\Database\Eloquent\Builder|Category whereClassificationId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Category whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Category whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Category whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Category whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Category whereParentId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Category wherePrice($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Category whereSort($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Category whereUnit($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Category whereUpdatedAt($value)
- * @method static Builder|Category withTrashed()
- * @method static Builder|Category withoutTrashed()
- * @mixin Eloquent
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Category whereClassificationId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Category whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Category whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Category whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Category whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Category whereParentId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Category wherePrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Category whereSort($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Category whereUnit($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Category whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Category withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Category withoutTrashed()
+ * @mixin \Eloquent
  */
 class Category extends Model
 {

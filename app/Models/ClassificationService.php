@@ -3,29 +3,25 @@
 namespace App\Models;
 
 use App\Models\Traits\ModelAttributesAccess;
-use Eloquent;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Carbon;
 
 /**
  * App\Models\ClassificationService
- * 商品类别与服务类型中间表：商品1:n服务类型
  *
  * @property int $id
  * @property int $classificationId 类目ID
  * @property int $serviceId 服务ID
- * @property Carbon|null $createdAt
- * @property Carbon|null $updatedAt
- * @method static Builder|ClassificationService newModelQuery()
- * @method static Builder|ClassificationService newQuery()
- * @method static Builder|ClassificationService query()
- * @method static Builder|ClassificationService whereClassificationId($value)
- * @method static Builder|ClassificationService whereCreatedAt($value)
- * @method static Builder|ClassificationService whereId($value)
- * @method static Builder|ClassificationService whereServiceId($value)
- * @method static Builder|ClassificationService whereUpdatedAt($value)
- * @mixin Eloquent
+ * @property \Illuminate\Support\Carbon|null $createdAt
+ * @property \Illuminate\Support\Carbon|null $updatedAt
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ClassificationService newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ClassificationService newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ClassificationService query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ClassificationService whereClassificationId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ClassificationService whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ClassificationService whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ClassificationService whereServiceId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ClassificationService whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
 class ClassificationService extends Model
 {

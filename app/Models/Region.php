@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Models\Traits\ModelAttributesAccess;
-use Eloquent;
 use Illuminate\Config\Repository;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -11,20 +10,35 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * App\Models\Region
+ *
  * @property string $regionCode 行政编号
  * @property string $parentCode 上级行政区域
  * @property string $name 行政区名称
  * @property int $status 状态：0-关闭服务 1-开启服务
+ * @property \Illuminate\Support\Carbon|null $createdAt
+ * @property \Illuminate\Support\Carbon|null $updatedAt
+ * @property \Illuminate\Support\Carbon|null $deletedAt
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Region[] $children
  * @property-read mixed $statusDesc
- * @property-read Region|null $parent
- * @method static Builder|Region newModelQuery()
- * @method static Builder|Region newQuery()
- * @method static Builder|Region query()
- * @method static Builder|Region whereRegionCode($value)
- * @method static Builder|Region whereParentCode($value)
- * @method static Builder|Region whereName($value)
- * @method static Builder|Region whereStatus($value)
- * @mixin Eloquent
+ * @property-read \App\Models\Region $parent
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Region active()
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Region inactive()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Region newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Region newQuery()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Region onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Region query()
+ * @method static bool|null restore()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Region whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Region whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Region whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Region whereParentCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Region whereRegionCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Region whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Region whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Region withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Region withoutTrashed()
+ * @mixin \Eloquent
  */
 class Region extends Model
 {
