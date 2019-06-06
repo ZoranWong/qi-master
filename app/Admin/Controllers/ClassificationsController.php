@@ -10,6 +10,7 @@ use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
+use Encore\Admin\Show;
 
 class ClassificationsController extends Controller
 {
@@ -31,6 +32,25 @@ class ClassificationsController extends Controller
     {
         return $content->header(trans('admin.classifications'))->description(trans('admin.edit'))
             ->body($this->form()->edit($classification->id));
+    }
+
+    public function show(Content $content, Classification $classification)
+    {
+        return $content->header(trans('admin.classifications'))->description(trans('admin.detail'))
+            ->body($this->detail($classification));
+    }
+
+    public function detail(Classification $classification)
+    {
+        $show = new Show($classification);
+
+        $show->field('id', 'ID');
+
+        $show->field('name', trans('admin.name'));
+
+        $show->field('icon_url', '图标')->image();
+
+        return $show;
     }
 
     public function form()
