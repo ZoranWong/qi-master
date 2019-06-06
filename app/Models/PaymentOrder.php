@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \Illuminate\Support\Carbon|null $createdAt
  * @property \Illuminate\Support\Carbon|null $updatedAt
  * @property \Illuminate\Support\Carbon|null $deletedAt
+ * @property-read string $statusDesc
  * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PaymentOrder newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PaymentOrder newQuery()
@@ -44,4 +45,21 @@ class PaymentOrder extends Model
     protected $fillable = ['amount', 'order_id', 'status', 'user_id', 'master_id'];
 
     protected $dates = ['deleted_at'];
+
+    const STATUS_UNPAID = 1;
+    const STATUS_PAID = 2;
+    const STATUS_CLOSED = 3;
+    const STATUS = [
+        self::STATUS_UNPAID => '待支付',
+        self::STATUS_PAID => '已支付',
+        self::STATUS_CLOSED => '已关闭'
+    ];
+
+    /**
+     * 状态描述
+     */
+    public function getStatusDescAttribute()
+    {
+        return self::STATUS[$this->status];
+    }
 }

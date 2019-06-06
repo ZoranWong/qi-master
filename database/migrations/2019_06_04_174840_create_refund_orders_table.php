@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateRefundOrdersTable extends Migration
 {
@@ -20,6 +20,7 @@ class CreateRefundOrdersTable extends Migration
             $table->unsignedTinyInteger('status')->comment('状态');
             $table->unsignedInteger('user_id')->comment('用户ID');
             $table->unsignedInteger('master_id')->comment('师傅ID');
+            $table->string('remark')->default('')->comment('备注说明');
             $table->timestamps();
             $table->softDeletes();
         });
