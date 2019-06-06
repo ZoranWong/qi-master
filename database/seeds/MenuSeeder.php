@@ -14,6 +14,49 @@ class MenuSeeder extends Seeder
     {
         Menu::query()->truncate();
 
+        Menu::query()->create([
+            'parent_id' => 0,
+            'title' => '菜单管理',
+            'icon' => 'fa-balance-scale',
+            'uri' => '/menus',
+            'permission' => ''
+        ]);
+
+        $parentMenu = Menu::query()->create([
+            'parent_id' => 0,
+            'title' => '基本配置',
+            'icon' => 'fa-cube',
+            'uri' => '',
+            'permission' => ''
+        ]);
+
+        $parentMenu->children()->createMany([
+            [
+                'title' => '权限管理',
+                'icon' => 'fa-tasks',
+                'uri' => '/permissions',
+                'permission' => ''
+            ],
+            [
+                'title' => '角色管理',
+                'icon' => 'fa-cogs',
+                'uri' => '/roles',
+                'permission' => ''
+            ],
+            [
+                'title' => '管理员管理',
+                'icon' => 'fa-asl-interpreting',
+                'uri' => '/admins',
+                'permission' => ''
+            ],
+            [
+                'title' => '用户管理',
+                'icon' => 'fa-asl-interpreting',
+                'uri' => '/users',
+                'permission' => ''
+            ]
+        ]);
+
         $parentMenu = Menu::query()->create([
             'parent_id' => 0,
             'title' => '分类管理',

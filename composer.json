@@ -48,7 +48,8 @@
         ],
         "files": [
             "bootstrap/helpers.php",
-            "app/Utils/helpers.php"
+            "app/Utils/helpers.php",
+            "app/Utils/PatternDict.php"
         ]
     },
     "autoload-dev": {

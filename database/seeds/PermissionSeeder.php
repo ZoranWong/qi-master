@@ -30,29 +30,77 @@ class PermissionSeeder extends Seeder
                 'http_path' => '/'
             ],
             [
-                'name' => '用户列表',
-                'slug' => 'users',
+                'name' => '菜单列表',
+                'slug' => 'menus',
                 'http_method' => 'GET',
-                'http_path' => '/users'
+                'http_path' => '/menus'
             ],
             [
-                'name' => '产品列表',
-                'slug' => 'products',
+                'name' => '创建菜单页面',
+                'slug' => 'menus.create',
                 'http_method' => 'GET',
-                'http_path' => '/products'
+                'http_path' => '/menus/create'
             ],
             [
-                'name' => '产品创建页面',
-                'slug' => 'products.create',
-                'http_method' => 'GET',
-                'http_path' => '/products/create'
-            ],
-            [
-                'name' => '产品创建',
-                'slug' => 'products',
+                'name' => '新建菜单',
+                'slug' => 'menus.update',
                 'http_method' => 'POST',
-                'http_path' => '/products'
+                'http_path' => '/menus'
             ],
+            [
+                'name' => '类目列表',
+                'slug' => 'classifications',
+                'http_method' => 'GET',
+                'http_path' => '/classifications'
+            ],
+            [
+                'name' => '类别列表',
+                'slug' => 'categories',
+                'http_method' => 'GET',
+                'http_path' => '/categories'
+            ],
+            [
+                'name' => '服务类型列表',
+                'slug' => 'service_types',
+                'http_method' => 'GET',
+                'http_path' => '/service_types'
+            ],
+            [
+                'name' => '权限列表',
+                'slug' => 'permissions',
+                'http_method' => 'GET',
+                'http_path' => '/permissions'
+            ],
+            [
+                'name' => '新增权限页面',
+                'slug' => 'permissions.create',
+                'http_method' => 'GET',
+                'http_path' => '/permissions/create'
+            ],
+            [
+                'name' => '新增权限',
+                'slug' => 'permissions.store',
+                'http_method' => 'POST',
+                'http_path' => '/permissions'
+            ],
+            [
+                'name' => '角色列表',
+                'slug' => 'roles',
+                'http_method' => 'GET',
+                'http_path' => '/roles'
+            ],
+            [
+                'name' => '新增角色页面',
+                'slug' => 'roles.create',
+                'http_method' => 'GET',
+                'http_path' => '/roles/create'
+            ],
+            [
+                'name' => '新增角色',
+                'slug' => 'roles.store',
+                'http_method' => 'POST',
+                'http_path' => '/roles'
+            ]
         ];
     }
 }

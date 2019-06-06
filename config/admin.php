@@ -25,6 +25,8 @@ return [
         'prefix' => 'admin',
         // 控制器命名空间前缀
         'namespace' => 'App\\Admin\\Controllers',
+        //encore 控制器命名空间前缀
+        'encore_namespace' => 'Encore\\Admin\\Controllers',
         // 默认中间件列表
         'middleware' => ['web', 'admin'],
     ],
