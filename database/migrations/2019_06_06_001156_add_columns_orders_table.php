@@ -15,8 +15,8 @@ class AddColumnsOrdersTable extends Migration
     {
         //
         Schema::table('orders', function (Blueprint $table) {
-            $table->timestamp('service_date')->default(null)->comment('服务时间');
-            $table->text('comment')->default('')->comment('备注');
+            $table->timestamp('service_date')->nullable()->comment('服务时间');
+            $table->text('comment')->nullable()->comment('备注');
             $table->string('contact_user_name')->comment('联系人姓名');
             $table->string('contact_user_phone')->comment('联系人电话');
             $table->string('customer_name')->comment('客户名称');

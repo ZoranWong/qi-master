@@ -17,7 +17,7 @@ class AddTablesComment extends Migration
         DB::statement('ALTER TABLE `users` COMMENT "用户表"');
         DB::statement('ALTER TABLE `password_resets` COMMENT "密码重置表"');
         DB::statement('ALTER TABLE `admin_users` COMMENT "管理员表"');
-        BD::statement('ALTER TABLE `products` COMMENT "产品表"');
+        DB::statement('ALTER TABLE `products` COMMENT "产品表"');
         DB::statement('ALTER TABLE `user_addresses` COMMENT "用户地址"');
         DB::statement('ALTER TABLE `product_skus` COMMENT "产品标准库存表"');
         DB::statement('ALTER TABLE `user_favorite_products` COMMENT "用户常产品"');
