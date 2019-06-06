@@ -45,30 +45,9 @@ Route::group([
             $router->get('create', 'MenuController@create');
             $router->post('/', 'MenuController@store');
             $router->delete('/{menu}', 'MenuController@destroy');
-        });
-        /**
-         * 权限管理
-         */
-        $router->group(['prefix' => 'permissions'], function (Router $router) {
-            $router->get('/', 'PermissionController@index');
-            $router->get('create', 'PermissionController@create');
-            $router->post('/', 'PermissionController@store');
-            $router->delete('/{permission}', 'PermissionController@destroy');
-            $router->get('/{permission}/edit', 'PermissionController@edit');
-            $router->put('/{permission}', 'PermissionController@update');
-            $router->get('/{permission}', 'PermissionController@show');
-        });
-        /**
-         * 角色管理
-         */
-        $router->group(['prefix' => 'roles'], function (Router $router) {
-            $router->get('/', 'RoleController@index');
-            $router->get('/create', 'RoleController@create');
-            $router->post('/', 'RoleController@store');
-            $router->get('/{role}/edit', 'RoleController@edit');
-            $router->get('/{role}', 'RoleController@show');
-            $router->put('/{role}', 'RoleController@update');
-            $router->delete('/{role}', 'RoleController@destroy');
+            $router->get('/{menu}/edit', 'MenuController@edit');
+            $router->put('/{menu}', 'MenuController@update');
+            $router->get('/{menu}', 'MenuController@show');
         });
         /**
          * 管理员管理
@@ -78,6 +57,9 @@ Route::group([
             $router->get('/create', 'UserController@create');
             $router->post('/', 'UserController@store');
             $router->delete('/{user}', 'UserController@destroy');
+            $router->get('/{user}', 'UserController@show');
+            $router->get('/{user}/edit', 'UserController@edit');
+            $router->put('/{user}', 'UserController@update');
         });
     });
 });

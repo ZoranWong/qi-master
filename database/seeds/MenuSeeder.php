@@ -34,13 +34,13 @@ class MenuSeeder extends Seeder
             [
                 'title' => '权限管理',
                 'icon' => 'fa-tasks',
-                'uri' => '/permissions',
+                'uri' => '/auth/permissions',
                 'permission' => ''
             ],
             [
                 'title' => '角色管理',
                 'icon' => 'fa-cogs',
-                'uri' => '/roles',
+                'uri' => '/auth/roles',
                 'permission' => ''
             ],
             [
