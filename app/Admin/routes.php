@@ -54,6 +54,9 @@ Route::group([
             $router->get('create', 'PermissionController@create');
             $router->post('/', 'PermissionController@store');
             $router->delete('/{permission}', 'PermissionController@destroy');
+            $router->get('/{permission}/edit', 'PermissionController@edit');
+            $router->put('/{permission}', 'PermissionController@update');
+            $router->get('/{permission}', 'PermissionController@show');
         });
         /**
          * 角色管理
@@ -62,6 +65,9 @@ Route::group([
             $router->get('/', 'RoleController@index');
             $router->get('/create', 'RoleController@create');
             $router->post('/', 'RoleController@store');
+            $router->get('/{role}/edit', 'RoleController@edit');
+            $router->get('/{role}', 'RoleController@show');
+            $router->put('/{role}', 'RoleController@update');
             $router->delete('/{role}', 'RoleController@destroy');
         });
         /**

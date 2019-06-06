@@ -27,7 +27,7 @@ class AdminSeeder extends Seeder
             'slug' => 'administrator'
         ]);
 
-        $admin->roles()->attach($role->id);
+        $admin->roles()->sync($role->id);
 
         $permissionIds = Permission::all()->pluck('id');
 

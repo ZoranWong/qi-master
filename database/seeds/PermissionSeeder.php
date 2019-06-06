@@ -30,77 +30,59 @@ class PermissionSeeder extends Seeder
                 'http_path' => '/'
             ],
             [
-                'name' => '菜单列表',
-                'slug' => 'menus',
-                'http_method' => 'GET',
-                'http_path' => '/menus'
+                'name' => '角色相关',
+                'slug' => 'roles.any',
+                'http_method' => '',
+                'http_path' => '/roles*'
             ],
             [
-                'name' => '创建菜单页面',
-                'slug' => 'menus.create',
-                'http_method' => 'GET',
-                'http_path' => '/menus/create'
+                'name' => '权限相关',
+                'slug' => 'permissions.any',
+                'http_method' => '',
+                'http_path' => '/permissions*'
             ],
             [
-                'name' => '新建菜单',
-                'slug' => 'menus.update',
-                'http_method' => 'POST',
-                'http_path' => '/menus'
+                'name' => '管理员管理相关',
+                'slug' => 'admins.any',
+                'http_method' => '',
+                'http_path' => '/admins*'
             ],
             [
-                'name' => '类目列表',
-                'slug' => 'classifications',
-                'http_method' => 'GET',
-                'http_path' => '/classifications'
+                'name' => '用户管理相关',
+                'slug' => 'users.any',
+                'http_method' => '',
+                'http_path' => '/users*'
             ],
             [
-                'name' => '类别列表',
-                'slug' => 'categories',
-                'http_method' => 'GET',
-                'http_path' => '/categories'
+                'name' => '菜单相关',
+                'slug' => 'menus.any',
+                'http_method' => '',
+                'http_path' => '/menus*'
             ],
             [
-                'name' => '服务类型列表',
-                'slug' => 'service_types',
-                'http_method' => 'GET',
-                'http_path' => '/service_types'
+                'name' => '类目管理',
+                'slug' => 'classifications.any',
+                'http_method' => '',
+                'http_path' => '/classifications*'
             ],
             [
-                'name' => '权限列表',
-                'slug' => 'permissions',
-                'http_method' => 'GET',
-                'http_path' => '/permissions'
+                'name' => '类别管理',
+                'slug' => 'categories.any',
+                'http_method' => '',
+                'http_path' => '/categories*'
             ],
             [
-                'name' => '新增权限页面',
-                'slug' => 'permissions.create',
-                'http_method' => 'GET',
-                'http_path' => '/permissions/create'
+                'name' => '服务类型管理',
+                'slug' => 'service_types.any',
+                'http_method' => '',
+                'http_path' => '/service_types*'
             ],
             [
-                'name' => '新增权限',
-                'slug' => 'permissions.store',
-                'http_method' => 'POST',
-                'http_path' => '/permissions'
+                'name' => '品牌管理',
+                'slug' => 'brands.any',
+                'http_method' => '',
+                'http_path' => '/brands*'
             ],
-            [
-                'name' => '角色列表',
-                'slug' => 'roles',
-                'http_method' => 'GET',
-                'http_path' => '/roles'
-            ],
-            [
-                'name' => '新增角色页面',
-                'slug' => 'roles.create',
-                'http_method' => 'GET',
-                'http_path' => '/roles/create'
-            ],
-            [
-                'name' => '新增角色',
-                'slug' => 'roles.store',
-                'http_method' => 'POST',
-                'http_path' => '/roles'
-            ]
         ];
     }
 }
