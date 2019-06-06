@@ -17,13 +17,7 @@ $factory->define(App\Models\Product::class, function (Faker $faker) {
     ]);
 
     return [
-        'title'        => $faker->word,
-        'description'  => $faker->sentence,
-        'image'        => $image,
-        'on_sale'      => true,
-        'rating'       => $faker->numberBetween(0, 5),
-        'sold_count'   => 0,
-        'review_count' => 0,
-        'price'        => 0,
+        'title' => $faker->word,
+        'image' => $image,
     ];
 });

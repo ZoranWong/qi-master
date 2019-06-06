@@ -2,8 +2,13 @@
 
 namespace App\Models;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
+use Storage;
 
 /**
  * App\Models\Product
@@ -11,19 +16,19 @@ use Illuminate\Support\Str;
  * @property int $id
  * @property string $title 产品型号（产品名称）
  * @property string $image 产品图片
- * @property \Illuminate\Support\Carbon|null $createdAt
- * @property \Illuminate\Support\Carbon|null $updatedAt
+ * @property Carbon|null $createdAt
+ * @property Carbon|null $updatedAt
  * @property-read mixed $imageUrl
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ProductSku[] $skus
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product query()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereImage($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereUpdatedAt($value)
- * @mixin \Eloquent
+ * @property-read Collection|ProductSku[] $skus
+ * @method static Builder|Product newModelQuery()
+ * @method static Builder|Product newQuery()
+ * @method static Builder|Product query()
+ * @method static Builder|Product whereCreatedAt($value)
+ * @method static Builder|Product whereId($value)
+ * @method static Builder|Product whereImage($value)
+ * @method static Builder|Product whereTitle($value)
+ * @method static Builder|Product whereUpdatedAt($value)
+ * @mixin Eloquent
  */
 class Product extends Model
 {
@@ -33,6 +38,7 @@ class Product extends Model
     protected $casts = [
         'on_sale' => 'boolean', // on_sale 是一个布尔类型的字段
     ];
+
     // 与商品SKU关联
     public function skus()
     {
@@ -45,6 +51,6 @@ class Product extends Model
         if (Str::startsWith($this->attributes['image'], ['http://', 'https://'])) {
             return $this->attributes['image'];
         }
-        return \Storage::disk('public')->url($this->attributes['image']);
+        return Storage::disk('public')->url($this->attributes['image']);
     }
 }
