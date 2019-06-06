@@ -77,4 +77,9 @@ class Classification extends Model
     {
         return self::STATUS[$this->status];
     }
+
+    public function getIconUrlAttribute($icon_url)
+    {
+        return getImageUrl($icon_url);
+    }
 }

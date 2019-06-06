@@ -30,18 +30,6 @@ class PermissionSeeder extends Seeder
                 'http_path' => '/'
             ],
             [
-                'name' => '角色相关',
-                'slug' => 'roles.any',
-                'http_method' => '',
-                'http_path' => '/roles*'
-            ],
-            [
-                'name' => '权限相关',
-                'slug' => 'permissions.any',
-                'http_method' => '',
-                'http_path' => '/permissions*'
-            ],
-            [
                 'name' => '管理员管理相关',
                 'slug' => 'admins.any',
                 'http_method' => '',

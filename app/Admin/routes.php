@@ -33,7 +33,15 @@ Route::group([
         /**
          * 类目管理
          */
-        $router->get('classifications', 'ClassificationsController@index');
+        $router->group(['prefix' => 'classifications'], function (Router $router) {
+            $router->get('/', 'ClassificationsController@index');
+            $router->get('/create', 'ClassificationsController@create');
+            $router->post('/', 'ClassificationsController@store');
+            $router->get('/{classification}/edit', 'ClassificationsController@edit');
+            $router->put('/{classification}', 'ClassificationsController@update');
+            $router->get('/{classification}', 'ClassificationsController@show');
+            $router->delete('/{classification}', 'ClassificationsController@destroy');
+        });
     });
 
     $router->group(['namespace' => config('admin.route.encore_namespace')], function (Router $router) {
