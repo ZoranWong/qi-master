@@ -102,5 +102,8 @@ return [
 
     'classifications' => '类目',
     'categories' => '类别',
-    'service_types' => '服务类型'
+    'service_types' => '服务类型',
+    'unit' => '单位',
+    'price' => '价格',
+    'sort' => '排序'
 ];
