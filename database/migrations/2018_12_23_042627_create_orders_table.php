@@ -15,7 +15,8 @@ class CreateOrdersTable extends Migration
     public function up()
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->string('order_no')->primary()->comment('订单编号');
+            $table->increments('id');
+            $table->string('order_no')->unique()->comment('订单编号');
             $table->unsignedInteger('user_id')->comment('订单发布用户id');
             $table->string('refund_status')->comment('退款状态');
             $table->unsignedInteger('master_id')->default(0)->comment('雇佣师傅ID');
