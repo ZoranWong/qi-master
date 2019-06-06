@@ -42,6 +42,18 @@ Route::group([
             $router->get('/{classification}', 'ClassificationsController@show');
             $router->delete('/{classification}', 'ClassificationsController@destroy');
         });
+        /**
+         * 类别管理
+         */
+        $router->group(['prefix' => 'categories'], function (Router $router) {
+            $router->get('/', 'CategoriesController@index');
+            $router->get('/create', 'CategoriesController@create');
+            $router->post('/', 'CategoriesController@store');
+            $router->get('/{category}/edit', 'CategoriesController@edit');
+            $router->put('/{category}', 'CategoriesController@update');
+            $router->get('/{category}', 'CategoriesController@show');
+            $router->delete('/{category}', 'CategoriesController@destroy');
+        });
     });
 
     $router->group(['namespace' => config('admin.route.encore_namespace')], function (Router $router) {
