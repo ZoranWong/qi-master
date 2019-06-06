@@ -5,7 +5,7 @@ return [
     /*
      * 站点标题
      */
-    'name' => 'Laravel Shop',
+    'name' => '齐师傅',
 
     /*
      * 页面顶部 Logo
@@ -15,7 +15,7 @@ return [
     /*
      * 页面顶部小 Logo
      */
-    'logo-mini' => '<b>LS</b>',
+    'logo-mini' => '<b>QM</b>',
 
     /*
      * 路由配置
