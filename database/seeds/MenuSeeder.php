@@ -97,7 +97,7 @@ class MenuSeeder extends Seeder
             [
                 'title' => '服务类型管理',
                 'icon' => 'fa-asl-interpreting',
-                'uri' => '/service-types',
+                'uri' => '/service_types',
                 'permission' => ''
             ]
         ]);
