@@ -89,6 +89,12 @@ class PermissionSeeder extends Seeder
                 'http_method' => '',
                 'http_path' => '/brands*'
             ],
+            [
+                'name' => '订单管理',
+                'slug' => 'orders.any',
+                'http_method' => '',
+                'http_path' => '/orders*'
+            ],
         ];
     }
 }

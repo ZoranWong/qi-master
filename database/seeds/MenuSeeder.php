@@ -48,15 +48,31 @@ class MenuSeeder extends Seeder
                 'icon' => 'fa-asl-interpreting',
                 'uri' => '/admins',
                 'permission' => ''
-            ],
+            ]
+        ]);
+
+        $parentMenu = Menu::query()->create([
+            'parent_id' => 0,
+            'title' => '用户管理',
+            'icon' => 'fa-asl-interpreting',
+            'uri' => '/',
+            'permission' => ''
+        ]);
+
+        $parentMenu->children()->createMany([
             [
                 'title' => '用户管理',
                 'icon' => 'fa-asl-interpreting',
                 'uri' => '/users',
                 'permission' => ''
+            ],
+            [
+                'title' => '师傅管理',
+                'icon' => 'fa-asl-interpreting',
+                'uri' => '/masters',
+                'permission' => ''
             ]
         ]);
-
         $parentMenu = Menu::query()->create([
             'parent_id' => 0,
             'title' => '分类管理',
@@ -99,6 +115,46 @@ class MenuSeeder extends Seeder
                 'title' => '品牌管理',
                 'icon' => 'fa-bandcamp',
                 'uri' => '/brands',
+                'permission' => ''
+            ]
+        ]);
+
+        $parentMenu = Menu::query()->create([
+            'parent_id' => 0,
+            'title' => '订单管理',
+            'icon' => 'fa-shopping-cart',
+            'uri' => '',
+            'permission' => ''
+        ]);
+
+        $parentMenu->children()->createMany([
+            [
+                'title' => '订单管理',
+                'icon' => 'fa-bandcamp',
+                'uri' => '/orders',
+                'permission' => ''
+            ],
+            [
+                'title' => '退款管理',
+                'icon' => 'fa-bandcamp',
+                'uri' => '/refund/orders',
+                'permission' => ''
+            ]
+        ]);
+
+        $parentMenu = Menu::query()->create([
+            'parent_id' => 0,
+            'title' => '提现管理',
+            'icon' => 'fa-shopping-cart',
+            'uri' => '',
+            'permission' => ''
+        ]);
+
+        $parentMenu->children()->createMany([
+            [
+                'title' => '提现订单',
+                'icon' => 'fa-bandcamp',
+                'uri' => '/orders',
                 'permission' => ''
             ]
         ]);
