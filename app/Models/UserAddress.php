@@ -8,18 +8,18 @@ use Illuminate\Database\Eloquent\Model;
  * App\Models\UserAddress
  *
  * @property int $id
- * @property int $user_id
+ * @property int $userId
  * @property string $province
  * @property string $city
  * @property string $district
  * @property string $address
  * @property int $zip
- * @property string $contact_name
- * @property string $contact_phone
- * @property \Illuminate\Support\Carbon|null $last_used_at
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read mixed $full_address
+ * @property string $contactName
+ * @property string $contactPhone
+ * @property \Illuminate\Support\Carbon|null $lastUsedAt
+ * @property \Illuminate\Support\Carbon|null $createdAt
+ * @property \Illuminate\Support\Carbon|null $updatedAt
+ * @property-read mixed $fullAddress
  * @property-read \App\Models\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserAddress newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserAddress newQuery()
@@ -41,6 +41,7 @@ use Illuminate\Database\Eloquent\Model;
 class UserAddress extends Model
 {
     protected $fillable = [
+        'user_id',
         'province',
         'city',
         'district',

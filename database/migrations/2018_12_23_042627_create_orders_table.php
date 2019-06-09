@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class CreateOrdersTable extends Migration
 {
@@ -15,25 +16,19 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('no')->unique();
-            $table->unsignedInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->text('address');
-            $table->decimal('total_amount', 10, 2);
-            $table->text('remark')->nullable();
-            $table->dateTime('paid_at')->nullable();
-            $table->string('payment_method')->nullable();
-            $table->string('payment_no')->nullable();
-            $table->string('refund_status')->default(\App\Models\Order::REFUND_STATUS_PENDING);
-            $table->string('refund_no')->unique()->nullable();
-            $table->boolean('closed')->default(false);
-            $table->boolean('reviewed')->default(false);
-            $table->string('ship_status')->default(\App\Models\Order::SHIP_STATUS_PENDING);
-            $table->text('ship_data')->nullable();
-            $table->text('extra')->nullable();
+            $table->string('order_no')->unique()->comment('订单编号');
+            $table->unsignedInteger('user_id')->comment('订单发布用户id');
+            $table->unsignedTinyInteger('refund_status')->comment('退款状态');
+            $table->unsignedInteger('master_id')->default(0)->comment('雇佣师傅ID');
+            $table->unsignedTinyInteger('type')->default(0)->comment('订单类型');
+            $table->unsignedTinyInteger('status')->default(0)->comment('订单状态');
+            $table->unsignedInteger('total_amount')->default(0)->comment('订单总金额,单位：分');
             $table->timestamps();
+            $table->softDeletes();
         });
+        DB::statement('ALTER TABLE `orders` COMMENT "订单表"');
     }
+
     /**
      * Reverse the migrations.
      *

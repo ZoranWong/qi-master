@@ -5,7 +5,7 @@ return [
     /*
      * 站点标题
      */
-    'name' => 'Laravel Shop',
+    'name' => '齐师傅',
 
     /*
      * 页面顶部 Logo
@@ -15,7 +15,7 @@ return [
     /*
      * 页面顶部小 Logo
      */
-    'logo-mini' => '<b>LS</b>',
+    'logo-mini' => '<b>QM</b>',
 
     /*
      * 路由配置
@@ -25,6 +25,8 @@ return [
         'prefix' => 'admin',
         // 控制器命名空间前缀
         'namespace' => 'App\\Admin\\Controllers',
+        //encore 控制器命名空间前缀
+        'encore_namespace' => 'Encore\\Admin\\Controllers',
         // 默认中间件列表
         'middleware' => ['web', 'admin'],
     ],
@@ -53,7 +55,7 @@ return [
 
         'guards' => [
             'admin' => [
-                'driver'   => 'session',
+                'driver' => 'session',
                 'provider' => 'admin',
             ],
         ],
@@ -61,7 +63,7 @@ return [
         'providers' => [
             'admin' => [
                 'driver' => 'eloquent',
-                'model'  => Encore\Admin\Auth\Database\Administrator::class,
+                'model' => Encore\Admin\Auth\Database\Administrator::class,
             ],
         ],
     ],
@@ -75,7 +77,7 @@ return [
 
         'directory' => [
             'image' => 'images',
-            'file'  => 'files',
+            'file' => 'files',
         ],
     ],
 
@@ -104,11 +106,11 @@ return [
         'menu_model' => Encore\Admin\Auth\Database\Menu::class,
 
         // 多对多关联中间表
-        'operation_log_table'    => 'admin_operation_log',
+        'operation_log_table' => 'admin_operation_log',
         'user_permissions_table' => 'admin_user_permissions',
-        'role_users_table'       => 'admin_role_users',
+        'role_users_table' => 'admin_role_users',
         'role_permissions_table' => 'admin_role_permissions',
-        'role_menu_table'        => 'admin_role_menu',
+        'role_menu_table' => 'admin_role_menu',
     ],
 
     /*

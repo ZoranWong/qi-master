@@ -2,30 +2,32 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Builder;
+use App\Models\Traits\ModelAttributesAccess;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * App\Models\CartItem
  *
  * @property int $id
- * @property int $user_id
- * @property int $product_sku_id
+ * @property int $userId
+ * @property int $productSkuId
  * @property int $amount
- * @property-read ProductSku $productSku
- * @property-read User $user
- * @method static Builder|CartItem newModelQuery()
- * @method static Builder|CartItem newQuery()
- * @method static Builder|CartItem query()
- * @method static Builder|CartItem whereAmount($value)
- * @method static Builder|CartItem whereId($value)
- * @method static Builder|CartItem whereProductSkuId($value)
- * @method static Builder|CartItem whereUserId($value)
+ * @property-read \App\Models\ProductSku $productSku
+ * @property-read \App\Models\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CartItem newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CartItem newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CartItem query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CartItem whereAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CartItem whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CartItem whereProductSkuId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CartItem whereUserId($value)
  * @mixin \Eloquent
  */
 class CartItem extends Model
 {
-    protected $fillable = ['amount'];
+    use ModelAttributesAccess;
+
+    protected $fillable = ['user_id', 'product_sku_id', 'amount'];
     public $timestamps = false;
 
     public function user()

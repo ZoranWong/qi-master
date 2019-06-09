@@ -2,49 +2,48 @@
 
 namespace App\Models;
 
-use Eloquent;
+use App\Models\Traits\ModelAttributesAccess;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Illuminate\Support\Carbon;
 
 /**
  * App\Models\Brand
  *
  * @property int $id
- * @property int $category_id 类别ID
+ * @property int $categoryId 类别ID
  * @property string $name 品牌名称
  * @property int $sort 排序
  * @property int $status 状态：0-关闭 1-开启
- * @property Carbon|null $deleted_at
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
- * @property-read Category $category
- * @property-read mixed $status_desc
- * @method static Builder|Brand active()
+ * @property \Illuminate\Support\Carbon|null $deletedAt
+ * @property \Illuminate\Support\Carbon|null $createdAt
+ * @property \Illuminate\Support\Carbon|null $updatedAt
+ * @property-read \App\Models\Category $category
+ * @property-read mixed $statusDesc
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Brand active()
  * @method static bool|null forceDelete()
- * @method static Builder|Brand inActive()
- * @method static Builder|Brand newModelQuery()
- * @method static Builder|Brand newQuery()
- * @method static \Illuminate\Database\Query\Builder|Brand onlyTrashed()
- * @method static Builder|Brand query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Brand inactive()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Brand newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Brand newQuery()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Brand onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Brand query()
  * @method static bool|null restore()
- * @method static Builder|Brand whereCategoryId($value)
- * @method static Builder|Brand whereCreatedAt($value)
- * @method static Builder|Brand whereDeletedAt($value)
- * @method static Builder|Brand whereId($value)
- * @method static Builder|Brand whereName($value)
- * @method static Builder|Brand whereSort($value)
- * @method static Builder|Brand whereStatus($value)
- * @method static Builder|Brand whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|Brand withTrashed()
- * @method static \Illuminate\Database\Query\Builder|Brand withoutTrashed()
- * @mixin Eloquent
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Brand whereCategoryId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Brand whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Brand whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Brand whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Brand whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Brand whereSort($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Brand whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Brand whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Brand withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Brand withoutTrashed()
+ * @mixin \Eloquent
  */
 class Brand extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, ModelAttributesAccess;
 
     protected $fillable = ['category_id', 'name', 'sort', 'status'];
 
@@ -72,7 +71,7 @@ class Brand extends Model
         return $query->where('status', self::STATUS_ON);
     }
 
-    public function scopeInActive(Builder $query)
+    public function scopeInactive(Builder $query)
     {
         return $query->where('status', self::STATUS_OFF);
     }

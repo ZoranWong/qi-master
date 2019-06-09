@@ -3,36 +3,37 @@
 namespace App\Models;
 
 use App\Exceptions\InternalException;
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 /**
  * App\Models\ProductSku
  *
  * @property int $id
- * @property string $title
- * @property string $description
- * @property float $price
- * @property int $stock
- * @property int $product_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\Product $product
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductSku newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductSku newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductSku query()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductSku whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductSku whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductSku whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductSku wherePrice($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductSku whereProductId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductSku whereStock($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductSku whereTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductSku whereUpdatedAt($value)
- * @mixin \Eloquent
+ * @property int $productId
+ * @property mixed $specArr 规格
+ * @property Carbon|null $createdAt
+ * @property Carbon|null $updatedAt
+ * @property-read Product $product
+ * @method static Builder|ProductSku newModelQuery()
+ * @method static Builder|ProductSku newQuery()
+ * @method static Builder|ProductSku query()
+ * @method static Builder|ProductSku whereCreatedAt($value)
+ * @method static Builder|ProductSku whereId($value)
+ * @method static Builder|ProductSku whereProductId($value)
+ * @method static Builder|ProductSku whereSpecArr($value)
+ * @method static Builder|ProductSku whereUpdatedAt($value)
+ * @mixin Eloquent
  */
 class ProductSku extends Model
 {
-    protected $fillable = ['title', 'description', 'price', 'stock'];
+    protected $fillable = ['product_id', 'spec_arr'];
+
+    protected $casts = [
+        'spec_arr' => 'array'
+    ];
 
     public function product()
     {
