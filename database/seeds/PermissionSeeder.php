@@ -24,6 +24,12 @@ class PermissionSeeder extends Seeder
     {
         return [
             [
+                'name' => '登出',
+                'slug' => 'admin',
+                'http_method' => 'GET',
+                'http_path' => '/auth/logout'
+            ],
+            [
                 'name' => '后台首页',
                 'slug' => 'admin',
                 'http_method' => 'GET',
