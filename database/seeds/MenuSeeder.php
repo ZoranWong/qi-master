@@ -18,7 +18,7 @@ class MenuSeeder extends Seeder
             'parent_id' => 0,
             'title' => '菜单管理',
             'icon' => 'fa-balance-scale',
-            'uri' => '/menus',
+            'uri' => '/auth/menu',
             'permission' => ''
         ]);
 

@@ -61,18 +61,6 @@ Route::group([
 
     $router->group(['namespace' => config('admin.route.encore_namespace')], function (Router $router) {
         /**
-         * 菜单管理
-         */
-        $router->group(['prefix' => 'menus'], function (Router $router) {
-            $router->get('/', 'MenuController@index');
-            $router->get('create', 'MenuController@create');
-            $router->post('/', 'MenuController@store');
-            $router->delete('/{menu}', 'MenuController@destroy');
-            $router->get('/{menu}/edit', 'MenuController@edit');
-            $router->put('/{menu}', 'MenuController@update');
-            $router->get('/{menu}', 'MenuController@show');
-        });
-        /**
          * 管理员管理
          */
         $router->group(['prefix' => 'admins'], function (Router $router) {
