@@ -75,7 +75,9 @@ class CategoriesController extends Controller
 
         $grid->column('classification.name', '所属类目');
 
-        $grid->column('parent.name', '父级类别');
+        $grid->column('parent.name', '父级类别')->display(function ($parentName) {
+            return is_null($parentName) ? 'Root' : $parentName;
+        });
 
         $grid->column('unit', trans('admin.unit'));
 
@@ -98,17 +100,43 @@ class CategoriesController extends Controller
 
         $form->select('classification_id', '所属类目')->options($classifications);
 
-        $categories = Category::where('parent_id', '=', 0)->get()->pluck('name', 'id');
+        $categories = Category::selectOptions();
 
         $form->select('parent_id', '父分类')->options($categories);
 
         $form->text('name', trans('admin.name'));
 
-        $form->text('unit', '单位')->default('');
+        $form->text('unit', '单位')->default('')->placeholder('输入 单位 如套，个，件，箱...');
 
         $form->currency('price', '报价')->symbol('¥');
 
         $form->number('sort', '排序');
+
+        $form->divider();
+
+        $form->tab('基础信息', function (Form $form) {
+
+        })->tab('商品属性', function (Form $form) {
+            $form->hasMany('properties', '类别商品属性', function (Form\NestedForm $form) {
+                $form->text('title');
+                $form->table('value', '值', function ($table) {
+                    $table->text('title', trans('admin.name'));
+                    $table->currency('price', trans('admin.price'))->symbol('￥');
+                });
+            });
+        })->tab('服务要求', function (Form $form) {
+            $form->hasMany('servicerequirements', '服务要求', function (Form\NestedForm $form) {
+                $form->text('name');
+                $form->table('value', '值', function ($table) {
+                    $table->text('title', trans('admin.name'));
+                    $table->currency('price', trans('admin.price'))->symbol('￥');
+                });
+            });
+        });
+
+        $form->saving(function ($form) {
+//            dd($form);
+        });
 
         return $form;
     }

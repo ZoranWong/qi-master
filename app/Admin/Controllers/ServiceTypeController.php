@@ -2,15 +2,13 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\Classification;
-use App\Models\ServiceType;
 use App\Http\Controllers\Controller;
+use App\Models\ServiceType;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
-use Illuminate\Database\Eloquent\Collection;
 
 class ServiceTypeController extends Controller
 {
@@ -85,11 +83,10 @@ class ServiceTypeController extends Controller
 
         $grid->id('Id');
         $grid->column('classifications', '所属类目')->pluck('name')->label();
-        $grid->column('name', '服务名称');
-        $grid->column('description', '描述');
-        $grid->column('deleted_at','删除时间');
-        $grid->column('created_at', '创建时间');
-        $grid->column('updated_at', '更新时间');
+        $grid->column('name', trans('admin.service_types'));
+        $grid->column('description', trans('admin.description'))->style('width:40%;');
+        $grid->column('created_at', trans('admin.created_at'));
+        $grid->column('updated_at', trans('admin.updated_at'));
         return $grid;
     }
 

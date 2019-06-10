@@ -46,6 +46,10 @@ class ServiceType extends Model
         'tips' => 'array'
     ];
 
+    /**
+     * 应用到的类别
+     * @return BelongsToMany
+     */
     public function classifications(): BelongsToMany
     {
         return $this->belongsToMany(Classification::class, 'classification_services',
