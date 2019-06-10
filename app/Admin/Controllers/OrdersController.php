@@ -47,8 +47,12 @@ class OrdersController extends Controller
         });
         $grid->column('user.name', '用户');
         $grid->column('master.name', '师傅');
-        $grid->column('status', '状态');
-        $grid->column('type', '类型');
+        $grid->column('status', '状态')->display(function ($value) {
+            return Order::ORDER_STATUS[$value];
+        });
+        $grid->column('type', '类型')->display(function ($value) {
+            return Order::ORDER_TYPE[$value];
+        });
         $grid->column('total_amount', '订单总金额');
         $grid->actions(function (Grid\Displayers\Actions $actions) {
             $actions->disableDelete();

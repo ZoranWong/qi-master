@@ -11,26 +11,29 @@ use Ramsey\Uuid\Uuid;
  * App\Models\Order
  *
  * @property int $id
- * @property string $no
- * @property int $userId
- * @property string $address
- * @property float $totalAmount
- * @property string|null $remark
- * @property \Illuminate\Support\Carbon|null $paidAt
- * @property int|null $couponCodeId
- * @property string|null $paymentMethod
- * @property string|null $paymentNo
- * @property string $refundStatus
- * @property string|null $refundNo
- * @property int $closed
- * @property int $reviewed
- * @property string $shipStatus
- * @property string|null $shipData
- * @property string|null $extra
+ * @property string $orderNo 订单编号
+ * @property int $userId 订单发布用户id
+ * @property int $refundStatus 退款状态
+ * @property int $masterId 雇佣师傅ID
+ * @property int $type 订单类型
+ * @property int $status 订单状态
+ * @property int $totalAmount 订单总金额,单位：分
  * @property \Illuminate\Support\Carbon|null $createdAt
  * @property \Illuminate\Support\Carbon|null $updatedAt
+ * @property string|null $deletedAt
+ * @property int|null $couponCodeId
+ * @property string|null $serviceDate 服务时间
+ * @property string|null $comment 备注
+ * @property string $contactUserName 联系人姓名
+ * @property string $contactUserPhone 联系人电话
+ * @property string $customerName 客户名称
+ * @property string $customerPhone 客户电话
+ * @property string $regionCode 行政区域编号
+ * @property string $customerAddress 服务地址
  * @property-read \App\Models\CouponCode|null $couponCode
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OrderItem[] $items
+ * @property-read \App\Models\Master $master
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\PaymentOrder[] $payments
  * @property-read \App\Models\User $user
  * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order newModelQuery()
@@ -38,23 +41,24 @@ use Ramsey\Uuid\Uuid;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Order onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order query()
  * @method static bool|null restore()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereAddress($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereClosed($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereComment($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereContactUserName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereContactUserPhone($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereCouponCodeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereExtra($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereCustomerAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereCustomerName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereCustomerPhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereNo($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order wherePaidAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order wherePaymentMethod($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order wherePaymentNo($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereRefundNo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereMasterId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereOrderNo($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereRefundStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereRemark($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereReviewed($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereShipData($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereShipStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereRegionCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereServiceDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereTotalAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereUserId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Order withTrashed()
@@ -64,6 +68,29 @@ use Ramsey\Uuid\Uuid;
 class Order extends Model
 {
     use SoftDeletes, ModelAttributesAccess;
+    const ORDER_TYPE_FIXED_PRICE = 0;
+    const ORDER_TYPE_QUOTE_PRICE = 1;
+
+    const ORDER_TYPE = [
+        self::ORDER_TYPE_FIXED_PRICE => '一口价单',
+        self::ORDER_TYPE_QUOTE_PRICE => '报价单'
+    ];
+
+    const ORDER_WAIT_EMPLOY = 0; // 待接单
+    const ORDER_EMPLOYED = 1; // 已接单
+    const ORDER_WAIT_CHECK = 2;// 待验收
+    const ORDER_CHECKED = 3;// 验收完成，待评价
+    const ORDER_COMPLETED = 4;// 订单完成
+    const ORDER_CANCEL = 5;// 订单关闭
+
+    const ORDER_STATUS = [
+        self::ORDER_WAIT_EMPLOY => '待接单',
+        self::ORDER_EMPLOYED => '已接单',
+        self::ORDER_WAIT_CHECK => '待验收',
+        self::ORDER_CHECKED => '已验收',
+        self::ORDER_COMPLETED => '订单完成',
+        self::ORDER_CANCEL => '订单关闭'
+    ];
 
     const STATUS_REFUND_APPLYING = 1;
     const STATUS_REFUND_AGREED = 2;
@@ -96,13 +123,13 @@ class Order extends Model
     {
         parent::boot();
         // 监听模型创建事件，在写入数据库之前触发
-        static::creating(function ($model) {
+        static::creating(function (Order $model) {
             // 如果模型的 no 字段为空
-            if (!$model->no) {
+            if (!$model->orderNo) {
                 // 调用 findAvailableNo 生成订单流水号
-                $model->no = static::findAvailableNo();
+                $model->orderNo = static::findAvailableNo();
                 // 如果生成失败，则终止创建订单
-                if (!$model->no) {
+                if (!$model->orderNo) {
                     return false;
                 }
             }

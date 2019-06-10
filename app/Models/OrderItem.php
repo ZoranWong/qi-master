@@ -10,16 +10,19 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * App\Models\OrderItem
  *
  * @property int $id
- * @property int $orderId
- * @property int $productId
- * @property int $productSkuId
- * @property int $amount
- * @property float $price
- * @property int|null $rating
- * @property string|null $review
- * @property \Illuminate\Support\Carbon|null $reviewedAt
+ * @property int $orderId 订单ID
+ * @property int $productId 产品ID
+ * @property mixed $product 产品快照
+ * @property int $installFee 安装费用
+ * @property int $otherFee 其他费用
+ * @property int $status 订单状态
+ * @property int $type 订单类型
+ * @property int $masterId 雇佣师傅ID
+ * @property string|null $deletedAt
+ * @property string|null $createdAt
+ * @property string|null $updatedAt
  * @property-read \App\Models\Order $order
- * @property-read \App\Models\Product $product
+ * @property-read \App\Models\Product $orderProduct
  * @property-read \App\Models\ProductSku $productSku
  * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderItem newModelQuery()
@@ -27,15 +30,18 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\OrderItem onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderItem query()
  * @method static bool|null restore()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderItem whereAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderItem whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderItem whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderItem whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderItem whereInstallFee($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderItem whereMasterId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderItem whereOrderId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderItem wherePrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderItem whereOtherFee($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderItem whereProduct($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderItem whereProductId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderItem whereProductSkuId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderItem whereRating($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderItem whereReview($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderItem whereReviewedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderItem whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderItem whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderItem whereUpdatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\OrderItem withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\OrderItem withoutTrashed()
  * @mixin \Eloquent
