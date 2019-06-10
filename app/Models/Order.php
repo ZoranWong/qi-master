@@ -121,7 +121,12 @@ class Order extends Model
         'paid_at',
     ];
 
-    protected $currencyColumns = ['total_amount'];
+    public function __construct(array $attributes = [])
+    {
+        $this->currencyColumns = ['total_amount'];
+        parent::__construct($attributes);
+
+    }
 
     protected static function boot()
     {
@@ -203,5 +208,15 @@ class Order extends Model
         } while (self::query()->where('refund_no', $no)->exists());
 
         return $no;
+    }
+
+    public function setTotalAmountAttribute($value)
+    {
+        $this->attributes['total_amount'] = $value * 100;
+    }
+
+    public function getTotalAmountAttribute()
+    {
+        return $this->attributes['total_amount'] / CURRENCY_UNIT_CONVERT_NUM;
     }
 }

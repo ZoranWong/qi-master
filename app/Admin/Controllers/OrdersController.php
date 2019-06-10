@@ -54,7 +54,9 @@ class OrdersController extends Controller
         $grid->column('type', '类型')->display(function ($value) {
             return Order::ORDER_TYPE[$value];
         });
-        $grid->column('total_amount', '订单总金额');
+        $grid->column('total_amount', '订单总金额')->display(function ($value) {
+            return number_format($value, 2);
+        });
         $grid->actions(function (Grid\Displayers\Actions $actions) {
             $actions->disableDelete();
             $actions->disableEdit();
