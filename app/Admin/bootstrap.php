@@ -19,3 +19,5 @@
  */
 
 Encore\Admin\Form::forget(['map']);
+
+\Encore\Admin\Form::extend('table', \Encore\Admin\Form\Field\Table::class);
