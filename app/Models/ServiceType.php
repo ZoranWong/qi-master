@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int $id
  * @property string $name 服务名称
  * @property string $description 描述
+ * @property string $tips 服务类型提示
  * @property \Illuminate\Support\Carbon|null $deletedAt
  * @property \Illuminate\Support\Carbon|null $createdAt
  * @property \Illuminate\Support\Carbon|null $updatedAt
@@ -35,10 +36,14 @@ class ServiceType extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['name', 'description'];
+    protected $fillable = ['name', 'description', 'tips'];
 
     protected $dates = [
         'deleted_at'
+    ];
+
+    protected $casts = [
+        'tips' => 'array'
     ];
 
     public function classifications(): BelongsToMany

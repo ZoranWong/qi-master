@@ -57,6 +57,18 @@ Route::group([
             $router->get('/{category}', 'CategoriesController@show');
             $router->delete('/{category}', 'CategoriesController@destroy');
         });
+        /**
+         * 服务类型管理
+         */
+        $router->group(['prefix' => 'service_types'], function (Router $router) {
+            $router->get('/', 'ServiceTypeController@index');
+            $router->get('/create', 'ServiceTypeController@create');
+            $router->post('/', 'ServiceTypeController@store');
+            $router->get('/{serviceType}/edit', 'ServiceTypeController@edit');
+            $router->put('/{serviceType}', 'ServiceTypeController@update');
+            $router->get('/{serviceType}', 'ServiceTypeController@show');
+            $router->delete('/{serviceType}', 'ServiceTypeController@destroy');
+        });
     });
 
     $router->group(['namespace' => config('admin.route.encore_namespace')], function (Router $router) {
