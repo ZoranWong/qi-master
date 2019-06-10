@@ -49,6 +49,17 @@ class Category extends Model
 {
     use SoftDeletes, ModelAttributesAccess;
 
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        $this->extraAttributeCasts = [
+            'price' => function ($price) {
+                return $price * 100;
+            }
+        ];
+    }
+
     protected $fillable = ['classification_id', 'name', 'parent_id', 'sort', 'unit', 'price'];
 
     protected $dates = [
@@ -103,11 +114,6 @@ class Category extends Model
     public function measurements()
     {
         return $this->hasMany(Measurement::class);
-    }
-
-    public function setPriceAttribute($value)
-    {
-        $this->attributes['price'] = $value * 100;
     }
 
     public function getPriceAttribute()

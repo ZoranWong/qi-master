@@ -18,7 +18,7 @@ class MenuSeeder extends Seeder
             'parent_id' => 0,
             'title' => '菜单管理',
             'icon' => 'fa-balance-scale',
-            'uri' => '/auth/menu',
+            'uri' => 'auth/menu',
             'permission' => ''
         ]);
 
@@ -34,19 +34,19 @@ class MenuSeeder extends Seeder
             [
                 'title' => '权限管理',
                 'icon' => 'fa-tasks',
-                'uri' => '/auth/permissions',
+                'uri' => 'auth/permissions',
                 'permission' => ''
             ],
             [
                 'title' => '角色管理',
                 'icon' => 'fa-cogs',
-                'uri' => '/auth/roles',
+                'uri' => 'auth/roles',
                 'permission' => ''
             ],
             [
                 'title' => '管理员管理',
                 'icon' => 'fa-asl-interpreting',
-                'uri' => '/admins',
+                'uri' => 'admins',
                 'permission' => ''
             ]
         ]);
@@ -63,13 +63,13 @@ class MenuSeeder extends Seeder
             [
                 'title' => '用户管理',
                 'icon' => 'fa-asl-interpreting',
-                'uri' => '/users',
+                'uri' => 'users',
                 'permission' => ''
             ],
             [
                 'title' => '师傅管理',
                 'icon' => 'fa-asl-interpreting',
-                'uri' => '/masters',
+                'uri' => 'masters',
                 'permission' => ''
             ]
         ]);
@@ -85,19 +85,19 @@ class MenuSeeder extends Seeder
             [
                 'title' => '类目管理',
                 'icon' => 'fa-tasks',
-                'uri' => '/classifications',
+                'uri' => 'classifications',
                 'permission' => ''
             ],
             [
                 'title' => '类别管理',
                 'icon' => 'fa-cogs',
-                'uri' => '/categories',
+                'uri' => 'categories',
                 'permission' => ''
             ],
             [
                 'title' => '服务类型管理',
                 'icon' => 'fa-asl-interpreting',
-                'uri' => '/service_types',
+                'uri' => 'service_types',
                 'permission' => ''
             ]
         ]);
@@ -114,7 +114,7 @@ class MenuSeeder extends Seeder
             [
                 'title' => '品牌管理',
                 'icon' => 'fa-bandcamp',
-                'uri' => '/brands',
+                'uri' => 'brands',
                 'permission' => ''
             ]
         ]);
@@ -131,13 +131,13 @@ class MenuSeeder extends Seeder
             [
                 'title' => '订单管理',
                 'icon' => 'fa-bandcamp',
-                'uri' => '/orders',
+                'uri' => 'orders',
                 'permission' => ''
             ],
             [
                 'title' => '退款管理',
                 'icon' => 'fa-bandcamp',
-                'uri' => '/refund/orders',
+                'uri' => 'refund/orders',
                 'permission' => ''
             ]
         ]);
@@ -154,7 +154,7 @@ class MenuSeeder extends Seeder
             [
                 'title' => '提现订单',
                 'icon' => 'fa-bandcamp',
-                'uri' => '/orders',
+                'uri' => 'orders',
                 'permission' => ''
             ]
         ]);

@@ -6,6 +6,8 @@ namespace App\Models\Traits;
 
 trait ModelAttributesAccess
 {
+    protected $extraAttributeCasts = [];
+
     public function __get($name)
     {
         // TODO: Implement __get() method.
@@ -20,6 +22,13 @@ trait ModelAttributesAccess
     {
         // TODO: Implement __set() method.
         $this->setAttribute(upperCaseSplit($name, '_'), $value);
+    }
+
+    public function setAttribute($key, $value)
+    {
+        $value = isset($this->extraAttributeCasts[$key]) ? $this->extraAttributeCasts[$key]($value) : $value;
+
+        parent::setAttribute($key, $value);
     }
 
     public function formJson($value)
