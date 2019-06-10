@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\CurrencyUnitTrait;
 use App\Models\Traits\ModelAttributesAccess;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -67,7 +68,8 @@ use Ramsey\Uuid\Uuid;
  */
 class Order extends Model
 {
-    use SoftDeletes, ModelAttributesAccess;
+    use SoftDeletes, ModelAttributesAccess, CurrencyUnitTrait;
+
     const ORDER_TYPE_FIXED_PRICE = 0;
     const ORDER_TYPE_QUOTE_PRICE = 1;
 
@@ -118,6 +120,8 @@ class Order extends Model
     protected $dates = [
         'paid_at',
     ];
+
+    protected $currencyColumns = ['total_amount'];
 
     protected static function boot()
     {
