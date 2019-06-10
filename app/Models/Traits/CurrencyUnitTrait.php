@@ -11,6 +11,8 @@ namespace App\Models\Traits;
 
 trait CurrencyUnitTrait
 {
+    protected $currencyIcon = '¥';
+
     protected $currencyColumns = [];
 
     public function setAttribute($key, $value)
