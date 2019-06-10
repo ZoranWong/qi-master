@@ -11,6 +11,15 @@ if (!function_exists('upperCaseSplit')) {
     }
 }
 
+if(!function_exists('underlineCaseToCamelCase')) {
+    function underlineCaseToCamelCase($var)
+    {
+        return preg_replace_callback('/_([a-zA-Z])/', function ($res) {
+            return strtoupper($res[1]);
+        }, $var);
+    }
+}
+
 if (!function_exists('getImageUrl')) {
     function getImageUrl($url)
     {

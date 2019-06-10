@@ -44,14 +44,26 @@ class OrdersController extends Controller
             $items = $order->items->map(function (OrderItem $item) {
                 return [$item->id, $item->product['name'], $item->product['image']];
             });
-            return new Table(['ID', '产品名称', '产品图片'], $items->toArray());
+            return $items->count() > 0 ? new Table(['ID', '产品名称', '产品图片'], $items->toArray()) : '';
         });
         $grid->column('user.name', '用户');
-        $grid->column('master.name', '师傅');
-        $grid->column('status', '状态')->display(function ($value) {
-            return Order::ORDER_STATUS[$value];
+        $grid->column('master.name', '师傅')->display(function ($value) {
+            return $value ? $value : '--等待师傅接单--';
         });
-        $grid->column('type', '类型')->display(function ($value) {
+        $grid->column('status', '状态')->display(function ($value) {
+            /**
+             * @var Order $order
+             * */
+            $order = $this;
+            if ($order->refundStatus === 0) {
+                return Order::ORDER_STATUS[$value];
+            } else {
+                return Order::STATUS_REFUND[$order->refundStatus];
+            }
+
+        });
+
+        $grid->column('type', '类型')->display(function (int $value) {
             return Order::ORDER_TYPE[$value];
         });
         $grid->column('total_amount', '订单总金额')->display(function ($value) {
@@ -77,17 +89,17 @@ class OrdersController extends Controller
         // Laravel 5.5 之后 validate 方法可以返回校验过的值
         $data = $this->validate($request, [
             'express_company' => ['required'],
-            'express_no'      => ['required'],
+            'express_no' => ['required'],
         ], [], [
             'express_company' => '物流公司',
-            'express_no'      => '物流单号',
+            'express_no' => '物流单号',
         ]);
         // 将订单发货状态改为已发货，并存入物流信息
         $order->update([
             'ship_status' => Order::SHIP_STATUS_DELIVERED,
             // 我们在 Order 模型的 $casts 属性里指明了 ship_data 是一个数组
             // 因此这里可以直接把数组传过去
-            'ship_data'   => $data,
+            'ship_data' => $data,
         ]);
 
         // 返回上一页
@@ -117,7 +129,7 @@ class OrdersController extends Controller
             // 将订单的退款状态改为未退款
             $order->update([
                 'refund_status' => Order::REFUND_STATUS_PENDING,
-                'extra'         => $extra,
+                'extra' => $extra,
             ]);
         }
 
@@ -175,7 +187,7 @@ class OrdersController extends Controller
                 break;
             default:
                 // 原则上不可能出现，这个只是为了代码健壮性
-                throw new InternalException('未知订单支付方式：'.$order->payment_method);
+                throw new InternalException('未知订单支付方式：' . $order->payment_method);
                 break;
         }
     }

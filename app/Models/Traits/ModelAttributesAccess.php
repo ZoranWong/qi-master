@@ -11,11 +11,11 @@ trait ModelAttributesAccess
     public function __get($name)
     {
         // TODO: Implement __get() method.
-        if (($value = $this->getAttributeValue($name)) || ($value = $this[$name])) {
+        if (($value = $this->getAttribute($name)) || ($value = $this[$name])) {
             return $value;
         }
         $key = upperCaseSplit($name, '_');
-        return $this->getAttributeValue($key) ?? $this[$key];
+        return $this->getAttribute($key) ?? $this[$key];
     }
 
     public function __set($name, $value)
@@ -24,12 +24,6 @@ trait ModelAttributesAccess
         $this->setAttribute(upperCaseSplit($name, '_'), $value);
     }
 
-//    public function setAttribute($key, $value)
-//    {
-//        $value = isset($this->extraAttributeCasts[$key]) ? $this->extraAttributeCasts[$key]($value) : $value;
-//
-//        parent::setAttribute($key, $value);
-//    }
 
     public function formJson($value)
     {

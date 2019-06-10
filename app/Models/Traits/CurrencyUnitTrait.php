@@ -9,6 +9,8 @@
 namespace App\Models\Traits;
 
 
+use Illuminate\Support\Str;
+
 trait CurrencyUnitTrait
 {
     protected $currencyIcon = '¥';
@@ -30,5 +32,35 @@ trait CurrencyUnitTrait
             $value /= CURRENCY_UNIT_CONVERT_NUM;
         }
         return $value;
+    }
+
+
+    protected function accessors()
+    {
+        foreach ($this->currencyColumns as $column) {
+            $key = Str::studly($column);
+            $accessor = "set{$key}Attribute";
+            $this->{$accessor} = function ($value) use($key){
+                $this->attributes[$key] = $value * 100;
+            };
+        }
+    }
+
+    protected function mutators()
+    {
+        foreach ($this->currencyColumns as $column) {
+            $key = Str::studly($column);
+            $mutator = "get{$key}Attribute";
+            $this->{$mutator} = function () use($key){
+                return $this->attributes[$key] / 1000;
+            };
+        }
+    }
+
+    protected function accessorAndMutator()
+    {
+        // TODO: Implement __invoke() method.
+        $this->accessors();
+        $this->mutators();
     }
 }

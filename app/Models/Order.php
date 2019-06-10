@@ -124,6 +124,8 @@ class Order extends Model
     public function __construct(array $attributes = [])
     {
         $this->currencyColumns = ['total_amount'];
+        $this->accessorAndMutator();
+        var_dump($this->hasSetMutator('total_amount'));
         parent::__construct($attributes);
 
     }
@@ -210,13 +212,13 @@ class Order extends Model
         return $no;
     }
 
-    public function setTotalAmountAttribute($value)
-    {
-        $this->attributes['total_amount'] = $value * 100;
-    }
-
-    public function getTotalAmountAttribute()
-    {
-        return $this->attributes['total_amount'] / CURRENCY_UNIT_CONVERT_NUM;
-    }
+//    public function setTotalAmountAttribute($value)
+//    {
+//        $this->attributes['total_amount'] = $value * 100;
+//    }
+//
+//    public function getTotalAmountAttribute()
+//    {
+//        return $this->attributes['total_amount'] / CURRENCY_UNIT_CONVERT_NUM;
+//    }
 }
