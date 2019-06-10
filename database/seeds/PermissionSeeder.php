@@ -1,6 +1,7 @@
 <?php
 
 use Encore\Admin\Auth\Database\Permission;
+use Encore\Admin\Auth\Database\Role;
 use Illuminate\Database\Seeder;
 
 class PermissionSeeder extends Seeder
@@ -18,22 +19,43 @@ class PermissionSeeder extends Seeder
         foreach ($permissions as $permission) {
             Permission::query()->create($permission);
         }
+
+        $permissions = Permission::all()->pluck('id');
+        Role::query()->where('slug', 'administrator')->first()->permissions()->sync($permissions);
     }
 
     private function data()
     {
         return [
             [
-                'name' => '登出',
-                'slug' => 'admin',
-                'http_method' => 'GET',
-                'http_path' => '/auth/logout'
+                'name' => 'All Permission',
+                'slug' => '*',
+                'http_method' => '',
+                'http_path' => '*'
             ],
             [
-                'name' => '后台首页',
-                'slug' => 'admin',
+                'name' => 'Login',
+                'slug' => 'auth.login',
+                'http_method' => '',
+                'http_path' => "/auth/login\n/auth/logout"
+            ],
+            [
+                'name' => 'Dashboard',
+                'slug' => 'dashboard',
                 'http_method' => 'GET',
                 'http_path' => '/'
+            ],
+            [
+                'name' => 'User Setting',
+                'slug' => 'auth.setting',
+                'http_method' => 'GET',
+                'http_path' => '/auth/setting'
+            ],
+            [
+                'name' => 'Auth management',
+                'slug' => 'auth.management',
+                'http_method' => '',
+                'http_path' => "/auth/roles*\n/auth/permissions*\n/auth/menu*\n/auth/logs*"
             ],
             [
                 'name' => '管理员管理相关',
@@ -46,24 +68,6 @@ class PermissionSeeder extends Seeder
                 'slug' => 'users.any',
                 'http_method' => '',
                 'http_path' => '/users*'
-            ],
-            [
-                'name' => '角色管理',
-                'slug' => 'roles.any',
-                'http_method' => '',
-                'http_path' => '/auth/roles*'
-            ],
-            [
-                'name' => '权限管理',
-                'slug' => 'permissions.any',
-                'http_method' => '',
-                'http_path' => '/auth/permissions*'
-            ],
-            [
-                'name' => '菜单相关',
-                'slug' => 'menus.any',
-                'http_method' => '',
-                'http_path' => '/menus*'
             ],
             [
                 'name' => '类目管理',
