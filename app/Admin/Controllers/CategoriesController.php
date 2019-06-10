@@ -123,15 +123,15 @@ class CategoriesController extends Controller
                     $table->text('title', trans('admin.name'));
                     $table->currency('price', trans('admin.price'))->symbol('￥');
                 });
-            });
+            })->default([]);
         })->tab('服务要求', function (Form $form) {
-            $form->hasMany('servicerequirements', '服务要求', function (Form\NestedForm $form) {
+            $form->hasMany('requirements', '服务要求', function (Form\NestedForm $form) {
                 $form->text('name');
                 $form->table('value', '值', function ($table) {
                     $table->text('title', trans('admin.name'));
                     $table->currency('price', trans('admin.price'))->symbol('￥');
                 });
-            });
+            })->default([]);
         });
 
         $form->saving(function ($form) {

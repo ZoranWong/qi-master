@@ -110,13 +110,12 @@ class Category extends Model
 
     /**
      * 服务要求|服务需求|额外服务报价
-     * @param int $serviceTypeId 服务类型ID
      * @return HasMany
      */
-    public function servicerequirements(int $serviceTypeId)
+    public function requirements()
     {
 
-        return $this->hasMany(ServiceRequirement::class)->where('service_id', $serviceTypeId);
+        return $this->hasMany(ServiceRequirement::class);
     }
 
     /**
