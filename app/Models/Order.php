@@ -118,6 +118,13 @@ class Order extends Model
     }
 
     /**
+     * 师傅
+     */
+    public function master()
+    {
+        return $this->belongsTo(Master::class);
+    }
+    /**
      * 资金明细
      * 由初始订单 和 追加费用 组成
      */

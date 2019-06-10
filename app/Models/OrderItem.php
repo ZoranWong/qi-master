@@ -50,7 +50,7 @@ class OrderItem extends Model
     protected $dates = ['reviewed_at'];
     public $timestamps = false;
 
-    public function product()
+    public function orderProduct()
     {
         return $this->belongsTo(Product::class);
     }

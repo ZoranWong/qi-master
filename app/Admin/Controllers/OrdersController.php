@@ -7,9 +7,11 @@ use App\Exceptions\InvalidRequestException;
 use App\Http\Requests\Admin\HandleRefundRequest;
 use App\Models\Order;
 use App\Http\Controllers\Controller;
+use App\Models\OrderItem;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
+use Encore\Admin\Widgets\Table;
 use Illuminate\Http\Request;
 
 class OrdersController extends Controller
@@ -36,33 +38,23 @@ class OrdersController extends Controller
         $grid = new Grid(new Order);
 
         // 只展示已支付的订单，并且默认按支付时间倒序排序
-        $grid->model()->whereNotNull('paid_at')->orderBy('paid_at', 'desc');
 
-        $grid->no('订单流水号');
-        // 展示关联关系的字段时，使用 column 方法
-        $grid->column('user.name', '买家');
-        $grid->total_amount('总金额')->sortable();
-        $grid->paid_at('支付时间')->sortable();
-        $grid->ship_status('物流')->display(function($value) {
-            return Order::$shipStatusMap[$value];
+        $grid->column('order_no', '编号')->expand(function (Order $order) {
+            $items = $order->items->map(function (OrderItem $item) {
+                return [$item->id, $item->product['name'], $item->product['image']];
+            });
+            return new Table(['ID', '产品名称', '产品图片'], $items->toArray());
         });
-        $grid->refund_status('退款状态')->display(function($value) {
-            return Order::$refundStatusMap[$value];
-        });
-        // 禁用创建按钮，后台不需要创建订单
-        $grid->disableCreateButton();
-        $grid->actions(function ($actions) {
-            // 禁用删除和编辑按钮
+        $grid->column('user.name', '用户');
+        $grid->column('master.name', '师傅');
+        $grid->column('status', '状态');
+        $grid->column('type', '类型');
+        $grid->column('total_amount', '订单总金额');
+        $grid->actions(function (Grid\Displayers\Actions $actions) {
             $actions->disableDelete();
             $actions->disableEdit();
+            $actions;
         });
-        $grid->tools(function ($tools) {
-            // 禁用批量删除按钮
-            $tools->batch(function ($batch) {
-                $batch->disableDelete();
-            });
-        });
-
         return $grid;
     }
 
