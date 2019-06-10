@@ -6,6 +6,7 @@ namespace App\Admin\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Classification;
+use App\Models\ServiceType;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -63,6 +64,9 @@ class ClassificationsController extends Controller
 
         $form->image('icon_url', trans('admin.icon'))->default('')->rules('required');
 
+        $serviceTypes = ServiceType::all()->pluck('name', 'id');
+        $form->multipleSelect('serviceTypes', trans('admin.service_types'))->options($serviceTypes);
+
         $form->number('sort', '排序');
 
         $form->radio('is_hot', '是否热门')->options([0 => '否', 1 => '是'])->default(0);
@@ -81,6 +85,13 @@ class ClassificationsController extends Controller
         $grid->column('id', 'ID')->sortable();
 
         $grid->column('name', '类目名称');
+
+        $grid->serviceTypes(trans('admin.service_types'))->display(function ($serviceTypes) {
+            $serviceTypes = array_map(function ($serviceType) {
+                return "<span class='label label-success'>{$serviceType['name']}</span>";
+            }, $serviceTypes);
+            return join('&nbsp;', $serviceTypes);
+        });
 
         $grid->column('icon_url', '图标')->display(function ($iconUrl) {
             return "<img width='40px' src='{$iconUrl}' />";

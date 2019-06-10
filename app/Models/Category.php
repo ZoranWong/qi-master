@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Models\Traits\CurrencyUnitTrait;
 use App\Models\Traits\ModelAttributesAccess;
+use Encore\Admin\Traits\ModelTree;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -47,17 +49,24 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Category extends Model
 {
-    use SoftDeletes, ModelAttributesAccess;
+    use SoftDeletes, ModelAttributesAccess, ModelTree, CurrencyUnitTrait {
+        ModelTree::boot as treeBoot;
+    }
 
     public function __construct(array $attributes = [])
     {
-        parent::__construct($attributes);
+        $this->currencyColumns = ['price'];
 
         $this->extraAttributeCasts = [
             'price' => function ($price) {
                 return $price * 100;
             }
         ];
+
+        self::setOrderColumn('sort');
+        self::setTitleColumn('name');
+
+        parent::__construct($attributes);
     }
 
     protected $fillable = ['classification_id', 'name', 'parent_id', 'sort', 'unit', 'price'];
@@ -91,6 +100,7 @@ class Category extends Model
     }
 
     /**
+     * 类别属性|商品属性
      * 拓展属性|额外属性
      */
     public function properties()
@@ -103,8 +113,9 @@ class Category extends Model
      * @param int $serviceTypeId 服务类型ID
      * @return HasMany
      */
-    public function serviceRequirements(int $serviceTypeId)
+    public function servicerequirements(int $serviceTypeId)
     {
+
         return $this->hasMany(ServiceRequirement::class)->where('service_id', $serviceTypeId);
     }
 

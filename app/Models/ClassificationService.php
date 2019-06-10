@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Models\Traits\ModelAttributesAccess;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
 /**
  * App\Models\ClassificationService
@@ -23,7 +23,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ClassificationService whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class ClassificationService extends Model
+class ClassificationService extends Pivot
 {
     use ModelAttributesAccess;
 
