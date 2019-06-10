@@ -9,6 +9,7 @@ use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
+use Encore\Admin\Show;
 
 class CategoriesController extends Controller
 {
@@ -24,6 +25,38 @@ class CategoriesController extends Controller
     {
         return $content->header(trans('admin.categories'))->description(trans('admin.create'))
             ->body($this->form());
+    }
+
+    public function show(Content $content, Category $category)
+    {
+        return $content->header(trans('admin.categories'))->description(trans('admin.detail'))
+            ->body($this->detail($category));
+    }
+
+    public function detail(Category $category)
+    {
+        $show = new Show($category);
+
+        $show->field('id', 'ID');
+
+        $show->classification('所属类目', function (Show $classification) {
+            $classification->setResource('/admin/classifications');
+            $classification->field('id', 'ID');
+            $classification->field('name', trans('admin.classifications'));
+            $classification->field('icon_url', trans('admin.icon'))->image();
+        });
+
+        $show->parent('父级类别', function (Show $category) {
+            $category->setResource('/admin/categories');
+            $category->field('id', 'ID');
+            $category->field('name', trans('admin.name'));
+        });
+
+        $show->field('unit', trans('admin.unit'));
+
+        $show->field('price', trans('admin.price'));
+
+        return $show;
     }
 
     public function edit(Content $content, Category $category)
