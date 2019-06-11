@@ -56,6 +56,8 @@ Route::group([
             $router->put('/{category}', 'CategoriesController@update');
             $router->get('/{category}', 'CategoriesController@show');
             $router->delete('/{category}', 'CategoriesController@destroy');
+            $router->get('/{category}/properties', 'CategoriesController@properties');
+            $router->get('/{category}/requirements', 'CategoriesController@requirements');
         });
         /**
          * 服务类型管理

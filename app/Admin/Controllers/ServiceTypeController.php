@@ -81,12 +81,13 @@ class ServiceTypeController extends Controller
     {
         $grid = new Grid(new ServiceType);
 
-        $grid->id('Id');
-        $grid->column('classifications', '所属类目')->pluck('name')->label();
+        $grid->id('ID');
         $grid->column('name', trans('admin.service_types'));
+        $grid->column('classifications', '所属类目')->pluck('name')->label();
         $grid->column('description', trans('admin.description'))->style('width:40%;');
         $grid->column('created_at', trans('admin.created_at'));
         $grid->column('updated_at', trans('admin.updated_at'));
+
         return $grid;
     }
 
@@ -118,8 +119,16 @@ class ServiceTypeController extends Controller
     protected function form()
     {
         $form = new Form(new ServiceType);
-        $form->text('name', 'Name');
-        $form->text('description', 'Description');
+
+        $form->display('id', 'ID');
+
+        $form->text('name', trans('admin.name'))->rules('required');
+
+        $form->text('description', trans('admin.description'))->rules('required');
+
+        $form->display('created_at', trans('admin.created_at'));
+
+        $form->display('updated_at', trans('admin.updated_at'));
 
         return $form;
     }

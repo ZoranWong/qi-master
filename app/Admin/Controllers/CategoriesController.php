@@ -5,6 +5,7 @@ namespace App\Admin\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Classification;
+use Encore\Admin\Admin;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -33,7 +34,25 @@ class CategoriesController extends Controller
             ->body($this->detail($category));
     }
 
-    public function detail(Category $category)
+    public function properties(Content $content, Category $category)
+    {
+        return $content->header(trans('admin.categories'))->description('附加属性')
+            ->body($this->propertyForm()->edit($category->getKey()));
+    }
+
+    public function requirements(Content $content, Category $category)
+    {
+        return $content->header(trans('admin.categories'))->description('服务要求')
+            ->body($this->form()->edit($category->getKey()));
+    }
+
+    public function edit(Content $content, Category $category)
+    {
+        return $content->header(trans('admin.categories'))->description(trans('admin.edit'))
+            ->body($this->form()->edit($category->getKey()));
+    }
+
+    protected function detail(Category $category)
     {
         $show = new Show($category);
 
@@ -59,13 +78,7 @@ class CategoriesController extends Controller
         return $show;
     }
 
-    public function edit(Content $content, Category $category)
-    {
-        return $content->header(trans('admin.categories'))->description(trans('admin.edit'))
-            ->body($this->form()->edit($category->id));
-    }
-
-    public function grid()
+    protected function grid()
     {
         $grid = new Grid(new Category);
 
@@ -87,54 +100,68 @@ class CategoriesController extends Controller
 
         $grid->column('sort', trans('admin.sort'));
 
+        $grid->actions(function (Grid\Displayers\Actions $actions) {
+            $actions->append("<a href='/admin/categories/{$actions->getKey()}/properties' title='编辑类别商品属性' class='grid-row-view grid-action'><i class='fa fa-edit'></i></a>");
+            $actions->append("<a href='/admin/categories/{$actions->getKey()}/requirements' title='编辑服务要求' class='grid-row-view grid-action'><i class='fa fa-edit'></i></a>");
+        });
+
+        Admin::style('.grid-action {padding-right: 3px;}');
+
         return $grid;
     }
 
     public function form()
     {
+        $form = $this->basicForm();
+
+        $form->tab('类别商品属性', function (Form $form) {
+            $form->hasMany('properties', '属性', function (Form\NestedForm $form) {
+                $form->text('title', '属性名称');
+//                $form->html('<button class="btn btn-primary btn-sm pull-right"><i class="fa fa-edit"></i>修改</button>');
+            })->setView('form.hasmany');
+        });
+
+        $form->saving(function ($form) {
+//            dd($form);
+        });
+
+        return $form;
+    }
+
+    protected function basicForm()
+    {
         $form = new Form(new Category);
 
-        $form->display('id', 'ID');
-
-        $classifications = Classification::all()->pluck('name', 'id');
-
-        $form->select('classification_id', '所属类目')->options($classifications);
-
-        $categories = Category::selectOptions();
-
-        $form->select('parent_id', '父分类')->options($categories);
-
-        $form->text('name', trans('admin.name'));
-
-        $form->text('unit', '单位')->default('')->placeholder('输入 单位 如套，个，件，箱...');
-
-        $form->currency('price', '报价')->symbol('¥');
-
-        $form->number('sort', '排序');
-
-        $form->divider();
-
         $form->tab('基础信息', function (Form $form) {
+            $form->display('id', 'ID');
+            $classifications = Classification::all()->pluck('name', 'id');
+            $form->select('classification_id', '所属类目')->options($classifications);
+            $categories = Category::selectOptions();
+            $form->select('parent_id', '父分类')->options($categories);
+            $form->text('name', trans('admin.name'));
+            $form->text('unit', '单位')->default('')->placeholder('输入 单位 如套，个，件，箱...');
+            $form->currency('price', '报价')->symbol('¥');
+            $form->number('sort', '排序');
+        });
 
-        })->tab('商品属性', function (Form $form) {
+        return $form;
+    }
+
+    protected function propertyForm()
+    {
+        $form = $this->basicForm();
+
+        $form->tab('附加属性', function (Form $form) {
             $form->hasMany('properties', '类别商品属性', function (Form\NestedForm $form) {
                 $form->text('title');
-                $form->table('value', '值', function ($table) {
-                    $table->text('title', trans('admin.name'));
-                    $table->currency('price', trans('admin.price'))->symbol('￥');
-                });
-            })->default([]);
-        })->tab('服务要求', function (Form $form) {
-            $form->hasMany('requirements', '服务要求', function (Form\NestedForm $form) {
-                $form->text('name');
-                $form->table('value', '值', function ($table) {
-                    $table->text('title', trans('admin.name'));
-                    $table->currency('price', trans('admin.price'))->symbol('￥');
+                $form->table('value', '具体属性', function ($table) {
+                    $table->text('title');
+                    $table->currency('price')->symbol('￥');
                 });
             })->default([]);
         });
 
-        $form->saving(function ($form) {
+        $form->saving(function (Form $form) {
 //            dd($form);
         });
 

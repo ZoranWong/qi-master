@@ -16,8 +16,16 @@ class MenuSeeder extends Seeder
 
         Menu::query()->create([
             'parent_id' => 0,
+            'title' => 'Dashboard',
+            'icon' => 'fa-dashboard',
+            'uri' => '/',
+            'permission' => ''
+        ]);
+
+        Menu::query()->create([
+            'parent_id' => 0,
             'title' => '菜单管理',
-            'icon' => 'fa-balance-scale',
+            'icon' => 'fa-bars',
             'uri' => 'auth/menu',
             'permission' => ''
         ]);
@@ -25,7 +33,7 @@ class MenuSeeder extends Seeder
         $parentMenu = Menu::query()->create([
             'parent_id' => 0,
             'title' => '基本配置',
-            'icon' => 'fa-cube',
+            'icon' => 'fa-cog',
             'uri' => '',
             'permission' => ''
         ]);
@@ -33,20 +41,26 @@ class MenuSeeder extends Seeder
         $parentMenu->children()->createMany([
             [
                 'title' => '权限管理',
-                'icon' => 'fa-tasks',
+                'icon' => 'fa-ban',
                 'uri' => 'auth/permissions',
                 'permission' => ''
             ],
             [
                 'title' => '角色管理',
-                'icon' => 'fa-cogs',
+                'icon' => 'fa-user',
                 'uri' => 'auth/roles',
                 'permission' => ''
             ],
             [
                 'title' => '管理员管理',
-                'icon' => 'fa-asl-interpreting',
+                'icon' => 'fa-user-plus',
                 'uri' => 'admins',
+                'permission' => ''
+            ],
+            [
+                'title' => '访问日志',
+                'icon' => 'fa-window-restore',
+                'uri' => 'auth/logs',
                 'permission' => ''
             ]
         ]);
@@ -54,7 +68,7 @@ class MenuSeeder extends Seeder
         $parentMenu = Menu::query()->create([
             'parent_id' => 0,
             'title' => '用户管理',
-            'icon' => 'fa-asl-interpreting',
+            'icon' => 'fa-users',
             'uri' => '/',
             'permission' => ''
         ]);
@@ -62,13 +76,13 @@ class MenuSeeder extends Seeder
         $parentMenu->children()->createMany([
             [
                 'title' => '用户管理',
-                'icon' => 'fa-asl-interpreting',
+                'icon' => 'fa-user',
                 'uri' => 'users',
                 'permission' => ''
             ],
             [
                 'title' => '师傅管理',
-                'icon' => 'fa-asl-interpreting',
+                'icon' => 'fa-vcard',
                 'uri' => 'masters',
                 'permission' => ''
             ]
@@ -76,7 +90,7 @@ class MenuSeeder extends Seeder
         $parentMenu = Menu::query()->create([
             'parent_id' => 0,
             'title' => '分类管理',
-            'icon' => 'fa-cube',
+            'icon' => 'fa-sitemap',
             'uri' => '',
             'permission' => ''
         ]);
@@ -90,13 +104,13 @@ class MenuSeeder extends Seeder
             ],
             [
                 'title' => '类别管理',
-                'icon' => 'fa-cogs',
+                'icon' => 'fa-tags',
                 'uri' => 'categories',
                 'permission' => ''
             ],
             [
                 'title' => '服务类型管理',
-                'icon' => 'fa-asl-interpreting',
+                'icon' => 'fa-braille',
                 'uri' => 'service_types',
                 'permission' => ''
             ]
@@ -122,7 +136,7 @@ class MenuSeeder extends Seeder
         $parentMenu = Menu::query()->create([
             'parent_id' => 0,
             'title' => '订单管理',
-            'icon' => 'fa-shopping-cart',
+            'icon' => 'fa-shopping-bag',
             'uri' => '',
             'permission' => ''
         ]);
@@ -136,7 +150,7 @@ class MenuSeeder extends Seeder
             ],
             [
                 'title' => '退款管理',
-                'icon' => 'fa-bandcamp',
+                'icon' => 'fa-rmb',
                 'uri' => 'refund/orders',
                 'permission' => ''
             ]
@@ -145,7 +159,7 @@ class MenuSeeder extends Seeder
         $parentMenu = Menu::query()->create([
             'parent_id' => 0,
             'title' => '提现管理',
-            'icon' => 'fa-shopping-cart',
+            'icon' => 'fa-money',
             'uri' => '',
             'permission' => ''
         ]);
@@ -153,7 +167,7 @@ class MenuSeeder extends Seeder
         $parentMenu->children()->createMany([
             [
                 'title' => '提现订单',
-                'icon' => 'fa-bandcamp',
+                'icon' => 'fa-rmb',
                 'uri' => 'orders',
                 'permission' => ''
             ]

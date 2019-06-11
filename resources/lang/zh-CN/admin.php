@@ -15,6 +15,7 @@ return [
     'list' => '列表',
     'new' => '新增',
     'create' => '创建',
+    'update' => '编辑',
     'delete' => '删除',
     'remove' => '移除',
     'edit' => '编辑',
