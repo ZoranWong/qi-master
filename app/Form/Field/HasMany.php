@@ -8,11 +8,11 @@ use Encore\Admin\Form\NestedForm;
 
 class HasMany extends \Encore\Admin\Form\Field\HasMany
 {
+    protected $viewMode = 'customizeHasMany';
+
     public function __construct($relationName, $arguments = [])
     {
         $this->views['customizeHasMany'] = 'form.hasmany';
-
-        $this->default = 'customizeHasMany';
 
         parent::__construct($relationName, $arguments);
     }

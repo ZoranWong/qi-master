@@ -117,7 +117,11 @@ class CategoriesController extends Controller
         $form->tab('类别商品属性', function (Form $form) {
             $form->customizeHasMany('properties', '属性', function (Form\NestedForm $form) {
                 $form->text('title', '属性名称');
-            })->setViewMode('customizeHasMany');
+                $form->customizeTable('value', '属性值(多项)', function (Form\NestedForm $form) {
+                    $form->text('title');
+                    $form->currency('price')->symbol('￥');
+                })->default('');
+            });
         });
 
         $form->saving(function ($form) {
