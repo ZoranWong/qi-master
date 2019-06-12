@@ -39,14 +39,14 @@ class Table extends \Encore\Admin\Form\Field\Table
          */
         $script = <<<EOT
 var index = 0;
-$('#has-many-{$this->column}').on('click', '.add', function () {
-
+$('#has-many-{$this->column}').on('click', '.add-option', function () {
     var tpl = $('template.{$this->column}-tpl');
 
     index++;
 
     var template = tpl.html().replace(/{$defaultKey}/g, index);
-    $('.has-many-{$this->column}-forms').append(template);
+    $(this).closest('.has-many-{$this->column}-forms').append(template);
+//    $('.has-many-{$this->column}-forms').append(template);
     {$templateScript}
 });
 
