@@ -118,14 +118,15 @@ class CategoriesController extends Controller
             $form->customizeHasMany('properties', '属性', function (Form\NestedForm $form) {
                 $form->text('title', '属性名称');
                 $form->customizeTable('value', '属性值(多项)', function (Form\NestedForm $form) {
-                    $form->text('title');
-                    $form->currency('price')->symbol('￥');
-                })->default('');
+                    $form->text('title', '属性小名称');
+//                    $form->text('title')->setElementName("properties[1][value][0][title]");
+                    $form->currency('价格')->symbol('￥');
+                });
             });
         });
 
         $form->saving(function ($form) {
-//            dd($form);
+            dd($form);
         });
 
         return $form;
@@ -165,7 +166,7 @@ class CategoriesController extends Controller
         });
 
         $form->saving(function (Form $form) {
-//            dd($form);
+            dd($form);
         });
 
         return $form;

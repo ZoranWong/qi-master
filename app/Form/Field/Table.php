@@ -50,7 +50,9 @@ $('#has-many-{$this->column}').on('click', '.add', function () {
     {$templateScript}
 });
 
-$('#has-many-{$this->column}').on('click', '.remove', function () {
+$('#has-many-{$this->column}').on('click', '.remove-option', function () {
+    console.log('当前按钮选择器：','#has-many-{$this->column}');
+    console.log('当前选择器：','.has-many-{$this->column}-form');
     $(this).closest('.has-many-{$this->column}-form').hide();
     $(this).closest('.has-many-{$this->column}-form').find('.$removeClass').val(1);
 });
@@ -60,15 +62,8 @@ EOT;
         Admin::script($script);
     }
 
-    /**
-     * 自选择视图模式
-     * @param string $viewMode 视图选择
-     * @return Table
-     */
-    public function setViewMode(string $viewMode)
+    public function getElementName()
     {
-        $this->viewMode = $viewMode;
-
-        return $this;
+        return $this->elementName;
     }
 }

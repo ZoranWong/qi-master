@@ -18,18 +18,6 @@ class HasMany extends \Encore\Admin\Form\Field\HasMany
     }
 
     /**
-     * 自选择视图模式
-     * @param string $viewMode 视图选择
-     * @return HasMany
-     */
-    public function setViewMode(string $viewMode)
-    {
-        $this->viewMode = $viewMode;
-
-        return $this;
-    }
-
-    /**
      * Setup default template script.
      *
      * @param string $templateScript
@@ -66,6 +54,8 @@ $('#has-many-{$this->column}').off('click', '.edit').on('click', '.edit', functi
 });
 
 $('#has-many-{$this->column}').off('click', '.remove').on('click', '.remove', function () {
+    console.log('当前按钮选择器2：','#has-many-{$this->column}');
+    console.log('当前选择器2：','.has-many-{$this->column}-form');
     $(this).closest('.has-many-{$this->column}-form').hide();
     $(this).closest('.has-many-{$this->column}-form').find('.$removeClass').val(1);
 });

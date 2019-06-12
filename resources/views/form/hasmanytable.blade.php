@@ -5,7 +5,11 @@
 </style>
 
 <div class="row">
-    <div class="{{$viewClass['label']}}"><h4 class="pull-right">{{ $label }}</h4></div>
+    <div class="{{$viewClass['label']}}">
+        <div class="form-group" style="margin-top: 15px;">
+            <label class="pull-right control-label">{{ $label }}</label>
+        </div>
+    </div>
     <div class="{{$viewClass['field']}}">
         <div id="has-many-{{$column}}" style="margin-top: 15px;">
             <table class="table table-has-many has-many-{{$column}}">
@@ -42,8 +46,8 @@
 
                         @if($options['allowDelete'])
                             <td class="form-group">
-                                <div>
-                                    <div class="remove btn btn-warning btn-sm pull-right"><i
+                                <div style="padding-top: 33%;">
+                                    <div class="remove-option btn btn-warning btn-sm pull-right"><i
                                             class="fa fa-trash">&nbsp;</i>{{ trans('admin.remove') }}</div>
                                 </div>
                             </td>
@@ -59,8 +63,8 @@
                     {!! $template !!}
 
                     <td class="form-group">
-                        <div>
-                            <div class="remove btn btn-warning btn-sm pull-right"><i
+                        <div style="padding-top: 33%;">
+                            <div class="remove-option btn btn-warning btn-sm pull-right"><i
                                     class="fa fa-trash">&nbsp;</i>{{ trans('admin.remove') }}</div>
                         </div>
                     </td>
