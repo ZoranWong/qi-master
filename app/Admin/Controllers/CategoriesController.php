@@ -115,10 +115,9 @@ class CategoriesController extends Controller
         $form = $this->basicForm();
 
         $form->tab('类别商品属性', function (Form $form) {
-            $form->hasMany('properties', '属性', function (Form\NestedForm $form) {
+            $form->customizeHasMany('properties', '属性', function (Form\NestedForm $form) {
                 $form->text('title', '属性名称');
-//                $form->html('<button class="btn btn-primary btn-sm pull-right"><i class="fa fa-edit"></i>修改</button>');
-            })->setView('form.hasmany');
+            })->setViewMode('customizeHasMany');
         });
 
         $form->saving(function ($form) {

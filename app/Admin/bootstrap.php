@@ -21,3 +21,7 @@
 Encore\Admin\Form::forget(['map']);
 
 \Encore\Admin\Form::extend('table', \Encore\Admin\Form\Field\Table::class);
+
+\Encore\Admin\Form::extend('customizeHasMany', \App\Form\Field\HasMany::class);
+
+\Encore\Admin\Form::extend('hasmany', \App\Form\Field\HasMany::class);
