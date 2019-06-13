@@ -16,7 +16,7 @@ class MenuSeeder extends Seeder
 
         Menu::query()->create([
             'parent_id' => 0,
-            'title' => 'Dashboard',
+            'title' => '首页',
             'icon' => 'fa-dashboard',
             'uri' => '/',
             'permission' => ''
@@ -147,12 +147,6 @@ class MenuSeeder extends Seeder
                 'icon' => 'fa-bandcamp',
                 'uri' => 'orders',
                 'permission' => ''
-            ],
-            [
-                'title' => '退款管理',
-                'icon' => 'fa-rmb',
-                'uri' => 'refund/orders',
-                'permission' => ''
             ]
         ]);
 
@@ -168,7 +162,7 @@ class MenuSeeder extends Seeder
             [
                 'title' => '提现订单',
                 'icon' => 'fa-rmb',
-                'uri' => 'orders',
+                'uri' => 'withdraw_orders',
                 'permission' => ''
             ]
         ]);

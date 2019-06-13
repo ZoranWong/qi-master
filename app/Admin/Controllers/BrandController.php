@@ -15,7 +15,7 @@ class BrandController extends AdminController
      *
      * @var string
      */
-    protected $title = 'App\Models\Brand';
+    protected $title = '品牌管理';
 
     /**
      * Make a grid builder.
@@ -26,15 +26,11 @@ class BrandController extends AdminController
     {
         $grid = new Grid(new Brand);
 
-        $grid->column('id', __('Id'));
-        $grid->column('category_id', __('Category id'));
-        $grid->column('name', __('Name'));
-        $grid->column('sort', __('Sort'));
-        $grid->column('status', __('Status'));
-        $grid->column('deleted_at', __('Deleted at'));
-        $grid->column('created_at', __('Created at'));
-        $grid->column('updated_at', __('Updated at'));
-
+        $grid->column('id', 'Id');
+        $grid->column('category_id', '子分类');
+        $grid->column('name', '名称');
+        $grid->column('sort', '排序')->sort(true);
+        $grid->column('status', '状态');
         return $grid;
     }
 

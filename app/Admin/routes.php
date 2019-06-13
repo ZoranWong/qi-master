@@ -13,34 +13,61 @@ Route::group([
         $router->get('/', 'HomeController@index');
         $router->get('users', 'UsersController@index');
 
-        $router->get('masters', 'MasterController@index');
+        /**
+         * 师傅管理页面
+         * */
+        $router->group(['prefix' => 'masters'], function (Router $router) {
+            $router->get('/', 'MasterController@index');
+        });
 
-        $router->get('products', 'ProductsController@index');
-        $router->get('products/create', 'ProductsController@create');
-        $router->post('products', 'ProductsController@store');
-        $router->get('products/{id}/edit', 'ProductsController@edit');
-        $router->put('products/{id}', 'ProductsController@update');
 
-        $router->get('brands', 'BrandController@index');
-        $router->get('brands/create', 'BrandController@create');
-        $router->post('brands', 'BrandController@store');
-        $router->get('brands/{id}/edit', 'BrandController@edit');
-        $router->put('brands/{id}', 'BrandController@update');
+        /**
+         * 产品管理
+         * */
+        $router->group(['prefix'=> 'products'], function(Router $router) {
+            $router->get('/', 'ProductsController@index');
+            $router->get('/create', 'ProductsController@create');
+            $router->post('/', 'ProductsController@store');
+            $router->get('/{id}/edit', 'ProductsController@edit');
+            $router->put('/{id}', 'ProductsController@update');
+        });
 
-        $router->get('service_types', 'ServiceTypeController@index');
-        $router->get('service_types/create', 'ServiceTypeController@create');
+        /**
+         * 品牌管理页面
+         * */
+        $router->group(['prefix' => 'brands'], function (Router $router) {
+            $router->get('/', 'BrandController@index');
+            $router->get('/create', 'BrandController@create');
+            $router->post('/', 'BrandController@store');
+            $router->get('/{id}/edit', 'BrandController@edit');
+            $router->put('/{id}', 'BrandController@update');
+        });
 
-        $router->get('orders', 'OrdersController@index')->name('admin.orders.index');
-        $router->get('orders/{order}', 'OrdersController@show')->name('admin.orders.show');
-        $router->post('orders/{order}/ship', 'OrdersController@ship')->name('admin.orders.ship');
-        $router->post('orders/{order}/refund', 'OrdersController@handleRefund')->name('admin.orders.handle_refund');
 
-        $router->get('coupon_codes', 'CouponCodesController@index');
-        $router->post('coupon_codes', 'CouponCodesController@store');
-        $router->get('coupon_codes/create', 'CouponCodesController@create');
-        $router->get('coupon_codes/{id}/edit', 'CouponCodesController@edit');
-        $router->put('coupon_codes/{id}', 'CouponCodesController@update');
-        $router->delete('coupon_codes/{id}', 'CouponCodesController@destroy');
+
+        /**
+         * 订单管理页面
+         * */
+        $router->group(['prefix' => 'orders'], function (Router $router) {
+            $router->get('/', 'OrdersController@index')->name('admin.orders.index');
+            $router->get('/{order}', 'OrdersController@show')->name('admin.orders.show');
+        });
+
+        /**
+         * 提现管理
+         * */
+        $router->group(['prefix' => 'withdraw_orders'], function (Router $router) {
+            $router->get('/', 'WithdrawDepositOrderController@index');
+            $router->get('/{order}', 'WithdrawDepositOrderController@show');
+        });
+
+
+//        $router->get('coupon_codes', 'CouponCodesController@index');
+//        $router->post('coupon_codes', 'CouponCodesController@store');
+//        $router->get('coupon_codes/create', 'CouponCodesController@create');
+//        $router->get('coupon_codes/{id}/edit', 'CouponCodesController@edit');
+//        $router->put('coupon_codes/{id}', 'CouponCodesController@update');
+//        $router->delete('coupon_codes/{id}', 'CouponCodesController@destroy');
         /**
          * 类目管理
          */

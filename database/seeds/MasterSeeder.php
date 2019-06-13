@@ -1,5 +1,5 @@
 <?php
-
+use App\Models\Master;
 use Illuminate\Database\Seeder;
 
 class MasterSeeder extends Seeder
@@ -12,5 +12,6 @@ class MasterSeeder extends Seeder
     public function run()
     {
         //
+        factory(Master::class, 100)->create();
     }
 }

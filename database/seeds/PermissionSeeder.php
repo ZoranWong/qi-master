@@ -105,6 +105,12 @@ class PermissionSeeder extends Seeder
                 'http_method' => '',
                 'http_path' => '/masters*'
             ],
+            [
+                'name' => '提现管理',
+                'slug' => 'withdraw_orders.any',
+                'http_method' => '',
+                'http_path' => '/withdraw_orders*'
+            ]
         ];
     }
 }
