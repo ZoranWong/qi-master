@@ -6,6 +6,7 @@ use App\Form\Field\NestedForm;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Classification;
+use App\Models\ServiceType;
 use Encore\Admin\Admin;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
@@ -33,18 +34,6 @@ class CategoriesController extends Controller
     {
         return $content->header(trans('admin.categories'))->description(trans('admin.detail'))
             ->body($this->detail($category));
-    }
-
-    public function properties(Content $content, Category $category)
-    {
-        return $content->header(trans('admin.categories'))->description('附加属性')
-            ->body($this->propertyForm()->edit($category->getKey()));
-    }
-
-    public function requirements(Content $content, Category $category)
-    {
-        return $content->header(trans('admin.categories'))->description('服务要求')
-            ->body($this->form()->edit($category->getKey()));
     }
 
     public function edit(Content $content, Category $category)
@@ -101,11 +90,6 @@ class CategoriesController extends Controller
 
         $grid->column('sort', trans('admin.sort'));
 
-        $grid->actions(function (Grid\Displayers\Actions $actions) {
-            $actions->append("<a href='/admin/categories/{$actions->getKey()}/properties' title='编辑类别商品属性' class='grid-row-view grid-action'><i class='fa fa-edit'></i></a>");
-            $actions->append("<a href='/admin/categories/{$actions->getKey()}/requirements' title='编辑服务要求' class='grid-row-view grid-action'><i class='fa fa-edit'></i></a>");
-        });
-
         Admin::css('.grid-action {padding-right: 3px;}');
 
         return $grid;
@@ -116,7 +100,7 @@ class CategoriesController extends Controller
         $form = $this->basicForm();
 
         $form->tab('类别商品属性', function (Form $form) {
-            $form->customizeHasMany('properties', '属性', function (NestedForm $form) {
+            $form->customizeHasMany('properties', '商品属性', function (NestedForm $form) {
                 $form->text('title', '属性名称')->rules('required');
                 $form->customizeTable('value', '属性值(多项)', function (NestedForm $nestedForm) use ($form) {
                     $nestedForm->setRelationName(function (&$relationName) {
@@ -128,10 +112,30 @@ class CategoriesController extends Controller
                         $elementName = "{$relationName}[{$key}]$elementName";
                     });
                     $nestedForm->text('title', '属性小名称')->rules('required');
-                    $nestedForm->currency('price')->symbol('￥')->rules('required');
-                })->setNestedTable(NestedForm::class);
-            })->setNestedTable(NestedForm::class);
-        });
+                    $nestedForm->currency('price', '价格')->symbol('￥')->rules('required');
+                });
+            });
+        })
+            ->tab('类别专属服务要求', function (Form $form) {
+                $form->customizeHasMany('requirements', '服务类型要求', function (NestedForm $form) {
+                    $serviceTypes = ServiceType::all()->pluck('name', 'id');
+                    $form->select('service_id', '服务类型')->options($serviceTypes);
+                    $form->text('name', '要求名称')->rules('required');
+                    $form->customizeTable('value', '要求项(多项)', function (NestedForm $nestedForm) use ($form) {
+                        $nestedForm->setRelationName(function (&$relationName) {
+                            $relationName = "[{$relationName}]";
+                        });
+                        $nestedForm->setElementNameExtendCallback(function (&$elementName) use ($form) {
+                            $relationName = $form->getRelationName();
+                            $key = $form->getKey();
+                            $elementName = "{$relationName}[{$key}]$elementName";
+                        });
+                        // 所有的服务类型
+                        $nestedForm->text('title', '要求小项')->rules('required');
+                        $nestedForm->currency('price', '价格')->symbol('￥')->rules('required');
+                    });
+                });
+            });
 
         $form->saving(function ($form) {
             dd($form);

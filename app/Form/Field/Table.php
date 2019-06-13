@@ -32,15 +32,26 @@ class Table extends \Encore\Admin\Form\Field\Table
          */
         $script = <<<EOT
 var index = 0;
+
 $(document).on('click', '.has-many-{$this->column} .add-option', function () {
     var tpl = $('template.{$this->column}-tpl');
-
+    
     index++;
-
+    
     var template = tpl.html().replace(/{$defaultKey}/g, index);
     
-    $(this).closest('.has-many-{$this->column}').find('tbody').append(template);
-//    $('.has-many-{$this->column}-forms').append(template);
+    var tbodyEle = $(this).closest('.has-many-{$this->column}').find('tbody');
+    
+    tbodyEle.append(template);
+    
+    var dataIndex = tbodyEle.parent('table').attr('data-index');
+    
+    var fieldElements = tbodyEle.children("tr:last-child").find('.{$this->column}');
+    fieldElements.each(function(){
+        var name = $(this).attr('name');
+        $(this).attr('name',name.replace(/\[\d+\]/,'['+dataIndex+']'));
+    });
+    
     {$templateScript}
 });
 

@@ -54,12 +54,6 @@
         </div>
     </template>
 
-    <template class="{{$column}}-edit-tpl">
-        <form action="">
-
-        </form>
-    </template>
-
     @if($options['allowCreate'])
         <div class="form-group">
             <label class="{{$viewClass['label']}} control-label"></label>

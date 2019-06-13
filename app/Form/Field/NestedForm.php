@@ -74,4 +74,26 @@ class NestedForm extends \Encore\Admin\Form\NestedForm
             ->setElementName($elementName)
             ->setElementClass($elementClass);
     }
+
+    /**
+     * Get the value of the model's primary key.
+     *
+     * @return mixed|null
+     */
+    public function getKey()
+    {
+        if ($this->model) {
+            $key = $this->model->getKey();
+        }
+
+        if (!is_null($this->key)) {
+            $key = $this->key;
+        }
+
+        if (isset($key)) {
+            return $key;
+        }
+
+        return 'new_' . static::DEFAULT_KEY_NAME;
+    }
 }

@@ -11,7 +11,7 @@ use App\Form\Field\NestedForm;
  */
 trait HasManyExtendTrait
 {
-    private $nestedTableClass = \Encore\Admin\Form\NestedForm::class;
+    private $nestedTableClass = NestedForm::class;
 
     /**
      * 设置NestedTable的类型，使得该子类仍然适用于原\Encore\Admin\Form\NestedForm类

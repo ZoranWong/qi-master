@@ -5,6 +5,7 @@ namespace App\Form\Field;
 
 use App\Models\Traits\HasManyExtendTrait;
 use Encore\Admin\Admin;
+use Encore\Admin\Form\NestedForm;
 
 class HasMany extends \Encore\Admin\Form\Field\HasMany
 {
@@ -29,7 +30,8 @@ class HasMany extends \Encore\Admin\Form\Field\HasMany
     protected function setupScriptForCustomizeHasManyView($templateScript)
     {
         $removeClass = NestedForm::REMOVE_FLAG_CLASS;
-        $defaultKey = 'new_\d+';
+//        $defaultKey = 'new_\d+';
+        $defaultKey = NestedForm::DEFAULT_KEY_NAME;
 
         /**
          * When add a new sub form, replace all element key in new sub form.
@@ -39,13 +41,21 @@ class HasMany extends \Encore\Admin\Form\Field\HasMany
          * {count} is increment number of current sub form count.
          */
         $script = <<<EOT
-var propertiesCount = 0;
+        
+var propertiesCount = $(".has-many-{$this->column}-form").length;//初始化节点数目
+
+$(".has-many-{$this->column}-form").each(function(index) {
+    $(this).find('table').attr('data-index',index+1);
+});
+
 $(document).off('click', '#has-many-{$this->column} .add').on('click', '#has-many-{$this->column} .add', function () {
 
     var tpl = $('template.{$this->column}-tpl');
     propertiesCount++;
+    console.log('propertiesCount:',propertiesCount);
 
-    var template = tpl.html().replace(/{$defaultKey}/g, index);
+//    var template = tpl.html().replace(/{$defaultKey}/g, propertiesCount);
+    var template = tpl.html().replace(/new_{$defaultKey}/g, propertiesCount);
     template = $(template);
     template.find('table').attr('data-index', propertiesCount);
     $('.has-many-{$this->column}-forms').append(template);
