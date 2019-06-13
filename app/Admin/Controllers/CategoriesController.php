@@ -105,7 +105,7 @@ class CategoriesController extends Controller
             $actions->append("<a href='/admin/categories/{$actions->getKey()}/requirements' title='编辑服务要求' class='grid-row-view grid-action'><i class='fa fa-edit'></i></a>");
         });
 
-        Admin::style('.grid-action {padding-right: 3px;}');
+        Admin::css('.grid-action {padding-right: 3px;}');
 
         return $grid;
     }

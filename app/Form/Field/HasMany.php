@@ -38,7 +38,7 @@ class HasMany extends \Encore\Admin\Form\Field\HasMany
          */
         $script = <<<EOT
 var index = 0;
-$('#has-many-{$this->column}').off('click', '.add').on('click', '.add', function () {
+$(document).off('click', '#has-many-{$this->column} .add').on('click', '#has-many-{$this->column} .add', function () {
 
     var tpl = $('template.{$this->column}-tpl');
     index++;
@@ -48,12 +48,12 @@ $('#has-many-{$this->column}').off('click', '.add').on('click', '.add', function
     {$templateScript}
 });
 
-$('#has-many-{$this->column}').off('click', '.edit').on('click', '.edit', function () {
+$(document).off('click', '#has-many-{$this->column} .edit').on('click', '#has-many-{$this->column} .edit', function () {
     var tpl = $('template.{$this->column}-edit-tpl');
     console.log(tpl);
 });
 
-$('#has-many-{$this->column}').off('click', '.remove').on('click', '.remove', function () {
+$(document).off('click', '#has-many-{$this->column} .remove').on('click', '#has-many-{$this->column} .remove', function () {
     console.log('当前按钮选择器2：','#has-many-{$this->column}');
     console.log('当前选择器2：','.has-many-{$this->column}-form');
     $(this).closest('.has-many-{$this->column}-form').hide();

@@ -39,18 +39,19 @@ class Table extends \Encore\Admin\Form\Field\Table
          */
         $script = <<<EOT
 var index = 0;
-$('#has-many-{$this->column}').on('click', '.add-option', function () {
+$(document).on('click', '#has-many-{$this->column} .add-option', function () {
     var tpl = $('template.{$this->column}-tpl');
 
     index++;
 
     var template = tpl.html().replace(/{$defaultKey}/g, index);
-    $(this).closest('.has-many-{$this->column}-forms').append(template);
+    console.log(template);
+    $(this).closest('#has-many-{$this->column}').find('tbody').append(template);
 //    $('.has-many-{$this->column}-forms').append(template);
     {$templateScript}
 });
 
-$('#has-many-{$this->column}').on('click', '.remove-option', function () {
+$(document).on('click', '#has-many-{$this->column} .remove-option', function () {
     console.log('当前按钮选择器：','#has-many-{$this->column}');
     console.log('当前选择器：','.has-many-{$this->column}-form');
     $(this).closest('.has-many-{$this->column}-form').hide();
