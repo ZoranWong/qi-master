@@ -11,7 +11,8 @@
         </div>
     </div>
     <div class="{{$viewClass['field']}}">
-        <div id="has-many-{{$column}}" style="margin-top: 15px;">
+        <div class="has-many-{{$column}}" style="margin-top: 15px;">
+            {{--        <div id="has-many-{{$column}}" style="margin-top: 15px;">--}}
             <table class="table table-has-many has-many-{{$column}}">
                 <thead>
                 <tr>
@@ -74,8 +75,8 @@
             @if($options['allowCreate'])
                 <div class="form-group">
                     <div class="{{$viewClass['field']}}">
-                        <div class="add-option btn btn-success btn-sm"><i
-                                class="fa fa-save"></i>&nbsp;{{ trans('admin.new') }}
+                        <div type="button" class="add-option btn btn-success btn-sm" @click="addTpl">
+                            <i class="fa fa-save"></i>&nbsp;{{ trans('admin.new') }}
                         </div>
                     </div>
                 </div>

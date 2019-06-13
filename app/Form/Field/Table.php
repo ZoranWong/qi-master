@@ -2,12 +2,12 @@
 
 namespace App\Form\Field;
 
+use App\Models\Traits\HasManyExtendTrait;
 use Encore\Admin\Admin;
-use Encore\Admin\Form\NestedForm;
 
 class Table extends \Encore\Admin\Form\Field\Table
 {
-    protected $columnAlias;
+    use HasManyExtendTrait;
 
     protected $viewMode = 'customizeTable';
 
@@ -15,14 +15,7 @@ class Table extends \Encore\Admin\Form\Field\Table
     {
         $this->views['customizeTable'] = 'form.hasmanytable';
 
-        $this->columnAlias = $column;
-
         parent::__construct($column, $arguments);
-    }
-
-    public function setColumnAlias(string $columnAlias)
-    {
-        $this->columnAlias = $columnAlias;
     }
 
     public function setupScriptForCustomizeTableView($templateScript)
@@ -39,32 +32,42 @@ class Table extends \Encore\Admin\Form\Field\Table
          */
         $script = <<<EOT
 var index = 0;
-$(document).on('click', '#has-many-{$this->column} .add-option', function () {
+$(document).on('click', '.has-many-{$this->column} .add-option', function () {
     var tpl = $('template.{$this->column}-tpl');
-    var form = $(this).closest('.row').find('table');
-    var formIndex = form.data('index');
+
     index++;
 
-    var template = tpl.html().replace(/{$defaultKey}/g, formIndex + '_' +index);
-    console.log(template);
-    $(this).closest('#has-many-{$this->column}').find('tbody').append(template);
+    var template = tpl.html().replace(/{$defaultKey}/g, index);
+    
+    $(this).closest('.has-many-{$this->column}').find('tbody').append(template);
 //    $('.has-many-{$this->column}-forms').append(template);
     {$templateScript}
 });
 
-$(document).on('click', '#has-many-{$this->column} .remove-option', function () {
+$(document).on('click', '.has-many-{$this->column} .remove-option', function () {
     console.log('当前按钮选择器：','#has-many-{$this->column}');
     console.log('当前选择器：','.has-many-{$this->column}-form');
     $(this).closest('.has-many-{$this->column}-form').hide();
     $(this).closest('.has-many-{$this->column}-form').find('.$removeClass').val(1);
 });
+
 EOT;
 
         Admin::script($script);
     }
 
-    public function getElementName()
+    protected function buildNestedForm($column, \Closure $builder, $key = null)
     {
-        return $this->elementName;
+        /** @var \Encore\Admin\Form\NestedForm $form */
+        $form = new $this->nestedTableClass($column);
+
+        $form->setForm($this->form)
+            ->setKey($key);
+
+        call_user_func($builder, $form);
+
+        $form->hidden(NestedForm::REMOVE_FLAG_NAME)->default(0)->addElementClass(NestedForm::REMOVE_FLAG_CLASS);
+
+        return $form;
     }
 }

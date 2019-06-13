@@ -3,11 +3,13 @@
 
 namespace App\Form\Field;
 
+use App\Models\Traits\HasManyExtendTrait;
 use Encore\Admin\Admin;
-use Encore\Admin\Form\NestedForm;
 
 class HasMany extends \Encore\Admin\Form\Field\HasMany
 {
+    use HasManyExtendTrait;
+
     protected $viewMode = 'customizeHasMany';
 
     public function __construct($relationName, $arguments = [])
@@ -65,5 +67,32 @@ $(document).off('click', '#has-many-{$this->column} .remove').on('click', '#has-
 EOT;
 
         Admin::script($script);
+    }
+
+    /**
+     * Build a Nested form.
+     *
+     * @param string $column
+     * @param \Closure $builder
+     * @param null $model
+     *
+     * @return NestedForm
+     */
+    protected function buildNestedForm($column, \Closure $builder, $model = null)
+    {
+//        $form = new NestedForm($column, $model);
+
+        /** @var \Encore\Admin\Form\NestedForm $form */
+        $form = new $this->nestedTableClass($column, $model);
+
+        $form->setForm($this->form);
+
+        call_user_func($builder, $form);
+
+        $form->hidden($this->getKeyName());
+
+        $form->hidden(NestedForm::REMOVE_FLAG_NAME)->default(0)->addElementClass(NestedForm::REMOVE_FLAG_CLASS);
+
+        return $form;
     }
 }

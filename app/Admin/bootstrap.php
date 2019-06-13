@@ -25,3 +25,5 @@ Encore\Admin\Form::forget(['map']);
 \Encore\Admin\Form::extend('customizeHasMany', \App\Form\Field\HasMany::class);
 
 \Encore\Admin\Form::extend('customizeTable', \App\Form\Field\Table::class);
+
+\Encore\Admin\Form::extend('customizeNestedForm', \App\Form\Field\NestedForm::class);

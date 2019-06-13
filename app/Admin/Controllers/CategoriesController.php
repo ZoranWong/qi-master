@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Form\Field\NestedForm;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Classification;
@@ -115,14 +116,21 @@ class CategoriesController extends Controller
         $form = $this->basicForm();
 
         $form->tab('类别商品属性', function (Form $form) {
-            $form->customizeHasMany('properties', '属性', function (Form\NestedForm $form) {
-                $form->text('title', '属性名称');
-                $form->customizeTable('value', '属性值(多项)', function (Form\NestedForm $form) {
-                    $form->text('title', '属性小名称');
-//                    $form->text('title')->setElementName("properties[1][value][0][title]");
-                    $form->currency('price', '价格')->symbol('￥');
-                });
-            });
+            $form->customizeHasMany('properties', '属性', function (NestedForm $form) {
+                $form->text('title', '属性名称')->rules('required');
+                $form->customizeTable('value', '属性值(多项)', function (NestedForm $nestedForm) use ($form) {
+                    $nestedForm->setRelationName(function (&$relationName) {
+                        $relationName = "[{$relationName}]";
+                    });
+                    $nestedForm->setElementNameExtendCallback(function (&$elementName) use ($form) {
+                        $relationName = $form->getRelationName();
+                        $key = $form->getKey();
+                        $elementName = "{$relationName}[{$key}]$elementName";
+                    });
+                    $nestedForm->text('title', '属性小名称')->rules('required');
+                    $nestedForm->currency('price')->symbol('￥')->rules('required');
+                })->setNestedTable(NestedForm::class);
+            })->setNestedTable(NestedForm::class);
         });
 
         $form->saving(function ($form) {
