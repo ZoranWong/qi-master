@@ -99,23 +99,24 @@ class CategoriesController extends Controller
     {
         $form = $this->basicForm();
 
-        $form->tab('类别商品属性', function (Form $form) {
-            $form->customizeHasMany('properties', '商品属性', function (NestedForm $form) {
-                $form->text('title', '属性名称')->rules('required');
-                $form->customizeTable('value', '属性值(多项)', function (NestedForm $nestedForm) use ($form) {
-                    $nestedForm->setRelationName(function (&$relationName) {
-                        $relationName = "[{$relationName}]";
-                    });
-                    $nestedForm->setElementNameExtendCallback(function (&$elementName) use ($form) {
-                        $relationName = $form->getRelationName();
-                        $key = $form->getKey();
-                        $elementName = "{$relationName}[{$key}]$elementName";
-                    });
-                    $nestedForm->text('title', '属性小名称')->rules('required');
-                    $nestedForm->currency('price', '价格')->symbol('￥')->rules('required');
+        $form
+            ->tab('类别商品属性', function (Form $form) {
+                $form->customizeHasMany('properties', '商品属性', function (NestedForm $form) {
+                    $form->text('title', '属性名称')->rules('required');
+                    $form->customizeTable('value', '属性值(多项)', function (NestedForm $nestedForm) use ($form) {
+                        $nestedForm->setRelationName(function (&$relationName) {
+                            $relationName = "[{$relationName}]";
+                        });
+                        $nestedForm->setElementNameExtendCallback(function (&$elementName) use ($form) {
+                            $relationName = $form->getRelationName();
+                            $key = $form->getKey();
+                            $elementName = "{$relationName}[{$key}]$elementName";
+                        });
+                        $nestedForm->text('title', '属性小名称')->rules('required');
+                        $nestedForm->currency('price', '价格')->symbol('￥')->rules('required');
+                    })->setSlug('properties');
                 });
-            });
-        })
+            })
             ->tab('类别专属服务要求', function (Form $form) {
                 $form->customizeHasMany('requirements', '服务类型要求', function (NestedForm $form) {
                     $serviceTypes = ServiceType::all()->pluck('name', 'id');
@@ -133,7 +134,7 @@ class CategoriesController extends Controller
                         // 所有的服务类型
                         $nestedForm->text('title', '要求小项')->rules('required');
                         $nestedForm->currency('price', '价格')->symbol('￥')->rules('required');
-                    });
+                    })->setSlug('requirements');
                 });
             });
 

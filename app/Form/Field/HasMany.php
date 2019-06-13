@@ -4,6 +4,7 @@
 namespace App\Form\Field;
 
 use App\Models\Traits\HasManyExtendTrait;
+use Closure;
 use Encore\Admin\Admin;
 use Encore\Admin\Form\NestedForm;
 
@@ -30,8 +31,9 @@ class HasMany extends \Encore\Admin\Form\Field\HasMany
     protected function setupScriptForCustomizeHasManyView($templateScript)
     {
         $removeClass = NestedForm::REMOVE_FLAG_CLASS;
-//        $defaultKey = 'new_\d+';
         $defaultKey = NestedForm::DEFAULT_KEY_NAME;
+
+        $countName = 'propertiesCount' . rand(0, 100);
 
         /**
          * When add a new sub form, replace all element key in new sub form.
@@ -42,7 +44,7 @@ class HasMany extends \Encore\Admin\Form\Field\HasMany
          */
         $script = <<<EOT
         
-var propertiesCount = $(".has-many-{$this->column}-form").length;//初始化节点数目
+var {$countName} = $(".has-many-{$this->column}-form").length;//初始化节点数目
 
 $(".has-many-{$this->column}-form").each(function(index) {
     $(this).find('table').attr('data-index',index+1);
@@ -51,20 +53,15 @@ $(".has-many-{$this->column}-form").each(function(index) {
 $(document).off('click', '#has-many-{$this->column} .add').on('click', '#has-many-{$this->column} .add', function () {
 
     var tpl = $('template.{$this->column}-tpl');
-    propertiesCount++;
-    console.log('propertiesCount:',propertiesCount);
+    {$countName}++;
+    console.log('propertiesCount:',{$countName});
 
-//    var template = tpl.html().replace(/{$defaultKey}/g, propertiesCount);
-    var template = tpl.html().replace(/new_{$defaultKey}/g, propertiesCount);
+//    var template = tpl.html().replace(/{$defaultKey}/g, {$countName});
+    var template = tpl.html().replace(/new_{$defaultKey}/g, {$countName});
     template = $(template);
-    template.find('table').attr('data-index', propertiesCount);
+    template.find('table').attr('data-index', {$countName});
     $('.has-many-{$this->column}-forms').append(template);
     {$templateScript}
-});
-
-$(document).off('click', '#has-many-{$this->column} .edit').on('click', '#has-many-{$this->column} .edit', function () {
-    var tpl = $('template.{$this->column}-edit-tpl');
-    console.log(tpl);
 });
 
 $(document).off('click', '#has-many-{$this->column} .remove').on('click', '#has-many-{$this->column} .remove', function () {
@@ -83,16 +80,14 @@ EOT;
      * Build a Nested form.
      *
      * @param string $column
-     * @param \Closure $builder
+     * @param Closure $builder
      * @param null $model
      *
      * @return NestedForm
      */
-    protected function buildNestedForm($column, \Closure $builder, $model = null)
+    protected function buildNestedForm($column, Closure $builder, $model = null)
     {
-//        $form = new NestedForm($column, $model);
-
-        /** @var \Encore\Admin\Form\NestedForm $form */
+        /** @var NestedForm $form */
         $form = new $this->nestedTableClass($column, $model);
 
         $form->setForm($this->form);

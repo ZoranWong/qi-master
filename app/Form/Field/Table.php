@@ -11,11 +11,18 @@ class Table extends \Encore\Admin\Form\Field\Table
 
     protected $viewMode = 'customizeTable';
 
+    protected $slug = 'default';
+
     public function __construct($column, $arguments = [])
     {
         $this->views['customizeTable'] = 'form.hasmanytable';
 
         parent::__construct($column, $arguments);
+    }
+
+    public function setSlug(string $slug)
+    {
+        $this->slug = $slug;
     }
 
     public function setupScriptForCustomizeTableView($templateScript)
@@ -33,14 +40,15 @@ class Table extends \Encore\Admin\Form\Field\Table
         $script = <<<EOT
 var index = 0;
 
-$(document).on('click', '.has-many-{$this->column} .add-option', function () {
-    var tpl = $('template.{$this->column}-tpl');
+$(document).on('click', '.has-many-{$this->column}-{$this->slug} .add-option', function () {
+
+    var tpl = $('template.{$this->column}-{$this->slug}-tpl');
     
     index++;
     
     var template = tpl.html().replace(/{$defaultKey}/g, index);
     
-    var tbodyEle = $(this).closest('.has-many-{$this->column}').find('tbody');
+    var tbodyEle = $(this).closest('.has-many-{$this->column}-{$this->slug}').find('tbody');
     
     tbodyEle.append(template);
     
@@ -80,5 +88,17 @@ EOT;
         $form->hidden(NestedForm::REMOVE_FLAG_NAME)->default(0)->addElementClass(NestedForm::REMOVE_FLAG_CLASS);
 
         return $form;
+    }
+
+    /**
+     * Render the `HasMany` field for table style.
+     *
+     * @return mixed
+     * @throws \Exception
+     *
+     */
+    protected function renderTable()
+    {
+        return parent::renderTable()->with(['slug' => $this->slug]);
     }
 }

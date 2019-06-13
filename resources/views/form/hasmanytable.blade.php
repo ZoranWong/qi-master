@@ -11,7 +11,7 @@
         </div>
     </div>
     <div class="{{$viewClass['field']}}">
-        <div class="has-many-{{$column}}" style="margin-top: 15px;">
+        <div class="has-many-{{$column}}-{{$slug}}" style="margin-top: 15px;">
             {{--        <div id="has-many-{{$column}}" style="margin-top: 15px;">--}}
             <table class="table table-has-many has-many-{{$column}}">
                 <thead>
@@ -58,7 +58,7 @@
                 </tbody>
             </table>
 
-            <template class="{{$column}}-tpl">
+            <template class="{{$column}}-{{$slug}}-tpl">
                 <tr class="has-many-{{$column}}-form fields-group">
 
                     {!! $template !!}
