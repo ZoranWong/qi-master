@@ -31,10 +31,37 @@ class WithdrawDepositOrderController extends AdminController
             $actions->disableDelete();
         });
         $grid->column('id', 'ID');
-        $grid->column('apply_amount', '申请提现金额');
-        $grid->column('transfer_amount', '实际转账金额');
-        $grid->column('master_id', '申请提现师傅');
-        $grid->column('status', '状态');
+        $grid->column('master.name', '申请提现师傅');
+        $grid->column('apply_amount', '申请提现金额')->display(function ($value) {
+            return number_format($value, 2);
+        });
+        $grid->column('transfer_amount', '实际转账金额')->display(function ($value) {
+            return number_format($value, 2);
+        });
+        $grid->column('created_at', '申请时间');
+        $grid->column('updated_at', '处理时间');
+        $grid->column('status', '状态')->display(function ($value, Grid\Column $column) {
+            $label = 'warning';
+            switch ($value) {
+                case  WithdrawDepositOrder::HANDLING:
+                    {
+                        $label = 'warning';
+                        break;
+                    }
+                case WithdrawDepositOrder::AGREE_WITHDRAW:
+                    {
+                        $label = 'success';
+                        break;
+                    }
+                case WithdrawDepositOrder::REFUSE_WITHDRAW:
+                    {
+                        $label = 'error';
+                        break;
+                    }
+            }
+            return "<span class='label label-{$label}'>" . WithdrawDepositOrder::STATUS_DESC[$value] . "</span>";
+
+        });
         $grid->column('comment', '说明');
         return $grid;
     }
