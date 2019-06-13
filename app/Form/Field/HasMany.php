@@ -27,7 +27,7 @@ class HasMany extends \Encore\Admin\Form\Field\HasMany
     protected function setupScriptForCustomizeHasManyView($templateScript)
     {
         $removeClass = NestedForm::REMOVE_FLAG_CLASS;
-        $defaultKey = NestedForm::DEFAULT_KEY_NAME;
+        $defaultKey = 'new_\d+';
 
         /**
          * When add a new sub form, replace all element key in new sub form.
@@ -44,7 +44,8 @@ $(document).off('click', '#has-many-{$this->column} .add').on('click', '#has-man
     propertiesCount++;
 
     var template = tpl.html().replace(/{$defaultKey}/g, index);
-    template = $(template).attr('data-index', propertiesCount);
+    template = $(template);
+    template.find('table').attr('data-index', propertiesCount);
     $('.has-many-{$this->column}-forms').append(template);
     {$templateScript}
 });

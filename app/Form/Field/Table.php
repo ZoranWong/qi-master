@@ -28,7 +28,7 @@ class Table extends \Encore\Admin\Form\Field\Table
     public function setupScriptForCustomizeTableView($templateScript)
     {
         $removeClass = NestedForm::REMOVE_FLAG_CLASS;
-        $defaultKey = 'new_\d+';
+        $defaultKey = NestedForm::DEFAULT_KEY_NAME;
 
         /**
          * When add a new sub form, replace all element key in new sub form.
@@ -41,10 +41,11 @@ class Table extends \Encore\Admin\Form\Field\Table
 var index = 0;
 $(document).on('click', '#has-many-{$this->column} .add-option', function () {
     var tpl = $('template.{$this->column}-tpl');
-
+    var form = $(this).closest('.row').find('table');
+    var formIndex = form.data('index');
     index++;
 
-    var template = tpl.html().replace(/{$defaultKey}/g, index);
+    var template = tpl.html().replace(/{$defaultKey}/g, formIndex + '_' +index);
     console.log(template);
     $(this).closest('#has-many-{$this->column}').find('tbody').append(template);
 //    $('.has-many-{$this->column}-forms').append(template);
