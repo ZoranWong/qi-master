@@ -180,6 +180,16 @@ class Order extends Model implements HasPresenter
         return $this->hasMany(OrderItem::class);
     }
 
+    public function offerOrders()
+    {
+        return $this->hasMany(OfferOrder::class);
+    }
+
+    public function refundOrders()
+    {
+        return $this->hasMany(RefundOrder::class);
+    }
+
     public function couponCode()
     {
         return $this->belongsTo(CouponCode::class);
