@@ -13,11 +13,19 @@ Route::group([
         $router->get('/', 'HomeController@index');
         $router->get('users', 'UsersController@index');
 
+        $router->get('masters', 'MasterController@index');
+
         $router->get('products', 'ProductsController@index');
         $router->get('products/create', 'ProductsController@create');
         $router->post('products', 'ProductsController@store');
         $router->get('products/{id}/edit', 'ProductsController@edit');
         $router->put('products/{id}', 'ProductsController@update');
+
+        $router->get('brands', 'BrandController@index');
+        $router->get('brands/create', 'BrandController@create');
+        $router->post('brands', 'BrandController@store');
+        $router->get('brands/{id}/edit', 'BrandController@edit');
+        $router->put('brands/{id}', 'BrandController@update');
 
         $router->get('service_types', 'ServiceTypeController@index');
         $router->get('service_types/create', 'ServiceTypeController@create');

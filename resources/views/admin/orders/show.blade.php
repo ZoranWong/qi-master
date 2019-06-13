@@ -56,7 +56,7 @@
                 <td>申请时间</td>
                 <td>服务状态</td>
             </tr>
-            @foreach($order->items as $item)
+            @foreach($order->offerOrders as $item)
                 <tr>
                 </tr>
             @endforeach
@@ -73,7 +73,7 @@
                 <td>支付时间</td>
                 <td>费用类型</td>
             </tr>
-            @foreach($order->items as $item)
+            @foreach($order->payments as $item)
                 <tr>
                 </tr>
             @endforeach
@@ -92,7 +92,7 @@
                 <td>服务状态</td>
                 <td>说明</td>
             </tr>
-            @foreach($order->items as $item)
+            @foreach($order->refundOrders as $item)
                 <tr>
                 </tr>
             @endforeach
