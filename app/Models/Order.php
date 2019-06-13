@@ -4,8 +4,10 @@ namespace App\Models;
 
 use App\Models\Traits\CurrencyUnitTrait;
 use App\Models\Traits\ModelAttributesAccess;
+use App\Presenters\OrderPresenter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use McCool\LaravelAutoPresenter\HasPresenter;
 use Ramsey\Uuid\Uuid;
 
 /**
@@ -66,7 +68,7 @@ use Ramsey\Uuid\Uuid;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Order withoutTrashed()
  * @mixin \Eloquent
  */
-class Order extends Model
+class Order extends Model implements HasPresenter
 {
     use SoftDeletes, ModelAttributesAccess, CurrencyUnitTrait;
 
@@ -125,7 +127,6 @@ class Order extends Model
     {
         $this->currencyColumns = ['total_amount'];
         $this->accessorAndMutator();
-        var_dump($this->hasSetMutator('total_amount'));
         parent::__construct($attributes);
 
     }
@@ -212,13 +213,24 @@ class Order extends Model
         return $no;
     }
 
-//    public function setTotalAmountAttribute($value)
-//    {
-//        $this->attributes['total_amount'] = $value * 100;
-//    }
-//
-//    public function getTotalAmountAttribute()
-//    {
-//        return $this->attributes['total_amount'] / CURRENCY_UNIT_CONVERT_NUM;
-//    }
+    public function setTotalAmountAttribute($value)
+    {
+        $this->attributes['total_amount'] = $value * 100;
+    }
+
+    public function getTotalAmountAttribute()
+    {
+        return $this->attributes['total_amount'] / CURRENCY_UNIT_CONVERT_NUM;
+    }
+
+    /**
+     * Get the presenter class.
+     *
+     * @return string
+     */
+    public function getPresenterClass()
+    {
+        // TODO: Implement getPresenterClass() method.
+        return OrderPresenter::class;
+    }
 }
