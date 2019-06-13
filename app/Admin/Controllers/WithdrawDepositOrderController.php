@@ -70,8 +70,11 @@ class WithdrawDepositOrderController extends AdminController
         $grid->actions(function (Grid\Displayers\Actions $actions) {
             /**@var WithdrawDepositOrder $order **/
             $order = $actions->row;
+            $actions->disableDelete();
+            $actions->disableEdit();
+            $actions->disableView();
             if($order->status === WithdrawDepositOrder::HANDLING) {
-                $actions->append('operator');
+                $actions->append("<a class='btn btn-sm btn-primary'>同意退款</a><a class='btn btn-sm btn-dark'>拒绝退款</a> ");
             }
         });
         return $grid;
