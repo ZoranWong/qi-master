@@ -21,7 +21,7 @@ class CreateMasterCommentsTable extends Migration
             $table->text('content')->comment('评论内容');
             $table->timestamps();
         });
-        DB::statement("ALTER TABLE `master_orders` COMMENT '师傅评论表'");
+//        DB::statement("ALTER TABLE `master_orders` COMMENT '师傅评论表'");
     }
 
     /**
