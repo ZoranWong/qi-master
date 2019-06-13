@@ -66,6 +66,14 @@ class WithdrawDepositOrderController extends AdminController
         $grid->column('operator', '处理人员')->display(function ($value) {
             return $value ? $value['name'] : '--无人受理--';
         });
+
+        $grid->actions(function (Grid\Displayers\Actions $actions) {
+            /**@var WithdrawDepositOrder $order **/
+            $order = $actions->row;
+            if($order->status === WithdrawDepositOrder::HANDLING) {
+                $actions->append('operator');
+            }
+        });
         return $grid;
     }
 
