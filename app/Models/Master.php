@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\CurrencyUnitTrait;
 use App\Models\Traits\ModelAttributesAccess;
 use Illuminate\Database\Eloquent\Model;
 
@@ -33,7 +34,32 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Master extends Model
 {
-    use ModelAttributesAccess;
+    use ModelAttributesAccess, CurrencyUnitTrait;
 
     protected $fillable = ['name', 'email', 'mobile', 'email_verified_at', 'password', 'remember_token'];
+
+    public function setBalanceAttribute($value)
+    {
+        $this->attributes['balance'] = $value * CURRENCY_UNIT_CONVERT_NUM;
+    }
+
+    public function getBalanceAttribute()
+    {
+        return $this->attributes['balance'] / CURRENCY_UNIT_CONVERT_NUM;
+    }
+
+    public function offerOrders()
+    {
+        return $this->hasMany(OfferOrder::class);
+    }
+
+    public function completedOrders()
+    {
+        return $this->offerOrders();
+    }
+
+    public function runningOrders()
+    {
+        return $this->offerOrders();
+    }
 }

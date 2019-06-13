@@ -43,6 +43,17 @@ class UsersController extends Controller
         $grid->name('用户名');
 
         $grid->email('邮箱');
+        $grid->column('orders', '发布服务工单数')->display(function ($value) {
+            return count($value);
+        });
+
+        $grid->column('completedOrders', '完成服务工单数')->display(function ($value) {
+            return count($value);
+        });
+
+        $grid->column('runningOrders', '进行中的工单数')->display(function ($value) {
+            return count($value);
+        });
 
         $grid->email_verified_at('已验证邮箱')->display(function ($value) {
             return $value ? '是' : '否';

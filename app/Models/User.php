@@ -70,8 +70,18 @@ class User extends Authenticatable implements MustVerifyEmail
             ->orderBy('user_favorite_products.created_at', 'desc');
     }
 
-    public function cartItems()
+    public function orders()
     {
-        return $this->hasMany(CartItem::class);
+        return $this->hasMany(Order::class);
+    }
+
+    public function runningOrders()
+    {
+        return $this->orders();
+    }
+
+    public function completedOrders()
+    {
+        return $this->orders();
     }
 }

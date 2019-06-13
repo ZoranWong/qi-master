@@ -63,6 +63,9 @@ class WithdrawDepositOrderController extends AdminController
 
         });
         $grid->column('comment', '说明');
+        $grid->column('operator', '处理人员')->display(function ($value) {
+            return $value ? $value['name'] : '--无人受理--';
+        });
         return $grid;
     }
 

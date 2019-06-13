@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Traits\CurrencyUnitTrait;
 use App\Presenters\WithdrawDepositOrderPresenter;
+use Encore\Admin\Auth\Database\Administrator;
 use Illuminate\Database\Eloquent\Model;
 use McCool\LaravelAutoPresenter\HasPresenter;
 
@@ -19,7 +20,9 @@ use McCool\LaravelAutoPresenter\HasPresenter;
  * @property \Illuminate\Support\Carbon|null $createdAt
  * @property \Illuminate\Support\Carbon|null $updatedAt
  * @property string|null $deletedAt
+ * @property int $optAdminId 操作管理员ID
  * @property-read \App\Models\Master $master
+ * @property-read \Encore\Admin\Auth\Database\Administrator $optAdmin
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WithdrawDepositOrder newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WithdrawDepositOrder newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WithdrawDepositOrder query()
@@ -29,6 +32,7 @@ use McCool\LaravelAutoPresenter\HasPresenter;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WithdrawDepositOrder whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WithdrawDepositOrder whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WithdrawDepositOrder whereMasterId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WithdrawDepositOrder whereOptAdminId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WithdrawDepositOrder whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WithdrawDepositOrder whereTransferAmount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WithdrawDepositOrder whereUpdatedAt($value)
@@ -83,6 +87,11 @@ class WithdrawDepositOrder extends Model implements HasPresenter
     public function master()
     {
         return $this->belongsTo(Master::class);
+    }
+
+    public function operator()
+    {
+        return $this->belongsTo(Administrator::class, 'opt_admin_id');
     }
 
     /**

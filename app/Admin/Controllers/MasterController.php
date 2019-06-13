@@ -32,6 +32,21 @@ class MasterController extends AdminController
         $grid->disableCreateButton();
         $grid->column('id', 'ID');
         $grid->column('name', '用户名');
+        $grid->column('balance', '账户余额')->display(function ($value) {
+            return number_format($value, 2);
+        });
+        $grid->column('offerOrders', '接单数')->display(function ($value) {
+            return count($value);
+        });
+
+        $grid->column('runningOrders', '服务中的工单')->display(function ($value) {
+            return count($value);
+        });
+
+        $grid->column('completedOrders', '完成的工单')->display(function ($value) {
+            return count($value);
+        });
+
         $grid->column('email', '邮箱');
         $grid->column('mobile', '手机');
         return $grid;
