@@ -28,7 +28,7 @@ class Table extends \Encore\Admin\Form\Field\Table
     public function setupScriptForCustomizeTableView($templateScript)
     {
         $removeClass = NestedForm::REMOVE_FLAG_CLASS;
-        $defaultKey = NestedForm::DEFAULT_KEY_NAME;
+        $defaultKey = 'new_\d+';
 
         /**
          * When add a new sub form, replace all element key in new sub form.
@@ -57,7 +57,6 @@ $(document).on('click', '#has-many-{$this->column} .remove-option', function () 
     $(this).closest('.has-many-{$this->column}-form').hide();
     $(this).closest('.has-many-{$this->column}-form').find('.$removeClass').val(1);
 });
-
 EOT;
 
         Admin::script($script);

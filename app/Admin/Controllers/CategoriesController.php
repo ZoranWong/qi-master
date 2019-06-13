@@ -120,7 +120,7 @@ class CategoriesController extends Controller
                 $form->customizeTable('value', '属性值(多项)', function (Form\NestedForm $form) {
                     $form->text('title', '属性小名称');
 //                    $form->text('title')->setElementName("properties[1][value][0][title]");
-                    $form->currency('价格')->symbol('￥');
+                    $form->currency('price', '价格')->symbol('￥');
                 });
             });
         });
