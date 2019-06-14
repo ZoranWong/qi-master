@@ -39,8 +39,8 @@ class Table extends \Encore\Admin\Form\Field\Table
     public function setupScriptForCustomizeTableView($templateScript)
     {
         $removeClass = NestedForm::REMOVE_FLAG_CLASS;
-//        $defaultKey = NestedForm::DEFAULT_KEY_NAME;
-        $defaultKey = $this->defaultKeyName;
+
+        $defaultKey = $this->defaultKeyName ?: NestedForm::DEFAULT_KEY_NAME;
 
 
         /**
@@ -55,7 +55,6 @@ class Table extends \Encore\Admin\Form\Field\Table
 $(document).on('click', '.has-many-{$this->column}-{$this->slug} .add-option', function () {
     
     var tpl = $('template.{$this->column}-{$this->slug}-tpl');
-    console.log('template name: ',"{$this->column}-{$this->slug}-tpl","{$defaultKey}");
     
     var tbodyEle = $(this).closest('.has-many-{$this->column}-{$this->slug}').find('tbody');
     
