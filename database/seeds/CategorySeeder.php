@@ -37,10 +37,30 @@ class CategorySeeder extends Seeder
             ]
         ];
 
+        $brands = [
+            '宜家',
+            '义乌',
+            'Spear',
+            'Opa',
+            'Lida',
+            'Face Man',
+            '罗马',
+            'Marry',
+            '美菱',
+            '海尔'
+        ];
+
         foreach ($categories as $key => $category) {
+            /**@var Category $category * */
             $category->name = $names[$key % 5][$key % 2];
             $category->classificationId = (($key % 5) + 1);
             $category->save();
+            $brand = new \App\Models\Brand();
+            $brand->name = $brands[$key];
+            $brand->status = 1;
+            $brand->sort = random_int(0, 100);
+//            $brand->categoryId = $category->id;
+            $category->brands()->save($brand);
         }
     }
 }

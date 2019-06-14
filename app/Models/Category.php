@@ -83,6 +83,11 @@ class Category extends Model
         return $this->belongsTo(Classification::class);
     }
 
+    public function brands()
+    {
+        return $this->hasMany(Brand::class);
+    }
+
     /**
      * 父级商品类别
      */

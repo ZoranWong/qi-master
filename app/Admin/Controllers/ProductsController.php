@@ -65,18 +65,22 @@ class ProductsController extends Controller
 
         $grid->id('ID')->sortable();
         $grid->title('商品名称');
-        $grid->on_sale('已上架')->display(function ($value) {
-            return $value ? '是' : '否';
+        $grid->column('image', '商品图片')->image();
+        $grid->column('classification', '类目')->display(function () {
+            /**@var Product $product * */
+            $product = $this;
+            $classification = $product->getClassification();
+            return $classification ? $classification['name'] : '';
         });
-        $grid->price('价格');
-        $grid->rating('评分');
-        $grid->sold_count('销量');
-        $grid->review_count('评论数');
-
-        $grid->actions(function ($actions) {
-            $actions->disableView();
-            $actions->disableDelete();
+        $grid->column('category', '类别')->display(function () {
+            /**@var Product $product * */
+            $product = $this;
+            $category = $product->getCategory();
+            $childCategory = $product->getChildCategory();
+            $category = $category ? $category['name'] : '';
+            return $childCategory ? ($category . '-' . $childCategory['name']) : $category;
         });
+        $grid->disableActions();
         $grid->tools(function ($tools) {
             // 禁用批量删除按钮
             $tools->batch(function ($batch) {
@@ -106,7 +110,7 @@ class ProductsController extends Controller
         $form->editor('description', '商品描述')->rules('required');
 
         // 创建一组单选框
-        $form->radio('on_sale', '上架')->options(['1' => '是', '0'=> '否'])->default('0');
+        $form->radio('on_sale', '上架')->options(['1' => '是', '0' => '否'])->default('0');
 
         // 直接添加一对多的关联模型
         $form->hasMany('skus', 'SKU 列表', function (Form\NestedForm $form) {

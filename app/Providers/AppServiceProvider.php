@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use Illuminate\Database\Events\QueryExecuted;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Monolog\Logger;
@@ -18,6 +21,10 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         Schema::defaultStringLength(191);
+        DB::enableQueryLog();
+        DB::listen(function (QueryExecuted $queryExecuted) {
+            Log::debug($queryExecuted->sql);
+        });
     }
 
     /**

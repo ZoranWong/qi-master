@@ -130,6 +130,12 @@ class MenuSeeder extends Seeder
                 'icon' => 'fa-bandcamp',
                 'uri' => 'brands',
                 'permission' => ''
+            ],
+            [
+                'title' => '商品管理',
+                'icon' => 'fa-bandcamp',
+                'uri' => 'products',
+                'permission' => ''
             ]
         ]);
 

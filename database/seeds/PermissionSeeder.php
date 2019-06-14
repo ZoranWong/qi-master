@@ -110,7 +110,13 @@ class PermissionSeeder extends Seeder
                 'slug' => 'withdraw_orders.any',
                 'http_method' => '',
                 'http_path' => '/withdraw_orders*'
-            ]
+            ],
+            [
+                'name' => '产品管理',
+                'slug' => 'products.any',
+                'http_method' => '',
+                'http_path' => '/products*'
+            ],
         ];
     }
 }

@@ -26,8 +26,8 @@ class BrandController extends AdminController
     {
         $grid = new Grid(new Brand);
 
-        $grid->column('id', 'Id');
-        $grid->column('category_id', '子分类');
+        $grid->column('id', 'ID');
+        $grid->column('category.name', '类别');
         $grid->column('name', '名称');
         $grid->column('sort', '排序')->sort(true);
         $grid->column('status', '状态');
