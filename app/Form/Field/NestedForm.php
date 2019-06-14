@@ -82,9 +82,9 @@ class NestedForm extends \Encore\Admin\Form\NestedForm
      */
     public function getKey()
     {
-        if ($this->model) {
-            $key = $this->model->getKey();
-        }
+//        if ($this->model) {
+//            $key = $this->model->getKey();
+//        }
 
         if (!is_null($this->key)) {
             $key = $this->key;

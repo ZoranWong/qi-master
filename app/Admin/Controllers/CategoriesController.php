@@ -84,7 +84,7 @@ class CategoriesController extends Controller
 
         $grid->column('unit', trans('admin.unit'));
 
-        $grid->column('price', trans('admin.price'))->display(function ($price) {
+        $grid->column('price', '基础价格')->display(function ($price) {
             return '￥' . number_format($price, 2);
         });
 
@@ -102,6 +102,9 @@ class CategoriesController extends Controller
         $form
             ->tab('类别商品属性', function (Form $form) {
                 $form->customizeHasMany('properties', '商品属性', function (NestedForm $form) {
+                    static $key;
+                    $form->setKey($key);
+                    $key++;
                     $form->text('title', '属性名称')->rules('required');
                     $form->customizeTable('value', '属性值(多项)', function (NestedForm $nestedForm) use ($form) {
                         $nestedForm->setRelationName(function (&$relationName) {
@@ -115,10 +118,13 @@ class CategoriesController extends Controller
                         $nestedForm->text('title', '属性小名称')->rules('required');
                         $nestedForm->currency('price', '价格')->symbol('￥')->rules('required');
                     })->setSlug('properties');
-                });
+                })->setSlug('properties');
             })
             ->tab('类别专属服务要求', function (Form $form) {
                 $form->customizeHasMany('requirements', '服务类型要求', function (NestedForm $form) {
+                    static $key;
+                    $form->setKey($key);
+                    $key++;
                     $serviceTypes = ServiceType::all()->pluck('name', 'id');
                     $form->select('service_id', '服务类型')->options($serviceTypes);
                     $form->text('name', '要求名称')->rules('required');
@@ -133,13 +139,24 @@ class CategoriesController extends Controller
                         });
                         // 所有的服务类型
                         $nestedForm->text('title', '要求小项')->rules('required');
-                        $nestedForm->currency('price', '价格')->symbol('￥')->rules('required');
+                        $nestedForm->currency('price', '价格')->default(0)->symbol('￥')->rules('required');
                     })->setSlug('requirements');
-                });
+                })->setSlug('requirements');
             });
 
-        $form->saving(function ($form) {
-            dd($form);
+        $form->saving(function (Form $form) {
+            $properties = $form->input('properties');
+            foreach ($properties as &$property) {
+                $property['value'] = array_values($property['value']);
+            }
+
+            $requirements = $form->input('requirements');
+            foreach ($requirements as &$requirement) {
+                $requirement['value'] = array_values($requirement['value']);
+            }
+
+            $form->input('properties', $properties);
+            $form->input('requirements', $requirements);
         });
 
         return $form;
@@ -159,27 +176,6 @@ class CategoriesController extends Controller
             $form->text('unit', '单位')->default('')->placeholder('输入 单位 如套，个，件，箱...');
             $form->currency('price', '报价')->symbol('¥');
             $form->number('sort', '排序');
-        });
-
-        return $form;
-    }
-
-    protected function propertyForm()
-    {
-        $form = $this->basicForm();
-
-        $form->tab('附加属性', function (Form $form) {
-            $form->hasMany('properties', '类别商品属性', function (Form\NestedForm $form) {
-                $form->text('title');
-                $form->table('value', '具体属性', function ($table) {
-                    $table->text('title');
-                    $table->currency('price')->symbol('￥');
-                });
-            })->default([]);
-        });
-
-        $form->saving(function (Form $form) {
-            dd($form);
         });
 
         return $form;

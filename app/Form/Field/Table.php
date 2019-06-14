@@ -30,6 +30,8 @@ class Table extends \Encore\Admin\Form\Field\Table
         $removeClass = NestedForm::REMOVE_FLAG_CLASS;
         $defaultKey = NestedForm::DEFAULT_KEY_NAME;
 
+        $countName = "tableItem" . rand(0, 100);
+
         /**
          * When add a new sub form, replace all element key in new sub form.
          *
@@ -38,17 +40,14 @@ class Table extends \Encore\Admin\Form\Field\Table
          * {count} is increment number of current sub form count.
          */
         $script = <<<EOT
-var index = 0;
 
 $(document).on('click', '.has-many-{$this->column}-{$this->slug} .add-option', function () {
 
     var tpl = $('template.{$this->column}-{$this->slug}-tpl');
     
-    index++;
-    
-    var template = tpl.html().replace(/{$defaultKey}/g, index);
-    
     var tbodyEle = $(this).closest('.has-many-{$this->column}-{$this->slug}').find('tbody');
+    
+    var template = tpl.html().replace(/new_{$defaultKey}/g, tbodyEle.children().length);
     
     tbodyEle.append(template);
     

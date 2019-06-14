@@ -7,7 +7,7 @@
 
 <div id="has-many-{{$column}}" class="has-many-{{$column}}">
 
-    <div class="has-many-{{$column}}-forms">
+    <div class="has-many-{{$column}}-{{$slug}}-forms">
 
         @foreach($forms as $pk => $form)
 
@@ -35,7 +35,7 @@
     </div>
 
 
-    <template class="{{$column}}-tpl">
+    <template class="{{$column}}-{{$slug}}-tpl">
         <div class="has-many-{{$column}}-form fields-group">
 
             {!! $template !!}
