@@ -17,7 +17,8 @@ Route::group([
          * 师傅管理页面
          * */
         $router->group(['prefix' => 'masters'], function (Router $router) {
-            $router->get('/', 'MasterController@index');
+            $router->get('/', 'MasterController@index')->name('admin.masters.index');
+            $router->get('/{master}', 'MasterController@show')->name('admin.masters.show');
         });
 
 
