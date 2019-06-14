@@ -12,6 +12,8 @@ class ServiceTypeSeeder extends Seeder
      */
     public function run()
     {
+        ServiceType::truncate();
+
         $serviceTypes = $this->data();
         foreach ($serviceTypes as $serviceType) {
             ServiceType::create($serviceType);
