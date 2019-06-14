@@ -14,6 +14,10 @@ class ProductsSeeder extends Seeder
     public function run()
     {
         // 创建 30 个商品
-        factory(Product::class, 30)->create();
+        $products = factory(Product::class, 30)->create();
+        foreach ($products as $product) {
+            /**@var Product $product**/
+            $product;
+        }
     }
 }

@@ -16,34 +16,60 @@ use Storage;
  * @property int $id
  * @property string $title 产品型号（产品名称）
  * @property string $image 产品图片
- * @property Carbon|null $createdAt
- * @property Carbon|null $updatedAt
+ * @property \Illuminate\Support\Carbon|null $createdAt
+ * @property \Illuminate\Support\Carbon|null $updatedAt
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Category[] $categories
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Category[] $childCategories
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Classification[] $classifications
  * @property-read mixed $imageUrl
- * @property-read Collection|ProductSku[] $skus
- * @method static Builder|Product newModelQuery()
- * @method static Builder|Product newQuery()
- * @method static Builder|Product query()
- * @method static Builder|Product whereCreatedAt($value)
- * @method static Builder|Product whereId($value)
- * @method static Builder|Product whereImage($value)
- * @method static Builder|Product whereTitle($value)
- * @method static Builder|Product whereUpdatedAt($value)
- * @mixin Eloquent
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereImage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
 class Product extends Model
 {
     protected $fillable = [
         'title', 'image'
     ];
-    protected $casts = [
-        'on_sale' => 'boolean', // on_sale 是一个布尔类型的字段
-    ];
 
-    // 与商品SKU关联
-    public function skus()
+    public function classifications()
     {
-        return $this->hasMany(ProductSku::class);
+        return $this->belongsToMany(Classification::class, 'classification_product', 'product_id', 'classification_id');
     }
+
+    public function getClassification()
+    {
+        return $this->classifications->first();
+    }
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'category_product', 'product_id',
+            'category_id');
+    }
+
+    public function getCategory()
+    {
+        return $this->categories->first();
+    }
+
+    public function childCategories()
+    {
+        return $this->belongsToMany(Category::class, 'category_product', 'product_id',
+            'child_category_id');
+    }
+
+    public function getChildCategory()
+    {
+        return $this->childCategories->first();
+    }
+
 
     public function getImageUrlAttribute()
     {

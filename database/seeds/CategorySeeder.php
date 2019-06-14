@@ -12,12 +12,35 @@ class CategorySeeder extends Seeder
      */
     public function run()
     {
-        Category::truncate();
+        $categories = factory(Category::class, 10)->create();
 
-//        Category::create([
-//            'name' => 'root',
-//            'parent_id' => 0,
-//            'classification_id' => 0,
-//        ]);
+        $names = [
+            [
+                '沙发',
+                '床'
+            ],
+            [
+                '浴缸',
+                '马桶'
+            ],
+            [
+                '吊灯',
+                '照明灯'
+            ],
+            [
+                '贴瓷砖',
+                '刷油漆'
+            ],
+            [
+                '冰箱',
+                '洗衣机'
+            ]
+        ];
+
+        foreach ($categories as $key => $category) {
+            $category->name = $names[$key % 5][$key % 2];
+            $category->classificationId = (($key % 5) + 1);
+            $category->save();
+        }
     }
 }
