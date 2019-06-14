@@ -8,6 +8,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(AdminSeeder::class);
         $this->call(UsersSeeder::class);
+        $this->call(MasterSeeder::class);
         $this->call(UserAddressesSeeder::class);
         $this->call(ProductsSeeder::class);
         $this->call(CouponCodesSeeder::class);
