@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Category;
 use Illuminate\Database\Seeder;
 
 class CategorySeeder extends Seeder
@@ -11,8 +12,8 @@ class CategorySeeder extends Seeder
      */
     public function run()
     {
-//        Category::truncate();
-//
+        Category::truncate();
+
 //        Category::create([
 //            'name' => 'root',
 //            'parent_id' => 0,
