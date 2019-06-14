@@ -90,6 +90,10 @@ class CategoriesController extends Controller
 
         $grid->column('sort', trans('admin.sort'));
 
+        $grid->actions(function (Grid\Displayers\Actions $actions) {
+            $actions->disableView();
+        });
+
         Admin::css('.grid-action {padding-right: 3px;}');
 
         return $grid;
