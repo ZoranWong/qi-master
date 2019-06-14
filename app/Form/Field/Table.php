@@ -13,6 +13,8 @@ class Table extends \Encore\Admin\Form\Field\Table
 
     protected $slug = 'default';
 
+    protected $defaultKeyName;
+
     public function __construct($column, $arguments = [])
     {
         $this->views['customizeTable'] = 'form.hasmanytable';
@@ -23,14 +25,23 @@ class Table extends \Encore\Admin\Form\Field\Table
     public function setSlug(string $slug)
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function setDefaultKeyName(string $defaultKeyName)
+    {
+        $this->defaultKeyName = $defaultKeyName;
+
+        return $this;
     }
 
     public function setupScriptForCustomizeTableView($templateScript)
     {
         $removeClass = NestedForm::REMOVE_FLAG_CLASS;
-        $defaultKey = NestedForm::DEFAULT_KEY_NAME;
+//        $defaultKey = NestedForm::DEFAULT_KEY_NAME;
+        $defaultKey = $this->defaultKeyName;
 
-        $countName = "tableItem" . rand(0, 100);
 
         /**
          * When add a new sub form, replace all element key in new sub form.
@@ -42,12 +53,13 @@ class Table extends \Encore\Admin\Form\Field\Table
         $script = <<<EOT
 
 $(document).on('click', '.has-many-{$this->column}-{$this->slug} .add-option', function () {
-
+    
     var tpl = $('template.{$this->column}-{$this->slug}-tpl');
+    console.log('template name: ',"{$this->column}-{$this->slug}-tpl","{$defaultKey}");
     
     var tbodyEle = $(this).closest('.has-many-{$this->column}-{$this->slug}').find('tbody');
     
-    var template = tpl.html().replace(/new_{$defaultKey}/g, tbodyEle.children().length);
+    var template = tpl.html().replace(/new_{$defaultKey}/g, tbodyEle.find('tr').length);
     
     tbodyEle.append(template);
     

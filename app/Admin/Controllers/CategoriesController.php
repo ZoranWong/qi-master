@@ -115,9 +115,10 @@ class CategoriesController extends Controller
                             $key = $form->getKey();
                             $elementName = "{$relationName}[{$key}]$elementName";
                         });
-                        $nestedForm->text('title', '属性小名称')->rules('required');
-                        $nestedForm->currency('price', '价格')->symbol('￥')->rules('required');
-                    })->setSlug('properties');
+                        $nestedForm->setDefaultKeyNameRerenderCallback("__PROPERTIES__");
+                        $nestedForm->text('title', '属性小名称');
+                        $nestedForm->currency('price', '价格')->symbol('￥');
+                    })->setSlug('properties')->setDefaultKeyName('__PROPERTIES__');
                 })->setSlug('properties');
             })
             ->tab('类别专属服务要求', function (Form $form) {
@@ -137,26 +138,30 @@ class CategoriesController extends Controller
                             $key = $form->getKey();
                             $elementName = "{$relationName}[{$key}]$elementName";
                         });
+                        $nestedForm->setDefaultKeyNameRerenderCallback('__REQUIREMENTS__');
                         // 所有的服务类型
-                        $nestedForm->text('title', '要求小项')->rules('required');
-                        $nestedForm->currency('price', '价格')->default(0)->symbol('￥')->rules('required');
-                    })->setSlug('requirements');
+                        $nestedForm->text('title', '要求小项');
+                        $nestedForm->currency('price', '价格')->default(0)->symbol('￥');
+                    })->setSlug('requirements')->setDefaultKeyName('__REQUIREMENTS__');
                 })->setSlug('requirements');
             });
 
         $form->saving(function (Form $form) {
             $properties = $form->input('properties');
-            foreach ($properties as &$property) {
-                $property['value'] = array_values($property['value']);
+            if (!is_null($properties)) {
+                foreach ($properties as &$property) {
+                    $property['value'] = array_values($property['value']);
+                }
+                $form->input('properties', $properties);
             }
 
             $requirements = $form->input('requirements');
-            foreach ($requirements as &$requirement) {
-                $requirement['value'] = array_values($requirement['value']);
+            if (!is_null($requirements)) {
+                foreach ($requirements as &$requirement) {
+                    $requirement['value'] = array_values($requirement['value']);
+                }
+                $form->input('requirements', $requirements);
             }
-
-            $form->input('properties', $properties);
-            $form->input('requirements', $requirements);
         });
 
         return $form;
@@ -169,13 +174,13 @@ class CategoriesController extends Controller
         $form->tab('基础信息', function (Form $form) {
             $form->display('id', 'ID');
             $classifications = Classification::all()->pluck('name', 'id');
-            $form->select('classification_id', '所属类目')->options($classifications);
+            $form->select('classification_id', '所属类目')->options($classifications)->required();
             $categories = Category::selectOptions();
             $form->select('parent_id', '父分类')->options($categories);
             $form->text('name', trans('admin.name'));
             $form->text('unit', '单位')->default('')->placeholder('输入 单位 如套，个，件，箱...');
             $form->currency('price', '报价')->symbol('¥');
-            $form->number('sort', '排序');
+            $form->number('sort', '排序')->default(0)->rules('required|numeric');
         });
 
         return $form;

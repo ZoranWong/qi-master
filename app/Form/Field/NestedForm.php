@@ -2,6 +2,7 @@
 
 namespace App\Form\Field;
 
+use Encore\Admin\Admin;
 use Encore\Admin\Form\Field;
 
 class NestedForm extends \Encore\Admin\Form\NestedForm
@@ -9,6 +10,10 @@ class NestedForm extends \Encore\Admin\Form\NestedForm
     protected $elementNameExtendCallback;
 
     protected $relationNameExtendCallback;
+
+    protected $defaultKeyNameRerenderCallback;
+
+    const DEFAULT_KEY_NAME_PREFIX = 'new_';
 
     /**
      * 解决冲突，如class attribute中[]符号的问题
@@ -94,6 +99,46 @@ class NestedForm extends \Encore\Admin\Form\NestedForm
             return $key;
         }
 
-        return 'new_' . static::DEFAULT_KEY_NAME;
+        $defaultKeyName = static::DEFAULT_KEY_NAME;
+        if ($this->defaultKeyNameRerenderCallback) {
+            if (is_callable($this->defaultKeyNameRerenderCallback)) {
+                $defaultKeyName = tap($defaultKeyName, $this->defaultKeyNameRerenderCallback);
+            } else {
+                $defaultKeyName = $this->defaultKeyNameRerenderCallback;
+            }
+        }
+
+        return static::DEFAULT_KEY_NAME_PREFIX . $defaultKeyName;
+    }
+
+    public function setDefaultKeyNameRerenderCallback($callback)
+    {
+        $this->defaultKeyNameRerenderCallback = $callback;
+    }
+
+    /**
+     * Get the html and script of template.
+     *
+     * @return array
+     */
+    public function getTemplateHtmlAndScript()
+    {
+        $html = '';
+        $scripts = [];
+
+        /* @var Field $field */
+        foreach ($this->fields() as $field) {
+            //when field render, will push $script to Admin
+            $html .= $field->render();
+
+            /*
+             * Get and remove the last script of Admin::$script stack.
+             */
+            if ($field->getScript()) {
+                $scripts[] = array_pop(Admin::$script);
+            }
+        }
+
+        return [$html, implode("\r\n", $scripts)];
     }
 }
