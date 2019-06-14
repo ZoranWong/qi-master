@@ -144,6 +144,14 @@ class CategoriesController extends Controller
                         $nestedForm->currency('price', '价格')->default(0)->symbol('￥');
                     })->setSlug('requirements')->setDefaultKeyName('__REQUIREMENTS__');
                 })->setSlug('requirements');
+            })->tab('类别规格需求', function (Form $form) {
+                $form->customizeHasMany('measurements', '规格需求', function (NestedForm $form) {
+                    static $key;
+                    $form->setKey($key);
+                    $key++;
+                    $form->text('name', '规格名称')->placeholder("名称：如长、宽、高、重量、体积等");
+                    $form->text('unit', '规格单位')->placeholder("单位:如cm、kg、g、立方厘米等");
+                })->setSlug('measurements');
             });
 
         $form->saving(function (Form $form) {
