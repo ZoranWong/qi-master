@@ -79,7 +79,7 @@ class CategoriesController extends Controller
         $grid->column('classification.name', '所属类目');
 
         $grid->column('parent.name', '父级类别')->display(function ($parentName) {
-            return is_null($parentName) ? 'Root' : $parentName;
+            return is_null($parentName) ? '<span style="font-weight: bold;color: #249c0d;">【顶级类别】</span>' : $parentName;
         });
 
         $grid->column('unit', trans('admin.unit'));
