@@ -28,10 +28,16 @@ class OrdersController extends Controller
 
     public function show(Order $order, Content $content)
     {
+//        $order->items[0]->installFeeFormat;
         return $content
             ->header('查看订单')
             // body 方法可以接受 Laravel 的视图作为参数
-            ->body(view('admin.orders.show', ['order' => $order]));
+            ->body(view('admin.orders.show', [
+                'order' => $order,
+                'orderItems' => $order->items,
+                'offerOrders' => $order->offerOrders,
+                'paymentOrders' => $order->payments
+            ]));
     }
 
     protected function grid()
@@ -42,13 +48,14 @@ class OrdersController extends Controller
 
         $grid->column('order_no', '编号')->expand(function (Order $order) {
             $items = $order->items->map(function (OrderItem $item) {
-                return [$item->id, $item->product['name'], $item->product['image']];
+                return [$item->id, $item->product['title'], "<img width='36' src='{$item->product['image']}'/>", $item->master->name, ];
             });
-            return $items->count() > 0 ? new Table(['ID', '产品名称', '产品图片'], $items->toArray()) : '';
+
+            return $items->count() > 0 ? (new Table(['ID', '安装（服务）产品',  '产品图片', '接单师傅'], $items->toArray())) : '';
         });
         $grid->column('user.name', '用户');
-        $grid->column('master.name', '师傅')->display(function ($value) {
-            return $value ? $value : '--等待师傅接单--';
+        $grid->column('masters', '接单师傅(人数)')->display(function ($value) {
+            return !empty($value) ? count($value).'人' : '--等待师傅接单--';
         });
         $grid->column('status', '状态')->display(function ($value) {
             /**
@@ -69,6 +76,7 @@ class OrdersController extends Controller
         $grid->column('total_amount', '订单总金额')->display(function ($value) {
             return number_format($value, 2);
         });
+        $grid->disableCreateButton();
         $grid->actions(function (Grid\Displayers\Actions $actions) {
             $actions->disableDelete();
             $actions->disableEdit();

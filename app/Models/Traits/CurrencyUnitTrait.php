@@ -60,7 +60,7 @@ trait CurrencyUnitTrait
     protected function accessorAndMutator()
     {
         // TODO: Implement __invoke() method.
-        $this->accessors();
-        $this->mutators();
+//        $this->accessors();
+//        $this->mutators();
     }
 }

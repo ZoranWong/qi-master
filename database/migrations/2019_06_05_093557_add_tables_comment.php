@@ -20,7 +20,7 @@ class AddTablesComment extends Migration
         DB::statement('ALTER TABLE `products` COMMENT "产品表"');
         DB::statement('ALTER TABLE `user_addresses` COMMENT "用户地址"');
         DB::statement('ALTER TABLE `product_skus` COMMENT "产品标准库存表"');
-        DB::statement('ALTER TABLE `user_favorite_products` COMMENT "用户常产品"');
+//        DB::statement('ALTER TABLE `user_favorite_products` COMMENT "用户常产品"');
         DB::statement('ALTER TABLE `orders` COMMENT "服务订单表"');
         DB::statement('ALTER TABLE `order_items` COMMENT "服务订单详情"');
         DB::statement('ALTER TABLE `coupon_codes` COMMENT "优惠券表"');

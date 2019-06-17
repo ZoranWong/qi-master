@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
+use App\Models\Traits\CurrencyUnitTrait;
 use App\Models\Traits\ModelAttributesAccess;
+use App\Presenters\OrderItemPresenter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use McCool\LaravelAutoPresenter\HasPresenter;
 
 /**
  * App\Models\OrderItem
@@ -12,7 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int $id
  * @property int $orderId 订单ID
  * @property int $productId 产品ID
- * @property mixed $product 产品快照
+ * @property array $product 产品快照
  * @property int $installFee 安装费用
  * @property int $otherFee 其他费用
  * @property int $status 订单状态
@@ -21,9 +24,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string|null $deletedAt
  * @property string|null $createdAt
  * @property string|null $updatedAt
+ * @property-read \App\Models\Master $master
  * @property-read \App\Models\Order $order
  * @property-read \App\Models\Product $orderProduct
- * @property-read \App\Models\ProductSku $productSku
  * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderItem newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderItem newQuery()
@@ -46,9 +49,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\OrderItem withoutTrashed()
  * @mixin \Eloquent
  */
-class OrderItem extends Model
+class OrderItem extends Model implements HasPresenter
 {
-    use SoftDeletes, ModelAttributesAccess;
+    use SoftDeletes, ModelAttributesAccess, CurrencyUnitTrait;
+
+    protected $casts = [
+        'product' => 'array'
+    ];
 
     protected $fillable = [
         'order_id', 'product_id', 'product', 'install_fee', 'other_fee', 'status', 'type', 'master_id'
@@ -61,13 +68,44 @@ class OrderItem extends Model
         return $this->belongsTo(Product::class);
     }
 
-    public function productSku()
-    {
-        return $this->belongsTo(ProductSku::class);
-    }
-
     public function order()
     {
         return $this->belongsTo(Order::class);
+    }
+
+    public function master()
+    {
+        return $this->belongsTo(Master::class);
+    }
+
+    public function setInstallFeeAttribute($value)
+    {
+        $this->attributes['install_fee'] = $value * CURRENCY_UNIT_CONVERT_NUM;
+    }
+
+    public function setOtherFeeAttribute($value)
+    {
+        $this->attributes['other_fee'] = $value * CURRENCY_UNIT_CONVERT_NUM;
+    }
+
+    public function getInstallFeeAttribute()
+    {
+        return $this->attributes['install_fee'] / CURRENCY_UNIT_CONVERT_NUM;
+    }
+
+    public function getOtherFeeAttribute()
+    {
+        return $this->attributes['other_fee'] / CURRENCY_UNIT_CONVERT_NUM;
+    }
+
+    /**
+     * Get the presenter class.
+     *
+     * @return string
+     */
+    public function getPresenterClass()
+    {
+        // TODO: Implement getPresenterClass() method.
+        return OrderItemPresenter::class;
     }
 }

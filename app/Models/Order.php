@@ -34,9 +34,13 @@ use Ramsey\Uuid\Uuid;
  * @property string $regionCode 行政区域编号
  * @property string $customerAddress 服务地址
  * @property-read \App\Models\CouponCode|null $couponCode
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OfferOrder[] $employedMasters
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OrderItem[] $items
  * @property-read \App\Models\Master $master
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Master[] $masters
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OfferOrder[] $offerOrders
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\PaymentOrder[] $payments
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\RefundOrder[] $refundOrders
  * @property-read \App\Models\User $user
  * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order newModelQuery()
@@ -162,6 +166,11 @@ class Order extends Model implements HasPresenter
     public function master()
     {
         return $this->belongsTo(Master::class);
+    }
+
+    public function masters()
+    {
+        return $this->belongsToMany(Master::class, 'order_items', 'order_id', 'master_id');
     }
     /**
      * 资金明细

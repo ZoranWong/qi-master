@@ -21,7 +21,12 @@ trait ModelAttributesAccess
     public function __set($name, $value)
     {
         // TODO: Implement __set() method.
-        $this->setAttribute(upperCaseSplit($name, '_'), $value);
+        if (in_array($name, get_class_methods(static::class))) {
+            $this->setAttribute($name, $value);
+        }else{
+            $this->setAttribute(upperCaseSplit($name, '_'), $value);
+        }
+
     }
 
 

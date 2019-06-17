@@ -41,7 +41,7 @@ class RefundOrder extends Model
 {
     use SoftDeletes, ModelAttributesAccess;
 
-    protected $fillable = ['amount', 'order_id', 'status', 'user_id', 'master_id'];
+    protected $fillable = ['amount', 'order_id', 'status', 'user_id', 'master_id', 'payment_order_id'];
 
     protected $dates = ['deleted_at'];
 }
