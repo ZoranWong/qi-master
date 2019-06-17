@@ -4,9 +4,11 @@ namespace App\Admin\Controllers;
 
 use App\Models\WithdrawDepositOrder;
 use Encore\Admin\Controllers\AdminController;
+use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
+use Illuminate\View\View;
 
 class WithdrawDepositOrderController extends AdminController
 {
@@ -74,10 +76,22 @@ class WithdrawDepositOrderController extends AdminController
             $actions->disableEdit();
             $actions->disableView();
             if($order->status === WithdrawDepositOrder::HANDLING) {
-                $actions->append("<a class='btn btn-sm btn-primary'>同意退款</a><a class='btn btn-sm btn-dark'>拒绝退款</a> ");
+                $actions->append("<a class='btn btn-sm btn-primary withdraw-agree'>同意</a><a class='btn btn-sm btn-dark withdraw-refuse'>拒绝</a> ");
             }
         });
+        $this->agreeWithdraw();
+        $this->refuseWithdraw();
         return $grid;
+    }
+
+    protected function agreeWithdraw()
+    {
+        Admin::script(view("admin.withdraw.agree_withdraw")->render());
+    }
+
+    protected function refuseWithdraw()
+    {
+        Admin::script(view("admin.withdraw.refuse_withdraw")->render());
     }
 
     /**
