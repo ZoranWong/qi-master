@@ -51,7 +51,7 @@ class Table extends \Encore\Admin\Form\Field\Table
          * {count} is increment number of current sub form count.
          */
         $script = <<<EOT
-
+$(document).off('click', '.has-many-{$this->column}-{$this->slug} .add-option');
 $(document).on('click', '.has-many-{$this->column}-{$this->slug} .add-option', function () {
     
     var tpl = $('template.{$this->column}-{$this->slug}-tpl');
