@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Models\Classification;
 use App\Models\Product;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
@@ -9,6 +10,7 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
+use Illuminate\Support\Facades\Request;
 
 class ProductsController extends Controller
 {
@@ -69,14 +71,14 @@ class ProductsController extends Controller
         $grid->column('classification', '类目')->display(function () {
             /**@var Product $product * */
             $product = $this;
-            $classification = $product->getClassification();
+            $classification = $product->classification;
             return $classification ? $classification['name'] : '';
         });
         $grid->column('category', '类别')->display(function () {
             /**@var Product $product * */
             $product = $this;
-            $category = $product->getCategory();
-            $childCategory = $product->getChildCategory();
+            $category = $product->category;
+            $childCategory = $product->childCategory;
             $category = $category ? $category['name'] : '';
             return $childCategory ? ($category . '-' . $childCategory['name']) : $category;
         });
@@ -100,6 +102,11 @@ class ProductsController extends Controller
     {
         $form = new Form(new Product);
 
+        $classifications = Classification::where('status', Classification::STATUS_ON)->get();
+        $classifications = $classifications->pluck ('name', 'id');
+        $form->select('classification_id', '类目')->options($classifications)->load('category_id', route('admin.categories.top'))->required();
+        $form->select('category_id', '类型')->load('child_category_id', route('admin.categories.children'))->required();
+        $form->select('child_category_id', '子类型')->default(0);
         // 创建一个输入框，第一个参数 title 是模型的字段名，第二个参数是该字段描述
         $form->text('title', '商品名称')->rules('required');
 

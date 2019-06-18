@@ -87,6 +87,8 @@ Route::group([
          */
         $router->group(['prefix' => 'categories'], function (Router $router) {
             $router->get('/', 'CategoriesController@index');
+            $router->get('/top', 'CategoriesController@topCategories')->name('admin.categories.top');
+            $router->get('/children', 'CategoriesController@childCategories')->name('admin.categories.children');
             $router->get('/create', 'CategoriesController@create');
             $router->post('/', 'CategoriesController@store');
             $router->get('/{category}/edit', 'CategoriesController@edit');

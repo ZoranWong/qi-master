@@ -18,13 +18,22 @@ use Storage;
  * @property string $image 产品图片
  * @property \Illuminate\Support\Carbon|null $createdAt
  * @property \Illuminate\Support\Carbon|null $updatedAt
+ * @property int $classificationId 类目ID
+ * @property int $categoryId 主分类ID
+ * @property int $childCategoryId 子分类ID
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Category[] $categories
+ * @property-read \App\Models\Category $category
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Category[] $childCategories
+ * @property-read \App\Models\Category $childCategory
+ * @property-read \App\Models\Classification $classification
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Classification[] $classifications
  * @property-read mixed $imageUrl
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereCategoryId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereChildCategoryId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereClassificationId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereImage($value)
@@ -43,9 +52,9 @@ class Product extends Model
         return $this->belongsToMany(Classification::class, 'classification_product', 'product_id', 'classification_id');
     }
 
-    public function getClassification()
+    public function classification()
     {
-        return $this->classifications->first();
+        return $this->belongsTo(Classification::class);
     }
 
     public function categories()
@@ -54,9 +63,9 @@ class Product extends Model
             'category_id');
     }
 
-    public function getCategory()
+    public function category()
     {
-        return $this->categories->first();
+        return $this->belongsTo(Category::class);
     }
 
     public function childCategories()
@@ -65,9 +74,9 @@ class Product extends Model
             'child_category_id');
     }
 
-    public function getChildCategory()
+    public function childCategory()
     {
-        return $this->childCategories->first();
+        return $this->belongsTo(Category::class, 'child_category_id');
     }
 
 

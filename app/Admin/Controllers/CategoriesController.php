@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Form\Field\NestedForm;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Request;
 use App\Models\Category;
 use App\Models\Classification;
 use App\Models\ServiceType;
@@ -196,5 +197,19 @@ class CategoriesController extends Controller
         });
 
         return $form;
+    }
+
+    public function topCategories()
+    {
+        $classificationId = \Illuminate\Support\Facades\Request::input('q');
+        $categories = Category::where('classification_id', $classificationId)->where('parent_id', 0)->get(['id', 'name as text']);
+        return response()->json($categories);
+    }
+
+    public function childCategories()
+    {
+        $id = \Illuminate\Support\Facades\Request::input('q');
+        $categories = Category::where('parent_id', $id)->get(['id', 'name as text']);
+        return response()->json($categories);
     }
 }

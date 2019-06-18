@@ -1,7 +1,8 @@
 <?php
 
 use Faker\Generator as Faker;
-
+use App\Models\Classification;
+use App\Models\Category;
 $factory->define(App\Models\Product::class, function (Faker $faker) {
     $image = $faker->randomElement([
         "https://fupo.jp/wp-content/uploads/2019/04/MG_7849-c2.jpg",
@@ -13,8 +14,13 @@ $factory->define(App\Models\Product::class, function (Faker $faker) {
         "http://decomyplace.com/img/blog/150616_clei_5.jpg",
         "http://decomyplace.com/img/blog/150616_clei_10.jpg"
     ]);
-
+    $classification = Classification::query()->inRandomOrder()->first();
+    $category = Category::where('classification_id', $classification->id)->where('parent_id', 0)->inRandomOrder()->first();
+    $childCategory = Category::where('parent_id', $category->id)->inRandomOrder()->first();
     return [
+        'classification_id' => $classification->id,
+        'category_id' => $category->id,
+        'child_category_id' => $childCategory ? $childCategory->id : 0,
         'title' => $faker->word,
         'image' => $image,
     ];
