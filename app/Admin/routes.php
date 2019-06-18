@@ -25,7 +25,7 @@ Route::group([
         /**
          * 产品管理
          * */
-        $router->group(['prefix'=> 'products'], function(Router $router) {
+        $router->group(['prefix' => 'products'], function (Router $router) {
             $router->get('/', 'ProductsController@index');
             $router->get('/create', 'ProductsController@create');
             $router->post('/', 'ProductsController@store');
@@ -45,7 +45,6 @@ Route::group([
         });
 
 
-
         /**
          * 订单管理页面
          * */
@@ -62,13 +61,6 @@ Route::group([
             $router->get('/{order}', 'WithdrawDepositOrderController@show');
         });
 
-
-//        $router->get('coupon_codes', 'CouponCodesController@index');
-//        $router->post('coupon_codes', 'CouponCodesController@store');
-//        $router->get('coupon_codes/create', 'CouponCodesController@create');
-//        $router->get('coupon_codes/{id}/edit', 'CouponCodesController@edit');
-//        $router->put('coupon_codes/{id}', 'CouponCodesController@update');
-//        $router->delete('coupon_codes/{id}', 'CouponCodesController@destroy');
         /**
          * 类目管理
          */

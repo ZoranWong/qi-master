@@ -4,7 +4,9 @@ namespace App\Models;
 
 use App\Models\Traits\CurrencyUnitTrait;
 use App\Models\Traits\ModelAttributesAccess;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
 /**
  * App\Models\Master
@@ -32,9 +34,9 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class Master extends Model
+class Master extends Model implements JWTSubject, Authenticatable
 {
-    use ModelAttributesAccess, CurrencyUnitTrait;
+    use ModelAttributesAccess, CurrencyUnitTrait, \Illuminate\Auth\Authenticatable;
 
     protected $fillable = ['name', 'email', 'mobile', 'email_verified_at', 'password', 'remember_token'];
 
@@ -61,5 +63,25 @@ class Master extends Model
     public function runningOrders()
     {
         return $this->offerOrders();
+    }
+
+    /**
+     * Get the identifier that will be stored in the subject claim of the JWT.
+     *
+     * @return mixed
+     */
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    /**
+     * Return a key value array, containing any custom claims to be added to the JWT.
+     *
+     * @return array
+     */
+    public function getJWTCustomClaims()
+    {
+        return [];
     }
 }
