@@ -103,12 +103,18 @@
                 <td>服务师傅</td>
                 <td>退款金额</td>
                 <td>申请时间</td>
-                <td>退款日期</td>
+                <td>处理时间</td>
                 <td>服务状态</td>
                 <td>说明</td>
             </tr>
-            @foreach($order->refundOrders as $item)
+            @foreach($order->refundOrders as $refundOrder)
                 <tr>
+                    <td>{{$refundOrder->masterName}}</td>
+                    <td>{{$refundOrder->refundAmountFormat}}</td>
+                    <td>{{$refundOrder->applyDate}}</td>
+                    <td>{{$refundOrder->handleDate}}</td>
+                    <td>{{$refundOrder->refundStatus}}</td>
+                    <td>{{$refundOrder->remark}}</td>
                 </tr>
             @endforeach
             </tbody>

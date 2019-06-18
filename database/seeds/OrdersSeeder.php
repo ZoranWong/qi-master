@@ -6,6 +6,7 @@ use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\OfferOrder;
 use App\Models\PaymentOrder;
+use App\Models\RefundOrder;
 use Faker\Generator;
 use Illuminate\Database\Seeder;
 
@@ -77,7 +78,20 @@ class OrdersSeeder extends Seeder
                 PaymentOrder::PAY_TYPE_BANK,
                 PaymentOrder::PAY_TYPE_CASH
             ]);
-            $order->payments()->save($paymentOrder);
+            $paymentOrder = $order->payments()->save($paymentOrder);
+            $refundOrder = new RefundOrder();
+            $refundOrder->amount = $faker->randomDigitNotNull;
+            $refundOrder->status = $faker->randomElement([
+                RefundOrder::REFUND_STATUS_WAIT,
+                RefundOrder::REFUND_STATUS_HANDLING,
+                RefundOrder::REFUND_STATUS_DONE,
+                RefundOrder::REFUND_STATUS_REFUSED
+            ]);
+            $refundOrder->userId = $order->userId;
+            $refundOrder->masterId = $master->id;
+            $refundOrder->remark = $faker->text(64);
+            $refundOrder->paymentOrderId = $paymentOrder->id;
+            $order->refundOrders()->save($refundOrder);
         }
     }
 }

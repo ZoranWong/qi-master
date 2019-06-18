@@ -19,7 +19,7 @@ trait CurrencyUnitTrait
 
     public function setAttribute($key, $value)
     {
-        if (in_array($key, $this->currencyColumns)) {
+        if (in_array($key, $this->currencyColumns) && !$this->hasSetMutator($key)) {
             $value *= CURRENCY_UNIT_CONVERT_NUM;
         }
         parent::setAttribute($key, $value);
@@ -28,7 +28,7 @@ trait CurrencyUnitTrait
     public function getAttribute($key)
     {
         $value = parent::getAttribute($key);
-        if (array_search($key, $this->currencyColumns)) {
+        if (array_search($key, $this->currencyColumns) && !$this->hasGetMutator($key)) {
             $value /= CURRENCY_UNIT_CONVERT_NUM;
         }
         return $value;

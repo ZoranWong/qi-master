@@ -8,6 +8,8 @@ use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Request;
 use Illuminate\View\View;
 
 class WithdrawDepositOrderController extends AdminController
@@ -70,13 +72,14 @@ class WithdrawDepositOrderController extends AdminController
         });
 
         $grid->actions(function (Grid\Displayers\Actions $actions) {
-            /**@var WithdrawDepositOrder $order **/
+            /**@var WithdrawDepositOrder $order * */
             $order = $actions->row;
             $actions->disableDelete();
             $actions->disableEdit();
             $actions->disableView();
-            if($order->status === WithdrawDepositOrder::HANDLING) {
-                $actions->append("<a class='btn btn-sm btn-primary withdraw-agree'>同意</a><a class='btn btn-sm btn-dark withdraw-refuse'>拒绝</a> ");
+            if ($order->status === WithdrawDepositOrder::HANDLING) {
+                $actions->append("<a class='btn btn-sm btn-primary withdraw-agree' data-id='{$order->id}'>同意</a>
+<a class='btn btn-sm btn-dark withdraw-refuse' data-id='{$order->id}'>拒绝</a> ");
             }
         });
         $this->agreeWithdraw();
@@ -86,12 +89,104 @@ class WithdrawDepositOrderController extends AdminController
 
     protected function agreeWithdraw()
     {
-        Admin::script(view("admin.withdraw.agree_withdraw")->render());
+        $view = view('admin.withdraw.agree_withdraw')->with([
+            'admin_id' => auth('admin')->id()
+        ]);
+        $route = route('admin.withdraw.update');
+        $token = csrf_token();
+        $script = <<<SCRIPT
+        $.ajaxSetup({
+  headers: {
+    'X-CSRF-TOKEN': '$token' 
+  }
+});
+let agreeTemplate = `$view`;
+$(document).off('click', '.withdraw-agree');
+$(document).on('click', '.withdraw-agree', function () {
+    let id = $(this).data('id');
+    swal({
+        title: '同意提现',
+        html: agreeTemplate,
+        width: '720px',
+        confirmButtonText: '同意'
+    }).then(function (data) {
+         let form = $('.agree-form').serializeArray();
+         let formData = {};
+         form.forEach((data) => {
+            formData[data['name']] = data['value'];
+         });
+         swal('确定同意提现').then(() => {
+            $.ajax({
+                url: '{$route}/'+id, 
+                method: 'PUT',
+                data: formData,
+                dataType: 'json',
+                success: (res) => {
+                    if(res.status) {
+                        swal('转账成功').then(() => {
+                            location.reload();
+                        });
+                    } 
+                }
+            });
+         });
+    });
+});
+SCRIPT;
+
+        Admin::script($script);
     }
 
     protected function refuseWithdraw()
     {
-        Admin::script(view("admin.withdraw.refuse_withdraw")->render());
+        $view = view('admin.withdraw.refuse_withdraw')->with([
+            'admin_id' => auth('admin')->id()
+        ]);
+        $route = route('admin.withdraw.update');
+        $token = csrf_token();
+        $script = <<<SCRIPT
+        $.ajaxSetup({
+  headers: {
+    'X-CSRF-TOKEN': '$token' 
+  }
+});
+let refuseTemplate = `$view`;
+$(document).off('click', '.withdraw-refuse');
+$(document).on('click', '.withdraw-refuse', function () {
+    let id = $(this).data('id');
+    refuseTemplate = $(refuseTemplate);
+    refuseTemplate.find('.order-id').val(id);
+    swal({
+        title: '拒绝提现',
+        html: refuseTemplate,
+        width: '720px',
+        confirmButtonText: '拒绝'
+    }).then(function (data) {
+         let form = $('.refuse-form').serializeArray();
+         let formData = {};
+         form.forEach((data) => {
+            formData[data['name']] = data['value'];
+         });
+         swal('确定拒绝提现').then(() => {
+            $.ajax({
+                url: '{$route}/'+id, 
+                method: 'PUT',
+                data: formData,
+                dataType: 'json',
+                success: (res) => {
+                    if(res.status) {
+                        swal('以拒绝师傅提现').then(() => {
+                            location.reload();
+                        });
+                    } 
+                }
+            });
+         });
+    });
+});
+SCRIPT;
+
+        Admin::script($script);
     }
 
     /**
@@ -133,5 +228,20 @@ class WithdrawDepositOrderController extends AdminController
         $form->textarea('comment', __('Comment'));
 
         return $form;
+    }
+
+    public function update($id)
+    {
+        $order = WithdrawDepositOrder::find($id);
+        $result = $order->update(Request::toArray());
+        if ($result) {
+            return response()->json([
+                'status' => true
+            ]);
+        } else {
+            return response()->json([
+                'status' => false
+            ]);
+        }
     }
 }

@@ -36,7 +36,8 @@ class OrdersController extends Controller
                 'order' => $order,
                 'orderItems' => $order->items,
                 'offerOrders' => $order->offerOrders,
-                'paymentOrders' => $order->payments
+                'paymentOrders' => $order->payments,
+                'refundOrders' => $order->refundOrders
             ]));
     }
 
