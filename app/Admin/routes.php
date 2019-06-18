@@ -58,8 +58,9 @@ Route::group([
          * 提现管理
          * */
         $router->group(['prefix' => 'withdraw_orders'], function (Router $router) {
-            $router->get('/', 'WithdrawDepositOrderController@index');
-            $router->get('/{order}', 'WithdrawDepositOrderController@show');
+            $router->get('/', 'WithdrawDepositOrderController@index')->name('admin.withdraw.index');
+            $router->get('/{order}', 'WithdrawDepositOrderController@show')->name('admin.withdraw.show');
+            $router->put('/{order?}', 'WithdrawDepositOrderController@update')->name('admin.withdraw.update');
         });
 
 
