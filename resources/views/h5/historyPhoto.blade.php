@@ -8,10 +8,10 @@
     <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
     <meta name="viewport"
           content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no"/>
-    <link rel="stylesheet" href="style/css/base.css"/>
-    <link rel="stylesheet" href="style/css/index.css"/>
-    <script type="text/javascript" src="style/js/rem.js"></script>
-    <script type="text/javascript" src="style/js/jquery-3.3.1.js"></script>
+    <link rel="stylesheet" href="/h5/css/base.css"/>
+    <link rel="stylesheet" href="/h5/css/index.css"/>
+    <script type="text/javascript" src="/h5/js/rem.js"></script>
+    <script type="text/javascript" src="/h5/js/jquery-3.3.1.js"></script>
 </head>
 
 <body>
@@ -34,27 +34,27 @@
     <div class="select-mask"></div>
     <div class="photo-wrap cell-item">
         <div class="img-item">
-            <img src="style/img/product.jpg">
+            <img src="/h5/img/product.jpg">
             <span>两门小衣柜</span>
             <input type="checkbox" name="checkbox"/>
         </div>
         <div class="img-item">
-            <img src="style/img/product.jpg">
+            <img src="/h5/img/product.jpg">
             <span>两门小衣柜</span>
             <input type="checkbox" name="checkbox"/>
         </div>
         <div class="img-item">
-            <img src="style/img/product.jpg">
+            <img src="/h5/img/product.jpg">
             <span>两门小衣柜</span>
             <input type="checkbox" name="checkbox"/>
         </div>
         <div class="img-item">
-            <img src="style/img/product.jpg">
+            <img src="/h5/img/product.jpg">
             <span>两门小衣柜</span>
             <input type="checkbox" name="checkbox"/>
         </div>
         <div class="img-item">
-            <img src="style/img/product.jpg">
+            <img src="/h5/img/product.jpg">
             <span>两门小衣柜</span>
             <input type="checkbox" name="checkbox"/>
         </div>

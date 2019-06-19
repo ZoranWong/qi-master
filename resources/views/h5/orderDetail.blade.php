@@ -8,9 +8,9 @@
     <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
     <meta name="viewport"
           content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no"/>
-    <link rel="stylesheet" href="style/css/base.css"/>
-    <link rel="stylesheet" href="style/css/index.css"/>
-    <script type="text/javascript" src="style/js/rem.js"></script>
+    <link rel="stylesheet" href="/h5/css/base.css"/>
+    <link rel="stylesheet" href="/h5/css/index.css"/>
+    <script type="text/javascript" src="/h5/js/rem.js"></script>
 </head>
 
 <body>
@@ -79,7 +79,7 @@
                 <div class="good-list clearfix">
                     <div class="good-items">
                         <div class="good-img mr10">
-                            <img src="style/img/product.jpg">
+                            <img src="/h5/img/product.jpg">
                             <div class="num-tip">1</div>
                         </div>
                         <div class="flex1 color-g good-info">

@@ -8,12 +8,12 @@
     <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
     <meta name="viewport"
           content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no"/>
-    <link rel="stylesheet" href="style/plugin/mobileselect/css/mobileSelect.css">
-    <link rel="stylesheet" href="style/css/base.css"/>
-    <link rel="stylesheet" href="style/css/index.css"/>
-    <script type="text/javascript" src="style/js/rem.js"></script>
-    <script type="text/javascript" src="style/js/jquery-3.3.1.js"></script>
-    <script type="text/javascript" src="style/plugin/mobileselect/js/mobileSelect.js"></script>
+    <link rel="stylesheet" href="/h5/plugin/mobileselect/css/mobileSelect.css">
+    <link rel="stylesheet" href="/h5/css/base.css"/>
+    <link rel="stylesheet" href="/h5/css/index.css"/>
+    <script type="text/javascript" src="/h5/js/rem.js"></script>
+    <script type="text/javascript" src="/h5/js/jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="/h5/plugin/mobileselect/js/mobileSelect.js"></script>
 </head>
 
 <body>
@@ -29,7 +29,7 @@
                 <span>商品图片</span>
             </div>
             <div class="flex1 normal-color upload-img next-arrow">
-                <img src="style/img/add.png" id="good-img">
+                <img src="/h5/img/add.png" id="good-img">
             </div>
         </div>
         <div class="install-item cell-item">
@@ -84,13 +84,13 @@
         <div class="title">选择商品图片</div>
         <div class="cell-item select-item">
             <div>
-                <img src="style/img/upload.png">
+                <img src="/h5/img/upload.png">
                 <span>上传商品图片</span>
                 <input type="file" accept="image/*" id="img-change" multiple="multiple">
             </div>
             <div>
                 <a href="historyPhoto.html">
-                    <img src="style/img/local.png">
+                    <img src="/h5/img/local.png">
                     <span>从商品库中选择</span>
                 </a>
             </div>

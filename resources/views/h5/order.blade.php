@@ -8,10 +8,10 @@
     <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
     <meta name="viewport"
           content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no"/>
-    <link rel="stylesheet" href="style/css/base.css"/>
-    <link rel="stylesheet" href="style/css/index.css"/>
-    <script type="text/javascript" src="style/js/rem.js"></script>
-    <script src="style/js/TouchSlide.1.1.js"></script>
+    <link rel="stylesheet" href="/h5/css/base.css"/>
+    <link rel="stylesheet" href="/h5/css/index.css"/>
+    <script type="text/javascript" src="/h5/js/rem.js"></script>
+    <script src="/h5/js/TouchSlide.1.1.js"></script>
 </head>
 
 <body>
@@ -75,7 +75,7 @@
                 <li>
                     <div class="title">
                         <div class="order-l cell-item">
-                            <div><img src="style/img/portrait.png" class="avatar"></div>
+                            <div><img src="/h5/img/portrait.png" class="avatar"></div>
                             <div class="mr10">王贺东</div>
                             <div>¥80.00</div>
                         </div>
@@ -102,7 +102,7 @@
                 <li>
                     <div class="title">
                         <div class="order-l cell-item">
-                            <div><img src="style/img/portrait.png" class="avatar"></div>
+                            <div><img src="/h5/img/portrait.png" class="avatar"></div>
                             <div class="mr10">王贺东</div>
                             <div>¥80.00</div>
                         </div>
@@ -129,7 +129,7 @@
                 <li>
                     <div class="title">
                         <div class="order-l cell-item">
-                            <div><img src="style/img/portrait.png" class="avatar"></div>
+                            <div><img src="/h5/img/portrait.png" class="avatar"></div>
                             <div class="mr10">王贺东</div>
                             <div>¥80.00</div>
                         </div>

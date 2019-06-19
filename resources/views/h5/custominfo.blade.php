@@ -8,15 +8,15 @@
     <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
     <meta name="viewport"
           content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no"/>
-    <link rel="stylesheet" href="style/plugin/weui/css/weui.min.css">
-    <link rel="stylesheet" href="style/css/base.css"/>
-    <link rel="stylesheet" href="style/css/index.css"/>
-    <script type="text/javascript" src="style/js/rem.js"></script>
-    <script type="text/javascript" src="style/js/jquery-3.3.1.js"></script>
-    <script src="style/plugin/citypicker/js/Popt.js"></script>
-    <script src="style/plugin/citypicker/js/cityJson.js"></script>
-    <script src="style/plugin/citypicker/js/citySet.js"></script>
-    <script src="style/plugin/weui/js/jquery-weui.min.js"></script>
+    <link rel="stylesheet" href="/h5/plugin/weui/css/weui.min.css">
+    <link rel="stylesheet" href="/h5/css/base.css"/>
+    <link rel="stylesheet" href="/h5/css/index.css"/>
+    <script type="text/javascript" src="/h5/js/rem.js"></script>
+    <script type="text/javascript" src="/h5/js/jquery-3.3.1.js"></script>
+    <script src="/h5/plugin/citypicker/js/Popt.js"></script>
+    <script src="/h5/plugin/citypicker/js/cityJson.js"></script>
+    <script src="/h5/plugin/citypicker/js/citySet.js"></script>
+    <script src="/h5/plugin/weui/js/jquery-weui.min.js"></script>
 
 
 </head>

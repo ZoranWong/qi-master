@@ -8,10 +8,10 @@
     <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
     <meta name="viewport"
           content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no"/>
-    <link rel="stylesheet" href="style/css/base.css"/>
-    <link rel="stylesheet" href="style/css/index.css"/>
-    <script type="text/javascript" src="style/js/jquery-3.3.1.js"></script>
-    <script type="text/javascript" src="style/js/rem.js"></script>
+    <link rel="stylesheet" href="/h5/css/base.css"/>
+    <link rel="stylesheet" href="/h5/css/index.css"/>
+    <script type="text/javascript" src="/h5/js/jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="/h5/js/rem.js"></script>
 </head>
 
 <body>

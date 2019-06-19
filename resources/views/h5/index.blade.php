@@ -8,9 +8,9 @@
     <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
     <meta name="viewport"
           content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no"/>
-    <link rel="stylesheet" href="style/css/base.css"/>
-    <link rel="stylesheet" href="style/css/index.css"/>
-    <script type="text/javascript" src="style/js/rem.js"></script>
+    <link rel="stylesheet" href="/h5/css/base.css"/>
+    <link rel="stylesheet" href="/h5/css/index.css"/>
+    <script type="text/javascript" src="/h5/js/rem.js"></script>
 
 </head>
 
@@ -20,7 +20,7 @@
     <div class="top">
         <div class="info">
             <div class="header-portrait">
-                <img src="style/img/portrait.png">
+                <img src="/h5/img/portrait.png">
             </div>
             <div class="name">张三</div>
             <div class="wallet-balance">
@@ -37,32 +37,32 @@
     <div class="my-order clearfix">
         <a href="">
             <div>
-                <img src="style/img/order_icon_1.png">
+                <img src="/h5/img/order_icon_1.png">
             </div>
             <p>待雇佣</p>
             <div class="point-view">1</div>
         </a>
         <a href="">
             <div>
-                <img src="style/img/order_icon_2.png">
+                <img src="/h5/img/order_icon_2.png">
             </div>
             <p>带托管</p>
         </a>
         <a href="">
             <div>
-                <img src="style/img/order_icon_3.png">
+                <img src="/h5/img/order_icon_3.png">
             </div>
             <p>服务中</p>
         </a>
         <a href="">
             <div>
-                <img src="style/img/order_icon_4.png">
+                <img src="/h5/img/order_icon_4.png">
             </div>
             <p>待确认</p>
         </a>
         <a href="">
             <div>
-                <img src="style/img/order_icon_5.png">
+                <img src="/h5/img/order_icon_5.png">
             </div>
             <p>待验收</p>
         </a>
