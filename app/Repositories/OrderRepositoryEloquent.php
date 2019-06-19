@@ -2,19 +2,14 @@
 
 namespace App\Repositories;
 
-use App\Models\User;
-use App\Presenters\UserPresenter;
+use App\Models\Order;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Exceptions\RepositoryException;
 
-/**
- * Class UserRepositoryEloquent.
- *
- * @package namespace App\Repositories;
- */
-class UserRepositoryEloquent extends BaseRepository implements UserRepository
+class OrderRepositoryEloquent extends BaseRepository implements OrderRepository
 {
+
     /**
      * Specify Model class name
      *
@@ -22,12 +17,7 @@ class UserRepositoryEloquent extends BaseRepository implements UserRepository
      */
     public function model()
     {
-        return User::class;
-    }
-
-    public function presenter()
-    {
-        return UserPresenter::class;
+        return Order::class;
     }
 
     /**
@@ -38,5 +28,4 @@ class UserRepositoryEloquent extends BaseRepository implements UserRepository
     {
         $this->pushCriteria(app(RequestCriteria::class));
     }
-
 }

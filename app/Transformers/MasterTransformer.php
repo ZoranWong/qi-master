@@ -2,24 +2,24 @@
 
 namespace App\Transformers;
 
-use App\Models\User;
+use App\Models\Master;
 use League\Fractal\TransformerAbstract;
 
 /**
- * Class UserTransformer.
+ * Class MasterTransformer.
  *
  * @package namespace App\Transformers;
  */
-class UserTransformer extends TransformerAbstract
+class MasterTransformer extends TransformerAbstract
 {
     /**
-     * Transform the User entity.
+     * Transform the Master entity.
      *
-     * @param User $model
+     * @param Master $model
      *
      * @return array
      */
-    public function transform(User $model)
+    public function transform(Master $model)
     {
         return [
             'id' => (int)$model->id,
