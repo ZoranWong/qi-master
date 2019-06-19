@@ -21,33 +21,11 @@ $api->version('v1', ['namespace' => 'App\Api\Controllers'], function (Router $ap
         /**
          * 用户
          */
-        $api->group(['prefix' => 'masters'], function (Router $api) {
-            $api->get('/profile', ['as' => 'users.profile', 'uses' => 'MasterController@profile']);
-        });
-        /**
-         * 订单
-         */
-        $api->group(['prefix' => 'orders'], function (Router $api) {
-            $api->get('/', 'OrderController@index');
-            $api->get('/{order}', 'OrderController@detail');
-        });
-        /**
-         * 投诉
-         */
-        $api->group(['prefix' => 'complaints'], function (Router $api) {
+        require_once app_path('Api/user-api.php');
 
-        });
         /**
-         * 商品
+         * 师傅
          */
-        $api->group(['prefix' => 'gallery'], function (Router $api) {
-
-        });
-        /**
-         * 消息
-         */
-        $api->group(['prefix' => 'messages'], function (Router $api) {
-
-        });
+        require_once app_path('Api/master-api.php');
     });
 });
