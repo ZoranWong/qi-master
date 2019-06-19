@@ -37,7 +37,7 @@
         </form>
         <div class="flex regi">
             <a href="register">马上注册</a>
-            <a href="reset/password">忘记密码？</a>
+            <a href="forget/password">忘记密码？</a>
         </div>
 
     </div>

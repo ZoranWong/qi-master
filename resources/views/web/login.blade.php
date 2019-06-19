@@ -35,7 +35,7 @@
             <input type="password" id="password" class="password" placeholder="请输入您的密码">
             <button onclick="login()">立即登录</button>
             <div class="forget">
-                <a href="reset/password">忘记密码</a>
+                <a href="forget/password">忘记密码</a>
             </div>
         </div>
     </div>

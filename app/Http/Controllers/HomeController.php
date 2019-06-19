@@ -29,9 +29,13 @@ class HomeController extends Controller
 
     }
 
-    public function resetPassword()
+    public function forgetPassword()
     {
-        return view('web.psw');
+        if(isMobile()){
+            return view('web.forgetpsw');
+        }else{
+            return view('web.forgetpsw');
+        }
     }
 
     public function login()
