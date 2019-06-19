@@ -17,9 +17,6 @@ class ChangeAuthGuard
      */
     public function handle($request, Closure $next, $guard)
     {
-//        app()->singleton('auth.driver', function ($app) use ($guard) {
-//            return $app['auth']->guard($guard);
-//        });
         config(['auth.defaults.guard' => $guard]);
 
         return $next($request);

@@ -20,7 +20,15 @@ class AuthController extends Controller
     {
         $credential = $request->only(['mobile', 'password']);
 
-        if (!($token = auth()->attempt($credential))) {
+        /** @var User|Master $user */
+        $guard = config('auth.defaults.guard');
+        $provider = config("auth.guards.{$guard}.provider");
+        $userClass = config("auth.providers.{$provider}.model");
+        $user = new $userClass;
+
+        $customClaims = $user->getJWTCustomClaims();
+
+        if (!($token = auth()->claims($customClaims)->attempt($credential))) {
             $this->response->errorUnauthorized('账号密码不匹配');
         }
 
