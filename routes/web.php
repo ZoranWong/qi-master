@@ -13,7 +13,8 @@
 use Illuminate\Routing\Router;
 Route::group(['middleware' => ['guard:users']], function (Router $router) {
     $router->get('/login', 'HomeController@login')->name('login');
-
+    $router->get('/register', 'HomeController@register')->name('register');
+    $router->get('/reset/password', 'HomeController@resetPassword')->name('reset.password');
     $router->group(['middleware' => ['auth']], function (Router $router) {
         $router->get('', 'HomeController@index');
     });

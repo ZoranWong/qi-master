@@ -26,7 +26,7 @@
     <div class="max-width">
         <div class="register-box">
             <div class="title">
-                <span class="fr">已有账号？ <a href="login.html">立即登录&gt;&gt;</a></span>
+                <span class="fr">已有账号？ <a href="login">立即登录&gt;&gt;</a></span>
             </div>
             <div class="left">
                 <div class="welcome">欢迎注册齐师傅<span class="tips"></span></div>

@@ -14,6 +14,16 @@ class HomeController extends Controller
         return view('web.index');
     }
 
+    public function register()
+    {
+        return view('web.register');
+    }
+
+    public function resetPassword()
+    {
+        return view('web.psw');
+    }
+
     public function login()
     {
         return view('web.login')->with([

@@ -29,13 +29,13 @@
         <div class="login-box">
             <div class="title">
                 <span class="icon">用户登录</span>
-                <span class="fr">还没有账号？ <a href="register.html">立即注册&gt;&gt;</a></span>
+                <span class="fr">还没有账号？ <a href="register">立即注册&gt;&gt;</a></span>
             </div>
             <input type="tel" id="phone" class="login-phone" maxlength="11" placeholder="请输入您的手机号">
             <input type="password" id="password" class="password" placeholder="请输入您的密码">
             <button onclick="login()">立即登录</button>
             <div class="forget">
-                <a href="psw.html">忘记密码</a>
+                <a href="reset/password">忘记密码</a>
             </div>
         </div>
     </div>
