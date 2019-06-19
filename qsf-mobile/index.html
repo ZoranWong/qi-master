@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no"/>
+    <link rel="stylesheet" href="style/css/base.css"/>
+    <link rel="stylesheet" href="style/css/index.css"/>
+    <script type="text/javascript" src="style/js/rem.js"></script>
+
+</head>
+
+<body>
+<div class="wrap">
+
+    <div class="top">
+        <div class="info">
+            <div class="header-portrait">
+                <img src="style/img/portrait.png">
+            </div>
+            <div class="name">张三</div>
+            <div class="wallet-balance">
+                <span class="number">￥23453.82</span>
+                <span>钱包余额</span>
+            </div>
+            <div>
+                <button class="btn">充值</button>
+            </div>
+        </div>
+    </div>
+
+    <!--content-->
+    <div class="my-order clearfix">
+        <a href="">
+            <div>
+                <img src="style/img/order_icon_1.png">
+            </div>
+            <p>待雇佣</p>
+            <div class="point-view">1</div>
+        </a>
+        <a href="">
+            <div>
+                <img src="style/img/order_icon_2.png">
+            </div>
+            <p>带托管</p>
+        </a>
+        <a href="">
+            <div>
+                <img src="style/img/order_icon_3.png">
+            </div>
+            <p>服务中</p>
+        </a>
+        <a href="">
+            <div>
+                <img src="style/img/order_icon_4.png">
+            </div>
+            <p>待确认</p>
+        </a>
+        <a href="">
+            <div>
+                <img src="style/img/order_icon_5.png">
+            </div>
+            <p>待验收</p>
+        </a>
+    </div>
+
+
+    <!--footer-->
+    <div class="footer">
+        <div class="now">
+            <a href="index.html">
+                <i class="icon-h"></i>
+                <span>首页</span>
+            </a>
+        </div>
+        <div>
+            <a href="publish.html">
+                <i class="icon-p"></i>
+                <span class="p-txt">发布订单</span>
+            </a>
+        </div>
+        <div>
+            <a href="order.html">
+                <i class="icon-o"></i>
+                <span>我的订单</span>
+            </a>
+        </div>
+    </div>
+
+</div>
+</body>
+<script>
+    var swiper = new Swiper('.swiper-banner', {
+        autoplay: {
+            delay: 2500,
+            disableOnInteraction: false,
+        },
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        }
+    });
+</script>
+
+</html>

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>会员中心-我的账户</title>
+    <link rel="stylesheet" href="style/plugin/layui/css/layui.css"/>
+    <link rel="stylesheet" href="style/css/common.css"/>
+    <link rel="stylesheet" href="style/css/styles.css"/>
+    <script type="text/javascript" src="style/js/jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="style/plugin/layui/layui.js"></script>
+
+</head>
+
+<body>
+<!--header-->
+<header>
+    <div id="header">
+        <div class="header-a">
+            <div class="nav-a" style="padding-right: 0px; border: 0px;">
+                <a href="">您好，</a>
+            </div>
+            <div class="nav-a" style="padding-right: 0px; border: 0px;">
+                <a href="" class="" style="padding-right: 0px;">我的订单</a>
+            </div>
+            <div class="nav-a">
+                <a href="javascript:void(0)">退出</a>
+            </div>
+            <div class="nav-a">
+                <a href="/">官网首页</a>
+            </div>
+            <div class="nav-a">
+                <a href="">优惠活动</a>
+            </div>
+            <div class="nav-a">
+                <a href="">商户APP</a>
+            </div>
+            <div class="nav-a">
+                <a href="">师傅入驻</a>
+            </div>
+            <div class="nav-b">
+                <a href="">家庭用户</a>
+            </div>
+        </div>
+    </div>
+    <div id="nav">
+        <div class="navlist am-container"><img src="style/image/logo.png" class="logo">
+            <ul id="tabs_nav" class="boxlie">
+                <li class="selected">
+                    <a href="index.html">我的首页</a>
+                </li>
+                <li>
+                    <a href="order.html">订单管理</a>
+                </li>
+                <li>
+                    <a href="refund.html">维权中心</a>
+                </li>
+                <li>
+                    <a href="mywallet.html">我的钱包</a>
+                </li>
+                <li>
+                    <a href="profile.html">账号管理</a>
+                </li>
+                <li>
+                    <a href="message.html">服务中心</a>
+                </li>
+            </ul>
+            <div class="make-order">
+                <a href="publish.html">立即找师傅</a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!--header end-->
+<!--content-->
+<div class="distance">
+    <div class="max-width clearfix">
+        <div class="crumbs">
+            <ul class="clearfix">
+                <li>您的位置：</li>
+                <li>
+                    <a href="index.html">首页</a>
+                </li>
+                <li>
+                    <a href=""></a> <span class="separator">&gt;</span></li>
+                <li>
+                    <a href="security.html">安全设置</a> <span class="separator">&gt;</span></li>
+                <li>修改手机号</li>
+            </ul>
+        </div>
+        <div class="left-nav">
+            <div class="my-center">
+                <a href="index.html">
+                    <i></i>
+                    <span>个人中心</span>
+                </a>
+            </div>
+            <div>
+                <ul class="second-menu">
+                    <li class="active">
+                        <div><i class="icon-menu-1"></i>订单中心</div>
+                        <ul>
+                            <li>
+                                <a href="order.html">全部订单</a>
+                            </li>
+                            <li>
+                                <a href="comment.html">我的评价</a>
+                            </li>
+                            <li>
+                                <a href="gallery.html">商品管理</a>
+                            </li>
+                            <li>
+                                <a href="favorite.html">收藏的服务商</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <div><i class="icon-menu-2"></i>维权中心</div>
+                        <ul>
+                            <li>
+                                <a href="refund.html">退款管理</a>
+                            </li>
+                            <li>
+                                <a href="complaint.html">投诉管理</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <div><i class="icon-menu-3"></i>我的钱包</div>
+                        <ul>
+                            <li>
+                                <a href="mywallet.html">钱包余额</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <div><i class="icon-menu-4"></i>个人中心</div>
+                        <ul>
+                            <li class="router-link-active">
+                                <a href="profile.html">基本资料</a>
+                            </li>
+                            <li>
+                                <a href="security.html">安全设置</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <div><i class="icon-menu-5"></i>服务中心</div>
+                        <ul>
+                            <li>
+                                <a href="">我的消息</a>
+                            </li>
+
+                            <li>
+                                <a href="">资质管理</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="right-content">
+            <h2>修改手机号</h2>
+            <div>
+                <form class="layui-form float-none profile" action="">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">原手机号</label>
+                        <div class="layui-input-inline modifle-phone">
+                            <input type="tel" name="phone" lay-verify="title" autocomplete="off"
+                                   placeholder="13623623263" class="layui-input disabled" disabled>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">新手机号</label>
+                        <div class="layui-input-inline modifle-phone">
+                            <input type="tel" name="phone" lay-verify="title" autocomplete="off" placeholder="请输入新手机号"
+                                   class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">验证码</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="code" lay-verify="title" autocomplete="off" placeholder="手机验证码"
+                                   class="layui-input">
+                        </div>
+                        <input type="button" id="btn" value="获取验证码" onclick="settime(this)" class="send-code"/>
+                    </div>
+                    <div class="layui-form-item" id="layerDemo">
+                        <button class="layui-btn inquire" data-method="offset" data-type="auto">提交</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!--content--end-->
+
+</body>
+
+</html>
+<script>
+    layui.use('layer', function () {
+        var $ = layui.jquery
+        layer = layui.layer;
+        var active = {
+            offset: function (othis) {
+                var type = othis.data('type'),
+                    text = othis.text();
+
+                layer.open({
+                    type: 1,
+                    offset: type,
+                    id: 'layerDemo' + type,
+                    content: '<div style="padding: 20px 100px;">' + text + '</div>',
+                    btn: '关闭全部',
+                    btnAlign: 'c',
+                    shade: 0,
+                    yes: function () {
+                        layer.closeAll();
+                    }
+                });
+            }
+        };
+
+        $('#layerDemo .layui-btn').on('click', function () {
+            var othis = $(this),
+                method = othis.data('method');
+            active[method] ? active[method].call(this, othis) : '';
+        });
+
+    })
+    var countdown = 60;
+
+    function settime(obj) {
+        if (countdown == 0) {
+            obj.removeAttribute("disabled");
+            obj.value = "免费获取验证码";
+            countdown = 60;
+            return;
+        } else {
+            obj.setAttribute("disabled", true);
+            obj.value = "重新发送(" + countdown + ")";
+            countdown--;
+        }
+        setTimeout(function () {
+            settime(obj)
+        }, 1000)
+    }
+</script>
