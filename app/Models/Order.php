@@ -26,6 +26,8 @@ use Ramsey\Uuid\Uuid;
  * @property int $type 订单类型
  * @property int $status 订单状态
  * @property int $totalAmount 订单总金额,单位：分
+ * @property int $classificationId 类目ID
+ * @property int $serviceId 服务类型ID
  * @property Carbon|null $createdAt
  * @property Carbon|null $updatedAt
  * @property string|null $deletedAt
@@ -38,6 +40,8 @@ use Ramsey\Uuid\Uuid;
  * @property string $customerPhone 客户电话
  * @property string $regionCode 行政区域编号
  * @property string $customerAddress 服务地址
+ * @property-read Classification $classification
+ * @property-read ServiceType $serviceType
  * @property-read CouponCode|null $couponCode
  * @property-read Collection|OfferOrder[] $employedMasters
  * @property-read Collection|OrderItem[] $items
@@ -195,19 +199,44 @@ class Order extends Model implements HasPresenter
         return $this->hasMany(OrderItem::class);
     }
 
+    /**
+     * 报价单
+     */
     public function offerOrders()
     {
         return $this->hasMany(OfferOrder::class);
     }
 
+    /**
+     * 退款单
+     */
     public function refundOrders()
     {
         return $this->hasMany(RefundOrder::class);
     }
 
+    /**
+     * 主动雇佣报价单
+     */
     public function employedMasters()
     {
         return $this->belongsToMany(OfferOrder::class, 'masters', 'order_id', 'master_id');
+    }
+
+    /**
+     * 类目
+     */
+    public function classification()
+    {
+        return $this->belongsTo(Classification::class, 'classification_id');
+    }
+
+    /**
+     * 服务类型
+     */
+    public function serviceType()
+    {
+        return $this->belongsTo(ServiceType::class, 'service_id');
     }
 
     public function couponCode()

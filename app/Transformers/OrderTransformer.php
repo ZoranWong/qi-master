@@ -21,8 +21,6 @@ class OrderTransformer extends TransformerAbstract
      */
     public function transform(Order $model)
     {
-        $master = $model->master;
-
         return [
             'id' => (int)$model->id,
             'order_no' => (string)$model->orderNo,
@@ -34,7 +32,8 @@ class OrderTransformer extends TransformerAbstract
             'total_amount' => $model->totalAmount,
             'status' => Order::STATUS[$model->status],
 
-            'service_type' => '',// 服务类型/类目
+            'service_type' => $model->serviceType->name,// 服务类型
+            'classification' => $model->classification->name,// 类目
             'offer_orders_count' => $model->offerOrders()->count(),// 报价数
 
             'created_at' => (string)$model->createdAt,
