@@ -14,63 +14,7 @@
 
 <body>
 <!--header-->
-<header>
-    <div id="header">
-        <div class="header-a">
-            <div class="nav-a" style="padding-right: 0px; border: 0px;">
-                <a href="">您好，</a>
-            </div>
-            <div class="nav-a" style="padding-right: 0px; border: 0px;">
-                <a href="" class="" style="padding-right: 0px;">我的订单</a>
-            </div>
-            <div class="nav-a">
-                <a href="javascript:void(0)">退出</a>
-            </div>
-            <div class="nav-a">
-                <a href="/">官网首页</a>
-            </div>
-            <div class="nav-a">
-                <a href="">优惠活动</a>
-            </div>
-            <div class="nav-a">
-                <a href="">商户APP</a>
-            </div>
-            <div class="nav-a">
-                <a href="">师傅入驻</a>
-            </div>
-            <div class="nav-b">
-                <a href="">家庭用户</a>
-            </div>
-        </div>
-    </div>
-    <div id="nav">
-        <div class="navlist am-container"><img src="/web/image/logo.png" class="logo">
-            <ul id="tabs_nav" class="boxlie">
-                <li>
-                    <a href="index.html">我的首页</a>
-                </li>
-                <li class="selected">
-                    <a href="order.html">订单管理</a>
-                </li>
-                <li>
-                    <a href="refund.html">维权中心</a>
-                </li>
-                <li>
-                    <a href="mywallet.html">我的钱包</a>
-                </li>
-                <li>
-                    <a href="profile.html">账号管理</a>
-                </li>
-                <li>
-                    <a href="message.html">服务中心</a>
-                </li>
-            </ul>
-            <div class="make-order">
-                <a href="publish.html">立即找师傅</a>
-            </div>
-        </div>
-    </div>
-</header>
+@include('web.header')
 
 <!--header end-->
 <!--content-->
@@ -102,10 +46,10 @@
                         <div><i class="icon-menu-1"></i>订单中心</div>
                         <ul>
                             <li class="router-link-active">
-                                <a href="order.html">全部订单</a>
+                                <a href="orders">全部订单</a>
                             </li>
                             <li>
-                                <a href="comment.html">我的评价</a>
+                                <a href="comments">我的评价</a>
                             </li>
                             <li>
                                 <a href="gallery.html">商品管理</a>
@@ -260,7 +204,7 @@
                                     </td>
                                     <td>
                                         <div class="more text-center">
-                                            <a href="orderinfo.html">查看订单</a>
+                                            <a href="/orders/1">查看订单</a>
                                             <a href="">雇佣师傅</a>
                                             <span>取消订单</span>
                                         </div>

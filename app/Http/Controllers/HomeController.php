@@ -14,7 +14,10 @@ class HomeController extends Controller
         if (isMobile()) {
             return view('h5.index');
         } else {
-            return view('web.index');
+            return view('web.index')->with([
+                'selected' => '',
+                'currentMenu' => ''
+            ]);
         }
 
     }

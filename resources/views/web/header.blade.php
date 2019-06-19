@@ -1,13 +1,4 @@
-<!DOCTYPE html>
-<html>
 
-<head>
-    <meta charset="UTF-8">
-    <title></title>
-    <link rel="stylesheet" href="/web/css/common.css"/>
-</head>
-
-<body>
 <!--header-->
 <header>
     <div id="header">
@@ -39,35 +30,31 @@
         </div>
     </div>
     <div id="nav">
-        <div class="navlist am-container"><a href="index.html"><img src="/web/image/logo.png" class="logo"></a>
+        <div class="navlist am-container"><a href="/"><img src="/web/image/logo.png" class="logo"></a>
             <ul id="tabs_nav" class="boxlie">
-                <li class="selected">
-                    <a href="index.html">我的首页</a>
+                <li class="{{$selected === '' ? 'selected' : ''}}">
+                    <a href="/">我的首页</a>
                 </li>
-                <li>
-                    <a href="order.html">订单管理</a>
+                <li class="{{$selected === 'orders' ? 'selected' : ''}}">
+                    <a href="/orders">订单管理</a>
                 </li>
-                <li>
-                    <a href="refund.html">维权中心</a>
+                <li class="{{$selected === 'refund' ? 'selected' : ''}}">
+                    <a href="/refund">维权中心</a>
                 </li>
-                <li>
-                    <a href="mywallet.html">我的钱包</a>
+                <li class="{{$selected === 'wallet' ? 'selected' : ''}}">
+                    <a href="/wallet">我的钱包</a>
                 </li>
-                <li>
-                    <a href="profile.html">账号管理</a>
+                <li class="{{$selected === 'profile' ? 'selected' : ''}}">
+                    <a href="/profile">账号管理</a>
                 </li>
-                <li>
-                    <a href="message.html">服务中心</a>
+                <li class="{{$selected === 'message' ? 'selected' : ''}}">
+                    <a href="/message">服务中心</a>
                 </li>
             </ul>
             <div class="make-order">
-                <a href="publish.html">立即找师傅</a>
+                <a href="/publish">立即找师傅</a>
             </div>
         </div>
     </div>
 </header>
-
 <!--header end-->
-</body>
-
-</html>
