@@ -142,6 +142,7 @@ return [
     | of "email". This simply helps us make our message more expressive.
     |
     */
+    'phone_number' => 'The :attribute is not valid phone number format.',
 
     'attributes' => [],
 

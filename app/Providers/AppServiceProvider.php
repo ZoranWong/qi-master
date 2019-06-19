@@ -6,6 +6,7 @@ use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 use Monolog\Logger;
 use Yansongda\Pay\Pay;
@@ -25,6 +26,13 @@ class AppServiceProvider extends ServiceProvider
         DB::listen(function (QueryExecuted $queryExecuted) {
             Log::debug($queryExecuted->sql);
         });
+
+        Validator::extend('phone_number', function ($attribute, $value, $parameters, $validator) {
+            if (preg_match("/^1[34578]\d{9}$/", $value)) {
+                return true;
+            }
+            return false;
+        });
     }
 
     /**
@@ -41,7 +49,7 @@ class AppServiceProvider extends ServiceProvider
             $config['return_url'] = route('payment.alipay.return');
             // 判断当前项目运行环境是否为线上环境
             if (app()->environment() !== 'production') {
-                $config['mode']         = 'dev';
+                $config['mode'] = 'dev';
                 $config['log']['level'] = Logger::DEBUG;
             } else {
                 $config['log']['level'] = Logger::WARNING;

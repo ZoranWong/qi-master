@@ -19,6 +19,7 @@
         "mccool/laravel-auto-presenter": "^7.2",
         "overtrue/laravel-lang": "^3.0",
         "predis/predis": "^1.1",
+        "prettus/l5-repository": "^2.6",
         "tymon/jwt-auth": "1.0.0-rc.3",
         "yansongda/pay": "^2.5"
     },

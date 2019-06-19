@@ -8,11 +8,13 @@ $api->version('v1', ['namespace' => 'App\Api\Controllers'], function (Router $ap
     $api->group(['prefix' => 'auth/users', 'middleware' => ['guard:users']], function (Router $api) {
         $api->post('login', 'AuthController@login');
         $api->post('logout', 'AuthController@logout');
+        $api->post('register', 'AuthController@register');
     });
 
     $api->group(['prefix' => 'auth/masters', 'middleware' => ['guard:masters']], function (Router $api) {
         $api->post('login', 'AuthController@login');
         $api->post('logout', 'AuthController@logout');
+        $api->post('register', 'AuthController@register');
     });
 
     $api->group(['middleware' => ['refresh.token']], function (Router $api) {
