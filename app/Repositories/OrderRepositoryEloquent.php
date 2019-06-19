@@ -9,6 +9,14 @@ use Prettus\Repository\Exceptions\RepositoryException;
 
 class OrderRepositoryEloquent extends BaseRepository implements OrderRepository
 {
+    protected $fieldSearchable = [
+        'status',
+        'order_no',
+        'master.name' => 'like',
+        'master.mobile',
+        'customer_phone',
+        'customer_name' => 'like',
+    ];
 
     /**
      * Specify Model class name
