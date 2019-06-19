@@ -8,6 +8,6 @@ class UsersController extends Controller
 {
     public function profile()
     {
-        return $this->auth->user();
+        return auth()->user();
     }
 }

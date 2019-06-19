@@ -23,13 +23,19 @@ class AuthController extends Controller
         /** @var User|Master $user */
         $guard = config('auth.defaults.guard');
         $provider = config("auth.guards.{$guard}.provider");
-        $userClass = config("auth.providers.{$provider}.model");
-        $user = new $userClass;
+        if (config("auth.guards.{$guard}.driver") === 'jwt') {
+            $userClass = config("auth.providers.{$provider}.model");
+            $user = new $userClass;
+            $customClaims = $user->getJWTCustomClaims();
+            auth()->claims($customClaims);
+        }
 
-        $customClaims = $user->getJWTCustomClaims();
-
-        if (!($token = auth()->claims($customClaims)->attempt($credential))) {
+        if (!($token = auth()->attempt($credential))) {
             $this->response->errorUnauthorized('账号密码不匹配');
+        }
+
+        if (is_bool($token) && $token) {
+            return response()->json(['message' => 'Successfully logged in']);
         }
 
         return $this->responseWithToken($token);
@@ -63,8 +69,7 @@ class AuthController extends Controller
     protected function responseWithToken($token)
     {
         return response()->json([
-            'token' => 'bearer ' . $token,
-            'expire_in' => auth()->factory()->getTTL() * 60
+            'token' => 'bearer ' . $token
         ]);
     }
 }
