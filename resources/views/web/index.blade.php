@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="/web/plugin/layui/css/layui.css"/>
+    <link rel="stylesheet" href="/web/css/common.css"/>
+    <link rel="stylesheet" href="/web/css/styles.css"/>
+    <script type="text/javascript" src="/web/js/jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="/web/plugin/layui/layui.js"></script>
+</head>
+
+<body>
+<!--header-->
+<header>
+    <div id="header">
+        <div class="header-a">
+            <div class="nav-a" style="padding-right: 0px; border: 0px;">
+                <a href="">您好，</a>
+            </div>
+            <div class="nav-a" style="padding-right: 0px; border: 0px;">
+                <a href="" class="" style="padding-right: 0px;">我的订单</a>
+            </div>
+            <div class="nav-a">
+                <a href="javascript:void(0)">退出</a>
+            </div>
+            <div class="nav-a">
+                <a href="/">官网首页</a>
+            </div>
+            <div class="nav-a">
+                <a href="">优惠活动</a>
+            </div>
+            <div class="nav-a">
+                <a href="">商户APP</a>
+            </div>
+            <div class="nav-a">
+                <a href="">师傅入驻</a>
+            </div>
+            <div class="nav-b">
+                <a href="">家庭用户</a>
+            </div>
+        </div>
+    </div>
+    <div id="nav">
+        <div class="navlist am-container"><img src="/web/image/logo.png" class="logo">
+            <ul id="tabs_nav" class="boxlie">
+                <li class="selected">
+                    <a href="index.html">我的首页</a>
+                </li>
+                <li>
+                    <a href="order.html">订单管理</a>
+                </li>
+                <li>
+                    <a href="refund.html">维权中心</a>
+                </li>
+                <li>
+                    <a href="mywallet.html">我的钱包</a>
+                </li>
+                <li>
+                    <a href="profile.html">账号管理</a>
+                </li>
+            </ul>
+            <div class="make-order">
+                <a href="publish.html">立即找师傅</a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!--header end-->
+
+<!--content-->
+<div class="distance">
+    <div class="max-width clearfix">
+        <div class="crumbs">
+            <ul class="clearfix">
+                <li>您的位置：</li>
+                <li>
+                    <a href="index.html">首页</a>
+                </li>
+            </ul>
+        </div>
+        <div class="left-nav">
+            <div class="my-center">
+                <a href="index.html">
+                    <i></i>
+                    <span>个人中心</span>
+                </a>
+            </div>
+            <div>
+                <ul class="second-menu">
+                    <li class="active">
+                        <div><i class="icon-menu-1"></i>订单中心</div>
+                        <ul>
+                            <li>
+                                <a href="order.html">全部订单</a>
+                            </li>
+                            <li>
+                                <a href="comment.html">我的评价</a>
+                            </li>
+                            <li>
+                                <a href="gallery.html">商品管理</a>
+                            </li>
+                            <li>
+                                <a href="favorite.html">收藏的服务商</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <div><i class="icon-menu-2"></i>维权中心</div>
+                        <ul>
+                            <li>
+                                <a href="refund.html">退款管理</a>
+                            </li>
+                            <li>
+                                <a href="complaint.html">投诉管理</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <div><i class="icon-menu-3"></i>我的钱包</div>
+                        <ul>
+                            <li>
+                                <a href="mywallet.html">钱包余额</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <div><i class="icon-menu-4"></i>个人中心</div>
+                        <ul>
+                            <li>
+                                <a href="profile.html">基本资料</a>
+                            </li>
+                            <li>
+                                <a href="security.html">安全设置</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <div><i class="icon-menu-5"></i>服务中心</div>
+                        <ul>
+                            <li>
+                                <a href="">我的消息</a>
+                            </li>
+
+                            <li>
+                                <a href="">资质管理</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="right-content">
+            <div class="index-user clearfix">
+                <div class="user">
+                    <div class="head-pic"></div>
+                    <div class="name">
+                        <a href="profile.html">王先生</a>
+                    </div>
+                </div>
+                <div class="wallet">
+                    <h4>我的钱包</h4>
+                    <div class="recharge">
+                        <div class="money">1551.20</div>
+                        <div class="text">余额(元)</div>
+                        <a href="recharge.html" class="btn">充值</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="index-table order">
+                <div class="title">
+                    <h4>我的订单</h4>
+                    <a href="order.html" class="">全部订单 ›</a>
+                </div>
+                <ul class="content clearfix">
+                    <li>
+                        <a href="">
+                            <i></i> <span>待报价</span>
+                            <div>0</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <i></i> <span>待雇佣</span>
+                            <div>0</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <i></i> <span>待支付</span>
+                            <div>0</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <i></i> <span>待确认验收</span>
+                            <div>0</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <i></i> <span>待评价</span>
+                            <div>0</div>
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="layui-form">
+                    <table class="layui-table">
+                        <thead>
+                        <tr>
+                            <th colspan="6">
+                                <span>订单号：P10434789148</span>
+                                <span>2019-01-17 13:34:04</span>
+                                <span>服务商：黄锋（18260098365）</span>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>
+                                <div class="flex">
+                                    <div class="item-img">
+                                        <img src="/web/image/product.jpg">
+                                    </div>
+                                    <div class="item-text">
+                                        <span>衣柜</span>
+                                        <span>两门小衣柜</span>
+                                        <span>数量：1</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    <div>周金梅/13864666439</div>
+                                    <div>山东省潍坊市寒亭区大家洼街道八里村小5号楼2单元302</div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    <div>已有<em class="red">1</em>位师傅报价</div>
+                                    <div>最低价<em class="red">159.00</em></div>
+                                </div>
+                            </td>
+                            <td>
+                                <div>待雇佣</div>
+                            </td>
+                            <td>
+                                <div class="more">
+                                    <a href="orderinfo.html">查看订单</a>
+                                    <a href="">雇佣师傅</a>
+                                    <span>取消订单</span>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<!--content--end-->
+
+</body>
+
+</html>

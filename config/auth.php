@@ -41,7 +41,7 @@ return [
             'provider' => 'masters'
         ],
         'users' => [
-            'driver' => 'jwt',
+            'driver' => 'session',
             'provider' => 'users'
         ]
     ],
