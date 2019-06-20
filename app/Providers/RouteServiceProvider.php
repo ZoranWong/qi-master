@@ -38,6 +38,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         $url = Request::url();
 
+        dd(preg_match('/\/admin(\/[0-9a-zA-Z]*)*/', $url));
         if(preg_match('/\/admin(\/[0-9a-zA-Z]*)*/', $url) === 0) {
             $this->mapApiRoutes();
 
