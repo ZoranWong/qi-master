@@ -14,13 +14,14 @@
         "endroid/qr-code": "^3.5",
         "fideloper/proxy": "^4.0",
         "jxlwqq/material-ui": "^1.0",
-        "laravel/framework": "5.7.*",
+        "laravel/framework": "^5.7.0",
         "laravel/tinker": "^1.0",
         "mccool/laravel-auto-presenter": "^7.2",
         "overtrue/laravel-lang": "^3.0",
         "predis/predis": "^1.1",
         "tymon/jwt-auth": "1.0.0-rc.3",
-        "yansongda/pay": "^2.5"
+        "yansongda/pay": "^2.5",
+        "zoran-wang/jwt-auth-guard": "dev-master"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.2",
@@ -75,6 +76,5 @@
             "@php artisan key:generate --ansi"
         ]
     },
-    "repositories": {
-    }
+    "repositories": []
 }

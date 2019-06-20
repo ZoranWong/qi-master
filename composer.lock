@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "04f16442a1931cea91f90e6232594a52",
+    "content-hash": "7c4d5908e880da75abb3aacd425fe241",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -2114,16 +2114,16 @@
         },
         {
             "name": "league/flysystem",
-            "version": "1.0.52",
+            "version": "1.0.53",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "c5a5097156387970e6f0ccfcdf03f752856f3391"
+                "reference": "08e12b7628f035600634a5e76d95b5eb66cea674"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/c5a5097156387970e6f0ccfcdf03f752856f3391",
-                "reference": "c5a5097156387970e6f0ccfcdf03f752856f3391",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/08e12b7628f035600634a5e76d95b5eb66cea674",
+                "reference": "08e12b7628f035600634a5e76d95b5eb66cea674",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -2200,7 +2200,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2019-05-20T20:21:14+00:00"
+            "time": "2019-06-18T20:09:29+00:00"
         },
         {
             "name": "league/fractal",
@@ -6116,6 +6116,50 @@
                 "psr-7"
             ],
             "time": "2019-04-29T21:11:00+00:00"
+        },
+        {
+            "name": "zoran-wang/jwt-auth-guard",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ZoranWong/JWTAuthGuard.git",
+                "reference": "a217aaa8dbed876c647ac8198a2df4f90a48d8e0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ZoranWong/JWTAuthGuard/zipball/a217aaa8dbed876c647ac8198a2df4f90a48d8e0",
+                "reference": "a217aaa8dbed876c647ac8198a2df4f90a48d8e0",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "illuminate/support": "~5.0",
+                "php": ">=7.0.0",
+                "tymon/jwt-auth": "^1.0||^1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Zoran\\JwtAuthGuard\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Zoran Wong",
+                    "email": "skyandsunning@163.com"
+                }
+            ],
+            "description": "jwt auth guard for laravel or lumen ,the version 5+",
+            "time": "2019-03-15T10:23:20+00:00"
         }
     ],
     "packages-dev": [
@@ -8697,7 +8741,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "zoran-wang/jwt-auth-guard": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
