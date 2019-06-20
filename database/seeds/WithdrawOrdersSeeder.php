@@ -12,6 +12,7 @@ class WithdrawOrdersSeeder extends Seeder
     public function run()
     {
         //
+        WithdrawDepositOrder::truncate();
         factory(WithdrawDepositOrder::class, 100)->create();
     }
 }
