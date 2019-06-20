@@ -19,7 +19,7 @@ Route::group(['middleware' => ['guard:users']], function (Router $router) {
         $router->get('', 'HomeController@index');
         $router->get('orders', 'OrdersController@index');
         $router->get('orders/{order}', 'OrdersController@show');
-        $router->get('publish', 'OrdersController@publish');
+        $router->get('publish/{step?}', 'OrdersController@publish');
         $router->get('comments', 'CommentsController@index');
         $router->get('gallery', 'ProductsController@index');
         $router->get('favorite', 'ProductsController@favorite');

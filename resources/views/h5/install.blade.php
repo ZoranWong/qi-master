@@ -74,7 +74,7 @@
 </div>
 
 <div class="next-p">
-    <a href="custominfo.html" class="go-n">下一步</a>
+    <a href="/publish/custominfo" class="go-n">下一步</a>
 </div>
 
 <!--选择商品图片-->
@@ -89,7 +89,7 @@
                 <input type="file" accept="image/*" id="img-change" multiple="multiple">
             </div>
             <div>
-                <a href="historyPhoto.html">
+                <a href="/publish/historyPhoto">
                     <img src="/h5/img/local.png">
                     <span>从商品库中选择</span>
                 </a>

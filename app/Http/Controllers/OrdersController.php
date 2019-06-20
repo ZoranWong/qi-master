@@ -49,7 +49,7 @@ class OrdersController extends Controller
     public function show($id, Request $request)
     {
         if (isMobile()) {
-            return view('h5.orderinfo');
+            return view('h5.orderDetail');
         } else {
             return view('web.orderinfo')->with([
                 'selected' => 'orders',
@@ -143,10 +143,11 @@ class OrdersController extends Controller
         return $order;
     }
 
-    public function publish()
+    public function publish($step = 'publish')
     {
         if (isMobile()) {
-            return view('h5.publish');
+
+            return view('h5.'.$step);
         } else {
             return view('web.publish')->with([
                 'selected' => 'publish',

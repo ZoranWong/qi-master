@@ -45,7 +45,7 @@
                     </div>
                     <div class="flex1 flex-r oper">
                         <div class="operate-btn">取消订单</div>
-                        <div class="operate-btn now-item-btn"><a href="orderDetail.html">查看详情</a></div>
+                        <div class="operate-btn now-item-btn"><a href="/orders/1">查看详情</a></div>
                     </div>
                 </li>
             </ul>
@@ -67,7 +67,7 @@
                     </div>
                     <div class="flex1 flex-r oper">
                         <div class="operate-btn">取消订单</div>
-                        <div class="operate-btn now-item-btn"><a href="orderDetail.html">查看并雇佣</a></div>
+                        <div class="operate-btn now-item-btn"><a href="/orders/1/masters">查看并雇佣</a></div>
                     </div>
                 </li>
             </ul>
@@ -93,7 +93,7 @@
                     </div>
                     <div class="flex1 flex-r oper">
                         <div class="operate-btn">取消订单</div>
-                        <div class="operate-btn now-item-btn"><a href="orderDetail.html">立即托管</a></div>
+                        <div class="operate-btn now-item-btn"><a href="/orders/1">立即托管</a></div>
                     </div>
                 </li>
             </ul>
@@ -120,7 +120,7 @@
                     </div>
                     <div class="flex1 flex-r oper">
                         <div class="operate-btn">取消订单</div>
-                        <div class="operate-btn now-item-btn"><a href="orderDetail.html">查看详情</a></div>
+                        <div class="operate-btn now-item-btn"><a href="/orders/1">查看详情</a></div>
                     </div>
                 </li>
             </ul>
@@ -147,7 +147,7 @@
                     </div>
                     <div class="flex1 flex-r oper">
                         <div class="operate-btn">取消订单</div>
-                        <div class="operate-btn now-item-btn"><a href="orderDetail.html">确认验收</a></div>
+                        <div class="operate-btn now-item-btn"><a href="/orders/1">确认验收</a></div>
                     </div>
                 </li>
             </ul>
@@ -155,26 +155,7 @@
     </div>
 
     <!--footer-->
-    <div class="footer">
-        <div>
-            <a href="index.html">
-                <i class="icon-h"></i>
-                <span>首页</span>
-            </a>
-        </div>
-        <div>
-            <a href="publish.html">
-                <i class="icon-p"></i>
-                <span class="p-txt">发布订单</span>
-            </a>
-        </div>
-        <div class="now">
-            <a href="order.html">
-                <i class="icon-o"></i>
-                <span>我的订单</span>
-            </a>
-        </div>
-    </div>
+    @include('h5.navbar')
 </div>
 </body>
 <script type="text/javascript">
