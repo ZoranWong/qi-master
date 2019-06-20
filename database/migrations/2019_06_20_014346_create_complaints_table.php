@@ -19,7 +19,6 @@ class CreateComplaintsTable extends Migration
             $table->string('complaint_no')->comment('投诉编号');
             $table->unsignedInteger('order_id')->comment('订单ID');
             $table->string('order_no')->comment('订单编号');
-            $table->unsignedInteger('master_id')->comment('师傅ID');
 
             $table->unsignedTinyInteger('status')->comment('状态');
             $table->unsignedTinyInteger('evidenceStatus')->comment('举证状态');
