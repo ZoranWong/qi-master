@@ -17,8 +17,8 @@
         <img src="/h5/img/success.png">
         <div class="success-text">成功发布任务</div>
         <div class="cell-item oper">
-            <div class="continue-order"><a href="publish.html">继续发布任务</a></div>
-            <div class="back-center"><a href="order.html">返回个人中心</a></div>
+            <div class="continue-order"><a href="/publish">继续发布任务</a></div>
+            <div class="back-center"><a href="/orders">返回个人中心</a></div>
         </div>
     </div>
 </div>

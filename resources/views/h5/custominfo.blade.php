@@ -133,7 +133,7 @@
 </div>
 
 <div class="next-p">
-    <a href="ordersuccess.html" class="go-n">提交订单</a>
+    <a href="/publish/ordersuccess" class="go-n">提交订单</a>
 </div>
 </body>
 <script>

@@ -78,7 +78,7 @@
     </div>
 </div>
 <div class="next-p">
-    <a href="install.html" class="go-n">下一步</a>
+    <a href="/publish/install" class="go-n">下一步</a>
 </div>
 </body>
 <script>

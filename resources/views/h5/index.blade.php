@@ -35,7 +35,7 @@
 
     <!--content-->
     <div class="my-order clearfix">
-        <a href="">
+        <a href="/orders">
             <div>
                 <img src="/h5/img/order_icon_1.png">
             </div>
@@ -46,21 +46,21 @@
             <div>
                 <img src="/h5/img/order_icon_2.png">
             </div>
-            <p>带托管</p>
+            <p>待托管</p>
         </a>
-        <a href="">
+        <a href="/orders">
             <div>
                 <img src="/h5/img/order_icon_3.png">
             </div>
             <p>服务中</p>
         </a>
-        <a href="">
+        <a href="/orders">
             <div>
                 <img src="/h5/img/order_icon_4.png">
             </div>
             <p>待确认</p>
         </a>
-        <a href="">
+        <a href="/orders">
             <div>
                 <img src="/h5/img/order_icon_5.png">
             </div>
@@ -70,27 +70,7 @@
 
 
     <!--footer-->
-    <div class="footer">
-        <div class="now">
-            <a href="index.html">
-                <i class="icon-h"></i>
-                <span>首页</span>
-            </a>
-        </div>
-        <div>
-            <a href="publish.html">
-                <i class="icon-p"></i>
-                <span class="p-txt">发布订单</span>
-            </a>
-        </div>
-        <div>
-            <a href="order.html">
-                <i class="icon-o"></i>
-                <span>我的订单</span>
-            </a>
-        </div>
-    </div>
-
+    @include('h5.navbar')
 </div>
 </body>
 <script>
