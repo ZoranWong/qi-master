@@ -18,6 +18,10 @@ class CreateComplaintItemsTable extends Migration
 
             $table->unsignedInteger('complaint_id')->comment('投诉ID');
 
+            $table->unsignedInteger('complainant_id')->comment('申诉人ID');
+
+            $table->enum('complainant_type', ['user', 'master'])->comment('申诉人类型，仅为user或者master');
+
             $table->string('content')->comment('举证内容');
 
             $table->json('evidence')->comment('举证内容，包含图片，音视频');
