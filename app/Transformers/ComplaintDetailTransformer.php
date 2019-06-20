@@ -12,7 +12,7 @@ use League\Fractal\TransformerAbstract;
  */
 class ComplaintDetailTransformer extends TransformerAbstract
 {
-    protected $defaultIncludes = ['order'];
+    protected $defaultIncludes = ['evidence'];
 
     /**
      * Transform the ComplaintDetail entity.
@@ -41,7 +41,6 @@ class ComplaintDetailTransformer extends TransformerAbstract
             ],
             'complaint_info' => $model->complaintInfo,
             'complaint_type' => $model->complaintType,
-            'evidence_items' => $model->items,// 举证项
 
             'status' => $model->status,
             'status_desc' => $model->statusDesc,
@@ -53,5 +52,12 @@ class ComplaintDetailTransformer extends TransformerAbstract
             'created_at' => (string)$model->createdAt,
             'updated_at' => (string)$model->updatedAt
         ];
+    }
+
+    public function includeEvidence(Complaint $complaint)
+    {
+        $evidenceItems = $complaint->items;
+
+        return $this->collection($evidenceItems, new ComplaintItemTransformer);
     }
 }

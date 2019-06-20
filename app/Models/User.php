@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Traits\CurrencyUnitTrait;
 use App\Models\Traits\ModelAttributesAccess;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
@@ -29,9 +30,9 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property string|null $area 区
  * @property string $address 详细地址
  * @property int $balance 余额 单位：分
- * @property-read string $sexDesc
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\UserAddress[] $addresses
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Product[] $favoriteProducts
+ * @property-read mixed $sexDesc
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Order[] $orders
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User newModelQuery()
@@ -169,9 +170,28 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
         return $this->orders();
     }
 
+    /**
+     * 已完成订单
+     */
     public function completedOrders()
     {
         return $this->orders()->where('status', Order::ORDER_COMPLETED);
+    }
+
+    /**
+     * 消息
+     */
+    public function messages(): HasMany
+    {
+        return $this->hasMany(Message::class, 'member_id')->where('member_type', TYPE_USER);
+    }
+
+    /**
+     * 未读消息
+     */
+    public function newMessages()
+    {
+        return $this->messages()->where('status', Message::STATUS_NEW);
     }
 
     /**

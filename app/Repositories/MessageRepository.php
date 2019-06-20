@@ -5,11 +5,11 @@ namespace App\Repositories;
 use Prettus\Repository\Contracts\RepositoryInterface;
 
 /**
- * Interface ComplaintRepository.
+ * Interface MessageRepository.
  *
  * @package namespace App\Repositories;
  */
-interface ComplaintRepository extends RepositoryInterface
+interface MessageRepository extends RepositoryInterface
 {
-    public function getList();
+    //
 }

@@ -52,4 +52,8 @@ class ComplaintRepositoryEloquent extends BaseRepository implements ComplaintRep
         $this->pushCriteria(app(RequestCriteria::class));
     }
 
+    public function getList()
+    {
+        // TODO: Implement getList() method.
+    }
 }

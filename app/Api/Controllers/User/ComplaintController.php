@@ -5,13 +5,13 @@ namespace App\Api\Controllers\User;
 use App\Api\Controller;
 use App\Http\Requests\ComplaintItemRequest;
 use App\Http\Requests\ComplaintRequest;
-use App\Http\Requests\Request;
 use App\Models\Complaint;
 use App\Models\Order;
 use App\Repositories\ComplaintRepository;
 use App\Repositories\OrderRepository;
 use App\Transformers\ComplaintDetailTransformer;
 use App\Transformers\ComplaintTransformer;
+use Dingo\Api\Http\Request;
 use Dingo\Api\Http\Response;
 use Symfony\Component\Inflector\Inflector;
 

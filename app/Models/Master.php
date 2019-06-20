@@ -73,6 +73,22 @@ class Master extends Model implements JWTSubject, Authenticatable
     }
 
     /**
+     * 消息
+     */
+    public function messages()
+    {
+        return $this->hasMany(Message::class, 'member_id')->where('member_type', TYPE_MASTER);
+    }
+
+    /**
+     * 未读消息
+     */
+    public function newMessages()
+    {
+        return $this->messages()->where('status', Message::STATUS_NEW);
+    }
+
+    /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *
      * @return mixed
