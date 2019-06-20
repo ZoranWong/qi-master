@@ -3,29 +3,26 @@
 namespace App\Models;
 
 use App\Exceptions\InternalException;
-use Eloquent;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Carbon;
 
 /**
  * App\Models\ProductSku
  *
  * @property int $id
  * @property int $productId
- * @property mixed $specArr 规格
- * @property Carbon|null $createdAt
- * @property Carbon|null $updatedAt
- * @property-read Product $product
- * @method static Builder|ProductSku newModelQuery()
- * @method static Builder|ProductSku newQuery()
- * @method static Builder|ProductSku query()
- * @method static Builder|ProductSku whereCreatedAt($value)
- * @method static Builder|ProductSku whereId($value)
- * @method static Builder|ProductSku whereProductId($value)
- * @method static Builder|ProductSku whereSpecArr($value)
- * @method static Builder|ProductSku whereUpdatedAt($value)
- * @mixin Eloquent
+ * @property array $specArr 规格
+ * @property \Illuminate\Support\Carbon|null $createdAt
+ * @property \Illuminate\Support\Carbon|null $updatedAt
+ * @property-read \App\Models\Product $product
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductSku newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductSku newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductSku query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductSku whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductSku whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductSku whereProductId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductSku whereSpecArr($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductSku whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
 class ProductSku extends Model
 {

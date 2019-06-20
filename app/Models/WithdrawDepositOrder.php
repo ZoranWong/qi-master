@@ -22,7 +22,7 @@ use McCool\LaravelAutoPresenter\HasPresenter;
  * @property string|null $deletedAt
  * @property int $optAdminId 操作管理员ID
  * @property-read \App\Models\Master $master
- * @property-read \Encore\Admin\Auth\Database\Administrator $optAdmin
+ * @property-read \Encore\Admin\Auth\Database\Administrator $operator
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WithdrawDepositOrder newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WithdrawDepositOrder newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WithdrawDepositOrder query()

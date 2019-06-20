@@ -20,9 +20,15 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property string|null $rememberToken
  * @property \Illuminate\Support\Carbon|null $createdAt
  * @property \Illuminate\Support\Carbon|null $updatedAt
+ * @property int $balance 余额
+ * @property string $realName 师傅姓名
+ * @property string $avatar 头像
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OfferOrder[] $offerOrders
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereAvatar($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereBalance($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereEmailVerifiedAt($value)
@@ -30,6 +36,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereMobile($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master wherePassword($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereRealName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereUpdatedAt($value)
  * @mixin \Eloquent

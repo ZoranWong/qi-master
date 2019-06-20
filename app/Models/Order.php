@@ -5,12 +5,8 @@ namespace App\Models;
 use App\Models\Traits\CurrencyUnitTrait;
 use App\Models\Traits\ModelAttributesAccess;
 use App\Presenters\OrderPresenter;
-use Eloquent;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Query\Builder;
-use Illuminate\Support\Carbon;
 use Log;
 use McCool\LaravelAutoPresenter\HasPresenter;
 use Ramsey\Uuid\Uuid;
@@ -26,10 +22,8 @@ use Ramsey\Uuid\Uuid;
  * @property int $type 订单类型
  * @property int $status 订单状态
  * @property int $totalAmount 订单总金额,单位：分
- * @property int $classificationId 类目ID
- * @property int $serviceId 服务类型ID
- * @property Carbon|null $createdAt
- * @property Carbon|null $updatedAt
+ * @property \Illuminate\Support\Carbon|null $createdAt
+ * @property \Illuminate\Support\Carbon|null $updatedAt
  * @property string|null $deletedAt
  * @property int|null $couponCodeId
  * @property string|null $serviceDate 服务时间
@@ -40,46 +34,50 @@ use Ramsey\Uuid\Uuid;
  * @property string $customerPhone 客户电话
  * @property string $regionCode 行政区域编号
  * @property string $customerAddress 服务地址
- * @property-read Classification $classification
- * @property-read ServiceType $serviceType
- * @property-read CouponCode|null $couponCode
- * @property-read Collection|OfferOrder[] $employedMasters
- * @property-read Collection|OrderItem[] $items
- * @property-read Master $master
- * @property-read Collection|Master[] $masters
- * @property-read Collection|OfferOrder[] $offerOrders
- * @property-read Collection|PaymentOrder[] $payments
- * @property-read Collection|RefundOrder[] $refundOrders
- * @property-read User $user
+ * @property int $classificationId 类目
+ * @property int $serviceId 服务类型ID
+ * @property-read \App\Models\Classification $classification
+ * @property-read \App\Models\CouponCode|null $couponCode
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OfferOrder[] $employedMasters
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OrderItem[] $items
+ * @property-read \App\Models\Master $master
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Master[] $masters
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OfferOrder[] $offerOrders
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\PaymentOrder[] $payments
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\RefundOrder[] $refundOrders
+ * @property-read \App\Models\ServiceType $serviceType
+ * @property-read \App\Models\User $user
  * @method static bool|null forceDelete()
- * @method static \Illuminate\Database\Eloquent\Builder|Order newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Order newQuery()
- * @method static Builder|Order onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder|Order query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order newQuery()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Order onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order query()
  * @method static bool|null restore()
- * @method static \Illuminate\Database\Eloquent\Builder|Order whereComment($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Order whereContactUserName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Order whereContactUserPhone($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Order whereCouponCodeId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Order whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Order whereCustomerAddress($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Order whereCustomerName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Order whereCustomerPhone($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Order whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Order whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Order whereMasterId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Order whereOrderNo($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Order whereRefundStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Order whereRegionCode($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Order whereServiceDate($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Order whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Order whereTotalAmount($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Order whereType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Order whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Order whereUserId($value)
- * @method static Builder|Order withTrashed()
- * @method static Builder|Order withoutTrashed()
- * @mixin Eloquent
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereClassificationId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereComment($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereContactUserName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereContactUserPhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereCouponCodeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereCustomerAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereCustomerName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereCustomerPhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereMasterId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereOrderNo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereRefundStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereRegionCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereServiceDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereServiceId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereTotalAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Order withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Order withoutTrashed()
+ * @mixin \Eloquent
  */
 class Order extends Model implements HasPresenter
 {

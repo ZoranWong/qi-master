@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $city
  * @property string $district
  * @property string $address
- * @property int $zip
+ * @property string $zip
  * @property string $contactName
  * @property string $contactPhone
  * @property \Illuminate\Support\Carbon|null $lastUsedAt
