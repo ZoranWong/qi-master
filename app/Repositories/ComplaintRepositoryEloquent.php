@@ -6,6 +6,7 @@ use App\Models\Complaint;
 use App\Validators\ComplaintValidator;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Eloquent\BaseRepository;
+use Prettus\Repository\Exceptions\RepositoryException;
 
 /**
  * Class ComplaintRepositoryEloquent.
@@ -14,6 +15,12 @@ use Prettus\Repository\Eloquent\BaseRepository;
  */
 class ComplaintRepositoryEloquent extends BaseRepository implements ComplaintRepository
 {
+    protected $fieldSearchable = [
+        'order.order_no' => '=',
+        'complaint_no' => '=',
+        'evidence_status' => '='
+    ];
+
     /**
      * Specify Model class name
      *
@@ -38,6 +45,7 @@ class ComplaintRepositoryEloquent extends BaseRepository implements ComplaintRep
 
     /**
      * Boot up the repository, pushing criteria
+     * @throws RepositoryException
      */
     public function boot()
     {

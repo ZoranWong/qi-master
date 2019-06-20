@@ -3,8 +3,8 @@
 use Dingo\Api\Routing\Router;
 
 /** @var Router $api */
-$api->group(['prefix' => 'users', 'namespace' => 'User'], function (Router $api) {
-    $api->get('/profile', ['as' => 'users.profile', 'uses' => 'MasterController@profile']);
+$api->group(['prefix' => 'users', 'namespace' => 'User', 'middleware' => ['web']], function (Router $api) {
+    $api->get('/profile', ['as' => 'users.profile', 'uses' => 'UserController@profile']);
     /**
      * 订单
      */
@@ -16,7 +16,10 @@ $api->group(['prefix' => 'users', 'namespace' => 'User'], function (Router $api)
      * 投诉
      */
     $api->group(['prefix' => 'complaints'], function (Router $api) {
-
+        $api->get('/', 'ComplaintController@index');
+        $api->get('/{complaint}', 'ComplaintController@detail');
+        $api->post('/', 'ComplaintController@store');
+        $api->post('/{complaint}/evidence', 'ComplaintController@evidence');
     });
     /**
      * 商品

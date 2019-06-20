@@ -15,7 +15,7 @@ class OrderItemTransformer extends TransformerAbstract
     /**
      * Transform the OrderItem entity.
      *
-     * @param \App\Models\OrderItem $model
+     * @param OrderItem $model
      *
      * @return array
      */

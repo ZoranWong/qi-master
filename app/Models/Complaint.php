@@ -17,7 +17,6 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @property string $complaintNo 投诉编号
  * @property int $orderId 订单ID
  * @property string $orderNo 订单编号
- * @property int $masterId 师傅ID
  * @property int $status 状态
  * @property int $evidenceStatus 举证状态
  * @property int $complaintType 投诉类型
@@ -29,7 +28,7 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @property-read mixed $evidenceStatusDesc
  * @property-read mixed $statusDesc
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ComplaintItem[] $items
- * @property-read \App\Models\Master $master
+ * @property-read \App\Models\Order $order
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Complaint newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Complaint newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Complaint query()
@@ -40,7 +39,6 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Complaint whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Complaint whereEvidenceStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Complaint whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Complaint whereMasterId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Complaint whereOrderId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Complaint whereOrderNo($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Complaint whereResult($value)
@@ -111,11 +109,11 @@ class Complaint extends Model implements Transformable
     }
 
     /**
-     * 被投诉对象
+     * 涉及订单
      */
-    public function master(): BelongsTo
+    public function order(): BelongsTo
     {
-        return $this->belongsTo(Master::class, 'master_id');
+        return $this->belongsTo(Order::class, 'order_id');
     }
 
     public function getStatusDescAttribute()

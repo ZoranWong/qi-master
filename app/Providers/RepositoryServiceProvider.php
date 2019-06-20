@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Repositories\ComplaintRepository;
+use App\Repositories\ComplaintRepositoryEloquent;
 use App\Repositories\OrderRepository;
 use App\Repositories\OrderRepositoryEloquent;
 use App\Repositories\UserRepository;
@@ -19,6 +21,7 @@ class RepositoryServiceProvider extends ServiceProvider
     {
         $this->app->bind(UserRepository::class, UserRepositoryEloquent::class);
         $this->app->bind(OrderRepository::class, OrderRepositoryEloquent::class);
+        $this->app->bind(ComplaintRepository::class, ComplaintRepositoryEloquent::class);
     }
 
     /**
