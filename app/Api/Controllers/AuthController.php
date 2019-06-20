@@ -43,16 +43,21 @@ class AuthController extends Controller
 
     public function register(UserCreateRequest $request, UserRepository $userRepository)
     {
-        $credential = $request->only('mobile', 'password', 'name');
+        $credential = $request->only('mobile', 'password');
 
         /** @var User|Master $user */
         $userRepository->create([
             'mobile' => $credential['mobile'],
             'password' => bcrypt($credential['password']),
-            'name' => $credential['name']
         ]);
 
         $token = auth()->attempt($credential);
+
+        if (is_bool($token) && $token) {
+            return response()->json([
+                'message' => 'Successfully registered'
+            ]);
+        }
 
         return $this->responseWithToken($token);
     }

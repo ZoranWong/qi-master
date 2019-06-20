@@ -25,9 +25,9 @@ class UserCreateRequest extends FormRequest
     {
         $guard = config('auth.defaults.guard', 'users');
         return [
-            'name' => 'required|string|min:2|max:20',
             'mobile' => "bail|required|phone_number|unique:{$guard},mobile",
-            'password' => 'required'
+            'password' => 'required|string|min:6|confirmed',
+            'password_confirmation' => 'required'
         ];
     }
 }

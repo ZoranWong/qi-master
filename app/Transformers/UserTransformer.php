@@ -23,9 +23,28 @@ class UserTransformer extends TransformerAbstract
     {
         return [
             'id' => (int)$model->id,
+
+            'avatar' => '',
             'name' => $model->name,
+            'nickname' => $model->nickname,
             'mobile' => $model->mobile,
             'email' => $model->email,
+            'sex' => $model->sex,
+            'sex_desc' => $model->sexDesc,
+            'province' => $model->province,
+            'city' => $model->city,
+            'area' => $model->area,
+            'address' => $model->address,
+            'balance' => $model->balance,
+
+            // 订单概况
+            'orders' => [
+                'wait_offer' => $model->orderWaitOfferCount,
+                'wait_hire' => $model->orderWaitHireCount,
+                'wait_pay' => $model->orderWaitPayCount,
+                'wait_check' => $model->orderWaitCheckCount,
+                'wait_comment' => $model->orderWaitCommentCount
+            ],
 
             /* place your other model properties here */
 

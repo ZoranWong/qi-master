@@ -91,16 +91,16 @@ class Order extends Model implements HasPresenter
         self::ORDER_TYPE_QUOTE_PRICE => '报价单'
     ];
 
-    const ORDER_WAIT_EMPLOY = 0; // 待接单
-    const ORDER_EMPLOYED = 1; // 已接单
+    const ORDER_WAIT_EMPLOY = 0; // 待报价
+    const ORDER_EMPLOYED = 1; // 已雇佣
     const ORDER_WAIT_CHECK = 2;// 待验收
     const ORDER_CHECKED = 3;// 验收完成，待评价
     const ORDER_COMPLETED = 4;// 订单完成
     const ORDER_CANCEL = 5;// 订单关闭
 
     const ORDER_STATUS = [
-        self::ORDER_WAIT_EMPLOY => '待接单',
-        self::ORDER_EMPLOYED => '已接单',
+        self::ORDER_WAIT_EMPLOY => '待报价',
+        self::ORDER_EMPLOYED => '已雇佣',
         self::ORDER_WAIT_CHECK => '待验收',
         self::ORDER_CHECKED => '已验收',
         self::ORDER_COMPLETED => '订单完成',
