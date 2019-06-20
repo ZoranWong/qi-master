@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 
 class RouteServiceProvider extends ServiceProvider
@@ -35,9 +36,12 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function map()
     {
-        $this->mapApiRoutes();
+        $url = Request::url();;
+        if(preg_match('/\/admin(\/[0-9a-zA-Z]*)*/', $url) === false) {
+            $this->mapApiRoutes();
 
-        $this->mapWebRoutes();
+            $this->mapWebRoutes();
+        }
 
         //
     }
@@ -69,6 +73,7 @@ class RouteServiceProvider extends ServiceProvider
 //             ->middleware('api')
 //             ->namespace($this->namespace)
 //             ->group(base_path('routes/api.php'));
+
 
         $api = app(\Dingo\Api\Routing\Router::class);
 
