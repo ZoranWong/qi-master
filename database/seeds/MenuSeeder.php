@@ -113,6 +113,12 @@ class MenuSeeder extends Seeder
                 'icon' => 'fa-braille',
                 'uri' => 'service_types',
                 'permission' => ''
+            ],
+            [
+                'title' => '投诉类型管理',
+                'icon' => 'fa-braille',
+                'uri' => 'complaint_types',
+                'permission' => ''
             ]
         ]);
 

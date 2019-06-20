@@ -21,6 +21,17 @@ Route::group([
             $router->get('/{master}', 'MasterController@show')->name('admin.masters.show');
         });
 
+        /**
+         * 投诉类型
+         * */
+        $router->group(['prefix' => 'complaint_types'], function (Router $router) {
+            $router->get('/', 'ComplaintTypesController@index')->name('admin.complaint.types.index');
+            $router->get('/create', 'ComplaintTypesController@create')->name('admin.complaint.types.create');
+            $router->post('/', 'ComplaintTypesController@store');
+            $router->get('/{id}/edit', 'ComplaintTypesController@edit');
+            $router->put('/{id}', 'ComplaintTypesController@update');
+        });
+
 
         /**
          * 产品管理

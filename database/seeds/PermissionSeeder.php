@@ -117,6 +117,12 @@ class PermissionSeeder extends Seeder
                 'http_method' => '',
                 'http_path' => '/products*'
             ],
+            [
+                'name' => '投诉类型管理',
+                'slug' => 'complaint_types.any',
+                'http_method' => '',
+                'http_path' => '/complaint_types*'
+            ],
         ];
     }
 }
