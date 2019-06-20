@@ -1,0 +1,440 @@
+/* 初始化 */
+
+body,
+div,
+ul,
+li,
+ol,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+input,
+textarea,
+select,
+p,
+dl,
+dt,
+dd,
+a,
+img,
+button,
+form,
+table,
+th,
+tr,
+td,
+tbody,
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font: 12px 'Microsoft YaHei', '宋体', Tahoma, Arial, sans-serif;
+    background-color: #f2f2f2;
+    width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+}
+
+textarea {
+    resize: none;
+}
+
+em,
+i {
+    font-style: normal;
+}
+
+img {
+    border: 0;
+    width: 100%;
+    height: 100%;
+    vertical-align: middle;
+}
+
+ul,
+li {
+    list-style-type: none;
+}
+
+table {
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+table td {
+    word-break: break-all;
+    word-wrap: break-word;
+    font-size: 12px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h4 {
+    font-size: 14px;
+}
+
+a,
+a:hover {
+    text-decoration: none;
+    color: #666;
+}
+
+a,
+a:hover,
+a:active,
+a:visited,
+a:link,
+a:focus {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+    background: none;
+    text-decoration: none;
+}
+
+input::-moz-placeholder,
+textarea::-moz-placeholder {
+    color: #bfbfbf;
+}
+
+input:-ms-input-placeholder,
+textarea:-ms-input-placeholder {
+    color: #bfbfbf;
+}
+
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder {
+    color: #bfbfbf;
+}
+
+.clearfix {
+    *zoom: 1;
+}
+
+input,
+button,
+select,
+textarea {
+    font-family: "微软雅黑";
+    -webkit-appearance: none;
+    /*去除input默认样式*/
+    outline: none;
+    /*去除边框*/
+}
+
+textarea {
+    border: none;
+    resize: none;
+    /*不可拖拽*/
+}
+
+button,
+input,
+select,
+textarea {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    outline: none;
+    border: none;
+    text-align: center;
+    background: none;
+    text-align: start;
+    text-indent: 0px;
+    font-size: 14px;
+}
+
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder {
+    color: #999;
+    font-size: 14px;
+}
+
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
+.clearfix:after {
+    content: ".";
+    clear: both;
+    display: block;
+    visibility: hidden;
+    overflow: hidden;
+    height: 0;
+    *zoom: 1;
+}
+
+.hide {
+    display: none;
+}
+
+.overflow {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.flex {
+    display: flex;
+    justify-content: space-between;
+    box-sizing: border-box;
+}
+
+.align {
+    align-items: center;
+}
+
+.next-arrow {
+    position: relative;
+}
+
+.next-arrow::after {
+    content: "";
+    display: block;
+    width: .2rem;
+    height: .2rem;
+    border-top: .02rem solid #999;
+    border-left: .02rem solid #999;
+    -webkit-transform-origin: 50%;
+    transform-origin: 50%;
+    -webkit-transform: rotate(135deg);
+    transform: rotate(135deg);
+    position: absolute;
+    top: 50%;
+    margin-top: -0.12rem;
+    right: 0px;
+}
+
+.special-tip {
+    color: #fe8f00;
+    font-size: .24rem;
+}
+
+.remark-tip {
+    line-height: .4rem;
+    font-size: .24rem;
+    color: #666;
+    /*   padding: 5px 2px 0;*/
+}
+
+.pa-t {
+    padding-top: 1.2rem;
+}
+
+.mr-t {
+    margin-top: .2rem;
+}
+
+.flex1 {
+    box-flex: 1;
+    -webkit-box-flex: 1;
+    -moz-box-flex: 1;
+    flex: 1;
+    -webkit-flex: 1;
+}
+
+.mr10 {
+    margin-right: .2rem !important;
+}
+
+.word-wrap {
+    white-space: normal;
+    word-break: break-all;
+    word-wrap: break-word;
+}
+
+.color-g {
+    font-size: .28rem;
+    color: #666;
+}
+
+.tip-color {
+    color: #37a6ff;
+}
+
+.font-w {
+    font-weight: bold;
+}
+
+.color-b {
+    font-size: .3rem;
+    color: #333;
+}
+
+.back-icon {
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: inline-block;
+    width: .8rem;
+    height: 1rem;
+    background: url(../img/back_white.png) center no-repeat;
+    background-size: 0.52rem 0.52rem;
+}
+
+.bg-color {
+    background: #fff;
+    height: 13.34rem;
+}
+
+/*foot css*/
+.footer {
+    border-top: 0.02rem solid #e7e7e7;
+    border-bottom: 0.02rem solid #f8f8f8;
+    width: 7.5rem;
+    position: fixed;
+    bottom: 0px;
+    background: #fff;
+    height: 1.1rem;
+    box-sizing: border-box;
+    padding: .1rem 1.2rem;
+    display: flex;
+    display: -webkit-flex;
+    justify-content: space-between;
+}
+
+.footer > div {
+    text-align: center;
+}
+
+.footer i {
+    display: inline-block;
+    width: 0.56rem;
+    height: 0.56rem;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.footer span {
+    display: block;
+    text-align: center;
+}
+
+span.p-txt {
+    margin-top: .6rem;
+    margin-left: .36rem;
+}
+
+i.icon-h {
+    background-image: url(../img/icon_h.png);
+}
+
+i.icon-p {
+    position: absolute;
+    bottom: .4rem;
+    left: 3.75rem;
+    margin-left: -0.5rem;
+    width: 1rem;
+    height: 1rem;
+    background-image: url(../img/icon_p.png);
+}
+
+i.icon-o {
+    background-image: url(../img/icon_o.png);
+}
+
+.now a {
+    color: #fe8f00;
+}
+
+.now i.icon-h {
+    background-image: url(../img/icon_h_a.png);
+}
+
+.now i.icon-o {
+    background-image: url(../img/icon_o_a.png);
+}
+
+
+/*weui-css*/
+* {
+    touch-action: pan-y;
+}
+
+.toolbar .toolbar-inner {
+    height: .88rem;
+}
+
+.weui-picker-calendar {
+    height: 6rem;
+}
+
+.toolbar, .toolbar .title {
+    font-size: .28rem;
+}
+
+.picker-calendar-week-days + .picker-calendar-months {
+    height: 4.76rem;
+}
+
+i.icon.icon-next, i.icon.icon-prev {
+    width: .3rem;
+    height: .3rem;
+
+}
+
+.picker-calendar-month-picker .current-month-value, .picker-calendar-month-picker .current-year-value, .picker-calendar-year-picker .current-month-value, .picker-calendar-year-picker .current-year-value {
+    height: .88rem;
+}
+
+.picker-calendar-month-picker a.icon-only, .picker-calendar-year-picker a.icon-only {
+    height: .88rem;
+    line-height: .8rem;
+}
+
+.picker-calendar-month-picker, .picker-calendar-year-picker {
+    line-height: .88rem;
+}
+
+.weui-picker-calendar .picker-modal-inner {
+    height: 5.12rem;
+}
+
+.picker-calendar-week-days {
+    height: .36rem;
+}
+
+.picker-calendar-day.picker-calendar-day-selected span {
+    background: #fe8f00;
+}
+
+i.icon.icon-prev {
+    background-image: url(../img/prev.png);
+}
+
+i.icon.icon-next {
+    background-image: url(../img/next_a.png);
+}

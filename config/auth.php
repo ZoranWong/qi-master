@@ -14,7 +14,7 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'masters',
+        'guard' => 'users',
         'passwords' => 'users',
     ],
 
@@ -41,7 +41,7 @@ return [
             'provider' => 'masters'
         ],
         'users' => [
-            'driver' => 'jwt',
+            'driver' => 'session',
             'provider' => 'users'
         ]
     ],

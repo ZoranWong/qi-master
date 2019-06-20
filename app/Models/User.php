@@ -109,6 +109,8 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
      */
     public function getJWTCustomClaims()
     {
-        return [];
+        return [
+            'guard' => 'users'
+        ];
     }
 }

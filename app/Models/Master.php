@@ -82,6 +82,8 @@ class Master extends Model implements JWTSubject, Authenticatable
      */
     public function getJWTCustomClaims()
     {
-        return [];
+        return [
+            'guard' => 'masters'
+        ];
     }
 }
