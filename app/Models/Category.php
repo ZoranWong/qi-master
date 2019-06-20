@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \Illuminate\Support\Carbon|null $deletedAt
  * @property \Illuminate\Support\Carbon|null $createdAt
  * @property \Illuminate\Support\Carbon|null $updatedAt
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Brand[] $brands
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Category[] $children
  * @property-read \App\Models\Classification $classification
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Measurement[] $measurements

@@ -2,11 +2,7 @@
 
 namespace App\Models;
 
-use Eloquent;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use Storage;
 
@@ -18,9 +14,10 @@ use Storage;
  * @property string $image 产品图片
  * @property \Illuminate\Support\Carbon|null $createdAt
  * @property \Illuminate\Support\Carbon|null $updatedAt
- * @property int $classificationId 类目ID
- * @property int $categoryId 主分类ID
- * @property int $childCategoryId 子分类ID
+ * @property int $classificationId 类目
+ * @property int $serviceId 服务类型ID
+ * @property int $categoryId 类别ID
+ * @property int $childCategoryId 子类别ID
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Category[] $categories
  * @property-read \App\Models\Category $category
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Category[] $childCategories
@@ -37,6 +34,7 @@ use Storage;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereImage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereServiceId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereUpdatedAt($value)
  * @mixin \Eloquent
