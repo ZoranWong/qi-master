@@ -3,8 +3,9 @@
 use Dingo\Api\Routing\Router;
 
 /** @var Router $api */
-$api->group(['prefix' => 'masters', 'namespace' => 'Master'], function (Router $api) {
-    $api->get('/profile', ['as' => 'users.profile', 'uses' => 'MasterController@profile']);
+$api->group(['prefix' => 'masters', 'namespace' => 'Master', 'middleware' => ['refresh.token']], function (Router $api) {
+
+    $api->get('/profile', ['as' => 'masters.profile', 'uses' => 'MasterController@profile']);
     /**
      * 订单
      */
