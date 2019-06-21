@@ -25,7 +25,7 @@ class ComplaintRequest extends FormRequest
     {
         return [
             'order_id' => 'bail|required|int',
-            'complaint_type' => 'required|int',
+            'complaint_type_id' => 'required|int',
             'complaint_info' => 'required|array'
         ];
     }

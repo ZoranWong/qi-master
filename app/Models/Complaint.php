@@ -58,7 +58,7 @@ class Complaint extends Model implements Transformable
      */
     protected $fillable = [
         'complaint_no', 'order_id', 'order_no', 'status', 'evidence_status',
-        'complaint_type', 'complaint_info', 'result', 'compensation'
+        'complaint_type_id', 'complaint_info', 'result', 'compensation'
     ];
 
     protected $casts = [

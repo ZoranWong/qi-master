@@ -22,8 +22,8 @@ $api->group(['prefix' => 'users', 'namespace' => 'User', 'middleware' => ['web']
     $api->group(['prefix' => 'complaints'], function (Router $api) {
         $api->get('/', 'ComplaintController@index');
         $api->get('/{complaint}', 'ComplaintController@detail');
-        $api->post('/', 'ComplaintController@store');
         $api->post('/{complaint}/evidence', 'ComplaintController@evidence');
+        $api->post('/', 'ComplaintController@store');
     });
     /**
      * 商品
