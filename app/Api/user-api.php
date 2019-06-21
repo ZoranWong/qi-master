@@ -36,7 +36,7 @@ $api->group(['prefix' => 'users', 'namespace' => 'User', 'middleware' => ['web']
      */
     $api->group(['prefix' => 'messages'], function (Router $api) {
         $api->get('/', 'MessageController@index');
-        $api->get('/readMessage', 'MessageController@read');
-        $api->get('/deleteMessage', 'MessageController@destroy');
+        $api->put('/readMessage', 'MessageController@read');
+        $api->delete('/deleteMessage', 'MessageController@destroy');
     });
 });

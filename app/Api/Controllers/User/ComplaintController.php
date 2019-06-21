@@ -10,6 +10,7 @@ use App\Models\Order;
 use App\Repositories\ComplaintRepository;
 use App\Repositories\OrderRepository;
 use App\Transformers\ComplaintDetailTransformer;
+use App\Transformers\ComplaintItemTransformer;
 use App\Transformers\ComplaintTransformer;
 use Dingo\Api\Http\Request;
 use Dingo\Api\Http\Response;
@@ -67,9 +68,9 @@ class ComplaintController extends Controller
         $postData['evidence_status'] = Complaint::STATUS_EVIDENCE_WAIT_MASTER;
         $postData['result'] = [];
 
-        $this->repository->create($postData);
+        $complaint = $this->repository->create($postData);
 
-        return $this->response->created();
+        return $this->response->item($complaint, new ComplaintTransformer);
     }
 
     /**
@@ -90,8 +91,8 @@ class ComplaintController extends Controller
 
         $postData['complainant_type'] = Inflector::singularize(config('auth.defaults.guard'));
 
-        $complaint->items()->create($postData);
+        $complaintItem = $complaint->items()->create($postData);
 
-        return $this->response->created();
+        return $this->response->item($complaintItem, new ComplaintItemTransformer);
     }
 }
