@@ -21,6 +21,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property string $mobile 手机
  * @property string|null $emailVerifiedAt
  * @property string $password
+ * @property string $walletPassword 钱包密码
  * @property string|null $rememberToken
  * @property \Illuminate\Support\Carbon|null $createdAt
  * @property \Illuminate\Support\Carbon|null $updatedAt
@@ -33,6 +34,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\UserAddress[] $addresses
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Product[] $favoriteProducts
  * @property-read mixed $sexDesc
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Message[] $messages
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Order[] $orders
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User newModelQuery()
@@ -55,6 +57,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereSex($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereWalletPassword($value)
  * @mixin \Eloquent
  */
 class User extends Authenticatable implements MustVerifyEmail, JWTSubject
@@ -75,6 +78,7 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
      */
     protected $fillable = [
         'name', 'email', 'mobile', 'password', 'email_verified_at', 'remember_token',
+        'nickname', 'avatar', 'sex', 'province', 'city', 'area', 'address', 'balance', 'wallet_password'
     ];
 
     /**

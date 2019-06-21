@@ -3,6 +3,7 @@
 namespace App\Api\Controllers\User;
 
 use App\Api\Controller;
+use App\Http\Requests\UserUpdatePasswordRequest;
 use App\Models\User;
 use App\Repositories\UserRepository;
 use App\Transformers\UserTransformer;
@@ -31,9 +32,17 @@ class UserController extends Controller
 
     /**
      * 修改密码：已知原密码
+     * @param UserUpdatePasswordRequest $request
      */
-    public function changePassword()
+    public function changePassword(UserUpdatePasswordRequest $request)
     {
+        $data = $request->only(['old_password', 'password']);
+
+        $user = auth()->user();
+
+        if (!password_verify($data['password'], $user->getAuthPassword())) {
+            $this->response->errorBadRequest('原密码错误');
+        }
 
     }
 
@@ -42,7 +51,7 @@ class UserController extends Controller
      */
     public function resetPassword()
     {
-
+        password_verify('password', 'has');
     }
 
     /**

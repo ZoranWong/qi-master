@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\ModelAttributesAccess;
 use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
@@ -13,8 +14,8 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @property int $complaintId 投诉ID
  * @property int $complainantId 申诉人ID
  * @property string $complainantType 申诉人类型，仅为user或者master
- * @property array $content 举证内容
- * @property mixed $evidence 举证内容，包含图片，音视频
+ * @property string $content 举证内容
+ * @property array $evidence 举证内容，包含图片，音视频
  * @property \Illuminate\Support\Carbon|null $createdAt
  * @property \Illuminate\Support\Carbon|null $updatedAt
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ComplaintItem newModelQuery()
@@ -32,7 +33,7 @@ use Prettus\Repository\Traits\TransformableTrait;
  */
 class ComplaintItem extends Model implements Transformable
 {
-    use TransformableTrait;
+    use TransformableTrait, ModelAttributesAccess;
 
     /**
      * The attributes that are mass assignable.
@@ -44,7 +45,7 @@ class ComplaintItem extends Model implements Transformable
     ];
 
     protected $casts = [
-        'content' => 'array'
+        'evidence' => 'array'
     ];
 
     const COMPLAINANT_TYPE_USER = 'user';

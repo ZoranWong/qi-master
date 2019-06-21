@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Product;
-use App\Models\ProductSku;
 use Illuminate\Database\Seeder;
 
 class ProductsSeeder extends Seeder
@@ -10,6 +9,7 @@ class ProductsSeeder extends Seeder
      * Run the database seeds.
      *
      * @return void
+     * @throws Exception
      */
     public function run()
     {

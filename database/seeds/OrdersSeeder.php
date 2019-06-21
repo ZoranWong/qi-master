@@ -1,11 +1,11 @@
 <?php
 
-use App\Models\Order;
 use App\Models\Master;
-use App\Models\OrderItem;
-use App\Models\Product;
 use App\Models\OfferOrder;
+use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\PaymentOrder;
+use App\Models\Product;
 use App\Models\RefundOrder;
 use Faker\Generator;
 use Illuminate\Database\Seeder;
@@ -32,9 +32,7 @@ class OrdersSeeder extends Seeder
     {
 
         $count = $faker->randomDigitNotNull % 10;
-        $items = [];
-        $offerOrders = [];
-        for($i = 0; $i < $count; $i ++) {
+        for ($i = 0; $i < $count; $i++) {
             $master = Master::query()->inRandomOrder()->first();
             $product = Product::query()->inRandomOrder()->first();
             $orderItem = new OrderItem();
