@@ -124,6 +124,9 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
             ->orderBy('user_favorite_products.created_at', 'desc');
     }
 
+    /**
+     * 我的订单
+     */
     public function orders()
     {
         return $this->hasMany(Order::class);

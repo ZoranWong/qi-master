@@ -5,7 +5,7 @@ namespace App\Api\Controllers\User;
 use App\Api\Controller;
 use App\Models\Order;
 use App\Repositories\OrderRepository;
-use App\Transformers\OrderItemTransformer;
+use App\Transformers\OrderDetailTransformer;
 use App\Transformers\OrderTransformer;
 use Dingo\Api\Http\Request;
 
@@ -32,6 +32,6 @@ class OrderController extends Controller
 
     public function detail(Order $order)
     {
-        return $this->response->item($order, new OrderItemTransformer());
+        return $this->response->item($order, new OrderDetailTransformer);
     }
 }

@@ -24,10 +24,10 @@ class OrderItemTransformer extends TransformerAbstract
         return [
             'id' => (int)$model->id,
 
-            /* place your other model properties here */
+            'product_snapshot' => $model->product,
 
-            'created_at' => $model->created_at,
-            'updated_at' => $model->updated_at
+            'created_at' => (string)$model->createdAt,
+            'updated_at' => (string)$model->updatedAt
         ];
     }
 }
