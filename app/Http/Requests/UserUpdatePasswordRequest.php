@@ -33,8 +33,14 @@ class UserUpdatePasswordRequest extends FormRequest
             "{$prefix}password_confirmation" => 'required'
         ];
 
-        if ($uri === '/api/users/changePwd' || $uri === '/api/users/changeWalletPwd') {
+        if ($uri === api_route('user.change.password')
+            || $uri === api_route('user.change.wallet_password')
+        ) {
             $rules['old_password'] = 'required|string|min:6';
+            unset($rules['mobile']);
+        } else if ($uri === api_route('user.set.wallet_password')
+            || $uri === api_route('user.reset.wallet_password')
+        ) {
             unset($rules['mobile']);
         }
 
