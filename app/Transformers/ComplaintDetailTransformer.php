@@ -40,7 +40,8 @@ class ComplaintDetailTransformer extends TransformerAbstract
                 'phone' => $order->customerPhone,
             ],
             'complaint_info' => $model->complaintInfo,
-            'complaint_type' => $model->complaintType,
+            'complaint_type_id' => $model->complaintTypeId,
+            'complaint_type_name' => $model->complaintType->name,// 投诉类型名称
 
             'status' => $model->status,
             'status_desc' => $model->statusDesc,

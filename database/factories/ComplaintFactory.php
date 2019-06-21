@@ -47,7 +47,7 @@ $factory->define(Complaint::class, function (Faker $faker) {
             'title' => $faker->sentence,
             'type_title' => $faker->sentence,
             'content' => $faker->sentence(20),
-            'time' => $faker->dateTime,
+            'time' => $faker->dateTime->format('Y-m-d H:i:s'),
         ];
     }
 

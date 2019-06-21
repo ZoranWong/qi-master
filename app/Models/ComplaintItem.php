@@ -18,6 +18,7 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @property array $evidence 举证内容，包含图片，音视频
  * @property \Illuminate\Support\Carbon|null $createdAt
  * @property \Illuminate\Support\Carbon|null $updatedAt
+ * @property-read mixed $complaintTypeName
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ComplaintItem newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ComplaintItem newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ComplaintItem query()
@@ -54,4 +55,9 @@ class ComplaintItem extends Model implements Transformable
         self::COMPLAINANT_TYPE_USER => '用户',
         self::COMPLAINANT_TYPE_MASTER => '师傅',
     ];
+
+    public function getComplaintTypeNameAttribute()
+    {
+        return self::COMPLAINANT_TYPES[$this->complainantType] . '举证';
+    }
 }

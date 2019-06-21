@@ -28,13 +28,21 @@ class ComplaintController extends Controller
     {
         $limit = $request->input('limit', PAGE_SIZE);
 
-        $paginator = $this->repository->paginate($limit);
+        $paginator = $this->repository->whereHas('order', function ($query) {
+            $query->where('user_id', auth()->id());
+        })->paginate($limit);
 
         return $this->response->paginator($paginator, new ComplaintTransformer);
     }
 
     public function detail(Complaint $complaint)
     {
+        $guard = config('auth.defaults.guard');
+
+        if ($complaint->{"{$guard}Id"} !== auth()->id()) {
+            $this->response->errorForbidden();
+        }
+
         return $this->response->item($complaint, new ComplaintDetailTransformer);
     }
 

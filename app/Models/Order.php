@@ -37,6 +37,7 @@ use Ramsey\Uuid\Uuid;
  * @property int $classificationId 类目
  * @property int $serviceId 服务类型ID
  * @property-read \App\Models\Classification $classification
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Complaint[] $complaints
  * @property-read \App\Models\CouponCode|null $couponCode
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OfferOrder[] $employedMasters
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OrderItem[] $items
@@ -240,6 +241,14 @@ class Order extends Model implements HasPresenter
     public function couponCode()
     {
         return $this->belongsTo(CouponCode::class);
+    }
+
+    /**
+     * 投诉
+     */
+    public function complaints()
+    {
+        return $this->hasMany(Complaint::class, 'order_id');
     }
 
     public static function findAvailableNo()
