@@ -9,6 +9,7 @@ $api->group(['prefix' => 'users', 'namespace' => 'User', 'middleware' => ['web']
     $api->put('/resetPwd', 'UserController@resetPassword');
     $api->put('/changeWalletPwd', 'UserController@changeWalletPassword');
     $api->put('/resetWalletPwd', 'UserController@resetWalletPassword');
+    $api->get('/comments', 'UserController@comments');
     /**
      * 订单
      */

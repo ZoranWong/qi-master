@@ -22,5 +22,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ComplaintTypeSeeder::class);
         $this->call(ComplaintSeeder::class);
         $this->call(MessageSeeder::class);
+        $this->call(MasterCommentSeeder::class);
     }
 }

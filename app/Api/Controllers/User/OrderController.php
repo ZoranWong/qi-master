@@ -3,9 +3,11 @@
 namespace App\Api\Controllers\User;
 
 use App\Api\Controller;
-use App\Http\Requests\Request;
+use App\Models\Order;
 use App\Repositories\OrderRepository;
+use App\Transformers\OrderItemTransformer;
 use App\Transformers\OrderTransformer;
+use Dingo\Api\Http\Request;
 
 class OrderController extends Controller
 {
@@ -23,13 +25,13 @@ class OrderController extends Controller
     {
         $limit = $request->input('limit', PAGE_SIZE);
 
-        $paginator = $this->repository->paginate($limit);
+        $paginator = auth()->user()->orders()->paginate($limit);
 
-        return $this->response->collection($paginator, new OrderTransformer);
+        return $this->response->paginator($paginator, new OrderTransformer);
     }
 
-    public function detail()
+    public function detail(Order $order)
     {
-
+        return $this->response->item($order, new OrderItemTransformer());
     }
 }

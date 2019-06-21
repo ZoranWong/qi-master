@@ -40,6 +40,7 @@ use Ramsey\Uuid\Uuid;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Complaint[] $complaints
  * @property-read \App\Models\CouponCode|null $couponCode
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OfferOrder[] $employedMasters
+ * @property-read mixed $statusDesc
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OrderItem[] $items
  * @property-read \App\Models\Master $master
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Master[] $masters
@@ -128,7 +129,8 @@ class Order extends Model implements HasPresenter
         'type',
         'status',
         'total_amount',
-        'coupon_code_id'
+        'coupon_code_id', 'service_date', 'comment', 'contact_user_name', 'contact_user_phone',
+        'customer_name', 'customer_phone', 'customer_address', 'region_code', 'classification_id', 'service_id'
     ];
 
     protected $dates = [
@@ -290,6 +292,14 @@ class Order extends Model implements HasPresenter
     }
 
     /**
+     * 订单状态描述
+     */
+    public function getStatusDescAttribute()
+    {
+        return self::ORDER_STATUS[$this->status];
+    }
+
+    /**
      * Get the presenter class.
      *
      * @return string
@@ -299,4 +309,5 @@ class Order extends Model implements HasPresenter
         // TODO: Implement getPresenterClass() method.
         return OrderPresenter::class;
     }
+
 }

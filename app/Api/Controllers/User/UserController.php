@@ -6,7 +6,10 @@ use App\Api\Controller;
 use App\Http\Requests\UserUpdatePasswordRequest;
 use App\Models\User;
 use App\Repositories\UserRepository;
+use App\Transformers\MasterCommentTransformer;
 use App\Transformers\UserTransformer;
+use Dingo\Api\Http\Request;
+use Dingo\Api\Http\Response;
 
 class UserController extends Controller
 {
@@ -68,5 +71,21 @@ class UserController extends Controller
     public function resetWalletPassword()
     {
 
+    }
+
+    /**
+     * 评论列表
+     * @param Request $request
+     * @return Response
+     */
+    public function comments(Request $request)
+    {
+        $limit = $request->input('limit', PAGE_SIZE);
+
+        $paginator = auth()->user()->comments()
+            ->with(['order.classification', 'order.serviceType', 'master'])
+            ->paginate($limit);
+
+        return $this->response->paginator($paginator, new MasterCommentTransformer);
     }
 }

@@ -30,7 +30,8 @@ class OrderTransformer extends TransformerAbstract
                 'address' => $model->customerAddress
             ],
             'total_amount' => $model->totalAmount,
-            'status' => Order::STATUS[$model->status],
+            'status' => $model->status,
+            'status_desc' => $model->statusDesc,
 
             'service_type' => $model->serviceType->name,// 服务类型
             'classification' => $model->classification->name,// 类目

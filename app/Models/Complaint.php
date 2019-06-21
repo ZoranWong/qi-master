@@ -134,4 +134,14 @@ class Complaint extends Model implements Transformable
     {
         return static::STATUS_EVIDENCE[$this->evidenceStatus];
     }
+
+    public function setCompensationAttribute($value)
+    {
+        $this->attributes['compensation'] = $value * 100;
+    }
+
+    public function getCompensationAttribute()
+    {
+        return $this->attributes['compensation'] / CURRENCY_UNIT_CONVERT_NUM;
+    }
 }

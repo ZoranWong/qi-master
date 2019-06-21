@@ -32,6 +32,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property string $address 详细地址
  * @property int $balance 余额 单位：分
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\UserAddress[] $addresses
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\MasterComment[] $comments
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Complaint[] $complaints
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Product[] $favoriteProducts
  * @property-read mixed $sexDesc
@@ -205,6 +206,14 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
     public function newMessages()
     {
         return $this->messages()->where('status', Message::STATUS_NEW);
+    }
+
+    /**
+     * 我的评论
+     */
+    public function comments()
+    {
+        return $this->hasMany(MasterComment::class, 'user_id');
     }
 
     /**
