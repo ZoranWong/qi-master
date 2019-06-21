@@ -21,6 +21,7 @@ $api->group(['prefix' => 'users', 'namespace' => 'User', 'middleware' => ['web']
             $api->get('/{order}', 'OrderController@detail');
             $api->post('/fixedPrice/publish', 'OrderController@publishFixedPrice');
             $api->post('/publish', 'OrderController@publish');
+            $api->post('/initiateRefund', 'OrderController@initiateRefund');
         });
         /**
          * 投诉
@@ -46,6 +47,12 @@ $api->group(['prefix' => 'users', 'namespace' => 'User', 'middleware' => ['web']
             $api->get('/', 'MessageController@index');
             $api->put('/readMessage', 'MessageController@read');
             $api->delete('/deleteMessage', 'MessageController@destroy');
+        });
+        /**
+         * 退款
+         */
+        $api->group(['prefix' => 'refunds'], function (Router $api) {
+            $api->get('/', 'RefundOrderController@index');
         });
     });
 });

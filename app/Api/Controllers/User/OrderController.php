@@ -47,10 +47,18 @@ class OrderController extends Controller
 
     }
 
-    /**`、
+    /**
      * 发布一口价订单
      */
     public function publishFixedPrice()
+    {
+
+    }
+
+    /**
+     * 发起退款
+     */
+    public function initiateRefund()
     {
 
     }
