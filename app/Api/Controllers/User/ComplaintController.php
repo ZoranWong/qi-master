@@ -37,9 +37,7 @@ class ComplaintController extends Controller
 
     public function detail(Complaint $complaint)
     {
-        $guard = config('auth.defaults.guard');
-
-        if ($complaint->{"{$guard}Id"} !== auth()->id()) {
+        if ($complaint->order->userId !== auth()->id()) {
             $this->response->errorForbidden();
         }
 
