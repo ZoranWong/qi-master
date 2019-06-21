@@ -34,8 +34,10 @@ $api->group(['prefix' => 'users', 'namespace' => 'User', 'middleware' => ['web']
         /**
          * 商品
          */
-        $api->group(['prefix' => 'gallery'], function (Router $api) {
-
+        $api->group(['prefix' => 'products'], function (Router $api) {
+            $api->get('/', 'ProductController@index');
+            $api->post('/', 'ProductController@store');
+            $api->put('/{product}', 'ProductController@update');
         });
         /**
          * 消息
