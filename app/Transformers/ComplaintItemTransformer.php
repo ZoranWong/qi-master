@@ -27,8 +27,9 @@ class ComplaintItemTransformer extends TransformerAbstract
             /* place your other model properties here */
             'complainant_id' => (int)$model->complainantId,
             'complainant_type' => (string)$model->complainantType,
-            'content' => $model->content,
-            'evidence' => (string)$model->evidence,
+            'complainant_type_name' => (string)$model->complaintTypeName,
+            'content' => (string)$model->content,
+            'evidence' => $model->evidence,
 
             'created_at' => (string)$model->createdAt,
             'updated_at' => (string)$model->updatedAt

@@ -19,6 +19,9 @@ class DatabaseSeeder extends Seeder
         $this->call(CategorySeeder::class);
         $this->call(ServiceTypeSeeder::class);
         $this->call(WithdrawOrdersSeeder::class);
+        $this->call(ComplaintTypeSeeder::class);
         $this->call(ComplaintSeeder::class);
+        $this->call(MessageSeeder::class);
+        $this->call(MasterCommentSeeder::class);
     }
 }

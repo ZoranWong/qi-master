@@ -1,10 +1,11 @@
 <?php
 
-use App\Models\Region;
+use App\Models\Master;
 use App\Models\Order;
+use App\Models\Region;
 use App\Models\User;
 use Faker\Generator as Faker;
-use App\Models\Master;
+
 $factory->define(Order::class, function (Faker $faker) {
     // 随机取一个用户
     $user = User::query()->inRandomOrder()->first();
@@ -24,12 +25,12 @@ $factory->define(Order::class, function (Faker $faker) {
         Order::ORDER_CANCEL
     ]);
     return [
-        'user_id'   => $user->id,
+        'user_id' => $user->id,
         'master_id' => $master->id,
-        'type'      => $type,
-        'status'    => $status,
+        'type' => $type,
+        'status' => $status,
         'total_amount' => $faker->randomDigit,
-        'order_no'  => $orderNo,
+        'order_no' => $orderNo,
         'service_date' => $faker->date(),
         'comment' => $faker->text(124),
         'contact_user_name' => $faker->name,
@@ -38,6 +39,9 @@ $factory->define(Order::class, function (Faker $faker) {
         'customer_phone' => $faker->phoneNumber,
         'region_code' => $region['region_code'],
         'customer_address' => $faker->address,
-        'refund_status' => 0
+        'refund_status' => 0,
+
+        'classification_id' => rand(1, 5),
+        'service_id' => rand(1, 7),
     ];
 });

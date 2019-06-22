@@ -15,7 +15,7 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @property string $title 标题
  * @property string $type 消息类型
  * @property string $content 内容
- * @property int $status 状态 0->未读 1->已读
+ * @property bool $status 状态 0->未读 1->已读
  * @property \Illuminate\Support\Carbon|null $createdAt
  * @property \Illuminate\Support\Carbon|null $updatedAt
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Message newModelQuery()

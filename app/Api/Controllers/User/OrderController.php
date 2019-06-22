@@ -3,9 +3,11 @@
 namespace App\Api\Controllers\User;
 
 use App\Api\Controller;
-use App\Http\Requests\Request;
+use App\Models\Order;
 use App\Repositories\OrderRepository;
+use App\Transformers\OrderDetailTransformer;
 use App\Transformers\OrderTransformer;
+use Dingo\Api\Http\Request;
 
 class OrderController extends Controller
 {
@@ -23,12 +25,40 @@ class OrderController extends Controller
     {
         $limit = $request->input('limit', PAGE_SIZE);
 
-        $paginator = $this->repository->paginate($limit);
+        $paginator = auth()->user()->orders()->paginate($limit);
 
-        return $this->response->collection($paginator, new OrderTransformer);
+        return $this->response->paginator($paginator, new OrderTransformer);
     }
 
-    public function detail()
+    public function detail(Order $order)
+    {
+        if (auth()->id() !== $order->userId) {
+            $this->response->errorForbidden('您无权查看该订单');
+        }
+
+        return $this->response->item($order, new OrderDetailTransformer);
+    }
+
+    /**
+     * 发布报价招标订单
+     */
+    public function publish()
+    {
+
+    }
+
+    /**
+     * 发布一口价订单
+     */
+    public function publishFixedPrice()
+    {
+
+    }
+
+    /**
+     * 发起退款
+     */
+    public function initiateRefund()
     {
 
     }

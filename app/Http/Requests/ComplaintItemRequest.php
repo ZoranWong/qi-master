@@ -25,7 +25,6 @@ class ComplaintItemRequest extends FormRequest
     {
         return [
             'content' => 'bail|required|string',
-            'evidence' => 'required|array'
         ];
     }
 }

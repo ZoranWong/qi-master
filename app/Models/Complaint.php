@@ -19,12 +19,13 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @property string $orderNo 订单编号
  * @property int $status 状态
  * @property int $evidenceStatus 举证状态
- * @property int $complaintType 投诉类型
+ * @property int $complaintTypeId 投诉类型
  * @property array $complaintInfo 投诉信息，包括投诉内容，图片凭证
  * @property int $compensation 赔付金额
  * @property array $result 处理结果
  * @property \Illuminate\Support\Carbon|null $createdAt
  * @property \Illuminate\Support\Carbon|null $updatedAt
+ * @property-read \App\Models\ComplaintType $complaintType
  * @property-read mixed $evidenceStatusDesc
  * @property-read mixed $statusDesc
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ComplaintItem[] $items
@@ -35,7 +36,7 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Complaint whereCompensation($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Complaint whereComplaintInfo($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Complaint whereComplaintNo($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Complaint whereComplaintType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Complaint whereComplaintTypeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Complaint whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Complaint whereEvidenceStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Complaint whereId($value)
@@ -56,8 +57,8 @@ class Complaint extends Model implements Transformable
      * @var array
      */
     protected $fillable = [
-        'complaint_no', 'order_id', 'order_no', 'master_id', 'status', 'evidence_status',
-        'complaint_type', 'complaint_info', 'result'
+        'complaint_no', 'order_id', 'order_no', 'status', 'evidence_status',
+        'complaint_type_id', 'complaint_info', 'result', 'compensation'
     ];
 
     protected $casts = [
@@ -109,6 +110,14 @@ class Complaint extends Model implements Transformable
     }
 
     /**
+     * 投诉类型
+     */
+    public function complaintType()
+    {
+        return $this->belongsTo(ComplaintType::class, 'complaint_type_id');
+    }
+
+    /**
      * 涉及订单
      */
     public function order(): BelongsTo
@@ -124,5 +133,15 @@ class Complaint extends Model implements Transformable
     public function getEvidenceStatusDescAttribute()
     {
         return static::STATUS_EVIDENCE[$this->evidenceStatus];
+    }
+
+    public function setCompensationAttribute($value)
+    {
+        $this->attributes['compensation'] = $value * 100;
+    }
+
+    public function getCompensationAttribute()
+    {
+        return $this->attributes['compensation'] / CURRENCY_UNIT_CONVERT_NUM;
     }
 }

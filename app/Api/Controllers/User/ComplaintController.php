@@ -10,6 +10,7 @@ use App\Models\Order;
 use App\Repositories\ComplaintRepository;
 use App\Repositories\OrderRepository;
 use App\Transformers\ComplaintDetailTransformer;
+use App\Transformers\ComplaintItemTransformer;
 use App\Transformers\ComplaintTransformer;
 use Dingo\Api\Http\Request;
 use Dingo\Api\Http\Response;
@@ -28,13 +29,19 @@ class ComplaintController extends Controller
     {
         $limit = $request->input('limit', PAGE_SIZE);
 
-        $paginator = $this->repository->paginate($limit);
+        $paginator = $this->repository->whereHas('order', function ($query) {
+            $query->where('user_id', auth()->id());
+        })->paginate($limit);
 
         return $this->response->paginator($paginator, new ComplaintTransformer);
     }
 
     public function detail(Complaint $complaint)
     {
+        if ($complaint->order->userId !== auth()->id()) {
+            $this->response->errorForbidden();
+        }
+
         return $this->response->item($complaint, new ComplaintDetailTransformer);
     }
 
@@ -46,19 +53,24 @@ class ComplaintController extends Controller
      */
     public function store(ComplaintRequest $request, OrderRepository $orderRepository)
     {
-        $postData = $request->only(['order_id', 'complaint_type', 'complaint_info']);
+        $postData = $request->only(['order_id', 'complaint_type_id', 'complaint_info']);
 
         /** @var Order $order */
         $order = $orderRepository->find($postData['order_id']);
+
+        if (auth()->id() !== $order->userId) {
+            $this->response->errorForbidden('您不是订单所有者，不可以投诉');
+        }
 
         $postData['complaint_no'] = orderNo('P');
         $postData['order_no'] = $order->orderNo;
         $postData['status'] = Complaint::STATUS_PROCEEDING;
         $postData['evidence_status'] = Complaint::STATUS_EVIDENCE_WAIT_MASTER;
+        $postData['result'] = [];
 
-        $this->repository->create($postData);
+        $complaint = $this->repository->create($postData);
 
-        return $this->response->created();
+        return $this->response->item($complaint, new ComplaintTransformer);
     }
 
     /**
@@ -69,14 +81,18 @@ class ComplaintController extends Controller
      */
     public function evidence(ComplaintItemRequest $request, Complaint $complaint)
     {
+        if (auth()->id() !== $complaint->order->userId) {
+            $this->response->errorForbidden('您与此项投诉无关，不可以举证');
+        }
+
         $postData = $request->only(['content', 'evidence']);
 
-        $postData['complaint_id'] = auth()->id();
+        $postData['complainant_id'] = auth()->id();
 
-        $postData['complaint_type'] = Inflector::singularize(config('auth.defaults.guard'));
+        $postData['complainant_type'] = Inflector::singularize(config('auth.defaults.guard'));
 
-        $complaint->items()->create($postData);
+        $complaintItem = $complaint->items()->create($postData);
 
-        return $this->response->created();
+        return $this->response->item($complaintItem, new ComplaintItemTransformer);
     }
 }

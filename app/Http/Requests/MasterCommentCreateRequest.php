@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ComplaintRequest extends FormRequest
+class MasterCommentCreateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class ComplaintRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return false;
     }
 
     /**
@@ -24,9 +24,7 @@ class ComplaintRequest extends FormRequest
     public function rules()
     {
         return [
-            'order_id' => 'bail|required|int',
-            'complaint_type_id' => 'required|int',
-            'complaint_info' => 'required|array'
+            //
         ];
     }
 }

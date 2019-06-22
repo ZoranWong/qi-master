@@ -1,5 +1,7 @@
 <?php
 
+use Dingo\Api\Routing\UrlGenerator;
+
 if (!function_exists('upperCaseSplit')) {
     function upperCaseSplit(string $des, string $delimiter = ' ')
     {
@@ -115,5 +117,12 @@ if (!function_exists('isMobile')) {
             }
         }
         return FALSE;
+    }
+}
+
+if (!function_exists('api_route')) {
+    function api_route(string $routeAlias)
+    {
+        return app(UrlGenerator::class)->version(config('api.version'))->route($routeAlias);
     }
 }

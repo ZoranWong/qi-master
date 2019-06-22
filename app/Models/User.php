@@ -21,6 +21,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property string $mobile 手机
  * @property string|null $emailVerifiedAt
  * @property string $password
+ * @property string $walletPassword 钱包密码
  * @property string|null $rememberToken
  * @property \Illuminate\Support\Carbon|null $createdAt
  * @property \Illuminate\Support\Carbon|null $updatedAt
@@ -31,8 +32,11 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property string $address 详细地址
  * @property int $balance 余额 单位：分
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\UserAddress[] $addresses
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\MasterComment[] $comments
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Complaint[] $complaints
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Product[] $favoriteProducts
  * @property-read mixed $sexDesc
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Message[] $messages
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Order[] $orders
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User newModelQuery()
@@ -55,6 +59,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereSex($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereWalletPassword($value)
  * @mixin \Eloquent
  */
 class User extends Authenticatable implements MustVerifyEmail, JWTSubject
@@ -75,6 +80,7 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
      */
     protected $fillable = [
         'name', 'email', 'mobile', 'password', 'email_verified_at', 'remember_token',
+        'nickname', 'avatar', 'sex', 'province', 'city', 'area', 'address', 'balance', 'wallet_password'
     ];
 
     /**
@@ -118,6 +124,9 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
             ->orderBy('user_favorite_products.created_at', 'desc');
     }
 
+    /**
+     * 我的订单
+     */
     public function orders()
     {
         return $this->hasMany(Order::class);
@@ -179,6 +188,14 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
     }
 
     /**
+     * 我的投诉
+     */
+    public function complaints()
+    {
+        return $this->hasMany(Complaint::class);
+    }
+
+    /**
      * 消息
      */
     public function messages(): HasMany
@@ -192,6 +209,14 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
     public function newMessages()
     {
         return $this->messages()->where('status', Message::STATUS_NEW);
+    }
+
+    /**
+     * 我的评论
+     */
+    public function comments()
+    {
+        return $this->hasMany(MasterComment::class, 'user_id');
     }
 
     /**

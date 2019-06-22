@@ -21,9 +21,9 @@ class CreateComplaintsTable extends Migration
             $table->string('order_no')->comment('订单编号');
 
             $table->unsignedTinyInteger('status')->comment('状态');
-            $table->unsignedTinyInteger('evidenceStatus')->comment('举证状态');
+            $table->unsignedTinyInteger('evidence_status')->comment('举证状态');
 
-            $table->unsignedTinyInteger('complaint_type')->comment('投诉类型');
+            $table->unsignedTinyInteger('complaint_type_id')->comment('投诉类型');
             $table->json('complaint_info')->comment('投诉信息，包括投诉内容，图片凭证');
             $table->unsignedInteger('compensation')->default(0)->comment('赔付金额');
             $table->json('result')->comment('处理结果');

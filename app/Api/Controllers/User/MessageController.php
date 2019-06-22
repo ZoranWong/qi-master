@@ -27,7 +27,7 @@ class MessageController extends Controller
         /** @var User $user */
         $user = auth()->user();
 
-        $user->withCount(['newMessages']);
+        $user = $user->withCount(['newMessages', 'messages'])->find($user->id);
 
         $paginator = $user->messages()->paginate(PAGE_SIZE);
 
@@ -42,9 +42,22 @@ class MessageController extends Controller
      */
     public function read(Request $request)
     {
-        $messageIds = $request->input('message_ids', []);
+        $messageIds = $request->input('message_ids');
 
-        Message::whereIn('id', $messageIds)->update(['status' => Message::STATUS_READ]);
+        if (is_null($messageIds)) {
+            $this->response->errorBadRequest('缺少待阅读消息IDs参数');
+        }
+
+        /** @var User $user */
+        $user = auth()->user();
+
+        $query = $user->messages()->whereIn('id', $messageIds);
+
+        if ($query->count() < count($messageIds)) {
+            $this->response->errorBadRequest('待阅读消息中有不属于您的消息，禁止阅读');
+        }
+
+        $query->update(['status' => Message::STATUS_READ]);
 
         return $this->response->noContent();
     }
@@ -58,7 +71,20 @@ class MessageController extends Controller
     {
         $messageIds = $request->input('message_ids', []);
 
-        Message::whereIn('id', $messageIds)->delete();
+        if (is_null($messageIds)) {
+            $this->response->errorBadRequest('缺少待阅读消息IDs参数');
+        }
+
+        /** @var User $user */
+        $user = auth()->user();
+
+        $query = $user->messages()->whereIn('id', $messageIds);
+
+        if ($query->count() < count($messageIds)) {
+            $this->response->errorBadRequest('待阅读消息中有不属于您的消息，或者消息已删除，禁止删除');
+        }
+
+        $query->delete();
 
         return $this->response->noContent();
     }
