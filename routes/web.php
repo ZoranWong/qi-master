@@ -16,7 +16,7 @@ Route::group(['middleware' => ['guard:users']], function (Router $router) {
     $router->get('/register', 'HomeController@register')->name('register');
     $router->get('/forget/password', 'HomeController@forgetPassword')->name('forget.password');
     $router->group(['middleware' => []], function (Router $router) {
-        $router->get('', 'HomeController@index');
+        $router->get('', 'HomeController@index')->name('home');
         $router->get('orders', 'OrdersController@index');
         $router->get('orders/{order}', 'OrdersController@show');
         $router->get('publish/{step?}', 'OrdersController@publish');

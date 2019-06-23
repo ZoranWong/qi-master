@@ -61,7 +61,7 @@
     layui.use('form', function(){
         var form = layui.form;
         form.on('submit(*)',function(data){
-            console.log('--------', data);
+            login();
             return false;
         });
 
@@ -80,7 +80,7 @@
             'password': password
         };
         $.post(loginUrl, data).done((res) => {
-
+            location.href = '{{$homePage}}'
         }).fail((error) => {
 
         });

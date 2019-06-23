@@ -62,6 +62,7 @@ class Kernel extends HttpKernel
         TrimStrings::class,
         ConvertEmptyStringsToNull::class,
         TrustProxies::class,
+        \Barryvdh\Cors\HandleCors::class,
     ];
 
     /**

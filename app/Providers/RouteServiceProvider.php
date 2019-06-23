@@ -74,8 +74,6 @@ class RouteServiceProvider extends ServiceProvider
 //             ->middleware('api')
 //             ->namespace($this->namespace)
 //             ->group(base_path('routes/api.php'));
-
-
         $api = app(\Dingo\Api\Routing\Router::class);
 
         require_once app_path('Api/api.php');
