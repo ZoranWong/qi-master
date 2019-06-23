@@ -14,8 +14,22 @@
                     <td colspan="4" style="font-size: medium; font-weight: bold;">师傅个人信息</td>
                 </tr>
                 <tr>
+                    <td>账号名称：</td>
+                    <td>{{$master->name}}</td>
+                    <td>手机：</td>
+                    <td>{{$master->mobile}}</td>
                 </tr>
                 <tr>
+                    <td>姓名：</td>
+                    <td>{{$master->realName}}</td>
+                    <td>邮箱：</td>
+                    <td>{{$master->email}}</td>
+                </tr>
+                <tr>
+                    <td>接单数量：</td>
+                    <td>{{$master->name}}</td>
+                    <td>手机：</td>
+                    <td>{{$master->mobile}}</td>
                 </tr>
             </tbody>
         </table>

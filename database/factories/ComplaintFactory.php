@@ -31,7 +31,7 @@ $factory->define(Complaint::class, function (Faker $faker) {
         'complaint_no' => orderNo('C'),
         'order_id' => $order->id,
         'order_no' => $order->orderNo,
-        'complaint_type' => $complaintType->id,
+        'complaint_type_id' => $complaintType->id,
         'status' => $status,
         'evidence_status' => $evidenceStatus,
         'complaint_info' => [

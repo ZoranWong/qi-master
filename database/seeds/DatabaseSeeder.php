@@ -6,6 +6,7 @@ class DatabaseSeeder extends Seeder
 {
     public function run()
     {
+        $this->command->call('init:region');
         $this->call(AdminSeeder::class);
         $this->call(UsersSeeder::class);
         $this->call(MasterSeeder::class);
@@ -18,6 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call(MenuSeeder::class);
         $this->call(CategorySeeder::class);
         $this->call(ServiceTypeSeeder::class);
+        $this->call(OrdersSeeder::class);
         $this->call(WithdrawOrdersSeeder::class);
         $this->call(ComplaintTypeSeeder::class);
         $this->call(ComplaintSeeder::class);

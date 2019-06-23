@@ -46,7 +46,7 @@ class Master extends Model implements JWTSubject, Authenticatable
 {
     use ModelAttributesAccess, CurrencyUnitTrait, \Illuminate\Auth\Authenticatable;
 
-    protected $fillable = ['name', 'email', 'mobile', 'email_verified_at', 'password', 'remember_token'];
+    protected $fillable = ['name', 'real_name', 'avatar', 'mobile', 'email', 'mobile', 'email_verified_at', 'password', 'remember_token'];
 
     public function setBalanceAttribute($value)
     {
