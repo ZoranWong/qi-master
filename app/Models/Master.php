@@ -58,6 +58,7 @@ class Master extends Model implements JWTSubject, Authenticatable
         return $this->attributes['balance'] / CURRENCY_UNIT_CONVERT_NUM;
     }
 
+
     public function offerOrders()
     {
         return $this->hasMany(OfferOrder::class);

@@ -39,19 +39,18 @@
                 <td colspan="4" style="font-size: medium; font-weight: bold;">师傅服务历史</td>
             </tr>
             <tr>
+                <td>订单编号</td>
+                <td>雇主</td>
+                <td>订单价格</td>
+                <td>订单状态</td>
             </tr>
             <tr>
-            </tr>
-            </tbody>
-        </table>
-        <table class="table table-bordered">
-            <tbody>
-            <tr>
-                <td colspan="4" style="font-size: medium; font-weight: bold;">师傅评价</td>
-            </tr>
-            <tr>
-            </tr>
-            <tr>
+                @foreach($offerOrders as $key => $order)
+                    <td>{{$order->orderNo}}</td>
+                    <td>{{$order->employer}}</td>
+                    <td>{{$order->quotePriceFormat}}</td>
+                    <td>{{$order->offerOrderStatus}}</td>
+                @endforeach
             </tr>
             </tbody>
         </table>

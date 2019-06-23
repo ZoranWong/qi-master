@@ -19,9 +19,19 @@ class OfferOrderPresenter extends BasePresenter
      * */
     protected $wrappedObject;
 
+    public function orderNo()
+    {
+        return $this->wrappedObject->order->orderNo;
+    }
+
     public function masterName()
     {
         return $this->wrappedObject->master->name;
+    }
+
+    public function employer()
+    {
+        return $this->wrappedObject->user->name;
     }
 
     public function quotePriceFormat()
