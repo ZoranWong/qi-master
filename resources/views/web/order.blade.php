@@ -33,77 +33,7 @@
                 <li>订单管理</li>
             </ul>
         </div>
-        <div class="left-nav">
-            <div class="my-center">
-                <a href="index.html">
-                    <i></i>
-                    <span>个人中心</span>
-                </a>
-            </div>
-            <div>
-                <ul class="second-menu">
-                    <li class="active">
-                        <div><i class="icon-menu-1"></i>订单中心</div>
-                        <ul>
-                            <li class="router-link-active">
-                                <a href="orders">全部订单</a>
-                            </li>
-                            <li>
-                                <a href="comments">我的评价</a>
-                            </li>
-                            <li>
-                                <a href="gallery.html">商品管理</a>
-                            </li>
-                            <li>
-                                <a href="favorite.html">收藏的服务商</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <div><i class="icon-menu-2"></i>维权中心</div>
-                        <ul>
-                            <li>
-                                <a href="refund.html">退款管理</a>
-                            </li>
-                            <li>
-                                <a href="complaint.html">投诉管理</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <div><i class="icon-menu-3"></i>我的钱包</div>
-                        <ul>
-                            <li>
-                                <a href="mywallet.html">钱包余额</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <div><i class="icon-menu-4"></i>个人中心</div>
-                        <ul>
-                            <li>
-                                <a href="profile.html">基本资料</a>
-                            </li>
-                            <li>
-                                <a href="security.html">安全设置</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <div><i class="icon-menu-5"></i>服务中心</div>
-                        <ul>
-                            <li>
-                                <a href="message.html">我的消息</a>
-                            </li>
-                            <li>
-                                <a href="security.html">资质管理</a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
+        @include('web.menu')
         <div class="right-content">
             <h2>订单中心</h2>
             <div class="layui-tab">

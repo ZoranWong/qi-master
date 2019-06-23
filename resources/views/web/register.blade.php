@@ -32,31 +32,21 @@
                 <div class="welcome">欢迎注册齐师傅<span class="tips"></span></div>
                 <ul>
                     <li>
-                        <select id="userType"
-                                style="width:320px;outline: none;height: 40px;font-size: 15px;color:#999;border:1px solid #e3e1e2;">
-                            <option value="">&nbsp;&nbsp;请选择用户类型&nbsp;&nbsp;</option>
-                            <option value="1">&nbsp;实体卖家&nbsp;</option>
-                            <option value="2">&nbsp;电商卖家&nbsp;</option>
-                            <option value="3">&nbsp;个人用户&nbsp;</option>
-                            <option value="4">&nbsp;我是师傅&nbsp;</option>
-                        </select>
-                        <i></i>
-                    </li>
-                    <li>
                         <input type="tel" id="phone" class="r-phone" maxlength="11" placeholder="请输入您的手机号">
                         <i></i>
                     </li>
-                    <li>
-                        <input type="text" id="sCode" class="sCode" placeholder="请输入验证码">
-                        <button class="getCode" onclick="getCode()">获取验证码</button>
-                        <i></i>
-                    </li>
+                    {{--<li>--}}
+                        {{--<input type="text" id="sCode" class="sCode" placeholder="请输入验证码">--}}
+                        {{--<button class="getCode" onclick="getCode()">获取验证码</button>--}}
+                        {{--<i></i>--}}
+                    {{--</li>--}}
                     <li>
                         <input type="password" id="password" class="password" placeholder="请输入您的密码">
                         <i></i>
                     </li>
                     <li>
-                        <input type="text" id="recommend" class="recommend" placeholder="推荐人邀请码或手机号">
+                        <input type="password" id="password_confirmation" class="password_confirmation" placeholder="请再次输入密码">
+                        <i></i>
                     </li>
                 </ul>
                 <div class="agree">
