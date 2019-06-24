@@ -75,7 +75,8 @@ class Kernel extends HttpKernel
             EncryptCookies::class,
             AddQueuedCookiesToResponse::class,
             StartSession::class,
-            // \Illuminate\Session\Middleware\AuthenticateSession::class,
+//            Authenticate::class,
+            AuthenticateSession::class,
             ShareErrorsFromSession::class,
 //            VerifyCsrfToken::class,
             SubstituteBindings::class,
@@ -95,11 +96,11 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $middlewarePriority = [
-        StartSession::class,
-        ShareErrorsFromSession::class,
+//        StartSession::class,
+//        ShareErrorsFromSession::class,
 //        Authenticate::classes,
 //        AuthenticateSession::class,
-        SubstituteBindings::class,
+//        SubstituteBindings::class,
 //        Authorize::class,
     ];
 }
