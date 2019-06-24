@@ -3,11 +3,12 @@
 use Dingo\Api\Routing\Router;
 
 /** @var Router $api */
+
 $api->group(['prefix' => 'users', 'namespace' => 'User'], function (Router $api) {
     $api->put('/resetPwd', 'UserController@resetPassword');
 
     $api->group(['middleware' => ['auth']], function (Router $api) {
-        $api->get('/profile', ['as' => 'user.profile', ['uses' => 'UserController@profile']]);
+        $api->get('/profile', ['as' => 'user.profile', 'uses' => 'UserController@profile']);
         $api->put('/changePwd', ['as' => 'user.change.password', 'uses' => 'UserController@changePassword']);
         $api->put('/changeWalletPwd', ['as' => 'user.change.wallet_password', 'uses' => 'UserController@changeWalletPassword']);
         $api->put('/resetWalletPwd', ['as' => 'user.reset.wallet_password', 'uses' => 'UserController@resetWalletPassword']);

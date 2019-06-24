@@ -3,27 +3,27 @@
 namespace App\Http\Controllers;
 
 use Dingo\Api\Dispatcher;
+use Dingo\Api\Routing\Helpers;
 use Illuminate\Support\Facades\Log;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 
 class HomeController extends Controller
 {
+    use Helpers;
     //
     public function index()
     {
         $user = auth()->user();
-        $token = session('token');
+        $token = JWTAuth::fromUser($user);
         /**@var Dispatcher $dispatcher**/
-        $dispatcher = app(Dispatcher::class);
-        $dispatcher->header('Authorization', "bearer {$token}");
+        $dispatcher = $this->api->header('Authorization', "bearer {$token}");
         try{
-            $data = $dispatcher->get(api_route('user.profile'));
+            $user = $dispatcher->get('/users/profile?token='.$token);
         }catch (\Exception $exception){
-            ($exception->getTrace());
-            Log::debug('-------', [$exception->getMessage()]);
         }
 
-//        var_dump($data);
+
         $view = null;
         if (isMobile()) {
             $view = view('h5.index');
