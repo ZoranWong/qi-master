@@ -17,7 +17,7 @@ class HomeController extends Controller
         /**@var Dispatcher $dispatcher**/
         $dispatcher = app(Dispatcher::class);
         $dispatcher->header('Authorization', "bearer {$token}");
-        $data = $dispatcher->get(api_route('user.info'));
+        $data = $dispatcher->get(api_route('user.profile'));
         var_dump($data);
         if (isMobile()) {
             return view('h5.index');
