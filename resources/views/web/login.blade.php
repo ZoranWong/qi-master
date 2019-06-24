@@ -80,7 +80,7 @@
             'password': password
         };
         $.post(loginUrl, data).done((res) => {
-            location.href = '{{$homePage}}'
+            {{--location.href = '{{$homePage}}'--}}
         }).fail((error) => {
 
         });

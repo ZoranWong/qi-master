@@ -33,7 +33,7 @@
                 <div class="user">
                     <div class="head-pic"></div>
                     <div class="name">
-                        <a href="profile.html">王先生</a>
+                        <a href="/profile">{{$user->name}}</a>
                     </div>
                 </div>
                 <div class="wallet">
@@ -41,7 +41,7 @@
                     <div class="recharge">
                         <div class="money">1551.20</div>
                         <div class="text">余额(元)</div>
-                        <a href="recharge" class="btn">充值</a>
+                        <a href="/recharge" class="btn">充值</a>
                     </div>
                 </div>
             </div>

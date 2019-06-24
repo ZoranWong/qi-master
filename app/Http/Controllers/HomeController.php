@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Dingo\Api\Routing\UrlGenerator;
 use Illuminate\Http\Request;
 
@@ -11,15 +12,20 @@ class HomeController extends Controller
 
     public function index()
     {
+        $view = null;
         if (isMobile()) {
-            return view('h5.index');
+            $view = view('h5.index');
         } else {
-            return view('web.index')->with([
+            $view = view('web.index')->with([
                 'selected' => '',
                 'currentMenu' => ''
             ]);
         }
-
+        /**@var User $user**/
+        $user = auth()->user();
+        dd($user);
+        $view->with('user', $user);
+        return $view;
     }
 
     public function register()
@@ -50,7 +56,7 @@ class HomeController extends Controller
             ]);
         } else {
             return view('web.login')->with([
-                'loginRoute' => app(UrlGenerator::class)->version('v1')->route('user.login'),
+                'loginRoute' => route('user.login'),
                 'homePage' => route('home')
             ]);
         }

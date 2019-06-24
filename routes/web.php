@@ -11,11 +11,12 @@
 //|
 //*/
 use Illuminate\Routing\Router;
-Route::group(['middleware' => ['guard:users']], function (Router $router) {
+Route::group(['middleware' => ['guard:web']], function (Router $router) {
     $router->get('/login', 'HomeController@login')->name('login');
+    $router->post('/login', 'Auth\\LoginController@login')->name('user.login');
     $router->get('/register', 'HomeController@register')->name('register');
     $router->get('/forget/password', 'HomeController@forgetPassword')->name('forget.password');
-    $router->group(['middleware' => []], function (Router $router) {
+    $router->group(['middleware' => ['auth']], function (Router $router) {
         $router->get('', 'HomeController@index')->name('home');
         $router->get('orders', 'OrdersController@index');
         $router->get('orders/{order}', 'OrdersController@show');
