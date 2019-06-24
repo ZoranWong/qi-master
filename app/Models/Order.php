@@ -261,6 +261,14 @@ class Order extends Model implements HasPresenter
         // TODO
     }
 
+    /**
+     * 订单评价
+     */
+    public function comments()
+    {
+        return $this->hasMany(MasterComment::class);
+    }
+
     public static function findAvailableNo()
     {
         // 订单流水号前缀

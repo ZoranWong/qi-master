@@ -28,6 +28,7 @@ $api->group(['prefix' => 'users', 'namespace' => 'User'], function (Router $api)
             $api->post('/fixedPrice/publish', ['as' => 'user.publish.fixed_price', 'uses' => 'OrderController@publishFixedPrice']);
             $api->post('/publish', ['as' => 'user.publish', 'uses' => 'OrderController@publish']);
             $api->post('/initiateRefund', ['as' => 'user.initiate_refund', 'uses' => 'OrderController@initiateRefund']);
+            $api->get('/{order:[0-9]+}/offers', ['as' => 'user.order.offers', 'uses' => 'OrderController@offerOrders']);
         });
         /**
          * 投诉
