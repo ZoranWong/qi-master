@@ -37,27 +37,27 @@ class UserPresenter extends BasePresenter
 
     public function waitOfferCount()
     {
-        return $this->wrappedObject->orderWaitOfferCount;
+        return $this->wrappedObject->orderWaitOfferCount ?? 0;
     }
 
     public function waitEmployeeCount()
     {
-        return $this->wrappedObject->orderWaitHireCount;
+        return $this->wrappedObject->orderWaitHireCount ?? 0;
     }
 
     public function waitPayCount()
     {
-        return $this->wrappedObject->orderWaitPayCount;
+        return $this->wrappedObject->orderWaitPayCount ?? 0;
     }
 
     public function waitCheckCount()
     {
-        return $this->wrappedObject->orderWaitCheckCount;
+        return $this->wrappedObject->orderWaitCheckCount ?? 0;
     }
 
     public function waitCommentCount()
     {
-        return $this->wrappedObject->orderWaitCommentCount;
+        return $this->wrappedObject->orderWaitCommentCount ?? 0;
     }
 
 }

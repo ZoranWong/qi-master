@@ -3,7 +3,7 @@
     <th colspan="6">
         <span>订单号：{{$order->orderNo}}</span>
         <span>{{$order->publishedAt}}</span>
-        <span>服务商：黄锋（18260098365）</span>
+        <span>服务商：{{ $order->master->name ?? $order->master->realName }}（{{ $order->master->mobile }}）</span>
     </th>
 </tr>
 </thead>
@@ -23,7 +23,7 @@
     </td>
     <td>
         <div class="text-center">
-            <div>周金梅/13864666439</div>
+            <div>{{ $order->master->name ?? $order->master->realName }}}/{{$order->master->mobile}}</div>
             <div>山东省潍坊市寒亭区大家洼街道八里村小5号楼2单元302</div>
         </div>
     </td>

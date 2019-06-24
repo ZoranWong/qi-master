@@ -32,6 +32,6 @@ class OrderPresenter extends BasePresenter
     }
     public function employer()
     {
-        return $this->wrappedObject->user->name;
+        return $this->wrappedObject->user;
     }
 }
