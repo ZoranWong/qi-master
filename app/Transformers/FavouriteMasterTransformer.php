@@ -2,18 +2,19 @@
 
 namespace App\Transformers;
 
+use App\Models\FavouriteMaster;
 use App\Models\Master;
 use League\Fractal\TransformerAbstract;
 
 /**
- * Class MasterTransformer.
+ * Class FavouriteMasterTransformer.
  *
  * @package namespace App\Transformers;
  */
-class MasterTransformer extends TransformerAbstract
+class FavouriteMasterTransformer extends TransformerAbstract
 {
     /**
-     * Transform the Master entity.
+     * Transform the FavouriteMaster entity.
      *
      * @param Master $model
      *
@@ -23,9 +24,13 @@ class MasterTransformer extends TransformerAbstract
     {
         return [
             'id' => (int)$model->id,
+
             'name' => $model->name,
             'mobile' => $model->mobile,
             'email' => $model->email,
+
+            'cooperative_nums' => $model->ordersCount,// 合作数量
+            'remark' => $model->pivot->remark,// 收藏师傅的备注
 
             'created_at' => (string)$model->createdAt,
             'updated_at' => (string)$model->updatedAt

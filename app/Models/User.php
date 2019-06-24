@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Traits\CurrencyUnitTrait;
 use App\Models\Traits\ModelAttributesAccess;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -217,6 +218,15 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
     public function comments()
     {
         return $this->hasMany(MasterComment::class, 'user_id');
+    }
+
+    /**
+     * 我的师傅收藏
+     */
+    public function favouriteMasters(): BelongsToMany
+    {
+        return $this->belongsToMany(Master::class, 'favourite_masters', 'user_id', 'master_id')
+            ->withPivot('remark')->withTimestamps();
     }
 
     /**
