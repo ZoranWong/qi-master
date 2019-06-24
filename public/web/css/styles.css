@@ -395,6 +395,7 @@
 }
 
 .head-pic {
+    overflow: hidden;
     width: 88px;
     height: 88px;
     box-sizing: border-box;

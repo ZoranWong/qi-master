@@ -15,16 +15,18 @@ class HomeController extends Controller
         /**@var Dispatcher $dispatcher**/
         $dispatcher = app(Dispatcher::class);
         $dispatcher->header('Authorization', "bearer {$token}");
-        $data = $dispatcher->get(api_route('user.profile'));
-        var_dump($data);
+//        $data = $dispatcher->get(api_route('user.profile'));
+        $view = null;
         if (isMobile()) {
-            return view('h5.index');
+            $view = view('h5.index');
         } else {
-            return view('web.index')->with([
+            $view = view('web.index')->with([
                 'selected' => '',
                 'currentMenu' => ''
             ]);
         }
+        $view->with('user', $user);
+        return $view;
 
     }
 

@@ -4,10 +4,12 @@ namespace App\Models;
 
 use App\Models\Traits\CurrencyUnitTrait;
 use App\Models\Traits\ModelAttributesAccess;
+use App\Presenters\UserPresenter;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use McCool\LaravelAutoPresenter\HasPresenter;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 /**
@@ -62,7 +64,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereWalletPassword($value)
  * @mixin \Eloquent
  */
-class User extends Authenticatable implements MustVerifyEmail, JWTSubject
+class User extends Authenticatable implements MustVerifyEmail, JWTSubject, HasPresenter
 {
     use Notifiable, ModelAttributesAccess, CurrencyUnitTrait;
 
@@ -246,4 +248,24 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
         return self::SEX[$this->sex];
     }
 
+    /**
+     * Get the presenter class.
+     *
+     * @return string
+     */
+    public function getPresenterClass()
+    {
+        // TODO: Implement getPresenterClass() method.
+        return UserPresenter::class;
+    }
+
+    public function setBalanceAttribute($value)
+    {
+        $this->attributes['balance'] = $value * CURRENCY_UNIT_CONVERT_NUM;
+    }
+
+    public function getBalanceAttribute()
+    {
+        return $this->attributes['balance'] / CURRENCY_UNIT_CONVERT_NUM;
+    }
 }
