@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use Dingo\Api\Dispatcher;
-use Dingo\Api\Routing\UrlGenerator;
-use Illuminate\Http\Request;
-use Tymon\JWTAuth\Facades\JWTAuth;
+
 
 class HomeController extends Controller
 {
