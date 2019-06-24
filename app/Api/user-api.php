@@ -3,7 +3,7 @@
 use Dingo\Api\Routing\Router;
 
 /** @var Router $api */
-$api->group(['prefix' => 'users', 'namespace' => 'User', 'middleware' => ['web']], function (Router $api) {
+$api->group(['prefix' => 'users', 'namespace' => 'User'], function (Router $api) {
     $api->put('/resetPwd', 'UserController@resetPassword');
 
     $api->group(['middleware' => ['auth']], function (Router $api) {
@@ -57,7 +57,8 @@ $api->group(['prefix' => 'users', 'namespace' => 'User', 'middleware' => ['web']
          * 退款
          */
         $api->group(['prefix' => 'refunds'], function (Router $api) {
-            $api->get('/', ['as' => 'uses.refunds.list', 'uses' => 'RefundOrderController@index']);
+            $api->get('/', ['as' => 'user.refunds.list', 'uses' => 'RefundOrderController@index']);
+            $api->get('/{refundOrder}', ['as' => 'user.refunds.detail', 'uses' => 'RefundOrderController@detail']);
         });
     });
 });

@@ -11,5 +11,6 @@ use Prettus\Repository\Contracts\RepositoryInterface;
  */
 interface RefundOrderRepository extends RepositoryInterface
 {
-    //
+    public function getList();
+
 }
