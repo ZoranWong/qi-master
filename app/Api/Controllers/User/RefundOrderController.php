@@ -5,7 +5,9 @@ namespace App\Api\Controllers\User;
 use App\Api\Controller;
 use App\Models\RefundOrder;
 use App\Repositories\RefundOrderRepository;
+use App\Transformers\RefundDetailTransformer;
 use App\Transformers\RefundOrderTransformer;
+use Dingo\Api\Http\Response;
 
 class RefundOrderController extends Controller
 {
@@ -29,6 +31,7 @@ class RefundOrderController extends Controller
     /**
      * 我的退款详情
      * @param RefundOrder $refundOrder
+     * @return Response
      */
     public function detail(RefundOrder $refundOrder)
     {
@@ -36,6 +39,6 @@ class RefundOrderController extends Controller
             $this->response->errorUnauthorized('您无权查看不属于您的退款详情');
         }
 
-
+        return $this->response->item($refundOrder, new RefundDetailTransformer);
     }
 }
