@@ -16,15 +16,11 @@ class HomeController extends Controller
     {
         $user = auth()->user();
         $token = JWTAuth::fromUser($user);
-//        $token = session('token');
         /**@var Dispatcher $dispatcher**/
         $dispatcher = $this->api->header('Authorization', "bearer {$token}");
         try{
-            $data = $dispatcher->get('/users/profile?token='.$token);
-            Log::debug('====', $data);
+            $user = $dispatcher->get('/users/profile?token='.$token);
         }catch (\Exception $exception){
-//            throw $exception;
-//            Log::debug('-------', [api_route('user.profile'), $token]);
         }
 
 

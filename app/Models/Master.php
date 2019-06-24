@@ -29,6 +29,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property string|null $area 服务区
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Message[] $messages
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OfferOrder[] $offerOrders
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Order[] $orders
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master query()

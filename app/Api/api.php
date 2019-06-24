@@ -17,7 +17,7 @@ $api->version('v1', ['namespace' => 'App\Api\Controllers'], function (Router $ap
         $api->post('register', 'AuthController@register');
     });
 
-    $api->group(['middleware' => ['refresh.token']], function (Router $api) {
+    $api->group(['middleware' => ['refresh.token', 'bindings']], function (Router $api) {
         /**
          * 用户
          */

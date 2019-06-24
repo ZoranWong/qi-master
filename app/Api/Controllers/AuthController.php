@@ -75,7 +75,7 @@ class AuthController extends Controller
     {
         return response()->json([
             'user' => $this->auth->user(),
-            'token' => $token
+            'token' => 'bearer ' . $token
         ]);
     }
 }
