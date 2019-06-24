@@ -2,15 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use Dingo\Api\Routing\UrlGenerator;
-use Illuminate\Http\Request;
+use Dingo\Api\Dispatcher;
+
 
 class HomeController extends Controller
 {
     //
-
     public function index()
     {
+        $user = auth()->user();
+        $token = session('token');
+        /**@var Dispatcher $dispatcher**/
+        $dispatcher = app(Dispatcher::class);
+        $dispatcher->header('Authorization', "bearer {$token}");
+        $data = $dispatcher->get(api_route('user.profile'));
+        var_dump($data);
         if (isMobile()) {
             return view('h5.index');
         } else {
@@ -34,23 +40,26 @@ class HomeController extends Controller
 
     public function forgetPassword()
     {
-        if(isMobile()){
+        if (isMobile()) {
             return view('web.forgetpsw');
-        }else{
+        } else {
             return view('web.forgetpsw');
         }
     }
 
     public function login()
     {
+        if (!auth()->guest()) {
+            return redirect(route('home'));
+        }
         if (isMobile()) {
             return view('h5.login')->with([
-                'loginRoute' => app(UrlGenerator::class)->version('v1')->route('user.login'),
+                'loginRoute' => route('user.login'),
                 'homePage' => route('home')
             ]);
         } else {
             return view('web.login')->with([
-                'loginRoute' => app(UrlGenerator::class)->version('v1')->route('user.login'),
+                'loginRoute' => route('user.login'),
                 'homePage' => route('home')
             ]);
         }

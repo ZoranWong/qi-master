@@ -18,7 +18,6 @@ class ChangeAuthGuard
     public function handle($request, Closure $next, $guard)
     {
         config(['auth.defaults.guard' => $guard]);
-
         return $next($request);
     }
 }
