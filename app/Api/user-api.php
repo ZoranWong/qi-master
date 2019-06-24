@@ -14,7 +14,9 @@ $api->group(['prefix' => 'users', 'namespace' => 'User', 'middleware' => ['web']
         $api->get('/comments', ['as' => 'user.comments.list', 'uses' => 'UserController@comments']);
         $api->put('/setWalletPwd', ['as' => 'user.set.wallet_password', 'uses' => 'UserController@setWalletPassword']);
         $api->get('/favouriteMasters', ['as' => 'user.favourite_masters.list', 'uses' => 'UserController@favouriteMasters']);
+        // 收藏师傅
         $api->post('/master/favourite', ['as' => 'user.master.favourite', 'uses' => 'UserController@favouriteMaster']);
+        // 师傅备注修改
         $api->put('/favouriteMasters/editRemark', ['as' => 'user.favourite_masters.edit', 'uses' => 'UserController@updateFavouriteMaster']);
         /**
          * 订单
