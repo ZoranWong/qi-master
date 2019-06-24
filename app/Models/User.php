@@ -142,8 +142,9 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject, HasPr
      */
     public function orderWaitOffer()
     {
-        return $this->orders()->whereDoesntHave('offerOrders')
-            ->where('status', Order::ORDER_WAIT_EMPLOY);
+        return $this->orders()
+            ->where('status', Order::ORDER_WAIT_EMPLOY)
+            ->whereDoesntHave('offerOrders');
     }
 
     /**
@@ -151,8 +152,9 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject, HasPr
      */
     public function orderWaitHire()
     {
-        return $this->orders()->whereHas('offerOrders')
-            ->where('status', Order::ORDER_WAIT_EMPLOY);
+        return $this->orders()
+            ->where('status', Order::ORDER_WAIT_EMPLOY)
+            ->whereHas('offerOrders');
     }
 
     /**
@@ -160,7 +162,8 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject, HasPr
      */
     public function orderWaitPay()
     {
-        return $this->orders()->where('status', Order::ORDER_EMPLOYED);
+        return $this->orders()
+            ->where('status', Order::ORDER_EMPLOYED);
     }
 
     /**
@@ -168,7 +171,8 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject, HasPr
      */
     public function orderWaitCheck()
     {
-        return $this->orders()->where('status', Order::ORDER_WAIT_CHECK);
+        return $this->orders()
+            ->where('status', Order::ORDER_WAIT_CHECK);
     }
 
     /**
@@ -176,7 +180,8 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject, HasPr
      */
     public function orderWaitComment()
     {
-        return $this->orders()->where('status', Order::ORDER_CHECKED);
+        return $this->orders()
+            ->where('status', Order::ORDER_CHECKED);
     }
 
     public function runningOrders()
@@ -189,7 +194,8 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject, HasPr
      */
     public function completedOrders()
     {
-        return $this->orders()->where('status', Order::ORDER_COMPLETED);
+        return $this->orders()
+            ->where('status', Order::ORDER_COMPLETED);
     }
 
     /**

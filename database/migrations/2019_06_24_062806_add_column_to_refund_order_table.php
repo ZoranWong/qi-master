@@ -15,8 +15,8 @@ class AddColumnToRefundOrderTable extends Migration
     {
         Schema::table('refund_orders', function (Blueprint $table) {
             $table->string('refund_no')->comment('退款编号');
-            $table->string('refund_mode')->comment('退款服务');
-            $table->string('refund_method')->comment('退款方式');
+            $table->string('refund_mode')->default('')->comment('退款服务');
+            $table->string('refund_method')->default('')->comment('退款方式');
             $table->unsignedTinyInteger('has_customer')->default(0)->comment('是否客服介入');
             $table->json('audit')->nullable()->comment('服务商处理结果');
             $table->json('arbitration')->nullable()->comment('仲裁结果');

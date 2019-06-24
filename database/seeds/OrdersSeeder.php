@@ -21,7 +21,7 @@ class OrdersSeeder extends Seeder
         cache()->delete(date('Ymdh'));
         $faker = app(Generator::class);
         // 创建 100 笔订单
-        $orders = factory(Order::class, 10)->create();
+        $orders = factory(Order::class, 100)->create();
 
         foreach ($orders as $order) {
             $this->orderItems($order, $faker);
