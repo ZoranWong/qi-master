@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 class HomeController extends Controller
 {
     //
-
     public function index()
     {
         if (isMobile()) {
@@ -45,12 +44,12 @@ class HomeController extends Controller
     {
         if (isMobile()) {
             return view('h5.login')->with([
-                'loginRoute' => app(UrlGenerator::class)->version('v1')->route('user.login'),
+                'loginRoute' => route('user.login'),
                 'homePage' => route('home')
             ]);
         } else {
             return view('web.login')->with([
-                'loginRoute' => app(UrlGenerator::class)->version('v1')->route('user.login'),
+                'loginRoute' => route('user.login'),
                 'homePage' => route('home')
             ]);
         }

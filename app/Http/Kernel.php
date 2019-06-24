@@ -97,9 +97,9 @@ class Kernel extends HttpKernel
     protected $middlewarePriority = [
         StartSession::class,
         ShareErrorsFromSession::class,
-        Authenticate::class,
-        AuthenticateSession::class,
+//        Authenticate::classes,
+//        AuthenticateSession::class,
         SubstituteBindings::class,
-        Authorize::class,
+//        Authorize::class,
     ];
 }
