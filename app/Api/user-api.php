@@ -3,7 +3,7 @@
 use Dingo\Api\Routing\Router;
 
 /** @var Router $api */
-$api->group(['prefix' => 'users', 'namespace' => 'User', 'middleware' => ['web']], function (Router $api) {
+$api->group(['prefix' => 'users', 'namespace' => 'User', 'middleware' => []], function (Router $api) {
     $api->put('/resetPwd', 'UserController@resetPassword');
 
     $api->group(['middleware' => ['auth']], function (Router $api) {
