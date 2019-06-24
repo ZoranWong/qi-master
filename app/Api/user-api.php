@@ -59,7 +59,8 @@ $api->group(['prefix' => 'users', 'namespace' => 'User'], function (Router $api)
          */
         $api->group(['prefix' => 'refunds'], function (Router $api) {
             $api->get('/', ['as' => 'user.refunds.list', 'uses' => 'RefundOrderController@index']);
-            $api->get('/{refundOrder}', 'RefundOrderController@detail');
+            $api->get('/{refundOrder}', ['as' => 'user.refunds.detail', 'uses' => 'RefundOrderController@detail']);
+            $api->get('/initRefund', ['as' => 'user.refunds.init', 'uses' => 'RefundOrderController@initRefund']);
         });
     });
 });
