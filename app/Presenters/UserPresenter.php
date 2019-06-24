@@ -34,4 +34,30 @@ class UserPresenter extends BasePresenter
     {
         return number_format($this->wrappedObject->balance, 2);
     }
+
+    public function waitOfferCount()
+    {
+        return $this->wrappedObject->orderWaitOfferCount;
+    }
+
+    public function waitEmployeeCount()
+    {
+        return $this->wrappedObject->orderWaitHireCount;
+    }
+
+    public function waitPayCount()
+    {
+        return $this->wrappedObject->orderWaitPayCount;
+    }
+
+    public function waitCheckCount()
+    {
+        return $this->wrappedObject->orderWaitCheckCount;
+    }
+
+    public function waitCommentCount()
+    {
+        return $this->wrappedObject->orderWaitCommentCount;
+    }
+
 }

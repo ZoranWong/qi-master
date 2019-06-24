@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Dingo\Api\Dispatcher;
 use Dingo\Api\Routing\Helpers;
+use Illuminate\Support\Facades\Log;
 
 
 class HomeController extends Controller
@@ -12,6 +14,7 @@ class HomeController extends Controller
     //
     public function index()
     {
+        /**@var User $user**/
         $user = auth()->user();
         /**@var Dispatcher $dispatcher**/
         $dispatcher = $this->dispatcher();
@@ -19,7 +22,6 @@ class HomeController extends Controller
             $user = $dispatcher->get('/users/profile');
         }catch (\Exception $exception){
         }
-
         $view = null;
         if (isMobile()) {
             $view = view('h5.index');
@@ -29,9 +31,9 @@ class HomeController extends Controller
                 'currentMenu' => ''
             ]);
         }
-        $view->with('user', $user);
+        $orders = $user->orders()->offset(0)->limit(10)->get();
+        $view->with('user', $user)->with('orders', $orders);
         return $view;
-
     }
 
     public function register()

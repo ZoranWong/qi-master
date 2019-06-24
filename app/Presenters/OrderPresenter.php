@@ -14,6 +14,8 @@ use McCool\LaravelAutoPresenter\BasePresenter;
 
 class OrderPresenter extends BasePresenter
 {
+    /**@var Order $wrappedObject**/
+    protected $wrappedObject;
     public function orderStatus()
     {
         return Order::ORDER_STATUS[$this->wrappedObject->status];
@@ -26,7 +28,7 @@ class OrderPresenter extends BasePresenter
 
     public function publishedAt()
     {
-        return $this->wrappedObject->createdAt->format('Y-m-d h:i');
+        return $this->wrappedObject->createdAt->format('Y-m-d h:i:s');
     }
     public function employer()
     {
