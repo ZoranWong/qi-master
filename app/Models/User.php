@@ -5,11 +5,18 @@ namespace App\Models;
 use App\Models\Traits\CurrencyUnitTrait;
 use App\Models\Traits\ModelAttributesAccess;
 use App\Presenters\UserPresenter;
+use Eloquent;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\DatabaseNotification;
+use Illuminate\Notifications\DatabaseNotificationCollection;
 use Illuminate\Notifications\Notifiable;
 use McCool\LaravelAutoPresenter\HasPresenter;
+use Illuminate\Support\Carbon;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 /**
@@ -25,44 +32,44 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property string $password
  * @property string $walletPassword 钱包密码
  * @property string|null $rememberToken
- * @property \Illuminate\Support\Carbon|null $createdAt
- * @property \Illuminate\Support\Carbon|null $updatedAt
+ * @property Carbon|null $createdAt
+ * @property Carbon|null $updatedAt
  * @property int $sex 性别 0->保密 1->男 2->女
  * @property string|null $province 省份
  * @property string|null $city 城市
  * @property string|null $area 区
  * @property string $address 详细地址
  * @property int $balance 余额 单位：分
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\UserAddress[] $addresses
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\MasterComment[] $comments
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Complaint[] $complaints
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Product[] $favoriteProducts
+ * @property-read Collection|UserAddress[] $addresses
+ * @property-read Collection|MasterComment[] $comments
+ * @property-read Collection|Complaint[] $complaints
+ * @property-read Collection|Product[] $favoriteProducts
  * @property-read mixed $sexDesc
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Message[] $messages
- * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Order[] $orders
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User query()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereAddress($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereArea($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereAvatar($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereBalance($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereCity($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereEmail($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereEmailVerifiedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereMobile($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereNickname($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User wherePassword($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereProvince($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereRememberToken($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereSex($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereWalletPassword($value)
- * @mixin \Eloquent
+ * @property-read Collection|Message[] $messages
+ * @property-read DatabaseNotificationCollection|DatabaseNotification[] $notifications
+ * @property-read Collection|Order[] $orders
+ * @method static Builder|User newModelQuery()
+ * @method static Builder|User newQuery()
+ * @method static Builder|User query()
+ * @method static Builder|User whereAddress($value)
+ * @method static Builder|User whereArea($value)
+ * @method static Builder|User whereAvatar($value)
+ * @method static Builder|User whereBalance($value)
+ * @method static Builder|User whereCity($value)
+ * @method static Builder|User whereCreatedAt($value)
+ * @method static Builder|User whereEmail($value)
+ * @method static Builder|User whereEmailVerifiedAt($value)
+ * @method static Builder|User whereId($value)
+ * @method static Builder|User whereMobile($value)
+ * @method static Builder|User whereName($value)
+ * @method static Builder|User whereNickname($value)
+ * @method static Builder|User wherePassword($value)
+ * @method static Builder|User whereProvince($value)
+ * @method static Builder|User whereRememberToken($value)
+ * @method static Builder|User whereSex($value)
+ * @method static Builder|User whereUpdatedAt($value)
+ * @method static Builder|User whereWalletPassword($value)
+ * @mixin Eloquent
  */
 class User extends Authenticatable implements MustVerifyEmail, JWTSubject, HasPresenter
 {
@@ -105,7 +112,7 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject, HasPr
 
     protected static function boot()
     {
-        parent::boot(); // TODO: Change the autogenerated stub
+        parent::boot();
 
         self::creating(function (self &$user) {
             $user->nickname = $user->mobile;
@@ -219,6 +226,15 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject, HasPr
     public function comments()
     {
         return $this->hasMany(MasterComment::class, 'user_id');
+    }
+
+    /**
+     * 我的师傅收藏
+     */
+    public function favouriteMasters(): BelongsToMany
+    {
+        return $this->belongsToMany(Master::class, 'favourite_masters', 'user_id', 'master_id')
+            ->withPivot('remark')->withTimestamps();
     }
 
     /**

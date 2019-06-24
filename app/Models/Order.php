@@ -253,6 +253,14 @@ class Order extends Model implements HasPresenter
         return $this->hasMany(Complaint::class, 'order_id');
     }
 
+    /**
+     * 订单跟踪
+     */
+    public function traces()
+    {
+        // TODO
+    }
+
     public static function findAvailableNo()
     {
         // 订单流水号前缀

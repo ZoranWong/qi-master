@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Traits\CurrencyUnitTrait;
 use App\Models\Traits\ModelAttributesAccess;
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Model;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
@@ -23,13 +24,18 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property int $balance 余额
  * @property string $realName 师傅姓名
  * @property string $avatar 头像
+ * @property string|null $province 服务省份
+ * @property string|null $city 服务城市
+ * @property string|null $area 服务区
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Message[] $messages
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OfferOrder[] $offerOrders
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereArea($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereAvatar($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereBalance($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereCity($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereEmailVerifiedAt($value)
@@ -37,14 +43,15 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereMobile($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master wherePassword($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereProvince($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereRealName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class Master extends Model implements JWTSubject, Authenticatable
+class Master extends Model implements JWTSubject, Authenticatable, MustVerifyEmail
 {
-    use ModelAttributesAccess, CurrencyUnitTrait, \Illuminate\Auth\Authenticatable;
+    use ModelAttributesAccess, CurrencyUnitTrait, \Illuminate\Auth\Authenticatable, \Illuminate\Auth\MustVerifyEmail;
 
     protected $fillable = ['name', 'real_name', 'avatar', 'mobile', 'email', 'mobile', 'email_verified_at', 'password', 'remember_token'];
 
@@ -58,6 +65,13 @@ class Master extends Model implements JWTSubject, Authenticatable
         return $this->attributes['balance'] / CURRENCY_UNIT_CONVERT_NUM;
     }
 
+    /**
+     * 我的订单
+     */
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'master_id');
+    }
 
     public function offerOrders()
     {

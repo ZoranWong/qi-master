@@ -15,7 +15,7 @@ use Storage;
  * @property \Illuminate\Support\Carbon|null $createdAt
  * @property \Illuminate\Support\Carbon|null $updatedAt
  * @property int $classificationId 类目
- * @property int $serviceId 服务类型ID
+ * @property int|null $serviceId 服务类型ID
  * @property int $categoryId 类别ID
  * @property int $childCategoryId 子类别ID
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Category[] $categories

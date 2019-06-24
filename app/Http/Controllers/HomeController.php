@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Dingo\Api\Dispatcher;
+use Illuminate\Support\Facades\Log;
 
 
 class HomeController extends Controller
@@ -15,7 +16,14 @@ class HomeController extends Controller
         /**@var Dispatcher $dispatcher**/
         $dispatcher = app(Dispatcher::class);
         $dispatcher->header('Authorization', "bearer {$token}");
-//        $data = $dispatcher->get(api_route('user.profile'));
+        try{
+            $data = $dispatcher->get(api_route('user.profile'));
+        }catch (\Exception $exception){
+            ($exception->getTrace());
+            Log::debug('-------', [$exception->getMessage()]);
+        }
+
+//        var_dump($data);
         $view = null;
         if (isMobile()) {
             $view = view('h5.index');
