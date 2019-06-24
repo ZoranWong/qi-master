@@ -36,7 +36,6 @@ class RefundDetailTransformer extends TransformerAbstract
                 'refund_mode_desc' => $model->refundModeDesc,
                 'refund_method_desc' => $model->refundMethodDesc,
                 'refund_amount' => $model->amount,
-                'service_status' => '',// 服务状态
                 'remark' => $model->remark,
                 'refund_no' => $model->refundNo,
             ],

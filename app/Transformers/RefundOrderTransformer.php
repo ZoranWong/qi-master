@@ -36,6 +36,17 @@ class RefundOrderTransformer extends TransformerAbstract
             'refund_price' => $model->amount,
             'status' => $model->status,
             'status_desc' => $model->statusDesc,
+            'apply_status' => $model->applyStatus,
+            'apply_status_desc' => $model->applyStatusDesc,
+            'final_status' => $model->finalStatus,
+
+            'refund_info' => [
+                'refund_mode_desc' => $model->refundModeDesc,
+                'refund_method_desc' => $model->refundMethodDesc,
+                'refund_amount' => $model->amount,
+                'remark' => $model->remark,
+                'refund_no' => $model->refundNo,
+            ],
 
             'created_at' => (string)$model->createdAt,
             'updated_at' => (string)$model->updatedAt
