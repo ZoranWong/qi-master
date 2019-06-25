@@ -74,22 +74,70 @@ class Master extends Model implements JWTSubject, Authenticatable, MustVerifyEma
      */
     public function orders()
     {
-        return $this->hasMany(Order::class, 'master_id');
+        return $this->hasMany(Order::class);
     }
 
+    /**
+     * 我的报价
+     */
     public function offerOrders()
     {
         return $this->hasMany(OfferOrder::class);
     }
 
-    public function completedOrders()
+    /**
+     * 我的待雇佣报价订单
+     * 主动报价且被报价订单
+     */
+    public function orderWaitHired()
     {
-        return $this->offerOrders();
+        return $this->offerOrders()->where('status', OfferOrder::STATUS_WAIT)
+            ->whereHas('order', function ($query) {
+                $query->where('type', '<>', Order::ORDER_TYPE_IMMEDIATE_HIRE);
+            });
     }
 
-    public function runningOrders()
+    /**
+     * 我的待托管订单，待支付订单
+     */
+    public function orderWaitPay()
     {
-        return $this->offerOrders();
+        return $this->orders()->where('status', Order::ORDER_EMPLOYED);
+    }
+
+    /**
+     * 我的服务中订单
+     */
+    public function orderOnProceeding()
+    {
+        return $this->orders()->where('status', Order::ORDER_PROCEEDING);
+    }
+
+    /**
+     * 我的已完成订单
+     */
+    public function completedOrders()
+    {
+        return $this->orders()->where('status', Order::ORDER_COMPLETED);
+    }
+
+    /**
+     * 我的待验收订单
+     */
+    public function orderWaitCheck()
+    {
+        return $this->orders()->where('status', Order::ORDER_WAIT_CHECK);
+    }
+
+    /**
+     * 我的待同意接单订单，待确认订单
+     */
+    public function orderWaitAgree()
+    {
+        return $this->offerOrders()->where('status', OfferOrder::STATUS_WAIT)
+            ->whereHas('order', function ($query) {
+                $query->where('type', Order::ORDER_TYPE_IMMEDIATE_HIRE);
+            });
     }
 
     /**

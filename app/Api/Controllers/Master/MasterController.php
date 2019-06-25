@@ -17,8 +17,7 @@ class MasterController extends Controller
 
     public function profile()
     {
-        $master = $this->repository->with(['province:region_code,name', 'city:region_code,name', 'area:region_code,name'])
-            ->find(auth()->id());
+        $master = $this->repository->getMasterInfo();
 
         return $this->response->item($master, new MasterTransformer);
     }

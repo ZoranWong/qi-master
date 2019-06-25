@@ -88,22 +88,30 @@ class Order extends Model implements HasPresenter
 
     const ORDER_TYPE_FIXED_PRICE = 0;
     const ORDER_TYPE_QUOTE_PRICE = 1;
+    const ORDER_TYPE_IMMEDIATE_HIRE = 2;
 
     const ORDER_TYPE = [
         self::ORDER_TYPE_FIXED_PRICE => '一口价单',
-        self::ORDER_TYPE_QUOTE_PRICE => '报价单'
+        self::ORDER_TYPE_QUOTE_PRICE => '报价单',
+        self::ORDER_TYPE_IMMEDIATE_HIRE => '直接雇佣'
     ];
 
-    const ORDER_WAIT_EMPLOY = 0; // 待报价
-    const ORDER_EMPLOYED = 1; // 已雇佣
-    const ORDER_WAIT_CHECK = 2;// 待验收
-    const ORDER_CHECKED = 3;// 验收完成，待评价
-    const ORDER_COMPLETED = 4;// 订单完成
-    const ORDER_CANCEL = 5;// 订单关闭
+    const ORDER_WAIT_OFFER = 0; // 待报价
+    const ORDER_WAIT_HIRE = 1;// 待雇佣
+    const ORDER_WAIT_AGREE = 3;// 待直接雇佣师傅同意
+    const ORDER_EMPLOYED = 4; // 待托管，待支付，已雇佣
+    const ORDER_PROCEEDING = 5;// 进行中
+    const ORDER_WAIT_CHECK = 6;// 待验收
+    const ORDER_CHECKED = 7;// 验收完成，待评价
+    const ORDER_COMPLETED = 8;// 订单完成
+    const ORDER_CANCEL = 9;// 订单关闭
 
     const ORDER_STATUS = [
-        self::ORDER_WAIT_EMPLOY => '待报价',
-        self::ORDER_EMPLOYED => '已雇佣',
+        self::ORDER_WAIT_OFFER => '待报价',
+        self::ORDER_WAIT_HIRE => '待雇佣',
+        self::ORDER_WAIT_AGREE => '待师傅同意接单',
+        self::ORDER_EMPLOYED => '待支付',
+        self::ORDER_PROCEEDING => '进行中',
         self::ORDER_WAIT_CHECK => '待验收',
         self::ORDER_CHECKED => '已验收',
         self::ORDER_COMPLETED => '订单完成',
