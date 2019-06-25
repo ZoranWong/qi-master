@@ -8,40 +8,42 @@
 </tr>
 </thead>
 <tbody>
-<tr>
-    <td>
-        <div class="flex">
-            <div class="item-img">
-                <img src="/web/image/product.jpg">
+@foreach($order->items as $item)
+    <tr>
+        <td>
+            <div class="flex">
+                <div class="item-img">
+                    <img src="{{$item->product['image']}}">
+                </div>
+                <div class="item-text">
+                    <span>{{$item->classification}}</span>
+                    <span>{{$item->category}}{{$item->childCategory ? '-'.$item->childCategory : ''}}</span>
+                    <span>数量：{{$item->num}}</span>
+                </div>
             </div>
-            <div class="item-text">
-                <span>衣柜</span>
-                <span>两门小衣柜</span>
-                <span>数量：1</span>
+        </td>
+        <td>
+            <div class="text-center">
+                <div>{{ $order->master->name ?? $order->master->realName }}}/{{$order->master->mobile}}</div>
+                <div>{{$order->address}}</div>
             </div>
-        </div>
-    </td>
-    <td>
-        <div class="text-center">
-            <div>{{ $order->master->name ?? $order->master->realName }}}/{{$order->master->mobile}}</div>
-            <div>山东省潍坊市寒亭区大家洼街道八里村小5号楼2单元302</div>
-        </div>
-    </td>
-    <td>
-        <div class="text-center">
-            <div>已有<em class="red">1</em>位师傅报价</div>
-            <div>最低价<em class="red">159.00</em></div>
-        </div>
-    </td>
-    <td>
-        <div>待雇佣</div>
-    </td>
-    <td>
-        <div class="more">
-            <a href="orderinfo.html">查看订单</a>
-            <a href="">雇佣师傅</a>
-            <span>取消订单</span>
-        </div>
-    </td>
-</tr>
+        </td>
+        <td>
+            <div class="text-center">
+                <div>已有<em class="red">{{$order->offerCount}}</em>位师傅报价</div>
+                <div>最低价<em class="red">{{$order->minOfferPrice}}</em></div>
+            </div>
+        </td>
+        <td>
+            <div>待雇佣</div>
+        </td>
+        <td>
+            <div class="more">
+                <a href="orderinfo.html">查看订单</a>
+                <a href="">雇佣师傅</a>
+                <span>取消订单</span>
+            </div>
+        </td>
+    </tr>
+@endforeach
 </tbody>

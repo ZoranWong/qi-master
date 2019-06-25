@@ -9,6 +9,7 @@
 namespace App\Presenters;
 
 
+use App\Models\OfferOrder;
 use App\Models\Order;
 use McCool\LaravelAutoPresenter\BasePresenter;
 
@@ -33,5 +34,17 @@ class OrderPresenter extends BasePresenter
     public function employer()
     {
         return $this->wrappedObject->user;
+    }
+
+    public function offerCount()
+    {
+        return $this->wrappedObject->offerOrders->count();
+    }
+
+    public function minOfferPrice()
+    {
+        return number_format($this->wrappedObject->offerOrders->min(function (OfferOrder $order) {
+            return $order->quotePrice;
+        }), 2);
     }
 }
