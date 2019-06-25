@@ -25,6 +25,7 @@ $api->group(['prefix' => 'users', 'namespace' => 'User'], function (Router $api)
         $api->group(['prefix' => 'orders'], function (Router $api) {
             $api->get('/', ['as' => 'user.order.list', 'uses' => 'OrderController@index']);
             $api->get('/{order}', ['as' => 'user.order.detail', 'uses' => 'OrderController@detail']);
+            $api->get('/{order}/offers', ['as' => 'user.order.offers', 'uses' => 'OrderController@offerOrders']);
             $api->post('/fixedPrice/publish', ['as' => 'user.publish.fixed_price', 'uses' => 'OrderController@publishFixedPrice']);
             $api->post('/publish', ['as' => 'user.publish', 'uses' => 'OrderController@publish']);
             $api->post('/initiateRefund', ['as' => 'user.initiate_refund', 'uses' => 'OrderController@initiateRefund']);
@@ -59,7 +60,8 @@ $api->group(['prefix' => 'users', 'namespace' => 'User'], function (Router $api)
          */
         $api->group(['prefix' => 'refunds'], function (Router $api) {
             $api->get('/', ['as' => 'user.refunds.list', 'uses' => 'RefundOrderController@index']);
-            $api->get('/{refundOrder:[0-9]+}', ['as' => 'user.refunds.detail', 'uses' => 'RefundOrderController@detail']);
+            $api->get('/{refundOrder}', ['as' => 'user.refunds.detail', 'uses' => 'RefundOrderController@detail'])
+                ->where(['refundOrder' => '[0-9]+']);
             $api->post('/initRefund', ['as' => 'user.refunds.init', 'uses' => 'RefundOrderController@initRefund']);
         });
     });

@@ -22,7 +22,7 @@ use McCool\LaravelAutoPresenter\HasPresenter;
  * @property \Illuminate\Support\Carbon|null $createdAt
  * @property \Illuminate\Support\Carbon|null $updatedAt
  * @property \Illuminate\Support\Carbon|null $deletedAt
- * @property int $paymentOrderId 支付单ID
+ * @property int|null $paymentOrderId 支付单ID
  * @property string $refundNo 退款编号
  * @property string $refundMode 退款服务
  * @property string $refundMethod 退款方式
@@ -30,7 +30,6 @@ use McCool\LaravelAutoPresenter\HasPresenter;
  * @property array|null $audit 服务商处理结果
  * @property array|null $arbitration 仲裁结果
  * @property int $applyStatus 申请状态
- * @property int $arbitrationStatus 客服处理状态
  * @property-read mixed $applyStatusDesc
  * @property-read mixed $finalStatus
  * @property-read mixed $refundMethodDesc
@@ -38,7 +37,7 @@ use McCool\LaravelAutoPresenter\HasPresenter;
  * @property-read mixed $statusDesc
  * @property-read \App\Models\Master $master
  * @property-read \App\Models\Order $order
- * @property-read \App\Models\PaymentOrder $paymentOrder
+ * @property-read \App\Models\PaymentOrder|null $paymentOrder
  * @property-read \App\Models\User $user
  * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\RefundOrder newModelQuery()
@@ -49,7 +48,6 @@ use McCool\LaravelAutoPresenter\HasPresenter;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\RefundOrder whereAmount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\RefundOrder whereApplyStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\RefundOrder whereArbitration($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\RefundOrder whereArbitrationStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\RefundOrder whereAudit($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\RefundOrder whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\RefundOrder whereDeletedAt($value)

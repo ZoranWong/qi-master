@@ -21,10 +21,11 @@ use McCool\LaravelAutoPresenter\HasPresenter;
  * @property \Illuminate\Support\Carbon|null $createdAt
  * @property \Illuminate\Support\Carbon|null $updatedAt
  * @property \Illuminate\Support\Carbon|null $deletedAt
- * @property int $orderItemId 子订单ID
+ * @property int|null $orderItemId 子订单ID
+ * @property-read mixed $statusDesc
  * @property-read \App\Models\Master $master
  * @property-read \App\Models\Order $order
- * @property-read \App\Models\OrderItem $orderItem
+ * @property-read \App\Models\OrderItem|null $orderItem
  * @property-read \App\Models\User $user
  * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OfferOrder newModelQuery()
@@ -92,6 +93,12 @@ class OfferOrder extends Model implements HasPresenter
     {
         return $this->attributes['quote_price'] / CURRENCY_UNIT_CONVERT_NUM;
     }
+
+    public function getStatusDescAttribute()
+    {
+        return self::STATUS[$this->status];
+    }
+
     /**
      * Get the presenter class.
      *
