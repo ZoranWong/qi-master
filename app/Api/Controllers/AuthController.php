@@ -7,8 +7,8 @@ use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Models\Master;
 use App\Models\User;
-use App\Repositories\UserRepository;
 use Illuminate\Http\JsonResponse;
+use Symfony\Component\Inflector\Inflector;
 
 class AuthController extends Controller
 {
@@ -41,14 +41,24 @@ class AuthController extends Controller
         return $this->responseWithToken($token);
     }
 
-    public function register(UserCreateRequest $request, UserRepository $userRepository)
+    public function register(UserCreateRequest $request)
     {
         $credential = $request->only('mobile', 'password');
 
+        $guard = ucfirst(Inflector::singularize(config('auth.defaults.guard')));
+
+        $memberRepository = app("App\\Repositories\\{$guard}Repository");
+
+        if (count($memberRepository->findWhere(['mobile' => $credential['mobile']]))) {
+            $this->response->errorForbidden('手机号已注册，不可重复注册');
+        }
+
         /** @var User|Master $user */
-        $userRepository->create([
+        $memberRepository->create([
             'mobile' => $credential['mobile'],
             'password' => bcrypt($credential['password']),
+            'name' => $credential['mobile'],
+            'avatar' => getImageUrl(null)
         ]);
 
         $token = auth()->attempt($credential);

@@ -6,6 +6,8 @@ use App\Repositories\ComplaintRepository;
 use App\Repositories\ComplaintRepositoryEloquent;
 use App\Repositories\MasterCommentRepository;
 use App\Repositories\MasterCommentRepositoryEloquent;
+use App\Repositories\MasterRepository;
+use App\Repositories\MasterRepositoryEloquent;
 use App\Repositories\MessageRepository;
 use App\Repositories\MessageRepositoryEloquent;
 use App\Repositories\OrderRepository;
@@ -34,6 +36,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(MasterCommentRepository::class, MasterCommentRepositoryEloquent::class);
         $this->app->bind(ProductRepository::class, ProductRepositoryEloquent::class);
         $this->app->bind(RefundOrderRepository::class, RefundOrderRepositoryEloquent::class);
+        $this->app->bind(MasterRepository::class, MasterRepositoryEloquent::class);
     }
 
     /**
