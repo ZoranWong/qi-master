@@ -22,6 +22,7 @@ use McCool\LaravelAutoPresenter\HasPresenter;
  * @property \Illuminate\Support\Carbon|null $updatedAt
  * @property \Illuminate\Support\Carbon|null $deletedAt
  * @property int|null $orderItemId 子订单ID
+ * @property-read mixed $statusDesc
  * @property-read \App\Models\Master $master
  * @property-read \App\Models\Order $order
  * @property-read \App\Models\OrderItem|null $orderItem
@@ -91,6 +92,11 @@ class OfferOrder extends Model implements HasPresenter
     public function getQuotePriceAttribute()
     {
         return $this->attributes['quote_price'] / CURRENCY_UNIT_CONVERT_NUM;
+    }
+
+    public function getStatusDescAttribute()
+    {
+        return self::STATUS[$this->status];
     }
 
     /**

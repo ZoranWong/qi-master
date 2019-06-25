@@ -52,7 +52,7 @@ class OrderController extends Controller
     }
 
     /**
-     * 订单报价
+     * 订单报价单
      * @param Order $order
      * @return Response
      */

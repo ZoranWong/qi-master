@@ -37,6 +37,7 @@ use Ramsey\Uuid\Uuid;
  * @property int $classificationId 类目
  * @property int $serviceId 服务类型ID
  * @property-read \App\Models\Classification $classification
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\MasterComment[] $comments
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Complaint[] $complaints
  * @property-read \App\Models\CouponCode|null $couponCode
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OfferOrder[] $employedMasters
