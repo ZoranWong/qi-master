@@ -24,8 +24,15 @@ class MasterTransformer extends TransformerAbstract
         return [
             'id' => (int)$model->id,
             'name' => $model->name,
+            'real_name' => $model->realName,
+            'avatar' => $model->avatar,
             'mobile' => $model->mobile,
             'email' => $model->email,
+
+            // 服务省市区
+            'province' => $model->province,
+            'city' => $model->city,
+            'area' => $model->area,
 
             'created_at' => (string)$model->createdAt,
             'updated_at' => (string)$model->updatedAt

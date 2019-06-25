@@ -39,7 +39,7 @@ class RefreshToken extends BaseMiddleware
                 config(['auth.defaults.guard' => $guard]);
             }
 
-            if ($this->auth->authenticate()) {
+            if (auth()->user()) {
                 return $next($request);
             }
 

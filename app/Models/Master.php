@@ -14,7 +14,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  *
  * @property int $id
  * @property string $name
- * @property string $email
+ * @property string|null $email
  * @property string $mobile
  * @property string|null $emailVerifiedAt
  * @property string $password
@@ -22,21 +22,24 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property \Illuminate\Support\Carbon|null $createdAt
  * @property \Illuminate\Support\Carbon|null $updatedAt
  * @property int $balance 余额
- * @property string $realName 师傅姓名
+ * @property string|null $realName 师傅姓名
  * @property string $avatar 头像
- * @property string|null $province 服务省份
- * @property string|null $city 服务城市
- * @property string|null $area 服务区
+ * @property string|null $provinceCode 省份代码
+ * @property string|null $cityCode 城市代码
+ * @property string|null $areaCode 区域代码
+ * @property-read \App\Models\Region $area
+ * @property-read \App\Models\Region $city
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Message[] $messages
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OfferOrder[] $offerOrders
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Order[] $orders
+ * @property-read \App\Models\Region $province
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master query()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereArea($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereAreaCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereAvatar($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereBalance($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereCity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereCityCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereEmailVerifiedAt($value)
@@ -44,7 +47,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereMobile($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master wherePassword($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereProvince($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereProvinceCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereRealName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereUpdatedAt($value)
@@ -103,6 +106,30 @@ class Master extends Model implements JWTSubject, Authenticatable, MustVerifyEma
     public function newMessages()
     {
         return $this->messages()->where('status', Message::STATUS_NEW);
+    }
+
+    /**
+     * 我的服务省份
+     */
+    public function province()
+    {
+        return $this->belongsTo(Region::class, 'province_code', 'region_code');
+    }
+
+    /**
+     * 我的服务城市
+     */
+    public function city()
+    {
+        return $this->belongsTo(Region::class, 'city_code', 'region_code');
+    }
+
+    /**
+     * 我的服务区域
+     */
+    public function area()
+    {
+        return $this->belongsTo(Region::class, 'area_code', 'region_code');
     }
 
     /**
