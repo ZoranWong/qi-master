@@ -143,8 +143,7 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject, HasPr
     public function orderWaitOffer()
     {
         return $this->orders()
-            ->where('status', Order::ORDER_WAIT_EMPLOY)
-            ->whereDoesntHave('offerOrders');
+            ->where('status', Order::ORDER_WAIT_OFFER);
     }
 
     /**
@@ -153,8 +152,7 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject, HasPr
     public function orderWaitHire()
     {
         return $this->orders()
-            ->where('status', Order::ORDER_WAIT_EMPLOY)
-            ->whereHas('offerOrders');
+            ->where('status', Order::ORDER_WAIT_HIRE);
     }
 
     /**
@@ -167,7 +165,7 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject, HasPr
     }
 
     /**
-     * 待确认
+     * 待验收
      */
     public function orderWaitCheck()
     {
