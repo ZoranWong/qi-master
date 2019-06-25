@@ -14,7 +14,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  *
  * @property int $id
  * @property string $name
- * @property string $email
+ * @property string|null $email
  * @property string $mobile
  * @property string|null $emailVerifiedAt
  * @property string $password
@@ -22,21 +22,24 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property \Illuminate\Support\Carbon|null $createdAt
  * @property \Illuminate\Support\Carbon|null $updatedAt
  * @property int $balance 余额
- * @property string $realName 师傅姓名
+ * @property string|null $realName 师傅姓名
  * @property string $avatar 头像
- * @property string|null $province 服务省份
- * @property string|null $city 服务城市
- * @property string|null $area 服务区
+ * @property string|null $provinceCode 省份代码
+ * @property string|null $cityCode 城市代码
+ * @property string|null $areaCode 区域代码
+ * @property-read \App\Models\Region $area
+ * @property-read \App\Models\Region $city
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Message[] $messages
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OfferOrder[] $offerOrders
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Order[] $orders
+ * @property-read \App\Models\Region $province
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master query()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereArea($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereAreaCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereAvatar($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereBalance($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereCity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereCityCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereEmailVerifiedAt($value)
@@ -44,7 +47,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereMobile($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master wherePassword($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereProvince($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereProvinceCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereRealName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereUpdatedAt($value)
@@ -71,22 +74,70 @@ class Master extends Model implements JWTSubject, Authenticatable, MustVerifyEma
      */
     public function orders()
     {
-        return $this->hasMany(Order::class, 'master_id');
+        return $this->hasMany(Order::class);
     }
 
+    /**
+     * 我的报价
+     */
     public function offerOrders()
     {
         return $this->hasMany(OfferOrder::class);
     }
 
-    public function completedOrders()
+    /**
+     * 我的待雇佣报价订单
+     * 主动报价且被报价订单
+     */
+    public function orderWaitHired()
     {
-        return $this->offerOrders();
+        return $this->offerOrders()->where('status', OfferOrder::STATUS_WAIT)
+            ->whereHas('order', function ($query) {
+                $query->where('type', '<>', Order::ORDER_TYPE_IMMEDIATE_HIRE);
+            });
     }
 
-    public function runningOrders()
+    /**
+     * 我的待托管订单，待支付订单
+     */
+    public function orderWaitPay()
     {
-        return $this->offerOrders();
+        return $this->orders()->where('status', Order::ORDER_EMPLOYED);
+    }
+
+    /**
+     * 我的服务中订单
+     */
+    public function orderOnProceeding()
+    {
+        return $this->orders()->where('status', Order::ORDER_PROCEEDING);
+    }
+
+    /**
+     * 我的已完成订单
+     */
+    public function completedOrders()
+    {
+        return $this->orders()->where('status', Order::ORDER_COMPLETED);
+    }
+
+    /**
+     * 我的待验收订单
+     */
+    public function orderWaitCheck()
+    {
+        return $this->orders()->where('status', Order::ORDER_WAIT_CHECK);
+    }
+
+    /**
+     * 我的待同意接单订单，待确认订单
+     */
+    public function orderWaitAgree()
+    {
+        return $this->offerOrders()->where('status', OfferOrder::STATUS_WAIT)
+            ->whereHas('order', function ($query) {
+                $query->where('type', Order::ORDER_TYPE_IMMEDIATE_HIRE);
+            });
     }
 
     /**
@@ -103,6 +154,30 @@ class Master extends Model implements JWTSubject, Authenticatable, MustVerifyEma
     public function newMessages()
     {
         return $this->messages()->where('status', Message::STATUS_NEW);
+    }
+
+    /**
+     * 我的服务省份
+     */
+    public function province()
+    {
+        return $this->belongsTo(Region::class, 'province_code', 'region_code');
+    }
+
+    /**
+     * 我的服务城市
+     */
+    public function city()
+    {
+        return $this->belongsTo(Region::class, 'city_code', 'region_code');
+    }
+
+    /**
+     * 我的服务区域
+     */
+    public function area()
+    {
+        return $this->belongsTo(Region::class, 'area_code', 'region_code');
     }
 
     /**
