@@ -110,6 +110,8 @@ class Order extends Model implements HasPresenter
         self::ORDER_CANCEL => '订单关闭'
     ];
 
+
+
     const STATUS_REFUND_APPLYING = 1;
     const STATUS_REFUND_AGREED = 2;
     const STATUS_REFUND_REFUSED = 3;

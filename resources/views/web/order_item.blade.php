@@ -39,7 +39,7 @@
         </td>
         <td>
             <div class="more">
-                <a href="orderinfo.html">查看订单</a>
+                <a href="order/{{$order->id}}">查看订单</a>
                 <a href="">雇佣师傅</a>
                 <span>取消订单</span>
             </div>
