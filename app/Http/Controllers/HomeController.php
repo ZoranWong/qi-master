@@ -3,15 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Dingo\Api\Routing\UrlGenerator;
-use Illuminate\Http\Request;
+use Dingo\Api\Dispatcher;
+use Dingo\Api\Routing\Helpers;
+use Illuminate\Support\Facades\Log;
+
 
 class HomeController extends Controller
 {
+    use Helpers, ApiDispatcher;
     //
-
     public function index()
     {
+        /**@var User $user**/
+        $user = auth()->user();
+        /**@var Dispatcher $dispatcher**/
+        $dispatcher = $this->dispatcher();
+        try{
+            $user = $dispatcher->get('/users/profile');
+        }catch (\Exception $exception){
+        }
         $view = null;
         if (isMobile()) {
             $view = view('h5.index');
@@ -21,10 +31,8 @@ class HomeController extends Controller
                 'currentMenu' => ''
             ]);
         }
-        /**@var User $user**/
-        $user = auth()->user();
-        dd($user);
-        $view->with('user', $user);
+        $orders = $user->orders()->offset(0)->limit(10)->get();
+        $view->with('user', $user)->with('orders', $orders);
         return $view;
     }
 
@@ -40,18 +48,21 @@ class HomeController extends Controller
 
     public function forgetPassword()
     {
-        if(isMobile()){
+        if (isMobile()) {
             return view('web.forgetpsw');
-        }else{
+        } else {
             return view('web.forgetpsw');
         }
     }
 
     public function login()
     {
+        if (!auth()->guest()) {
+            return redirect(route('home'));
+        }
         if (isMobile()) {
             return view('h5.login')->with([
-                'loginRoute' => app(UrlGenerator::class)->version('v1')->route('user.login'),
+                'loginRoute' => route('user.login'),
                 'homePage' => route('home')
             ]);
         } else {

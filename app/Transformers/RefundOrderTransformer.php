@@ -15,7 +15,7 @@ class RefundOrderTransformer extends TransformerAbstract
     /**
      * Transform the RefundOrder entity.
      *
-     * @param \App\Models\RefundOrder $model
+     * @param RefundOrder $model
      *
      * @return array
      */
@@ -24,10 +24,32 @@ class RefundOrderTransformer extends TransformerAbstract
         return [
             'id' => (int)$model->id,
 
-            /* place your other model properties here */
+            'order_id' => $model->orderId,
+            'order_no' => $model->order->orderNo,
+            'service_type' => $model->order->serviceType->name,
+            'classification' => $model->order->classification->name,
 
-            'created_at' => $model->created_at,
-            'updated_at' => $model->updated_at
+            'master_id' => $model->masterId,
+            'master_name' => $model->master->name,
+
+            'order_price' => $model->order->totalAmount,
+            'refund_price' => $model->amount,
+            'status' => $model->status,
+            'status_desc' => $model->statusDesc,
+            'apply_status' => $model->applyStatus,
+            'apply_status_desc' => $model->applyStatusDesc,
+            'final_status' => $model->finalStatus,
+
+            'refund_info' => [
+                'refund_mode_desc' => $model->refundModeDesc,
+                'refund_method_desc' => $model->refundMethodDesc,
+                'refund_amount' => $model->amount,
+                'remark' => $model->remark,
+                'refund_no' => $model->refundNo,
+            ],
+
+            'created_at' => (string)$model->createdAt,
+            'updated_at' => (string)$model->updatedAt
         ];
     }
 }

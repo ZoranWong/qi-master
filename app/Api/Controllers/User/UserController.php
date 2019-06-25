@@ -3,13 +3,17 @@
 namespace App\Api\Controllers\User;
 
 use App\Api\Controller;
+use App\Http\Requests\FavouriteMasterUpdateRequest;
 use App\Http\Requests\UserUpdatePasswordRequest;
+use App\Models\Master;
 use App\Models\User;
 use App\Repositories\UserRepository;
+use App\Transformers\FavouriteMasterTransformer;
 use App\Transformers\MasterCommentTransformer;
 use App\Transformers\UserTransformer;
 use Dingo\Api\Http\Request;
 use Dingo\Api\Http\Response;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 
 class UserController extends Controller
@@ -181,5 +185,70 @@ class UserController extends Controller
             ->paginate($limit);
 
         return $this->response->paginator($paginator, new MasterCommentTransformer);
+    }
+
+    /**
+     * 我的师傅收藏列表
+     * @param Request $request
+     * @return Response
+     */
+    public function favouriteMasters(Request $request)
+    {
+        $limit = $request->input('limit', PAGE_SIZE);
+
+        /** @var User $user */
+        $user = auth()->user();
+
+        $paginator = $user->favouriteMasters()->withCount(['orders' => function (Builder $query) use ($user) {
+            $query->where('user_id', '=', $user->id);
+        }])->paginate($limit);
+
+        return $this->response->paginator($paginator, new FavouriteMasterTransformer);
+    }
+
+    /**
+     * 收藏师傅
+     * @param FavouriteMasterUpdateRequest $request
+     * @return Response
+     */
+    public function favouriteMaster(FavouriteMasterUpdateRequest $request)
+    {
+        $data = $request->only(['master_id', 'remark']);
+
+        $master = Master::findOrFail($data['master_id']);
+
+        /** @var User $user */
+        $user = auth()->user();
+
+        $result = $user->favouriteMasters()->toggle([$master->id => $data]);
+
+        $message = count($result['attached']) ? '收藏成功' : '取消收藏成功';
+
+        return response()->json([
+            'message' => $message,
+            'status_code' => 200
+        ]);
+    }
+
+    /**
+     * 修改收藏师傅中间表信息
+     * @param FavouriteMasterUpdateRequest $request
+     * @return JsonResponse
+     */
+    public function updateFavouriteMaster(FavouriteMasterUpdateRequest $request)
+    {
+        $data = $request->only(['remark', 'master_id']);
+
+        $master = Master::findOrFail($data['master_id']);
+
+        /** @var User $user */
+        $user = auth()->user();
+
+        $user->favouriteMasters()->updateExistingPivot($master, $data);
+
+        return response()->json([
+            'message' => '修改成功',
+            'status_code' => 200
+        ]);
     }
 }
