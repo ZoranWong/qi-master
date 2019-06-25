@@ -35,7 +35,7 @@
             </div>
         </td>
         <td>
-            <div>待雇佣</div>
+            <div>{{$order->orderStatus}}</div>
         </td>
         <td>
             <div class="more">
