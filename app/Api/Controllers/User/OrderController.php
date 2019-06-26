@@ -8,7 +8,6 @@ use App\Repositories\OrderRepository;
 use App\Transformers\OfferOrderTransformer;
 use App\Transformers\OrderDetailTransformer;
 use App\Transformers\OrderTransformer;
-use Dingo\Api\Http\Request;
 use Dingo\Api\Http\Response;
 
 class OrderController extends Controller
@@ -25,14 +24,11 @@ class OrderController extends Controller
 
     /**
      * 订单列表
-     * @param Request $request
      * @return Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $limit = $request->input('limit', PAGE_SIZE);
-
-        $paginator = auth()->user()->orders()->paginate($limit);
+        $paginator = $this->repository->getList();
 
         return $this->response->paginator($paginator, new OrderTransformer);
     }
@@ -47,6 +43,8 @@ class OrderController extends Controller
         if (auth()->id() !== $order->userId) {
             $this->response->errorForbidden('您无权查看该订单');
         }
+
+        $order = $this->repository->with(['comment', 'classification', 'serviceType'])->find($order->id);
 
         return $this->response->item($order, new OrderDetailTransformer);
     }
@@ -75,14 +73,6 @@ class OrderController extends Controller
      * 发布一口价订单
      */
     public function publishFixedPrice()
-    {
-
-    }
-
-    /**
-     * 发起退款
-     */
-    public function initiateRefund()
     {
 
     }

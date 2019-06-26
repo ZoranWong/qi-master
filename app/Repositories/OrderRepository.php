@@ -8,4 +8,6 @@ use Prettus\Repository\Contracts\RepositoryInterface;
 interface OrderRepository extends RepositoryInterface
 {
     public function getOfferOrderList(Order $order);
+
+    public function getList();
 }

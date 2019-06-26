@@ -42,6 +42,7 @@ class OrderDetailTransformer extends TransformerAbstract
                 'expected_service_date' => (string)$model->serviceDate,// 期望服务日期
                 'comment' => $model->comment// 订单备注
             ],
+            'comment' => $model->comment,// 订单评价
             // 联系人信息
             'contact_user_info' => [
                 'name' => $model->contactUserName,
