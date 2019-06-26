@@ -58,7 +58,7 @@ class OrderItem extends Model implements HasPresenter
     ];
 
     protected $fillable = [
-        'order_id', 'product_id', 'product', 'install_fee', 'other_fee', 'status', 'type', 'master_id'
+        'order_id', 'product_id', 'product', 'install_fee', 'other_fee', 'status', 'type', 'master_id', 'num'
     ];
     protected $dates = ['reviewed_at'];
     public $timestamps = false;
