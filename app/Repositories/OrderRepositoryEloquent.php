@@ -65,7 +65,7 @@ class OrderRepositoryEloquent extends BaseRepository implements OrderRepository
                     },
                     // 好评数
                     'orders as good_comment_order_nums' => function ($query) {
-                        $query->whereHas('comments', function ($query) {
+                        $query->whereHas('comment', function ($query) {
                             $query->where('type', MasterComment::TYPE_GOOD);
                         });
                     },
@@ -77,7 +77,7 @@ class OrderRepositoryEloquent extends BaseRepository implements OrderRepository
 
         foreach ($offerOrders as $offerOrder) {
             // 好评率
-            $offerOrder['master']['good_comment_rate'] = $offerOrder['order_nums'] ? number_format($offerOrder['good_comment_order_nums'] / $offerOrder['order_nums'], 2) : 0;
+            $offerOrder['master']['good_comment_rate'] = $offerOrder->master->order_nums ? number_format($offerOrder->master->good_comment_order_nums / $offerOrder->master->order_nums * 100, 2) : 0;
             $offerOrder['master']['good_comment_rate'] .= PERCENTAGE_MARK;
         }
 
