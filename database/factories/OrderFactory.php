@@ -35,7 +35,7 @@ $factory->define(Order::class, function (Faker $faker) {
         'total_amount' => $faker->randomDigit,
         'order_no' => $orderNo,
         'service_date' => $faker->date(),
-        'comment' => $faker->text(124),
+        'remark' => $faker->text(124),
         'contact_user_name' => $faker->name,
         'contact_user_phone' => $faker->phoneNumber,
         'customer_name' => $faker->name,
@@ -44,7 +44,6 @@ $factory->define(Order::class, function (Faker $faker) {
         'customer_address' => $faker->address,
         'refund_status' => 0,
         'classification_id' => rand(1, 5),
-        'service_id' => rand(1, 7),
-        'customer_address' => $faker->address
+        'service_id' => rand(1, 7)
     ];
 });
