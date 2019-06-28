@@ -8,7 +8,7 @@ use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
 /**
- * Class MasterComment.
+ * App\Models\MasterComment
  *
  * @property int $id
  * @property int $userId 评论用户ID
