@@ -41,7 +41,7 @@ class OfferOrderTransformer extends TransformerAbstract
             'quote_price' => $model->quotePrice,
 
             'status' => $model->status,
-            'status' => $model->statusDesc,
+            'status_desc' => $model->statusDesc,
 
             'created_at' => (string)$model->createdAt,
             'updated_at' => (string)$model->updatedAt

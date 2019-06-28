@@ -27,7 +27,6 @@ use Ramsey\Uuid\Uuid;
  * @property string|null $deletedAt
  * @property int|null $couponCodeId
  * @property string|null $serviceDate 服务时间
- * @property string|null $comment 备注
  * @property string $contactUserName 联系人姓名
  * @property string $contactUserPhone 联系人电话
  * @property string $customerName 客户名称
@@ -36,8 +35,9 @@ use Ramsey\Uuid\Uuid;
  * @property string $customerAddress 服务地址
  * @property int $classificationId 类目
  * @property int $serviceId 服务类型ID
+ * @property string $remark 订单备注
  * @property-read \App\Models\Classification $classification
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\MasterComment[] $comments
+ * @property-read \App\Models\MasterComment $comment
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Complaint[] $complaints
  * @property-read \App\Models\CouponCode|null $couponCode
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OfferOrder[] $employedMasters
@@ -57,7 +57,6 @@ use Ramsey\Uuid\Uuid;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order query()
  * @method static bool|null restore()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereClassificationId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereComment($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereContactUserName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereContactUserPhone($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereCouponCodeId($value)
@@ -71,6 +70,7 @@ use Ramsey\Uuid\Uuid;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereOrderNo($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereRefundStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereRegionCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereRemark($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereServiceDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereServiceId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereStatus($value)
@@ -275,9 +275,9 @@ class Order extends Model implements HasPresenter
     /**
      * 订单评价
      */
-    public function comments()
+    public function comment()
     {
-        return $this->hasMany(MasterComment::class);
+        return $this->hasOne(MasterComment::class);
     }
 
     public static function findAvailableNo()

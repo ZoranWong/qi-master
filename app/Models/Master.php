@@ -27,12 +27,12 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property string|null $provinceCode 省份代码
  * @property string|null $cityCode 城市代码
  * @property string|null $areaCode 区域代码
- * @property-read \App\Models\Region $area
- * @property-read \App\Models\Region $city
+ * @property-read \App\Models\Region|null $area
+ * @property-read \App\Models\Region|null $city
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Message[] $messages
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OfferOrder[] $offerOrders
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Order[] $orders
- * @property-read \App\Models\Region $province
+ * @property-read \App\Models\Region|null $province
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master query()

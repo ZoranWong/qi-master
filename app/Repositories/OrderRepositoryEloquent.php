@@ -2,13 +2,18 @@
 
 namespace App\Repositories;
 
+use App\Models\Master;
 use App\Models\MasterComment;
 use App\Models\Order;
+use App\Models\User;
 use Carbon\Carbon;
+use Dingo\Api\Http\Request;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Exceptions\RepositoryException;
+use Symfony\Component\Inflector\Inflector;
 
 class OrderRepositoryEloquent extends BaseRepository implements OrderRepository
 {
@@ -60,7 +65,7 @@ class OrderRepositoryEloquent extends BaseRepository implements OrderRepository
                     },
                     // 好评数
                     'orders as good_comment_order_nums' => function ($query) {
-                        $query->whereHas('comments', function ($query) {
+                        $query->whereHas('comment', function ($query) {
                             $query->where('type', MasterComment::TYPE_GOOD);
                         });
                     },
@@ -72,10 +77,37 @@ class OrderRepositoryEloquent extends BaseRepository implements OrderRepository
 
         foreach ($offerOrders as $offerOrder) {
             // 好评率
-            $offerOrder['master']['good_comment_rate'] = $offerOrder['order_nums'] ? number_format($offerOrder['good_comment_order_nums'] / $offerOrder['order_nums'], 2) : 0;
+            $offerOrder['master']['good_comment_rate'] = $offerOrder->master->order_nums ? number_format($offerOrder->master->good_comment_order_nums / $offerOrder->master->order_nums * 100, 2) : 0;
             $offerOrder['master']['good_comment_rate'] .= PERCENTAGE_MARK;
         }
 
         return $offerOrders;
+    }
+
+    /**
+     * 获取订单列表
+     */
+    public function getList()
+    {
+        /** @var User|Master $user */
+        $user = auth()->user();
+
+        $memberTypeId = Inflector::singularize(config('auth.defaults.guard')) . '_id';
+
+        $request = app(Request::class);
+
+        $limit = $request->input('limit', PAGE_SIZE);
+
+        $queryData = $request->input();
+
+        $paginator = $this->scopeQuery(function ($query) use ($user, $queryData, $memberTypeId) {
+            return $query->where($memberTypeId, $user->id)->where(function (Builder $query) use ($queryData) {
+                if (isset($queryData['status'])) {
+                    $query->where('status', $queryData['status']);
+                }
+            });
+        })->paginate($limit);
+
+        return $paginator;
     }
 }
