@@ -10,6 +10,7 @@ namespace App\Http\Controllers;
 
 
 use Dingo\Api\Dispatcher;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 trait ApiDispatcher
 {
@@ -18,7 +19,7 @@ trait ApiDispatcher
         /**@var Dispatcher $dispatcher**/
         $dispatcher = $this->api;
         if($auth){
-            $token = session('token');
+            $token = JWTAuth::fromUser(auth()->user());
             $dispatcher = $dispatcher->header('Authorization', "bearer {$token}");
         }
         return $dispatcher;

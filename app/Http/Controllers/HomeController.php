@@ -20,6 +20,7 @@ class HomeController extends Controller
         $dispatcher = $this->dispatcher();
         try{
             $user = $dispatcher->get('/users/profile');
+
         }catch (\Exception $exception){
         }
         $view = null;
