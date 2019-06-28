@@ -98,13 +98,13 @@ class Order extends Model implements HasPresenter
 
     const ORDER_WAIT_OFFER = 0; // 待报价
     const ORDER_WAIT_HIRE = 1;// 待雇佣
-    const ORDER_WAIT_AGREE = 3;// 待直接雇佣师傅同意
-    const ORDER_EMPLOYED = 4; // 待托管，待支付，已雇佣
-    const ORDER_PROCEEDING = 5;// 进行中
-    const ORDER_WAIT_CHECK = 6;// 待验收
-    const ORDER_CHECKED = 7;// 验收完成，待评价
-    const ORDER_COMPLETED = 8;// 订单完成
-    const ORDER_CANCEL = 9;// 订单关闭
+    const ORDER_WAIT_AGREE = 2;// 待直接雇佣师傅同意
+    const ORDER_EMPLOYED = 3; // 待托管，待支付，已雇佣
+    const ORDER_PROCEEDING = 4;// 进行中
+    const ORDER_WAIT_CHECK = 5;// 待验收
+    const ORDER_CHECKED = 6;// 验收完成，待评价
+    const ORDER_COMPLETED = 7;// 订单完成
+    const ORDER_CANCEL = 8;// 订单关闭
 
     const ORDER_STATUS = [
         self::ORDER_WAIT_OFFER => '待报价',

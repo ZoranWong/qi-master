@@ -21,7 +21,7 @@ class OrdersSeeder extends Seeder
         cache()->delete(date('Ymdh'));
         $faker = app(Generator::class);
         // 创建 100 笔订单
-        $orders = factory(Order::class, 100)->create();
+        $orders = factory(Order::class, 1000)->create();
 
         foreach ($orders as $order) {
             $this->orderItems($order, $faker);
@@ -31,7 +31,7 @@ class OrdersSeeder extends Seeder
     protected function orderItems(Order $order, Generator $faker)
     {
 
-        $count = $faker->randomDigitNotNull % 10;
+        $count = $faker->randomDigitNotNull % 3 + 1;
         for ($i = 0; $i < $count; $i++) {
             $master = Master::query()->inRandomOrder()->first();
             $product = Product::query()->inRandomOrder()->first();

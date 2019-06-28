@@ -34,7 +34,6 @@ class UserController extends Controller
         $user = $this->repository
             ->withCount(['orderWaitOffer', 'orderWaitHire', 'orderWaitPay', 'orderWaitCheck', 'orderWaitComment'])
             ->find(auth()->id());
-
         return $this->response->item($user, new UserTransformer);
     }
 
