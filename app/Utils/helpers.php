@@ -36,20 +36,21 @@ if (!function_exists('getImageUrl')) {
 }
 
 if (!function_exists('orderNo')) {
-    function orderNo($prefix = 'U', $count = 1000)
+    function orderNo($prefix = 'U', $count = 10000)
     {
         $time = (int)(microtime(true) * 1000);
         gmp_random_seed($time);
-        $date = date('Ymdh');
-        $next = (((int)$date) + 1) . '0000';
+        $date = date('YmdHis');
+        $next = (((int)$date) + 1);
         $ids = cache($date, []);
         if (empty($ids)) {
             $ids = [];
             for ($i = 0; $i < $count; $i++) {
                 $ids[] = sprintf("%04X", $i);
             }
+            shuffle($ids);
         }
-        $num = random_int(0, count($ids));
+        $num = count($ids) - 1;
         $id = isset($ids[$num]) ? $ids[$num] : orderNo($prefix, $count);
         array_splice($ids, $num, 1);
         cache([$date => $ids], \Illuminate\Support\Carbon::parse($next));
