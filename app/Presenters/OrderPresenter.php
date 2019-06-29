@@ -43,7 +43,7 @@ class OrderPresenter extends BasePresenter
 
     public function minOfferPrice()
     {
-        return number_format($this->wrappedObject->offerOrders->min(function (OfferOrder $order) {
+        return number_format($this->wrappedObject->offerOrders->min(function (OfferOrderPresenter $order) {
             return $order->quotePrice;
         }), 2);
     }

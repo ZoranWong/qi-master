@@ -11,7 +11,7 @@ use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
 /**
- * Class Complaint.
+ * App\Models\Complaint
  *
  * @property int $id
  * @property string $complaintNo 投诉编号

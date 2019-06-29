@@ -8,7 +8,7 @@ use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
 /**
- * Class ComplaintItem.
+ * App\Models\ComplaintItem
  *
  * @property int $id
  * @property int $complaintId 投诉ID

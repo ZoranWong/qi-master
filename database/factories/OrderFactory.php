@@ -14,9 +14,11 @@ $factory->define(Order::class, function (Faker $faker) {
     $orderNo = orderNo();
     $type = $faker->randomElement([
         Order::ORDER_TYPE_FIXED_PRICE,
-        Order::ORDER_TYPE_QUOTE_PRICE
+        Order::ORDER_TYPE_QUOTE_PRICE,
+        Order::ORDER_TYPE_IMMEDIATE_HIRE
     ]);
     $status = $faker->randomElement([
+        Order::ORDER_WAIT_OFFER,
         Order::ORDER_WAIT_HIRE,
         Order::ORDER_WAIT_AGREE,
         Order::ORDER_EMPLOYED,
@@ -41,8 +43,7 @@ $factory->define(Order::class, function (Faker $faker) {
         'region_code' => $region['region_code'],
         'customer_address' => $faker->address,
         'refund_status' => 0,
-
         'classification_id' => rand(1, 5),
-        'service_id' => rand(1, 7),
+        'service_id' => rand(1, 7)
     ];
 });

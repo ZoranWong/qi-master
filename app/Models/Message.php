@@ -7,7 +7,7 @@ use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
 /**
- * Class Message.
+ * App\Models\Message
  *
  * @property int $id
  * @property int $memberId 会员ID

@@ -23,7 +23,7 @@
             <ul class="clearfix">
                 <li>您的位置：</li>
                 <li>
-                    <a href="index.html">首页</a>
+                    <a href="/">首页</a>
                 </li>
             </ul>
         </div>
@@ -53,7 +53,7 @@
             <div class="index-table order">
                 <div class="title">
                     <h4>我的订单</h4>
-                    <a href="order.html" class="">全部订单 ›</a>
+                    <a href="/orders" class="">全部订单 ›</a>
                 </div>
                 <ul class="content clearfix">
                     <li>
@@ -106,5 +106,10 @@
 <!--content--end-->
 
 </body>
+<style>
+    .order-item-table{
+        margin-bottom: 32px;
+    }
+</style>
 
 </html>

@@ -50,7 +50,7 @@ if (!function_exists('orderNo')) {
             }
         }
         $num = random_int(0, count($ids));
-        $id = $ids[$num];
+        $id = isset($ids[$num]) ? $ids[$num] : orderNo($prefix, $count);
         array_splice($ids, $num, 1);
         cache([$date => $ids], \Illuminate\Support\Carbon::parse($next));
         return $prefix . $date . $id;
