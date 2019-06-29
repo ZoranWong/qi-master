@@ -17,7 +17,8 @@ $factory->define(Order::class, function (Faker $faker) {
         Order::ORDER_TYPE_QUOTE_PRICE
     ]);
     $status = $faker->randomElement([
-        Order::ORDER_WAIT_EMPLOY,
+        Order::ORDER_WAIT_HIRE,
+        Order::ORDER_WAIT_AGREE,
         Order::ORDER_EMPLOYED,
         Order::ORDER_WAIT_CHECK,
         Order::ORDER_CHECKED,
@@ -32,7 +33,7 @@ $factory->define(Order::class, function (Faker $faker) {
         'total_amount' => $faker->randomDigit,
         'order_no' => $orderNo,
         'service_date' => $faker->date(),
-        'comment' => $faker->text(124),
+        'remark' => $faker->text(124),
         'contact_user_name' => $faker->name,
         'contact_user_phone' => $faker->phoneNumber,
         'customer_name' => $faker->name,
