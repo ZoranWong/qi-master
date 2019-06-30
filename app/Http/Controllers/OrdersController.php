@@ -36,14 +36,37 @@ class OrdersController extends Controller
 
     public function index(Request $request)
     {
+        $view = null;
+        /**@var User $user**/
+        $user = auth()->user();
         if (isMobile()) {
-            return view('h5.order');
+            $view = view('h5.order');
         } else {
-            return view('web.order')->with([
-                'selected' => 'orders',
-                'currentMenu' => 'orders'
-            ]);
+            $view = view('web.order');
         }
+        $limit = $request->input('limit', 15);
+        $offset = ($request->input('page', 1) - 1) * $limit;
+        $query = $user->orders();
+        if($request->input('status', null)) {
+            $query->where('status', $request->input('status'));
+        }
+        $count = $query->count();
+        $orders = $query
+            ->with(['items', 'offerOrders'])
+            ->offset($offset)
+            ->limit($limit)
+            ->get();
+        $view->with([
+            'selected' => 'orders',
+            'currentMenu' => 'orders',
+            'orders' => $orders,
+            'count' => $count,
+            'page' => $request->input('page', 1),
+            'limit' => $limit,
+            'status' => $request->input('status', null)
+        ]);
+
+        return $view;
     }
 
     public function show($id, Request $request)

@@ -42,25 +42,22 @@
                 </ul>
                 <div class="layui-tab-content" id="comment">
                     <div class="layui-tab-item layui-show">
-                        <div class="common-wrap">
-                            <div>
-                                <ul>
-                                    <li><span>服务类型：安装</span><span>订单：<a href="" class="f-yellow">P10581334689</a></span><span>服务价格：195.00元</span><span
-                                        class="fr"><span style="display: inline-block; margin: 0px; padding: 0px;">2019-03-28 13:56</span></span>
-                                    </li>
-                                    <li><span>好评</span><span> | 质量（5）</span><span>态度（5）</span><span>速度（5）</span></li>
-                                    <li><span>评价：</span><span>系统默认好评（用户超过15天未评价）</span></li>
-                                </ul>
-                            </div>
-                        </div>
+                        @foreach($comments as $comment)
+                            @include('web.comment_item', ['comment' => $comment])
+                        @endforeach
                     </div>
                     <div class="layui-tab-item">
-
+                        @foreach($comments as $comment)
+                            @include('web.comment_item', ['comment' => $comment])
+                        @endforeach
                     </div>
                     <div class="layui-tab-item">
-
+                        @foreach($comments as $comment)
+                            @include('web.comment_item', ['comment' => $comment])
+                        @endforeach
                     </div>
                 </div>
+                <div id="pagination"></div>
             </div>
 
         </div>
@@ -72,5 +69,22 @@
 <!--content--end-->
 
 </body>
-
+<script>
+    layui.use([ 'laypage'], function () {
+        let laypage = layui.laypage;
+        let first = true;
+        laypage.render({
+            elem: 'pagination',
+            count: {{$count}}, //数据总数
+            curr: {{$page}},
+            jump: function (obj) {
+                console.log(obj);
+                if (!first) {
+                    location.href = "/orders?{{ $status !== null ? 'status='.$status : '' }}&page=" + obj.curr + '&limit=' + obj.limit;
+                }
+                first = false;
+            }
+        });
+    })
+</script>
 </html>

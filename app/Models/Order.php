@@ -144,9 +144,19 @@ class Order extends Model implements HasPresenter
         'master_id',
         'type',
         'status',
-        'total_amount', 'remark',
-        'coupon_code_id', 'service_date', 'comment', 'contact_user_name', 'contact_user_phone',
-        'customer_name', 'customer_phone', 'customer_address', 'region_code', 'classification_id', 'service_id'
+        'total_amount',
+        'remark',
+        'coupon_code_id',
+        'service_date',
+        'comment',
+        'contact_user_name',
+        'contact_user_phone',
+        'customer_name',
+        'customer_phone',
+        'customer_address',
+        'region_code',
+        'classification_id',
+        'service_id'
     ];
 
     protected $dates = [

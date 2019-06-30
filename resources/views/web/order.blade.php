@@ -38,11 +38,21 @@
             <h2>订单中心</h2>
             <div class="layui-tab">
                 <ul class="layui-tab-title">
-                    <li class="layui-this">全部</li>
-                    <li>待付款</li>
-                    <li>待雇佣</li>
-                    <li>待验收</li>
-                    <li>待评价</li>
+                    <li class="{!! !$status ? 'layui-this' : ''!!}">
+                        <a href="/orders">全部</a>
+                    </li>
+                    <li class="{!! $status == \App\Models\Order::ORDER_EMPLOYED ? 'layui-this' : ''!!}">
+                        <a href="/orders?status={{\App\Models\Order::ORDER_EMPLOYED}}">待付款</a>
+                    </li>
+                    <li class="{!! $status == \App\Models\Order::ORDER_WAIT_HIRE ? 'layui-this' : ''!!}">
+                        <a href="/orders?status={{\App\Models\Order::ORDER_WAIT_HIRE}}">待雇佣</a>
+                    </li>
+                    <li class="{!! $status == \App\Models\Order::ORDER_WAIT_CHECK ? 'layui-this' : ''!!}">
+                        <a href="/orders?status={{\App\Models\Order::ORDER_WAIT_CHECK}}">待验收</a>
+                    </li>
+                    <li class="{!! $status == \App\Models\Order::ORDER_CHECKED ? 'layui-this' : ''!!}">
+                        <a href="/orders?status={{\App\Models\Order::ORDER_CHECKED}}">待评价</a>
+                    </li>
                 </ul>
                 <div class="layui-form float-none">
                     <div class="layui-form-item">
@@ -91,189 +101,59 @@
                     </div>
                 </div>
                 <div class="layui-tab-content order">
-                    <div class="layui-tab-item layui-show">
+                    <div class="layui-tab-item {{$status ? '' : 'layui-show'}}">
                         <div class="layui-form">
                             <table class="layui-table">
-                                <thead>
-                                <tr>
-                                    <th colspan="6">
-                                        <span>订单号：P10434789148</span>
-                                        <span>2019-01-17 13:34:04</span>
-                                        <span>服务商：黄锋（18260098365）</span>
-                                    </th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>
-                                        <div class="flex">
-                                            <div class="item-img">
-                                                <img src="/web/image/product.jpg">
-                                            </div>
-                                            <div class="item-text">
-                                                <span>衣柜</span>
-                                                <span>两门小衣柜</span>
-                                                <span>数量：1</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="text-center">
-                                            <div>周金梅/13864666439</div>
-                                            <div>山东省潍坊市寒亭区大家洼街道八里村小5号楼2单元302</div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="text-center">
-                                            <div>已有<em class="red">1</em>位师傅报价</div>
-                                            <div>最低价<em class="red">159.00</em></div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="text-center">待雇佣</div>
-                                    </td>
-                                    <td>
-                                        <div class="more text-center">
-                                            <a href="/orders/1">查看订单</a>
-                                            <a href="">雇佣师傅</a>
-                                            <span>取消订单</span>
-                                        </div>
-                                    </td>
-                                </tr>
-                                </tbody>
+                                @foreach($orders as $order)
+                                    @include('web.order_item', ['order' => $order])
+                                @endforeach
                             </table>
                         </div>
                     </div>
 
-
-                    <div class="layui-tab-item">待付款</div>
-
-
-                    <div class="layui-tab-item">待雇佣</div>
-
-                    <!--待验收-->
-                    <div class="layui-tab-item">
+                    <div class="layui-tab-item {{$status == \App\Models\Order::ORDER_EMPLOYED ? 'layui-show' : ''}}">
                         <div class="layui-form">
                             <table class="layui-table">
-                                <thead>
-                                <tr>
-                                    <th colspan="6">
-                                        <span>订单号：P10434789148</span>
-                                        <span>2019-01-17 13:34:04</span>
-                                        <span>服务商：黄锋（18260098365）</span>
-                                    </th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>
-                                        <div class="flex">
-                                            <div class="item-img">
-                                                <img src="/web/image/product.jpg">
-                                            </div>
-                                            <div class="item-text">
-                                                <span>衣柜</span>
-                                                <span>两门小衣柜</span>
-                                                <span>数量：1</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="text-center">
-                                            <div>周金梅/13864666439</div>
-                                            <div>山东省潍坊市寒亭区大家洼街道八里村小5号楼2单元302</div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="text-center">
-                                            <div class="head-img">
-                                                <img src="/web/image/head.jpg">
-                                            </div>
-                                            <div>何金明</div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="text-center">
-                                            <div>服务完成</div>
-                                            <div>￥159.00</div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="more text-center">
-                                            <a href="orderinfo.html">查看订单</a>
-                                            <a href="">确认验收</a>
-                                            <a href="refundcreate.html">申请退款</span>
-                                        </div>
+                                @foreach($orders as $order)
+                                    @include('web.order_item', ['order' => $order])
+                                @endforeach
+                            </table>
+                        </div>
+                    </div>
 
-                                    </td>
-                                </tr>
-                                </tbody>
+                    <div class="layui-tab-item {{$status == \App\Models\Order::ORDER_WAIT_HIRE ? 'layui-show' : ''}}">
+                        <div class="layui-form">
+                            <table class="layui-table">
+                                @foreach($orders as $order)
+                                    @include('web.order_item', ['order' => $order])
+                                @endforeach
+                            </table>
+                        </div>
+                    </div>
+                    <!--待验收-->
+                    <div class="layui-tab-item {{$status == \App\Models\Order::ORDER_WAIT_CHECK ? 'layui-show' : ''}}">
+                        <div class="layui-form">
+                            <table class="layui-table">
+                                @foreach($orders as $order)
+                                    @include('web.order_item', ['order' => $order])
+                                @endforeach
                             </table>
                         </div>
                     </div>
                     <!--待验收end-->
 
-
                     <!--待评价-->
-                    <div class="layui-tab-item">
+                    <div class="layui-tab-item {{$status == \App\Models\Order::ORDER_CHECKED ? 'layui-show' : ''}}">
                         <div class="layui-form">
                             <table class="layui-table">
-                                <thead>
-                                <tr>
-                                    <th colspan="6">
-                                        <span>订单号：P10434789148</span>
-                                        <span>2019-01-17 13:34:04</span>
-                                        <span>服务商：黄锋（18260098365）</span>
-                                    </th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>
-                                        <div class="flex">
-                                            <div class="item-img">
-                                                <img src="/web/image/product.jpg">
-                                            </div>
-                                            <div class="item-text">
-                                                <span>衣柜</span>
-                                                <span>两门小衣柜</span>
-                                                <span>数量：1</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="text-center">
-                                            <div>周金梅/13864666439</div>
-                                            <div>山东省潍坊市寒亭区大家洼街道八里村小5号楼2单元302</div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="text-center">
-                                            <div class="head-img">
-                                                <img src="/web/image/head.jpg">
-                                            </div>
-                                            <div>何金明</div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="text-center">
-                                            <div>交易成功</div>
-                                            <div>￥159.00</div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="more text-center">
-                                            <a href="orderinfo.html">查看订单</a>
-                                            <a href="commentpost.html">立即评价</span>
-                                        </div>
-
-                                    </td>
-                                </tr>
-                                </tbody>
+                                @foreach($orders as $order)
+                                    @include('web.order_item', ['order' => $order])
+                                @endforeach
                             </table>
                         </div>
                     </div>
                     <!--待评价end-->
+                    <div id="pagination"></div>
                 </div>
 
             </div>
@@ -301,11 +181,17 @@
             elem: '#selectData',
             range: true
         });
+        let first = true;
         laypage.render({
             elem: 'pagination',
-            count: 70, //数据总数
+            count: {{$count}}, //数据总数
+            curr: {{$page}},
             jump: function (obj) {
-                //console.log(obj)
+                console.log(obj);
+                if (!first) {
+                    location.href = "/orders?{{ $status !== null ? 'status='.$status : '' }}&page=" + obj.curr + '&limit=' + obj.limit;
+                }
+                first = false;
             }
         });
     })

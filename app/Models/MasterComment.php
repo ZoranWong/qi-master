@@ -3,7 +3,9 @@
 namespace App\Models;
 
 use App\Models\Traits\ModelAttributesAccess;
+use App\Presenters\CommentPresenter;
 use Illuminate\Database\Eloquent\Model;
+use McCool\LaravelAutoPresenter\HasPresenter;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
@@ -38,7 +40,7 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\MasterComment whereUserId($value)
  * @mixin \Eloquent
  */
-class MasterComment extends Model implements Transformable
+class MasterComment extends Model implements Transformable, HasPresenter
 {
     use TransformableTrait, ModelAttributesAccess;
 
@@ -63,6 +65,7 @@ class MasterComment extends Model implements Transformable
         'rates' => 'array'
     ];
 
+
     public function order()
     {
         return $this->belongsTo(Order::class, 'order_id');
@@ -76,5 +79,16 @@ class MasterComment extends Model implements Transformable
     public function getTypeDescAttribute()
     {
         return self::TYPES[$this->type];
+    }
+
+    /**
+     * Get the presenter class.
+     *
+     * @return string
+     */
+    public function getPresenterClass()
+    {
+        // TODO: Implement getPresenterClass() method.
+        return CommentPresenter::class;
     }
 }

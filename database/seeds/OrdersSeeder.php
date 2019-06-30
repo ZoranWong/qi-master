@@ -7,6 +7,7 @@ use App\Models\OrderItem;
 use App\Models\PaymentOrder;
 use App\Models\Product;
 use App\Models\RefundOrder;
+use App\Models\MasterComment;
 use Faker\Generator;
 use Illuminate\Database\Seeder;
 
@@ -18,13 +19,20 @@ class OrdersSeeder extends Seeder
         OrderItem::truncate();
         OfferOrder::truncate();
         PaymentOrder::truncate();
-        cache()->delete(date('Ymdh'));
+        cache()->delete(date('YmdHis'));
         $faker = app(Generator::class);
         // 创建 100 笔订单
-        $orders = factory(Order::class, 1000)->create();
+        $generator = $this->buildOrder(100);
+        foreach ($generator as $orders) {
+            foreach ($orders as $order) {
+                $this->orderItems($order, $faker);
+            }
+        }
+    }
 
-        foreach ($orders as $order) {
-            $this->orderItems($order, $faker);
+    protected function buildOrder($count, $limit = 100) {
+        for ($i =0; $i < $count; $i ++) {
+            return yield factory(Order::class, $limit)->create();
         }
     }
 
@@ -45,7 +53,6 @@ class OrdersSeeder extends Seeder
                 'title' => $product->title,
                 'image' => $product->image,
                 'service_requirements' => [
-
                 ]
             ];
             $orderItem->installFee = $faker->randomDigitNotNull;
@@ -90,6 +97,33 @@ class OrdersSeeder extends Seeder
             $refundOrder->remark = $faker->text(64);
             $refundOrder->paymentOrderId = $paymentOrder->id;
             $order->refundOrders()->save($refundOrder);
+
+            $comment = new MasterComment();
+            $comment->userId = $order->userId;
+            $comment->masterId = $order->masterId;
+            $comment->content = $faker->text(124);
+            $comment->type = $faker->randomElement([
+                MasterComment::TYPE_GOOD,
+                MasterComment::TYPE_NORMAL,
+                MasterComment::TYPE_BAD
+            ]);
+            $comment->labels = [
+                $faker->text(5),
+                $faker->text(6),
+                $faker->text(7)
+            ];
+            $comment->rates = [
+                'quality' => $faker->randomElement([
+                    1, 2, 3, 4, 5, 6
+                ]),
+                'attitude' => $faker->randomElement([
+                    1, 2, 3, 4, 5, 6
+                ]),'speed' => $faker->randomElement([
+                    1, 2, 3, 4, 5, 6
+                ])
+            ];
+
+            $order->comment()->save($comment);
         }
     }
 }

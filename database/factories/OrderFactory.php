@@ -27,6 +27,7 @@ $factory->define(Order::class, function (Faker $faker) {
         Order::ORDER_COMPLETED,
         Order::ORDER_CANCEL
     ]);
+
     return [
         'user_id' => $user->id,
         'master_id' => $master->id,
@@ -34,7 +35,7 @@ $factory->define(Order::class, function (Faker $faker) {
         'status' => $status,
         'total_amount' => $faker->randomDigit,
         'order_no' => $orderNo,
-        'service_date' => $faker->date(),
+        'service_date' => $faker->date('Y-m-d H:i:s'),
         'remark' => $faker->text(124),
         'contact_user_name' => $faker->name,
         'contact_user_phone' => $faker->phoneNumber,

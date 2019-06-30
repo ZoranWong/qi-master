@@ -82,7 +82,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="/orders">
+                        <a href="/orders?status={{\App\Models\Order::ORDER_CHECKED}}">
                             <i></i> <span>待评价</span>
                             <div>{{$user->waitCommentCount}}</div>
                         </a>
