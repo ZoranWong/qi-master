@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Repositories\OfferOrderRepository;
 use App\Transformers\OfferOrderHistoryTransformer;
 use App\Transformers\OfferOrderTransformer;
+use Dingo\Api\Http\Response;
 
 class OfferOrderController extends Controller
 {
@@ -25,6 +26,12 @@ class OfferOrderController extends Controller
         return $this->response->paginator($paginator, new OfferOrderHistoryTransformer);
     }
 
+    /**
+     * 服务商发起报价
+     * @param OfferOrderCreateRequest $request
+     * @param Order $order
+     * @return Response
+     */
     public function store(OfferOrderCreateRequest $request, Order $order)
     {
         $postData = $request->only(['quote_price', 'note']);

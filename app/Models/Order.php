@@ -29,10 +29,8 @@ use Ramsey\Uuid\Uuid;
  * @property string|null $serviceDate 服务时间
  * @property string $contactUserName 联系人姓名
  * @property string $contactUserPhone 联系人电话
- * @property string $customerName 客户名称
- * @property string $customerPhone 客户电话
+ * @property array $customerInfo 客户信息
  * @property string $regionCode 行政区域编号
- * @property string $customerAddress 服务地址
  * @property int $classificationId 类目
  * @property int $serviceId 服务类型ID
  * @property string $remark 订单备注
@@ -62,9 +60,7 @@ use Ramsey\Uuid\Uuid;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereContactUserPhone($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereCouponCodeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereCustomerAddress($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereCustomerName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereCustomerPhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereCustomerInfo($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereMasterId($value)
@@ -147,11 +143,15 @@ class Order extends Model implements HasPresenter
         'status',
         'total_amount', 'remark',
         'coupon_code_id', 'service_date', 'comment', 'contact_user_name', 'contact_user_phone',
-        'customer_name', 'customer_phone', 'customer_address', 'region_code', 'classification_id', 'service_id'
+        'region_code', 'classification_id', 'service_id', 'customer_info'
     ];
 
     protected $dates = [
         'paid_at',
+    ];
+
+    protected $casts = [
+        'customer_info' => 'array'
     ];
 
     public function __construct(array $attributes = [])

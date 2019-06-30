@@ -10,4 +10,6 @@ interface OrderRepository extends RepositoryInterface
     public function getOfferOrderList(Order $order);
 
     public function getList();
+
+    public function getNewOrderList();
 }

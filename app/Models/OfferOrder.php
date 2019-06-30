@@ -75,6 +75,10 @@ class OfferOrder extends Model implements HasPresenter
         self::creating(function (self $offerOrder) {
             $offerOrder->status = self::STATUS_WAIT;
         });
+
+        self::created(function (self $offerOrder) {
+            event($offerOrder);
+        });
     }
 
     public function user()

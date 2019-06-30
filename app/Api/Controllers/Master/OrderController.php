@@ -5,6 +5,7 @@ namespace App\Api\Controllers\Master;
 use App\Api\Controller;
 use App\Models\Order;
 use App\Repositories\OrderRepository;
+use App\Transformers\Master\NewOrderTransformer;
 use App\Transformers\OrderDetailTransformer;
 use App\Transformers\OrderTransformer;
 
@@ -33,6 +34,13 @@ class OrderController extends Controller
         $order = $this->repository->with(['comment', 'classification', 'serviceType'])->find($order->id);
 
         return $this->response->item($order, new OrderDetailTransformer);
+    }
+
+    public function newOrders()
+    {
+        $paginator = $this->repository->getNewOrderList();
+
+        return $this->response->paginator($paginator, new NewOrderTransformer);
     }
 
 }
