@@ -20,7 +20,9 @@ $api->group(['prefix' => 'masters', 'namespace' => 'Master'], function (Router $
          * 投诉
          */
         $api->group(['prefix' => 'complaints'], function (Router $api) {
-
+            $api->get('/', ['as' => 'master.complaints', 'uses' => 'ComplaintController@index']);
+            $api->get('/{complaint}', ['as' => 'master.complaints.detail', 'uses' => 'ComplaintController@detail']);
+            $api->post('/{complaint}/evidence', ['as' => 'master.complaint.evidence', 'uses' => 'ComplaintController@evidence']);// 举证
         });
         /**
          * 消息
