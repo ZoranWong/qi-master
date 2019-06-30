@@ -43,6 +43,7 @@ class MasterTransformer extends TransformerAbstract
                 'order_on_proceeding_count' => $model->order_on_proceeding_count,
                 'order_wait_check_count' => $model->order_wait_check_count,
                 'order_wait_agree_count' => $model->order_wait_agree_count,
+                'order_completed_count' => $model->order_completed_count,
             ],
 
             'created_at' => (string)$model->createdAt,
