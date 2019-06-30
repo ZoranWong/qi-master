@@ -48,12 +48,12 @@ class MasterRepositoryEloquent extends BaseRepository implements MasterRepositor
                 'orders as order_nums',
                 // 好评订单数
                 'orders as good_comment_order_nums' => function ($query) {
-                    $query->whereHas('comments', function ($query) {
+                    $query->whereHas('comment', function ($query) {
                         $query->where('type', MasterComment::TYPE_GOOD);
                     });
                 },
                 // 报价待雇佣单，待托管|支付单，进行中订单，等待验收单，待师傅同意接单的订单
-                'orderWaitHired', 'orderWaitPay', 'orderOnProceeding', 'orderWaitCheck', 'orderWaitAgree'
+                'orderWaitHired', 'orderWaitPay', 'orderOnProceeding', 'orderWaitCheck', 'orderWaitAgree', 'orderCompleted'
             ])->find(auth()->id());
 
         return $master;

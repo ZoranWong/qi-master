@@ -86,18 +86,6 @@ class Master extends Model implements JWTSubject, Authenticatable, MustVerifyEma
     }
 
     /**
-     * 我的待雇佣报价订单
-     * 主动报价且被报价订单
-     */
-    public function orderWaitHired()
-    {
-        return $this->offerOrders()->where('status', OfferOrder::STATUS_WAIT)
-            ->whereHas('order', function ($query) {
-                $query->where('type', '<>', Order::ORDER_TYPE_IMMEDIATE_HIRE);
-            });
-    }
-
-    /**
      * 我的待托管订单，待支付订单
      */
     public function orderWaitPay()
@@ -116,6 +104,18 @@ class Master extends Model implements JWTSubject, Authenticatable, MustVerifyEma
     /**
      * 我的已完成订单
      */
+    public function orderCompleted()
+    {
+        return $this->orders()->where('status', Order::ORDER_COMPLETED);
+    }
+
+    /**
+     *
+     */
+
+    /**
+     * 我的已完成订单
+     */
     public function completedOrders()
     {
         return $this->orders()->where('status', Order::ORDER_COMPLETED);
@@ -130,7 +130,21 @@ class Master extends Model implements JWTSubject, Authenticatable, MustVerifyEma
     }
 
     /**
+     * 我的待雇佣报价订单
+     * 主动报价且被报价订单
+     * 服务商确认
+     */
+    public function orderWaitHired()
+    {
+        return $this->offerOrders()->where('status', OfferOrder::STATUS_WAIT)
+            ->whereHas('order', function ($query) {
+                $query->where('type', '<>', Order::ORDER_TYPE_IMMEDIATE_HIRE);
+            });
+    }
+
+    /**
      * 我的待同意接单订单，待确认订单
+     * 用户确认
      */
     public function orderWaitAgree()
     {

@@ -10,6 +10,8 @@ use App\Repositories\MasterRepository;
 use App\Repositories\MasterRepositoryEloquent;
 use App\Repositories\MessageRepository;
 use App\Repositories\MessageRepositoryEloquent;
+use App\Repositories\OfferOrderRepository;
+use App\Repositories\OfferOrderRepositoryEloquent;
 use App\Repositories\OrderRepository;
 use App\Repositories\OrderRepositoryEloquent;
 use App\Repositories\ProductRepository;
@@ -37,6 +39,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(ProductRepository::class, ProductRepositoryEloquent::class);
         $this->app->bind(RefundOrderRepository::class, RefundOrderRepositoryEloquent::class);
         $this->app->bind(MasterRepository::class, MasterRepositoryEloquent::class);
+        $this->app->bind(OfferOrderRepository::class, OfferOrderRepositoryEloquent::class);
     }
 
     /**
