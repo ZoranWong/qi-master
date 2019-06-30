@@ -37,7 +37,7 @@ $api->group(['prefix' => 'masters', 'namespace' => 'Master'], function (Router $
          * 消息
          */
         $api->group(['prefix' => 'messages'], function (Router $api) {
-
+            $api->get('/', ['as' => 'master.messages.list', 'uses' => 'MessageController@index']);
         });
     });
 });
