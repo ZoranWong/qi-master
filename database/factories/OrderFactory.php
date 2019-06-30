@@ -39,10 +39,17 @@ $factory->define(Order::class, function (Faker $faker) {
         'remark' => $faker->text(124),
         'contact_user_name' => $faker->name,
         'contact_user_phone' => $faker->phoneNumber,
-        'customer_name' => $faker->name,
-        'customer_phone' => $faker->phoneNumber,
         'region_code' => $region['region_code'],
-        'customer_address' => $faker->address,
+        'customer_info' => [
+            "area" => "东城区",
+            "city" => "市辖区",
+            "name" => $faker->name,
+            "floor" => rand(1, 10),
+            "phone" => $faker->phoneNumber,
+            "address" => $faker->address,
+            "province" => "北京市",
+            "has_elevator" => $faker->boolean
+        ],
         'refund_status' => 0,
         'classification_id' => rand(1, 5),
         'service_id' => rand(1, 7)
