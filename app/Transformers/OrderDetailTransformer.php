@@ -30,11 +30,7 @@ class OrderDetailTransformer extends TransformerAbstract
             'status_desc' => $model->statusDesc,
 
             // 客户信息
-            'customer_info' => [
-                'name' => $model->customerName,
-                'phone' => $model->customerPhone,
-                'address' => $model->customerAddress
-            ],
+            'customer_info' => $model->customerInfo,
             // 服务需求
             'service_requirement' => [
                 'classification_name' => $model->classification->name,// 类目名称
@@ -42,7 +38,7 @@ class OrderDetailTransformer extends TransformerAbstract
                 'expected_service_date' => (string)$model->serviceDate,// 期望服务日期
                 'comment' => $model->remark// 订单备注
             ],
-            'comment' => $model->comment,// 订单评价
+            'comment' => $model->comment->append('type_desc'),// 订单评价
             // 联系人信息
             'contact_user_info' => [
                 'name' => $model->contactUserName,
