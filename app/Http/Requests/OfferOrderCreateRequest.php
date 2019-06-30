@@ -24,7 +24,7 @@ class OfferOrderCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'quote_price' => 'required|double',
+            'quote_price' => 'required|numeric',
         ];
     }
 }

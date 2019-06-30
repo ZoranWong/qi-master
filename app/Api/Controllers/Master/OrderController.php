@@ -35,5 +35,4 @@ class OrderController extends Controller
         return $this->response->item($order, new OrderDetailTransformer);
     }
 
-//    public function
 }
