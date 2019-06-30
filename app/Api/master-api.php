@@ -8,12 +8,14 @@ $api->group(['prefix' => 'masters', 'namespace' => 'Master'], function (Router $
 
     $api->group(['middleware' => ['auth']], function (Router $api) {
         $api->get('/profile', ['as' => 'masters.profile', 'uses' => 'MasterController@profile']);
+        $api->get('/offerOrders', ['as' => 'masters.offer_orders', 'uses' => 'OfferOrderController@index']);
         /**
          * 订单
          */
         $api->group(['prefix' => 'orders'], function (Router $api) {
             $api->get('/', 'OrderController@index');
             $api->get('/{order}', 'OrderController@detail');
+            $api->post('/{order}/offer', ['as' => 'master.order.offer', 'uses' => 'OfferOrderController@store']);
         });
         /**
          * 投诉

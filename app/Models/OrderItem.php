@@ -24,6 +24,7 @@ use McCool\LaravelAutoPresenter\HasPresenter;
  * @property string|null $deletedAt
  * @property string|null $createdAt
  * @property string|null $updatedAt
+ * @property int $num 产品数量
  * @property-read \App\Models\Master $master
  * @property-read \App\Models\Order $order
  * @property-read \App\Models\Product $orderProduct
@@ -38,6 +39,7 @@ use McCool\LaravelAutoPresenter\HasPresenter;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderItem whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderItem whereInstallFee($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderItem whereMasterId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderItem whereNum($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderItem whereOrderId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderItem whereOtherFee($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderItem whereProduct($value)

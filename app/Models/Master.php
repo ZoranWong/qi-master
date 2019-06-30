@@ -110,10 +110,6 @@ class Master extends Model implements JWTSubject, Authenticatable, MustVerifyEma
     }
 
     /**
-     *
-     */
-
-    /**
      * 我的已完成订单
      */
     public function completedOrders()

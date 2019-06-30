@@ -42,6 +42,7 @@ use Ramsey\Uuid\Uuid;
  * @property-read \App\Models\CouponCode|null $couponCode
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OfferOrder[] $employedMasters
  * @property-read mixed $statusDesc
+ * @property-read mixed $typeDesc
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OrderItem[] $items
  * @property-read \App\Models\Master $master
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Master[] $masters
@@ -329,6 +330,14 @@ class Order extends Model implements HasPresenter
     public function getStatusDescAttribute()
     {
         return self::ORDER_STATUS[$this->status];
+    }
+
+    /**
+     * 订单类型描述
+     */
+    public function getTypeDescAttribute()
+    {
+        return self::ORDER_TYPE[$this->type];
     }
 
     /**

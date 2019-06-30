@@ -11,5 +11,5 @@ use Prettus\Repository\Contracts\RepositoryInterface;
  */
 interface OfferOrderRepository extends RepositoryInterface
 {
-
+    public function getList();
 }
