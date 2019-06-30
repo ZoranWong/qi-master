@@ -12,7 +12,7 @@
     <td>
         <div class="flex">
             {{--<div class="item-check-box">--}}
-                {{--<input class="check-box" type="checkbox" />--}}
+            {{--<input class="check-box" type="checkbox" />--}}
             {{--</div>--}}
             <div class="item-text">
                 <span>{{$order->classification}}</span>
@@ -33,32 +33,60 @@
         </div>
     </td>
     <td>
-        <div class="{{$order->status}}">{{$order->orderStatus}}</div>
+        <div class="{{$order->statusClass}}">{{$order->orderStatus}}</div>
     </td>
     <td>
-        <div class="more">
+        <div class="order-operation">
             <a href="order/{{$order->id}}">查看订单</a>
-            <a href="">雇佣师傅</a>
-            <span>取消订单</span>
+            @if ($order->status === \App\Models\Order::ORDER_WAIT_HIRE)
+                <a class="order-operation-btn employ-master" href="">雇佣师傅</a>
+            @endif
+            @if($order->status === \App\Models\Order::ORDER_WAIT_CHECK)
+                <a class="order-operation-btn confirm-verify-goods">待验收</a>
+            @endif
+            @if($order->status === \App\Models\Order::ORDER_WAIT_OFFER)
+                <a href="">修改订单</a>
+            @endif
+            @if($order->status !== \App\Models\Order::ORDER_CHECKED || $order->status !== \App\Models\Order::ORDER_COMPLETED)
+                <p class="color-999">取消订单</p>
+            @endif
         </div>
     </td>
 </tr>
 </tbody>
 <style>
-    .order-header{
-        margin-top: 32px;
+    .color-ff5000 {
+        color: #ff5000;
     }
-    .item-check-box{
-        /*width: 32px;*/
-        /*height: 32px;*/
+
+    .color-22aac8 {
+        color: #22aac8;
     }
-    .item-check-box .check-box{
-        width: 18px;
-        height: 18px;
-        display: block !important;
-        border: #929292 1px solid;
-        border-radius: 3px;
-        margin-top: 8px;
-        margin-left: 8px;
+
+    .color-999 {
+        color: #999;
+    }
+
+    .order-operation a {
+        display: block;
+        color: #666;
+    }
+
+    .order-operation .employ-master {
+        background-color: #0b8ded;
+        border: 1px solid #037dd7;
+    }
+
+    .order-operation .order-operation-btn {
+        display: block;
+        width: 66px;
+        margin: 0 auto;
+        margin-bottom: 5px;
+        line-height: 22px;
+        color: #fff;
+    }
+
+    .order-operation .confirm-verify-goods {
+        background-color: #29bbe6;
     }
 </style>

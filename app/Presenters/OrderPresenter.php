@@ -47,4 +47,16 @@ class OrderPresenter extends BasePresenter
             return $order->quotePrice;
         }), 2);
     }
+
+    public function statusClass()
+    {
+        switch ($this->wrappedObject->status) {
+            case Order::ORDER_WAIT_OFFER: {
+                return 'wait-offer color-ff5000';
+            }
+            default: {
+                return 'color-22aac8';
+            }
+        }
+    }
 }
