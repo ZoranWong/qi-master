@@ -1,13 +1,13 @@
 <?php
 
 use App\Models\Master;
+use App\Models\MasterComment;
 use App\Models\OfferOrder;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\PaymentOrder;
 use App\Models\Product;
 use App\Models\RefundOrder;
-use App\Models\MasterComment;
 use Faker\Generator;
 use Illuminate\Database\Seeder;
 
@@ -30,8 +30,9 @@ class OrdersSeeder extends Seeder
         }
     }
 
-    protected function buildOrder($count, $limit = 100) {
-        for ($i =0; $i < $count; $i ++) {
+    protected function buildOrder($count, $limit = 100)
+    {
+        for ($i = 0; $i < $count; $i++) {
             return yield factory(Order::class, $limit)->create();
         }
     }
@@ -96,6 +97,8 @@ class OrdersSeeder extends Seeder
             $refundOrder->masterId = $master->id;
             $refundOrder->remark = $faker->text(64);
             $refundOrder->paymentOrderId = $paymentOrder->id;
+            $refundOrder->refundMethod = $faker->randomElement(array_keys(RefundOrder::REFUND_MODES));
+            $refundOrder->refundMethod = $faker->randomElement(array_keys(RefundOrder::REFUND_METHODS));
             $order->refundOrders()->save($refundOrder);
 
             $comment = new MasterComment();
@@ -118,7 +121,7 @@ class OrdersSeeder extends Seeder
                 ]),
                 'attitude' => $faker->randomElement([
                     1, 2, 3, 4, 5, 6
-                ]),'speed' => $faker->randomElement([
+                ]), 'speed' => $faker->randomElement([
                     1, 2, 3, 4, 5, 6
                 ])
             ];

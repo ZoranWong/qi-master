@@ -12,17 +12,26 @@ $api->group(['prefix' => 'masters', 'namespace' => 'Master'], function (Router $
          * 订单
          */
         $api->group(['prefix' => 'orders'], function (Router $api) {
-            $api->get('/', 'OrderController@index');
-            $api->get('/{order}', 'OrderController@detail');
+            $api->get('/', ['as' => 'master.orders.list', 'uses' => 'OrderController@index']);
+            $api->get('/{order}', ['as' => 'master.orders.detail', 'uses' => 'OrderController@detail']);
             $api->post('/{order}/offer', ['as' => 'master.order.offer', 'uses' => 'OfferOrderController@store']);
         });
         /**
          * 投诉
          */
         $api->group(['prefix' => 'complaints'], function (Router $api) {
-            $api->get('/', ['as' => 'master.complaints', 'uses' => 'ComplaintController@index']);
+            $api->get('/', ['as' => 'master.complaints.list', 'uses' => 'ComplaintController@index']);
             $api->get('/{complaint}', ['as' => 'master.complaints.detail', 'uses' => 'ComplaintController@detail']);
             $api->post('/{complaint}/evidence', ['as' => 'master.complaint.evidence', 'uses' => 'ComplaintController@evidence']);// 举证
+        });
+        /**
+         * 退款
+         */
+        $api->group(['prefix' => 'refunds'], function (Router $api) {
+            $api->get('/', ['as' => 'master.refunds.list', 'uses' => 'RefundOrderController@index']);
+            $api->get('/{refundOrder}', ['as' => 'master.refunds.detail', 'uses' => 'RefundOrderController@detail'])
+                ->where(['refundOrder' => '[0-9]+']);
+            $api->put('/{refundOrder}/settle', ['as' => 'master.refunds.settle', 'uses' => 'RefundOrderController@settle']);// 退款处理
         });
         /**
          * 消息

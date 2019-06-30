@@ -75,12 +75,14 @@ class RefundOrder extends Model implements HasPresenter
     const REFUND_STATUS_HANDLING = 1;
     const REFUND_STATUS_DONE = 2;
     const REFUND_STATUS_REFUSED = 3;
+    const REFUND_STATUS_CLOSED = 4;
 
     const REFUND_STATUS = [
         self::REFUND_STATUS_WAIT => '待审核',
         self::REFUND_STATUS_HANDLING => '处理中',
         self::REFUND_STATUS_DONE => '退款成功',
-        self::REFUND_STATUS_REFUSED => '拒绝退款'
+        self::REFUND_STATUS_REFUSED => '拒绝退款',
+        self::REFUND_STATUS_CLOSED => '退款关闭'
     ];
 
     const APPLY_STATUS_WAIT = 0;

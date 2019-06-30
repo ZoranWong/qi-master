@@ -191,6 +191,14 @@ class Master extends Model implements JWTSubject, Authenticatable, MustVerifyEma
     }
 
     /**
+     * 我的退款记录
+     */
+    public function refundOrders()
+    {
+        return $this->hasMany(RefundOrder::class);
+    }
+
+    /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *
      * @return mixed
