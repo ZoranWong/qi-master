@@ -1,7 +1,7 @@
 <?php
 
 use Dingo\Api\Routing\UrlGenerator;
-
+use Illuminate\Support\Carbon;
 if (!function_exists('upperCaseSplit')) {
     function upperCaseSplit(string $des, string $delimiter = ' ')
     {
@@ -50,10 +50,10 @@ if (!function_exists('orderNo')) {
             }
             shuffle($ids);
         }
-        $num = count($ids) - 1;
-        $id = isset($ids[$num]) ? $ids[$num] : orderNo($prefix, $count);
-        array_splice($ids, $num, 1);
-        cache([$date => $ids], \Illuminate\Support\Carbon::parse($next));
+//        $num = count($ids) - 1;
+        $id = count($ids) > 0 ? array_pop($ids) : orderNo($prefix, $count);
+//        array_splice($ids, $num, 1);
+        cache([$date => $ids], Carbon::parse($next));
         return $prefix . $date . $id;
     }
 }

@@ -19,20 +19,23 @@ class OrdersSeeder extends Seeder
         OrderItem::truncate();
         OfferOrder::truncate();
         PaymentOrder::truncate();
-        cache()->delete(date('YmdHis'));
+
         $faker = app(Generator::class);
         // 创建 100 笔订单
-        $generator = $this->buildOrder(100);
+        $generator = $this->buildOrder(10);
+        ini_set('memory_limit','-1');
         foreach ($generator as $orders) {
+            cache()->delete(date('YmdHis'));
             foreach ($orders as $order) {
                 $this->orderItems($order, $faker);
             }
+            sleep(6);
         }
     }
 
-    protected function buildOrder($count, $limit = 100) {
+    protected function buildOrder($count, $limit = 1000) {
         for ($i =0; $i < $count; $i ++) {
-            return yield factory(Order::class, $limit)->create();
+            yield factory(Order::class, $limit)->create();
         }
     }
 

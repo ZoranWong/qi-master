@@ -26,7 +26,7 @@
             <ul class="clearfix">
                 <li>您的位置：</li>
                 <li>
-                    <a href="index.html">首页</a>
+                    <a href="/">首页</a>
                 </li>
                 <li>
                     <a href=""></a> <span class="separator">&gt;</span>
@@ -45,61 +45,38 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">选择商品类型</label>
                         <div class="layui-input-block">
-                            <select name="interest" lay-filter="">
+                            <select name="classification_id" lay-filter="">
                                 <option value="" selected="">全部</option>
-                                <option value="0">床类</option>
-                                <option value="1">沙发类</option>
-                                <option value="2">吊灯</option>
-                                <option value="3">家具</option>
+                                @foreach($classifications as $classification)
+                                    <option value="{{$classification->id}}">{{$classification->name}}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <button class="layui-btn" lay-submit="" lay-filter="">查询</button>
                     </div>
-                    <div class="layui-form-item">
-                        <button class="layui-btn" lay-submit="" lay-filter="">批量操作</button>
-                    </div>
+                    {{--<div class="layui-form-item">--}}
+                        {{--<button class="layui-btn" lay-submit="" lay-filter="">批量操作</button>--}}
+                    {{--</div>--}}
                 </div>
             </form>
             <ul class="template-con">
-                <li>
-                    <div class="img-list-con">
-                        <img src="/web/image/product.jpg">
-                        <div class="template-mask">
-                            <span class="edit" data-method="offset" data-type="auto-edit">查看</span>
-                            <span class="del">删除</span>
-                        </div>
-                    </div>
-                    <div class="text-con">
-                        <span>柜类</span>
-                        <em>属性规格</em>
-                    </div>
-                </li>
-                <li>
-                    <div class="img-list-con">
-                        <img src="/web/image/product.jpg">
-                        <div class="template-mask">
-                            <span class="edit">查看</span>
-                            <span class="del">删除</span>
-                        </div>
-                    </div>
-                    <div class="text-con">
-                        <span>柜类</span>
-                        <em>属性规格</em>
-                    </div>
-
-                </li>
-
+                @foreach($products as $product)
+                    @include('web.product_item', ['product' => $product])
+                @endforeach
             </ul>
+            <div id="productPagination"></div>
         </div>
     </div>
 </div>
 
 <!--content--end-->
 
+
+{{--<div style="display: none">--}}
 <!--upload-->
-<div id="template" class="template">
+<div id="template" class="template" style="display: none;">
     <form class="layui-form" action="">
         <div class="layui-form clearfix">
             <div class="layui-form-item">
@@ -140,7 +117,7 @@
 <!--upload--end-->
 
 <!--edit-->
-<div id="template-edit" class="template">
+<div id="template-edit" class="template" style="display: none;">
     <form class="layui-form" action="">
         <div class="layui-form clearfix">
             <div class="layui-form-item">
@@ -170,8 +147,28 @@
 
 </div>
 <!--edit--end-->
-
+{{--</div>--}}
 
 </body>
+
+<script>
+    layui.use(['laypage'], function () {
+        let laypage = layui.laypage;
+        let first = true;
+        laypage.render({
+            elem: 'productPagination',
+            count: {{$count}}, //数据总数
+            curr: {{$page}},
+            limit: {{$limit}},
+            jump: function (obj) {
+                console.log(obj);
+                if (!first) {
+                    location.href = "/gallery?page=" + obj.curr + '&limit=' + obj.limit;
+                }
+                first = false;
+            }
+        });
+    })
+</script>
 
 </html>

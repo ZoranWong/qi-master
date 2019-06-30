@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\InvalidRequestException;
+use App\Models\Classification;
 use App\Models\OrderItem;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -11,14 +12,33 @@ class ProductsController extends Controller
 {
     public function index(Request $request)
     {
+        $view = null;
         if (isMobile()) {
-            return view('h5.gallery');
+            $view = view('h5.gallery');
         } else {
-            return view('web.gallery')->with([
+            $view = view('web.gallery')->with([
                 'selected' => 'orders',
                 'currentMenu' => 'gallery'
             ]);
         }
+        $query = Product::with(['classification']);
+        if($request->input('classification_id', null)) {
+            $query->where('classification_id', $request->input('classification_id'));
+        }
+        $count = $query->count();
+        $page = $request->input('page', 1);
+        $limit = $request->input('limit', 20);
+        $products = $query->offset(($page - 1) * $limit)
+            ->limit($limit)
+            ->get();
+        $classifications = Classification::all();
+        return $view->with([
+            'products' => $products,
+            'count' => $count,
+            'page'  => $page,
+            'limit' => $limit,
+            'classifications' => $classifications
+        ]);
     }
 
     public function favorite(Request $request)
