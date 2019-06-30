@@ -106,7 +106,7 @@ class OrderRepositoryEloquent extends BaseRepository implements OrderRepository
                     $query->where('status', $queryData['status']);
                 }
             });
-        })->paginate($limit);
+        })->orderBy('created_at', 'desc')->paginate($limit);
 
         return $paginator;
     }

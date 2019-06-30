@@ -79,4 +79,36 @@ class RefundOrderController extends Controller
 
         return $this->response->item($refund, new RefundOrderTransformer);
     }
+
+    /**
+     * 发起客服介入需求
+     * @param RefundOrder $refundOrder
+     * @return Response
+     */
+    public function needCustomer(RefundOrder $refundOrder)
+    {
+        if ($refundOrder->userId !== auth()->id()) {
+            $this->response->errorUnauthorized('您无权干涉不属于您的订单退款');
+        }
+
+        $refundOrder->update(['has_customer' => true, 'status' => RefundOrder::REFUND_STATUS_HANDLING]);
+
+        return $this->response->noContent();
+    }
+
+    /**
+     * 取消退款
+     * @param RefundOrder $refundOrder
+     * @return Response
+     */
+    public function cancel(RefundOrder $refundOrder)
+    {
+        if ($refundOrder->userId !== auth()->id()) {
+            $this->response->errorUnauthorized('您无权干涉不属于您的订单退款');
+        }
+
+        $refundOrder->update(['status' => RefundOrder::REFUND_STATUS_CLOSED]);
+
+        return $this->response->noContent();
+    }
 }

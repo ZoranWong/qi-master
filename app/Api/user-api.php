@@ -62,7 +62,9 @@ $api->group(['prefix' => 'users', 'namespace' => 'User'], function (Router $api)
             $api->get('/', ['as' => 'user.refunds.list', 'uses' => 'RefundOrderController@index']);
             $api->get('/{refundOrder}', ['as' => 'user.refunds.detail', 'uses' => 'RefundOrderController@detail'])
                 ->where(['refundOrder' => '[0-9]+']);
-            $api->post('/initRefund', ['as' => 'user.refunds.init', 'uses' => 'RefundOrderController@initRefund']);
+            $api->post('/initRefund', ['as' => 'user.refunds.init', 'uses' => 'RefundOrderController@initRefund']);// 发起退款
+            $api->put('/{refundOrder}/needCustomer', ['as' => 'user.refunds.need_customer', 'uses' => 'RefundOrderController@needCustomer']);// 需要客服介入
+            $api->put('/{refundOrder}/cancel', ['as' => 'user.refunds.cancel', 'uses' => 'RefundOrderController@cancel']);
         });
     });
 });
