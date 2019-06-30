@@ -3,7 +3,6 @@
 namespace App\Api\Controllers\User;
 
 use App\Api\Controller;
-use App\Models\MasterComment;
 use App\Models\OfferOrder;
 use App\Models\Order;
 use App\Repositories\OfferOrderRepository;
@@ -11,7 +10,6 @@ use App\Repositories\OrderRepository;
 use App\Transformers\OfferOrderTransformer;
 use App\Transformers\OrderDetailTransformer;
 use App\Transformers\OrderTransformer;
-use Carbon\Carbon;
 use Dingo\Api\Http\Request;
 use Dingo\Api\Http\Response;
 use Illuminate\Validation\ValidationException;
@@ -87,44 +85,25 @@ class OrderController extends Controller
         }
 
         if ($order->status !== Order::ORDER_WAIT_HIRE) {
-            $this->response->errorForbidden('订单已雇佣，不允许重复雇佣');
+            $this->response->errorForbidden('订单已雇佣，不允许重复报价');
         }
 
         $offerOrderId = $request->input('offer_order_id');
 
-        $order->offerOrders()->whereKey($offerOrderId)->update(['status' => OfferOrder::STATUS_HIRED]);
+        /** @var OfferOrder $offerOrder */
+        $offerOrder = $offerOrderRepository->find($offerOrderId);
+
+        if ($offerOrder->orderId !== $order->id) {
+            $this->response->errorForbidden('该报价单不属于指定订单');
+        }
+
+        $offerOrder->update(['status' => OfferOrder::STATUS_HIRED]);
 
         $order->offerOrders()->whereKeyNot($offerOrderId)->update(['status' => OfferOrder::STATUS_REFUSED]);
 
         $order->update(['status' => Order::ORDER_EMPLOYED]);
 
-        $hiredOffer = $offerOrderRepository->with([
-            'master' => function ($query) use ($order) {
-                $query->withCount([
-                    // 一月合作数
-                    'orders as monthly_cooperation_nums' => function ($query) use ($order) {
-                        $query->where('user_id', $order->userId)->whereDate('created_at', '>=', Carbon::now()->subMonth());
-                    },
-                    // 一月订单数
-                    'orders as monthly_order_nums' => function ($query) {
-                        $query->whereDate('created_at', '>=', Carbon::now()->subMonth());
-                    },
-                    // 好评数
-                    'orders as good_comment_order_nums' => function ($query) {
-                        $query->whereHas('comment', function ($query) {
-                            $query->where('type', MasterComment::TYPE_GOOD);
-                        });
-                    },
-                    // 总订单数
-                    'orders as order_nums'
-                ]);
-            }
-        ])->find($offerOrderId);
-
-        $hiredOffer->master->good_comment_rate = $hiredOffer->master->order_nums ? number_format($hiredOffer->master->good_comment_order_nums / $hiredOffer->master->order_nums * 100, 2) : 0;
-        $hiredOffer->master->good_comment_rate .= PERCENTAGE_MARK;
-
-        return $this->response->item($hiredOffer, new OfferOrderTransformer);
+        return $this->response->item($offerOrder, new OfferOrderTransformer);
     }
 
     /**

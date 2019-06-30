@@ -11,9 +11,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $serviceId 服务关系ID
  * @property int $categoryId 类别ID
  * @property string $name 要求名称
+ * @property array $value 要求
  * @property \Illuminate\Support\Carbon|null $createdAt
  * @property \Illuminate\Support\Carbon|null $updatedAt
- * @property mixed $requirement 服务要求
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ServiceRequirement newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ServiceRequirement newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ServiceRequirement query()
@@ -21,9 +21,9 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ServiceRequirement whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ServiceRequirement whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ServiceRequirement whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ServiceRequirement whereRequirement($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ServiceRequirement whereServiceId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ServiceRequirement whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ServiceRequirement whereValue($value)
  * @mixin \Eloquent
  */
 class ServiceRequirement extends Model

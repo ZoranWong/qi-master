@@ -110,4 +110,13 @@ class OrderRepositoryEloquent extends BaseRepository implements OrderRepository
 
         return $paginator;
     }
+
+    public function getNewOrderList()
+    {
+        $paginator = $this->with(['serviceType', 'classification'])->scopeQuery(function ($query) {
+            return $query->whereIn('status', [Order::ORDER_WAIT_HIRE, Order::ORDER_WAIT_OFFER])->inRandomOrder();
+        })->paginate(request()->input('limit', PAGE_SIZE));
+
+        return $paginator;
+    }
 }

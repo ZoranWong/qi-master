@@ -24,11 +24,7 @@ class OrderTransformer extends TransformerAbstract
         return [
             'id' => (int)$model->id,
             'order_no' => (string)$model->orderNo,
-            'customer' => [
-                'name' => $model->customerName,
-                'phone' => $model->customerPhone,
-                'address' => $model->customerAddress
-            ],
+            'customer_info' => $model->customerInfo,
             'total_amount' => $model->totalAmount,
             'status' => $model->status,
             'status_desc' => $model->statusDesc,

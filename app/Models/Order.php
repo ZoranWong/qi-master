@@ -29,10 +29,8 @@ use Ramsey\Uuid\Uuid;
  * @property string|null $serviceDate 服务时间
  * @property string $contactUserName 联系人姓名
  * @property string $contactUserPhone 联系人电话
- * @property string $customerName 客户名称
- * @property string $customerPhone 客户电话
+ * @property array $customerInfo 客户信息
  * @property string $regionCode 行政区域编号
- * @property string $customerAddress 服务地址
  * @property int $classificationId 类目
  * @property int $serviceId 服务类型ID
  * @property string $remark 订单备注
@@ -42,6 +40,7 @@ use Ramsey\Uuid\Uuid;
  * @property-read \App\Models\CouponCode|null $couponCode
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OfferOrder[] $employedMasters
  * @property-read mixed $statusDesc
+ * @property-read mixed $typeDesc
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OrderItem[] $items
  * @property-read \App\Models\Master $master
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Master[] $masters
@@ -61,9 +60,7 @@ use Ramsey\Uuid\Uuid;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereContactUserPhone($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereCouponCodeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereCustomerAddress($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereCustomerName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereCustomerPhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereCustomerInfo($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereMasterId($value)
@@ -151,16 +148,18 @@ class Order extends Model implements HasPresenter
         'comment',
         'contact_user_name',
         'contact_user_phone',
-        'customer_name',
-        'customer_phone',
-        'customer_address',
         'region_code',
         'classification_id',
-        'service_id'
+        'service_id',
+        'customer_info'
     ];
 
     protected $dates = [
         'paid_at',
+    ];
+
+    protected $casts = [
+        'customer_info' => 'array'
     ];
 
     public function __construct(array $attributes = [])
@@ -339,6 +338,14 @@ class Order extends Model implements HasPresenter
     public function getStatusDescAttribute()
     {
         return self::ORDER_STATUS[$this->status];
+    }
+
+    /**
+     * 订单类型描述
+     */
+    public function getTypeDescAttribute()
+    {
+        return self::ORDER_TYPE[$this->type];
     }
 
     /**
