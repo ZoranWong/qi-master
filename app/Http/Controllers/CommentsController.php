@@ -26,6 +26,7 @@ class CommentsController extends Controller
         if($request->input('status', null)) {
             $query->where('status', $request->input('status'));
         }
+        $type = $request->input('type', null);
         $count = $query->count();
         $limit = $request->input('limit', 15);
         $page = $request->input('page', 1);
@@ -34,7 +35,8 @@ class CommentsController extends Controller
             'page' => $page,
             'limit' => $limit,
             'count' => $count,
-            'comments' => $comments
+            'comments' => $comments,
+            'type' => $type
         ]);
     }
 }
