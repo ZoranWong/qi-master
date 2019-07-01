@@ -41,8 +41,9 @@
                         <label class="layui-form-label">服务区域</label>
                         <div class="layui-input-block status">
                             <select name="interest" lay-filter="aihao">
-                                <option value="" selected="">上海</option>
-                                <option value="0">合肥</option>
+                                @foreach($regions as $region)
+                                    <option value="{{$region['id']}}">{{$region['name']}}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>

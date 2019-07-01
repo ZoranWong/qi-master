@@ -40,10 +40,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Order[] $orders
  * @property-read \App\Models\Region|null $province
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\RefundOrder[] $refundOrders
-<<<<<<< HEAD
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\MasterClassification[] $services
-=======
->>>>>>> 530dce36ec2cdbde45fa1533280d465cbb5a3597
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master query()

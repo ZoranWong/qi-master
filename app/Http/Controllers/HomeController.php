@@ -4,19 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Dingo\Api\Dispatcher;
-<<<<<<< HEAD
-=======
-use Dingo\Api\Routing\Helpers;
->>>>>>> 530dce36ec2cdbde45fa1533280d465cbb5a3597
 
 
 class HomeController extends Controller
 {
-<<<<<<< HEAD
-=======
-    use Helpers, ApiDispatcher;
-
->>>>>>> 530dce36ec2cdbde45fa1533280d465cbb5a3597
     //
     public function index()
     {
@@ -26,12 +17,7 @@ class HomeController extends Controller
         $dispatcher = $this->dispatcher();
         try {
             $user = $dispatcher->get('/users/profile');
-<<<<<<< HEAD
-        }catch (\Exception $exception){
-=======
-
         } catch (\Exception $exception) {
->>>>>>> 530dce36ec2cdbde45fa1533280d465cbb5a3597
         }
         $view = null;
         if (isMobile()) {
