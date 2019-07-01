@@ -4,24 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Dingo\Api\Dispatcher;
-use Dingo\Api\Routing\Helpers;
-use Illuminate\Support\Facades\Log;
 
 
 class HomeController extends Controller
 {
-    use Helpers, ApiDispatcher;
     //
     public function index()
     {
-        /**@var User $user**/
+        /**@var User $user * */
         $user = auth()->user();
-        /**@var Dispatcher $dispatcher**/
+        /**@var Dispatcher $dispatcher * */
         $dispatcher = $this->dispatcher();
-        try{
+        try {
             $user = $dispatcher->get('/users/profile');
-
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
         }
         $view = null;
         if (isMobile()) {

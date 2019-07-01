@@ -19,7 +19,7 @@ class MessageController extends Controller
     public function index()
     {
         /** @var User $user */
-        $user = auth()->master();
+        $user = auth()->user();
 
         $user = $user->withCount(['newMessages', 'messages'])->find($user->id);
 

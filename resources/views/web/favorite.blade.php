@@ -41,8 +41,9 @@
                         <label class="layui-form-label">服务区域</label>
                         <div class="layui-input-block status">
                             <select name="interest" lay-filter="aihao">
-                                <option value="" selected="">上海</option>
-                                <option value="0">合肥</option>
+                                @foreach($regions as $region)
+                                    <option value="{{$region['id']}}">{{$region['name']}}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
@@ -63,25 +64,19 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>张祖良</td>
-                        <td>家具(配送/搬运/安装/维修)</td>
-                        <td>昆明</td>
-                        <td>3</td>
-                        <td><a href="">雇佣师傅</a></td>
-                    </tr>
-                    <tr>
-                        <td>张祖良</td>
-                        <td>家具(配送/搬运/安装/维修)</td>
-                        <td>昆明</td>
-                        <td>1</td>
-                        <td><a href="">雇佣师傅</a></td>
-                    </tr>
+                    @foreach($masters as $master)
+                        <tr>
+                            <td>{{$master->name}}</td>
+                            <td>{!! $master->service !!}</td>
+                            <td>{{$master->area}}</td>
+                            <td>{{$master->serviceOrderCount}}</td>
+                            <td><a href="">雇佣师傅</a></td>
+                        </tr>
+                    @endforeach
                     </tbody>
                 </table>
             </div>
-            <div id="pagination"></div>
-
+            <div id="favoritePagination"></div>
         </div>
 
     </div>
@@ -91,5 +86,22 @@
 <!--content--end-->
 
 </body>
-
+<script>
+    layui.use(['laypage'], function () {
+        let laypage = layui.laypage;
+        let first = true;
+        laypage.render({
+            elem: 'favoritePagination',
+            count: {{$count}}, //数据总数
+            curr: {{$page}},
+            jump: function (obj) {
+                console.log(obj);
+                if (!first) {
+                    location.href = "/favorite?&page=" + obj.curr + '&limit=' + obj.limit;
+                }
+                first = false;
+            }
+        });
+    })
+</script>
 </html>

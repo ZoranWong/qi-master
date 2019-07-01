@@ -25,6 +25,7 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @property-read mixed $typeDesc
  * @property-read \App\Models\Master $master
  * @property-read \App\Models\Order $order
+ * @property-read \App\Models\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\MasterComment newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\MasterComment newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\MasterComment query()
@@ -65,6 +66,10 @@ class MasterComment extends Model implements Transformable, HasPresenter
         'rates' => 'array'
     ];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function order()
     {

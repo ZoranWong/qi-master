@@ -14,8 +14,17 @@ class MasterSeeder extends Seeder
     {
         Master::truncate();
 
-        factory(Master::class, 100)->create([
+        $masters = factory(Master::class, 100)->create([
             'password' => bcrypt('secret')
         ]);
+        foreach ($masters as $master) {
+            /**@var \App\Models\Region $region**/
+            $region = \App\Models\Region::inRandomOrder()->where('parent_code', 0)->first();
+            /**
+             * @var Master $master
+             * */
+            $master->areaCode = $region->regionCode;
+            $master->save();
+        }
     }
 }

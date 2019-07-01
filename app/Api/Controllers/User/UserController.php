@@ -67,7 +67,8 @@ class UserController extends Controller
         auth()->logout();
 
         return response()->json([
-            'message' => '密码修改成功'
+            'message' => '密码修改成功',
+            'status_code' => 200
         ]);
     }
 
@@ -143,7 +144,7 @@ class UserController extends Controller
         $user->update(['wallet_password' => bcrypt($data['password'])]);
 
         return response()->json([
-            'message' => '钱包密码已修改'
+            'message' => '钱包密码已修改', 'status_code' => 200
         ]);
     }
 
