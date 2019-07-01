@@ -100,7 +100,7 @@ class   OrdersSeeder extends Seeder
             $refundOrder->masterId = $master->id;
             $refundOrder->remark = $faker->text(64);
             $refundOrder->paymentOrderId = $paymentOrder->id;
-            $refundOrder->refundMethod = $faker->randomElement(array_keys(RefundOrder::REFUND_MODES));
+            $refundOrder->refundMode = $faker->randomElement(array_keys(RefundOrder::REFUND_MODES));
             $refundOrder->refundMethod = $faker->randomElement(array_keys(RefundOrder::REFUND_METHODS));
             $order->refundOrders()->save($refundOrder);
 
