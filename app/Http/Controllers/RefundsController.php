@@ -26,18 +26,18 @@ class RefundsController extends Controller
         $limit = $request->input('limit', 15);try{
             $dispatcher = $this->dispatcher();
             /**@var LengthAwarePaginator $page**/
-            $paginator = $dispatcher->get('/refunds', $request->all());
+            $paginator = $dispatcher->get('/users/refunds', $request->all());
             $refunds = $paginator->items();
             $count = $paginator->total();
             $page = $paginator->currentPage();
             $limit = $paginator->perPage();
 
         }catch (\Exception $exception) {
-
+            dd($exception);
         }
         dd($refunds);
         $view->with([
-            'masters' => $refunds,
+            'refunds' => $refunds,
             'page' => $page,
             'limit' => $limit,
             'count' => $count
