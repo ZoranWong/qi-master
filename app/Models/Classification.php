@@ -84,6 +84,14 @@ class Classification extends Model
             ->withoutGlobalScope(SoftDeletingScope::class);
     }
 
+    /**
+     * 可取服务类型
+     */
+    public function services()
+    {
+        return $this->belongsToMany(ServiceType::class, 'classification_services', 'classification_id', 'service_id');
+    }
+
     public function getStatusDescAttribute()
     {
         return self::STATUS[$this->status];

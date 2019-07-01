@@ -23,7 +23,15 @@ class ClassificationSeeder extends Seeder
             "家电"
         ];
         foreach ($classifications as $key => $classification) {
+            /**
+             * @var Classification $classification
+             * */
             $classification->update(['name' => $names[$key]]);
+            $services = \App\Models\ServiceType::inRandomOrder()->limit(random_int(1, 5))->select(['id'])->get();
+            $services =  $services->map(function (\App\Models\ServiceType $serviceType) {
+                return $serviceType->id;
+            })->toArray();
+            $classification->services()->sync($services);
         }
     }
 }

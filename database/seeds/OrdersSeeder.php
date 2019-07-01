@@ -33,16 +33,9 @@ class OrdersSeeder extends Seeder
         }
     }
 
-<<<<<<< HEAD
     protected function buildOrder($count, $limit = 1000) {
         for ($i =0; $i < $count; $i ++) {
             yield factory(Order::class, $limit)->create();
-=======
-    protected function buildOrder($count, $limit = 100)
-    {
-        for ($i = 0; $i < $count; $i++) {
-            return yield factory(Order::class, $limit)->create();
->>>>>>> 0b31c6e94154e60f3c724c121c309e4cbd742bd0
         }
     }
 

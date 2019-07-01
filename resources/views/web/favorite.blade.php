@@ -63,20 +63,15 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>张祖良</td>
-                        <td>家具(配送/搬运/安装/维修)</td>
-                        <td>昆明</td>
-                        <td>3</td>
-                        <td><a href="">雇佣师傅</a></td>
-                    </tr>
-                    <tr>
-                        <td>张祖良</td>
-                        <td>家具(配送/搬运/安装/维修)</td>
-                        <td>昆明</td>
-                        <td>1</td>
-                        <td><a href="">雇佣师傅</a></td>
-                    </tr>
+                    @foreach($masters as $master)
+                        <tr>
+                            <td>{{$master->name}}</td>
+                            <td>{!! $master->service !!}</td>
+                            <td>{{$master->area}}</td>
+                            <td>{{$master->serviceOrderCount}}</td>
+                            <td><a href="">雇佣师傅</a></td>
+                        </tr>
+                    @endforeach
                     </tbody>
                 </table>
             </div>

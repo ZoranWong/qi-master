@@ -4,9 +4,11 @@ namespace App\Models;
 
 use App\Models\Traits\CurrencyUnitTrait;
 use App\Models\Traits\ModelAttributesAccess;
+use App\Presenters\MasterPresenter;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Model;
+use McCool\LaravelAutoPresenter\HasPresenter;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 /**
@@ -33,6 +35,8 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OfferOrder[] $offerOrders
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Order[] $orders
  * @property-read \App\Models\Region|null $province
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\RefundOrder[] $refundOrders
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\MasterClassification[] $services
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master query()
@@ -53,7 +57,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class Master extends Model implements JWTSubject, Authenticatable, MustVerifyEmail
+class Master extends Model implements JWTSubject, Authenticatable, MustVerifyEmail, HasPresenter
 {
     use ModelAttributesAccess, CurrencyUnitTrait, \Illuminate\Auth\Authenticatable, \Illuminate\Auth\MustVerifyEmail;
 
@@ -218,5 +222,21 @@ class Master extends Model implements JWTSubject, Authenticatable, MustVerifyEma
         return [
             'guard' => 'masters'
         ];
+    }
+
+    public function services()
+    {
+        return $this->hasMany(MasterClassification::class);
+    }
+
+    /**
+     * Get the presenter class.
+     *
+     * @return string
+     */
+    public function getPresenterClass()
+    {
+        // TODO: Implement getPresenterClass() method.
+        return MasterPresenter::class;
     }
 }
