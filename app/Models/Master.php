@@ -29,14 +29,21 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property string|null $provinceCode 省份代码
  * @property string|null $cityCode 城市代码
  * @property string|null $areaCode 区域代码
+ * @property string|null $walletPassword 钱包密码
+ * @property int $sex 性别 0->保密 1->男 2->女
+ * @property string|null $emergencyMobile 紧急联系号码
  * @property-read \App\Models\Region|null $area
  * @property-read \App\Models\Region|null $city
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\MasterComment[] $comments
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Message[] $messages
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OfferOrder[] $offerOrders
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Order[] $orders
  * @property-read \App\Models\Region|null $province
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\RefundOrder[] $refundOrders
+<<<<<<< HEAD
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\MasterClassification[] $services
+=======
+>>>>>>> 530dce36ec2cdbde45fa1533280d465cbb5a3597
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master query()
@@ -47,6 +54,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereEmailVerifiedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereEmergencyMobile($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereMobile($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereName($value)
@@ -54,7 +62,9 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereProvinceCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereRealName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereRememberToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereSex($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereWalletPassword($value)
  * @mixin \Eloquent
  */
 class Master extends Model implements JWTSubject, Authenticatable, MustVerifyEmail, HasPresenter
@@ -200,6 +210,14 @@ class Master extends Model implements JWTSubject, Authenticatable, MustVerifyEma
     public function refundOrders()
     {
         return $this->hasMany(RefundOrder::class);
+    }
+
+    /**
+     * 我的评价
+     */
+    public function comments()
+    {
+        return $this->hasMany(MasterComment::class);
     }
 
     /**

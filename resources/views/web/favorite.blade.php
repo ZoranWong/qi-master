@@ -75,8 +75,7 @@
                     </tbody>
                 </table>
             </div>
-            <div id="pagination"></div>
-
+            <div id="favoritePagination"></div>
         </div>
 
     </div>
@@ -86,5 +85,22 @@
 <!--content--end-->
 
 </body>
-
+<script>
+    layui.use(['laypage'], function () {
+        let laypage = layui.laypage;
+        let first = true;
+        laypage.render({
+            elem: 'favoritePagination',
+            count: {{$count}}, //数据总数
+            curr: {{$page}},
+            jump: function (obj) {
+                console.log(obj);
+                if (!first) {
+                    location.href = "/favorite?&page=" + obj.curr + '&limit=' + obj.limit;
+                }
+                first = false;
+            }
+        });
+    })
+</script>
 </html>

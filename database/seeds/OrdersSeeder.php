@@ -11,7 +11,7 @@ use App\Models\RefundOrder;
 use Faker\Generator;
 use Illuminate\Database\Seeder;
 
-class OrdersSeeder extends Seeder
+class   OrdersSeeder extends Seeder
 {
     public function run()
     {
@@ -23,7 +23,7 @@ class OrdersSeeder extends Seeder
         $faker = app(Generator::class);
         // 创建 100 笔订单
         $generator = $this->buildOrder(10);
-        ini_set('memory_limit','-1');
+        ini_set('memory_limit', '-1');
         foreach ($generator as $orders) {
             cache()->delete(date('YmdHis'));
             foreach ($orders as $order) {
@@ -33,8 +33,14 @@ class OrdersSeeder extends Seeder
         }
     }
 
+<<<<<<< HEAD
     protected function buildOrder($count, $limit = 1000) {
         for ($i =0; $i < $count; $i ++) {
+=======
+    protected function buildOrder($count, $limit = 1000)
+    {
+        for ($i = 0; $i < $count; $i++) {
+>>>>>>> 530dce36ec2cdbde45fa1533280d465cbb5a3597
             yield factory(Order::class, $limit)->create();
         }
     }
