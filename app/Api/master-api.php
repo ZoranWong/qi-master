@@ -8,6 +8,9 @@ $api->group(['prefix' => 'masters', 'namespace' => 'Master'], function (Router $
         $api->get('/profile', ['as' => 'masters.profile', 'uses' => 'MasterController@profile']);
         $api->get('/offerOrders', ['as' => 'masters.offer_orders', 'uses' => 'OfferOrderController@index']);
         $api->get('/newOrders', ['as' => 'masters.new_orders', 'uses' => 'OrderController@newOrders']);
+        $api->put('/changePwd', ['as' => 'masters.change_password', 'uses' => 'MasterController@changePassword']);
+        $api->put('/changeWalletPwd', ['as' => 'masters.change_wallet_password', 'uses' => 'MasterController@changeWalletPassword']);
+        $api->put('/setWalletPwd', ['as' => 'masters.set_wallet_password', 'uses' => 'MasterController@setWalletPassword']);
         /**
          * 订单
          */
@@ -32,6 +35,13 @@ $api->group(['prefix' => 'masters', 'namespace' => 'Master'], function (Router $
             $api->get('/{refundOrder}', ['as' => 'master.refunds.detail', 'uses' => 'RefundOrderController@detail'])
                 ->where(['refundOrder' => '[0-9]+']);
             $api->put('/{refundOrder}/settle', ['as' => 'master.refunds.settle', 'uses' => 'RefundOrderController@settle']);// 退款处理
+        });
+        /**
+         * 评价
+         */
+        $api->group(['prefix' => 'comments'], function (Router $api) {
+            $api->get('/', ['as' => 'master.comments.list', 'uses' => 'CommentController@index']);
+            $api->get('/{comment}', ['as' => 'master.comments.detail', 'uses' => 'CommentController@detail']);
         });
         /**
          * 消息
