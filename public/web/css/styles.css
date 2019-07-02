@@ -1633,32 +1633,6 @@ span.step6.on {
     vertical-align: middle;
 }
 
-.serve-category-list li {
-    float: left;
-    width: 90px;
-    height: 90px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    margin-right: 20px;
-    margin-bottom: 12px;
-    text-align: center;
-    cursor: pointer;
-    position: relative;
-    transition: .2s ease-out;
-    -moz-transition: .15s ease-out;
-    font-size: 14px;
-}
-
-.serve-category-list li .radiobox {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    cursor: pointer;
-}
-
-.serve-category-list li .radiobox input {
-    display: none;
-}
 
 
 /*发布订单end*/
