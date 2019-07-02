@@ -15,8 +15,8 @@ class AddUserIdAndMasterIdComplaintsTable extends Migration
     {
         //
         Schema::table('complaints', function (Blueprint $table) {
-//            $table->unsignedInteger('user_id')->comment('用户ID');
-//            $table->unsignedInteger('master_id')->comment('师傅ID');
+            $table->unsignedInteger('user_id')->comment('用户ID');
+            $table->unsignedInteger('master_id')->comment('师傅ID');
         });
     }
 
