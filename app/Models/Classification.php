@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Traits\ModelAttributesAccess;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -73,6 +74,11 @@ class Classification extends Model
                 $classification->iconUrl = '';
             }
         });
+    }
+
+    public function scopeActive(Builder $query)
+    {
+        return $query->where('status', true);
     }
 
     /**

@@ -6,6 +6,7 @@ use App\Api\Controller;
 use App\Http\Requests\MasterServiceUpdateRequest;
 use App\Http\Requests\UserUpdatePasswordRequest;
 use App\Models\Master;
+use App\Models\MasterService;
 use App\Repositories\MasterRepository;
 use App\Transformers\MasterTransformer;
 use Dingo\Api\Http\Response;
@@ -102,14 +103,32 @@ class MasterController extends Controller
      * @param MasterServiceUpdateRequest $request
      * @return Response
      */
-    public function setServiceInfo(MasterServiceUpdateRequest $request)
+    public function updateServiceInfo(MasterServiceUpdateRequest $request)
     {
-        $data = $request->only(['service_type_ids', 'key_areas', 'other_areas', 'work_days', 'team_nums', 'truck_nums', 'truck_type', 'truck_tonnage']);
+        $data = $request->only(['services', 'key_areas', 'other_areas', 'work_day', 'work_time', 'team_nums', 'truck_nums', 'truck_type', 'truck_tonnage']);
 
         /** @var Master $master */
         $master = auth()->user();
 
-        $master->serviceInfo()->update($data);
+        $keyAreas = $data['key_areas'];
+        $otherAreas = $data['other_areas'];
+
+        $serviceAreas = [];
+        foreach ($keyAreas as $keyArea) {
+            $serviceAreas[] = ['region_code' => $keyArea, 'type' => MasterService::TYPE_KEY, 'weight' => MasterService::WEIGHT_KEY];
+        }
+        foreach ($otherAreas as $otherArea) {
+            $serviceAreas[] = ['region_code' => $otherArea, 'type' => MasterService::TYPE_OTHER, 'weight' => MasterService::WEIGHT_OTHER];
+        }
+
+        // 更新服务区域
+        $master->serviceAreas()->where('type', '<>', MasterService::TYPE_CORE)->delete();
+        $master->serviceAreas()->createMany($serviceAreas);
+        // 更新服务类目类型
+        $master->services()->delete();
+        $master->services()->createMany($data['services']);
+        // 更新其他服务信息
+        $master->update($data);
 
         return $this->response->noContent();
     }
