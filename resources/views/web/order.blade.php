@@ -24,7 +24,7 @@
             <ul class="clearfix">
                 <li>您的位置：</li>
                 <li>
-                    <a href="index.html">首页</a>
+                    <a href="/">首页</a>
                 </li>
                 <li>
                     <a href=""></a> <span class="separator">&gt;</span>
@@ -58,46 +58,46 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">订单标记</label>
                         <div class="layui-input-block radio-style">
-                            <input type="radio" name="fee" value="全部" title="全部" checked="">
-                            <input type="radio" name="fee" value="申请空跑费" title="申请空跑费">
-                            <input type="radio" name="fee" value="增加费用" title="增加费用">
-                            <input type="radio" name="fee" value="申请退款" title="申请退款">
-                            <input type="radio" name="fee" value="申请售后" title="申请售后">
+                            <input type="radio" name="tag" value="" title="全部" {{$tag === null ? 'checked' : ''}}>
+                            {{--<input type="radio" name="fee" value="" title="申请空跑费">--}}
+                            <input type="radio" name="tag" value="ADDITION_FEE" title="增加费用" {{$tag === 'ADDITION_FEE' ? 'checked' : ''}}>
+                            <input type="radio" name="tag" value="REFUND" title="申请退款" {{$tag === 'REFUND' ? 'checked' : ''}}>
+                            <input type="radio" name="tag" value="AFTER_SALE" title="申请售后" {{$tag === 'AFTER_SALE' ? 'checked' : ''}}>
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">订单日期</label>
                         <div class="layui-input-block radio-style">
-                            <input type="radio" name="date" value="全部" title="全部" checked="">
-                            <input type="radio" name="date" value="在线充值" title="近一个月">
-                            <input type="radio" name="date" value="订单付款" title="近三个月">
-                            <input type="radio" name="date" value="订单退款" title="近六个月">
+                            <input type="radio" name="date" value="" title="全部" {{$date === null ? 'checked' : ''}}>
+                            <input type="radio" name="date" value="1" title="近一个月" {{$date == 1 ? 'checked' : ''}}>
+                            <input type="radio" name="date" value="3" title="近三个月" {{$date == 3 ? 'checked' : ''}}>
+                            <input type="radio" name="date" value="6" title="近六个月" {{$date == 6 ? 'checked' : ''}}>
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <div class="layui-inline">
                             <label class="layui-form-label">下单时间</label>
                             <div class="layui-input-inline date-width">
-                                <input type="text" class="layui-input" id="selectData" placeholder=" 开始日期-结束日期 ">
+                                <input name = "order_date" type="text" class="layui-input" id="selectData" placeholder=" 开始日期-结束日期 " value="{{$orderDate}}">
                             </div>
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">客户信息</label>
                         <div class="layui-input-inline date-width">
-                            <input type="text" name="username" lay-verify="required" placeholder="请输入客户姓名或手机号"
-                                   autocomplete="off" class="layui-input">
+                            <input type="text" name="search_field"  placeholder="请输入客户姓名或手机号"
+                                   autocomplete="off" class="layui-input" value="{{$searchField}}">
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">订单编号</label>
                         <div class="layui-input-inline date-width">
-                            <input type="text" name="ordernum" lay-verify="required" placeholder="请输入订单号"
-                                   autocomplete="off" class="layui-input">
+                            <input type="text" name="order_no"  placeholder="请输入订单号"
+                                   autocomplete="off" class="layui-input" value="{{$orderNo}}">
                         </div>
                     </div>
                     <div class="layui-form-item">
-                        <button class="layui-btn inquire" lay-submit="" lay-filter="">查询</button>
+                        <button class="layui-btn inquire" lay-submit="" lay-filter="search">查询</button>
                     </div>
                 </div>
                 <div class="layui-tab-content order">
@@ -167,8 +167,6 @@
 <!--content--end-->
 
 </body>
-
-</html>
 <script>
     layui.use(['form', 'layedit', 'laydate', 'laypage', 'element'], function () {
         var form = layui.form,
@@ -194,5 +192,18 @@
                 first = false;
             }
         });
+        form.on('submit(search)', function (data) {
+            console.log(data);
+            let url = "/orders?{{ $status !== null ? 'status='.$status : '' }}&page={{$page}}&limit={{$limit}}";
+            for (let key in data.field) {
+                let value = data.field[key];
+                if(value) {
+                    url += `&${key}=${value}`;
+                }
+            }
+            location.href = url;
+        });
     })
 </script>
+</html>
+

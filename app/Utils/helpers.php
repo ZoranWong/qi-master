@@ -25,6 +25,9 @@ if (!function_exists('underlineCaseToCamelCase')) {
 if (!function_exists('getImageUrl')) {
     function getImageUrl($url)
     {
+        if(stripos($url, 'http') == 0 ||stripos($url, 'https') == 0) {
+            return $url;
+        }
         $disk = config('admin.upload.disk');
 
         if ($url && array_key_exists($disk, config('filesystems.disks'))) {

@@ -4,29 +4,29 @@
     <div id="header">
         <div class="header-a">
             <div class="nav-a" style="padding-right: 0px; border: 0px;">
-                <a href="">您好，</a>
+                <a href="/">您好，</a>
             </div>
             <div class="nav-a" style="padding-right: 0px; border: 0px;">
-                <a href="" class="" style="padding-right: 0px;">我的订单</a>
+                <a href="/orders" class="" style="padding-right: 0px;">我的订单</a>
             </div>
             <div class="nav-a">
-                <a href="javascript:void(0)">退出</a>
+                <a href="/auth/logout">退出</a>
             </div>
             <div class="nav-a">
                 <a href="/">官网首页</a>
             </div>
-            <div class="nav-a">
-                <a href="">优惠活动</a>
-            </div>
+            {{--<div class="nav-a">--}}
+                {{--<a href="">优惠活动</a>--}}
+            {{--</div>--}}
             <div class="nav-a">
                 <a href="">商户APP</a>
             </div>
-            <div class="nav-a">
-                <a href="">师傅入驻</a>
-            </div>
-            <div class="nav-b">
-                <a href="">家庭用户</a>
-            </div>
+            {{--<div class="nav-a">--}}
+                {{--<a href="">师傅入驻</a>--}}
+            {{--</div>--}}
+            {{--<div class="nav-b">--}}
+                {{--<a href="">家庭用户</a>--}}
+            {{--</div>--}}
         </div>
     </div>
     <div id="nav">
@@ -52,7 +52,7 @@
                 </li>
             </ul>
             <div class="make-order">
-                <a href="/publish">立即找师傅</a>
+                <a href="/publish">发布订单</a>
             </div>
         </div>
     </div>
