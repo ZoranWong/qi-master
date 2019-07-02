@@ -17,7 +17,7 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @property int $masterId 被评论师傅ID
  * @property int $orderId 订单ID
  * @property int $type 综合评分类型
- * @property array $labels 标签
+ * @property array|null $labels 标签
  * @property array $rates 评分 如quality,attitude,speed
  * @property string $content 评论内容
  * @property \Illuminate\Support\Carbon|null $createdAt

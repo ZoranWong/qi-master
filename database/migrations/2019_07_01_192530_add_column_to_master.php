@@ -18,6 +18,12 @@ class AddColumnToMaster extends Migration
             $table->unsignedTinyInteger('sex')->default(0)->comment('性别 0->保密 1->男 2->女');
             $table->char('emergency_mobile', 11)->nullable()->comment('紧急联系号码');
             $table->string('address')->nullable()->comment('详细地址');
+            $table->json('work_day')->comment('工作日');
+            $table->json('work_time')->comment('工作时间段');
+            $table->unsignedInteger('team_nums')->default(1)->comment('团队人数');
+            $table->unsignedInteger('truck_nums')->default(0)->comment('货车数量');
+            $table->enum('truck_type', ['CORE', 'KEY', 'OTHER'])->comment('货车数量');
+            $table->double('truck_tonnage', 8, 2)->default(0)->comment('货车吨位');
         });
     }
 
