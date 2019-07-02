@@ -22,7 +22,7 @@ class AddColumnToMaster extends Migration
             $table->json('work_time')->nullable()->comment('工作时间段');
             $table->unsignedInteger('team_nums')->default(1)->comment('团队人数');
             $table->unsignedInteger('truck_nums')->default(0)->comment('货车数量');
-            $table->enum('truck_type', ['NONE', 'CORE', 'KEY', 'OTHER'])->default('NONE')->comment('货车数量');
+            $table->unsignedInteger('truck_type')->default(0)->comment('货车类型');
             $table->double('truck_tonnage', 8, 2)->default(0)->comment('货车吨位');
         });
     }

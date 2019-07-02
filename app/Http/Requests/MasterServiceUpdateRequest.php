@@ -26,7 +26,7 @@ class MasterServiceUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'service_type_ids' => 'required|array',
+            'services' => 'required|array',
             'key_areas' => 'required|array',
             'other_areas' => 'required|array',
             'work_day' => 'required|array',

@@ -103,7 +103,7 @@ class MasterController extends Controller
      * @param MasterServiceUpdateRequest $request
      * @return Response
      */
-    public function setServiceInfo(MasterServiceUpdateRequest $request)
+    public function updateServiceInfo(MasterServiceUpdateRequest $request)
     {
         $data = $request->only(['services', 'key_areas', 'other_areas', 'work_day', 'work_time', 'team_nums', 'truck_nums', 'truck_type', 'truck_tonnage']);
 

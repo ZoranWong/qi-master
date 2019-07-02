@@ -33,12 +33,12 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property string|null $walletPassword 钱包密码
  * @property int $sex 性别 0->保密 1->男 2->女
  * @property string|null $emergencyMobile 紧急联系号码
- * @property string|null $address 详细地址
- * @property mixed $workDay 工作日
- * @property mixed $workTime 工作时间段
+ * @property string $address 详细地址
+ * @property array|null $workDay 工作日
+ * @property array|null $workTime 工作时间段
  * @property int $teamNums 团队人数
  * @property int $truckNums 货车数量
- * @property string $truckType 货车数量
+ * @property int $truckType 货车类型
  * @property float $truckTonnage 货车吨位
  * @property-read \App\Models\Region|null $area
  * @property-read \App\Models\Region|null $city
@@ -90,10 +90,17 @@ class Master extends Model implements JWTSubject, Authenticatable, MustVerifyEma
         'address', 'work_day', 'work_time', 'team_nums', 'truck_nums', 'truck_type', 'truck_tonnage'
     ];
 
+    protected $casts = [
+        'work_day' => 'array',
+        'work_time' => 'array'
+    ];
+
+    const TRUCK_TYPE_UNKNOWN = 0;
     const TRUCK_TYPE_SMALL = 1;
     const TRUCK_TYPE_MEDIUM = 2;
     const TRUCK_TYPE_LARGE = 3;
     const TRUCK_TYPES = [
+        self::TRUCK_TYPE_UNKNOWN => '未知',
         self::TRUCK_TYPE_SMALL => '小型',
         self::TRUCK_TYPE_MEDIUM => '中型',
         self::TRUCK_TYPE_LARGE => '大型',

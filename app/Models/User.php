@@ -34,6 +34,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property string|null $area 区
  * @property string $address 详细地址
  * @property int $balance 余额 单位：分
+ * @property string $realName 姓名
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\UserAddress[] $addresses
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\MasterComment[] $comments
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Complaint[] $complaints
@@ -61,6 +62,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereNickname($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereProvince($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereRealName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereSex($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereUpdatedAt($value)

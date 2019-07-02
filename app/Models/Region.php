@@ -99,7 +99,7 @@ class Region extends Model
      */
     public function children()
     {
-        return $this->hasMany(self::class, 'parent_code', 'region_code');
+        return $this->hasMany(self::class, 'parent_code', 'region_code')->with('children');
     }
 
     /**
