@@ -27,7 +27,7 @@ class UserPresenter extends BasePresenter
 
     public function avatarUrl()
     {
-        return $this->wrappedObject->avatar ?? '';
+        return $this->wrappedObject->avatar ?? '/web/image/portrait.png';
     }
 
     public function balanceFormat()

@@ -19,6 +19,7 @@ class   OrdersSeeder extends Seeder
         OrderItem::truncate();
         OfferOrder::truncate();
         PaymentOrder::truncate();
+        RefundOrder::truncate();
 
         $faker = app(Generator::class);
         // 创建 100 笔订单

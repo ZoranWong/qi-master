@@ -23,7 +23,7 @@
             <ul class="clearfix">
                 <li>您的位置：</li>
                 <li>
-                    <a href="index.html">首页</a>
+                    <a href="/">首页</a>
                 </li>
                 <li>
                     <a href=""></a> <span class="separator">&gt;</span>
@@ -94,37 +94,21 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>P10659001655</td>
-                        <td>张祖良</td>
-                        <td>200.00</td>
-                        <td>200.00</td>
-                        <td>2019-03-20 17:00:41</td>
-                        <td>退款成功</td>
-                        <td><a href="/refund/3">查看</a></td>
-                    </tr>
-                    <tr>
-                        <td>P10659001655</td>
-                        <td>张祖良</td>
-                        <td>200.00</td>
-                        <td>200.00</td>
-                        <td>2019-03-20 17:00:41</td>
-                        <td>退款成功</td>
-                        <td><a href="/refund/1">查看</a></td>
-                    </tr>
-                    <tr>
-                        <td>P10659001655</td>
-                        <td>张祖良</td>
-                        <td>200.00</td>
-                        <td>200.00</td>
-                        <td>2019-03-20 17:00:41</td>
-                        <td>退款成功</td>
-                        <td><a href="/refund/2">查看</a></td>
-                    </tr>
+                    @foreach($refunds as $refund)
+                        <tr>
+                            <td>{{$refund->orderNo}}</td>
+                            <td>{{$refund->masterName}}</td>
+                            <td>{{$refund->orderAmount}}</td>
+                            <td>{{$refund->refundAmountFormat}}</td>
+                            <td>{{$refund->applyDate}}</td>
+                            <td>{{$refund->refundStatus}}</td>
+                            <td><a href="/refund/3">查看</a></td>
+                        </tr>
+                    @endforeach
                     </tbody>
                 </table>
             </div>
-            <div id="pagination"></div>
+            <div id="refundPagination"></div>
 
         </div>
 
@@ -138,21 +122,19 @@
 
 </html>
 <script>
-    layui.use(['form', 'layedit', 'laydate', 'laypage'], function () {
-        var form = layui.form,
-            layer = layui.layer,
-            layedit = layui.layedit,
-            laydate = layui.laydate;
-        laypage = layui.laypage
-        laydate.render({
-            elem: '#selectData',
-            range: true
-        });
+    layui.use(['laypage'], function () {
+        let laypage = layui.laypage;
+        let first = true;
         laypage.render({
-            elem: 'pagination',
-            count: 70, //数据总数
+            elem: 'refundPagination',
+            count: {{$count}}, //数据总数
+            curr: {{$page}},
+            limit: {{$limit}},
             jump: function (obj) {
-                //console.log(obj)
+                if (!first) {
+                    location.href = "/refund?&page=" + obj.curr + '&limit=' + obj.limit;
+                }
+                first = false;
             }
         });
     })

@@ -6,6 +6,8 @@ use App\Http\Requests\ComplaintCreateRequest;
 use App\Http\Requests\ComplaintUpdateRequest;
 use App\Repositories\ComplaintRepository;
 use App\Validators\ComplaintValidator;
+use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Prettus\Validator\Contracts\ValidatorInterface;
 use Prettus\Validator\Exceptions\ValidatorException;
 
@@ -38,24 +40,37 @@ class ComplaintsController extends Controller
         $this->validator = $validator;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index(Request $request)
     {
-        $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
-        $complaints = $this->repository->all();
+        $view = null;
+        if (isMobile()) {
 
-        if (request()->wantsJson()) {
-
-            return response()->json([
-                'data' => $complaints,
+        } else {
+            $view = view('web.complaint')->with([
+                'selected' => 'refund',
+                'currentMenu' => 'complaint'
             ]);
         }
-
-        return view('complaints.index', compact('complaints'));
+        $complaints = [];
+        $count = 0;
+        $page = $request->input('page', 1);
+        $limit = $request->input('limit', 15);
+        try{
+            $dispatcher = $this->dispatcher();
+            /**@var LengthAwarePaginator $page * */
+            $paginator = $dispatcher->get('/users/complaints', $request->all());
+            $complaints = $paginator->items();
+            $count = $paginator->total();
+            $page = $paginator->currentPage();
+            $limit = $paginator->perPage();
+        }catch (\Exception $exception) {
+        }
+        return $view->with([
+            'complaints' => $complaints,
+            'count' => $count,
+            'page' => $page,
+            'limit' => $limit
+        ]);
     }
 
     /**

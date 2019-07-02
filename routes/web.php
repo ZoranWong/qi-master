@@ -26,7 +26,7 @@ Route::group(['middleware' => ['guard:web']], function (Router $router) {
         $router->get('favorite', 'FavoriteMasterController@index');
         $router->get('refund', 'RefundsController@refunds');
         $router->get('refund/{id}', 'RefundsController@show');
-        $router->get('complaint', 'RefundsController@complaint');
+        $router->get('complaint', 'ComplaintsController@index');
         $router->get('wallet', 'WalletController@show');
         $router->get('profile', 'UsersController@profile');
         $router->get('security', 'UsersController@security');

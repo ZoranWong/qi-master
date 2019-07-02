@@ -84,37 +84,21 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>P10659001655</td>
-                        <td>张祖良</td>
-                        <td>C201804291902585</td>
-                        <td>30.00元</td>
-                        <td>2019-03-20 17:00:41</td>
-                        <td>投诉完成</td>
-                        <td><a href="complaintdetail.html">查看</a></td>
-                    </tr>
-                    <tr>
-                        <td>P10659001655</td>
-                        <td>张祖良</td>
-                        <td>C201804291902585</td>
-                        <td>30.00元</td>
-                        <td>2019-03-20 17:00:41</td>
-                        <td>投诉完成</td>
-                        <td><a href="">查看</a></td>
-                    </tr>
-                    <tr>
-                        <td>P10659001655</td>
-                        <td>张祖良</td>
-                        <td>C201804291902585</td>
-                        <td>30.00元</td>
-                        <td>2019-03-20 17:00:41</td>
-                        <td>投诉完成</td>
-                        <td><a href="complaintdetail.html">查看</a></td>
-                    </tr>
+                    @foreach($complaints as $complaint)
+                        <tr>
+                            <td>{{$complaint->orderNo}}</td>
+                            <td>{{$complaint->masterName}}</td>
+                            <td>{{$complaint->complaintNo}}</td>
+                            <td>{{$complaint->compensationFormat}}元</td>
+                            <td>{{$complaint->applyAt}}</td>
+                            <td>{{$complaint->statusDes}}</td>
+                            <td><a href="/">查看</a></td>
+                        </tr>
+                    @endforeach
                     </tbody>
                 </table>
             </div>
-            <div id="pagination"></div>
+            <div id="complaintPagination"></div>
 
         </div>
 
@@ -125,5 +109,23 @@
 <!--content--end-->
 
 </body>
-
+<script>
+    layui.use(['laypage'], function () {
+        let laypage = layui.laypage;
+        let first = true;
+        laypage.render({
+            elem: 'complaintPagination',
+            count: {{$count}}, //数据总数
+            curr: {{$page}},
+            limit: {{$limit}},
+            jump: function (obj) {
+                console.log(obj);
+                if (!first) {
+                    location.href = "/complaint?&page=" + obj.curr + '&limit=' + obj.limit;
+                }
+                first = false;
+            }
+        });
+    })
+</script>
 </html>
