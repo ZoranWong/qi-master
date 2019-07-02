@@ -32,6 +32,13 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property string|null $walletPassword 钱包密码
  * @property int $sex 性别 0->保密 1->男 2->女
  * @property string|null $emergencyMobile 紧急联系号码
+ * @property string|null $address 详细地址
+ * @property mixed $workDay 工作日
+ * @property mixed $workTime 工作时间段
+ * @property int $teamNums 团队人数
+ * @property int $truckNums 货车数量
+ * @property string $truckType 货车数量
+ * @property float $truckTonnage 货车吨位
  * @property-read \App\Models\Region|null $area
  * @property-read \App\Models\Region|null $city
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\MasterComment[] $comments
@@ -40,13 +47,12 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Order[] $orders
  * @property-read \App\Models\Region|null $province
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\RefundOrder[] $refundOrders
- * <<<<<<< HEAD
+ * @property-read \App\Models\MasterService $serviceInfo
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\MasterClassification[] $services
- * =======
- * >>>>>>> 530dce36ec2cdbde45fa1533280d465cbb5a3597
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereAddress($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereAreaCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereAvatar($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereBalance($value)
@@ -63,8 +69,14 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereRealName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereSex($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereTeamNums($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereTruckNums($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereTruckTonnage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereTruckType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereWalletPassword($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereWorkDay($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereWorkTime($value)
  * @mixin \Eloquent
  */
 class Master extends Model implements JWTSubject, Authenticatable, MustVerifyEmail, HasPresenter
@@ -73,7 +85,17 @@ class Master extends Model implements JWTSubject, Authenticatable, MustVerifyEma
 
     protected $fillable = [
         'name', 'real_name', 'avatar', 'mobile', 'email', 'email_verified_at', 'password', 'remember_token',
-        'balance', 'province_code', 'city_code', 'area_code', 'wallet_password', 'sex', 'emergency_mobile'
+        'balance', 'province_code', 'city_code', 'area_code', 'wallet_password', 'sex', 'emergency_mobile',
+        'address', 'work_day', 'work_time', 'team_nums', 'truck_nums', 'truck_type', 'truck_tonnage'
+    ];
+
+    const TRUCK_TYPE_SMALL = 1;
+    const TRUCK_TYPE_MEDIUM = 2;
+    const TRUCK_TYPE_LARGE = 3;
+    const TRUCK_TYPES = [
+        self::TRUCK_TYPE_SMALL => '小型',
+        self::TRUCK_TYPE_MEDIUM => '中型',
+        self::TRUCK_TYPE_LARGE => '大型',
     ];
 
     public function setBalanceAttribute($value)
@@ -221,6 +243,14 @@ class Master extends Model implements JWTSubject, Authenticatable, MustVerifyEma
     public function comments()
     {
         return $this->hasMany(MasterComment::class);
+    }
+
+    /**
+     * 我的服务信息
+     */
+    public function serviceInfo()
+    {
+        return $this->hasOne(MasterService::class);
     }
 
     /**

@@ -3,10 +3,12 @@
 namespace App\Api\Controllers\Master;
 
 use App\Api\Controller;
+use App\Http\Requests\MasterServiceUpdateRequest;
 use App\Http\Requests\UserUpdatePasswordRequest;
 use App\Models\Master;
 use App\Repositories\MasterRepository;
 use App\Transformers\MasterTransformer;
+use Dingo\Api\Http\Response;
 use Illuminate\Http\JsonResponse;
 
 class MasterController extends Controller
@@ -93,5 +95,22 @@ class MasterController extends Controller
         return response()->json([
             'message' => '钱包密码已设置'
         ]);
+    }
+
+    /**
+     * 设置服务信息
+     * @param MasterServiceUpdateRequest $request
+     * @return Response
+     */
+    public function setServiceInfo(MasterServiceUpdateRequest $request)
+    {
+        $data = $request->only(['service_type_ids', 'key_areas', 'other_areas', 'work_days', 'team_nums', 'truck_nums', 'truck_type', 'truck_tonnage']);
+
+        /** @var Master $master */
+        $master = auth()->user();
+
+        $master->serviceInfo()->update($data);
+
+        return $this->response->noContent();
     }
 }
