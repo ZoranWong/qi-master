@@ -3,6 +3,7 @@
 namespace App\Api\Controllers;
 
 use App\Api\Controller;
+use App\Http\Requests\MasterCreateRequest;
 use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Models\Master;
@@ -87,5 +88,19 @@ class AuthController extends Controller
             'user' => $this->auth->user(),
             'token' => 'bearer ' . $token
         ]);
+    }
+
+    /**
+     * 免费入驻
+     * @param MasterCreateRequest $request
+     */
+    public function freeSettle(MasterCreateRequest $request)
+    {
+        $data = $request->only([
+            'mobile', 'captcha', 'password', 'emergency_mobile', 'province_code', 'city_code', 'area_code', 'address', 'classification_id',
+            'service_type_ids', 'key_areas', 'other_areas'
+        ]);
+
+
     }
 }

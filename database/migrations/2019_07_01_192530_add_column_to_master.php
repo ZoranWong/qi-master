@@ -17,6 +17,7 @@ class AddColumnToMaster extends Migration
             $table->string('wallet_password')->nullable()->comment('钱包密码');
             $table->unsignedTinyInteger('sex')->default(0)->comment('性别 0->保密 1->男 2->女');
             $table->char('emergency_mobile', 11)->nullable()->comment('紧急联系号码');
+            $table->string('address')->nullable()->comment('详细地址');
         });
     }
 
@@ -31,6 +32,7 @@ class AddColumnToMaster extends Migration
             $table->dropColumn('wallet_password');
             $table->dropColumn('sex');
             $table->dropColumn('emergency_mobile');
+            $table->dropColumn('address');
         });
     }
 }

@@ -40,10 +40,10 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Order[] $orders
  * @property-read \App\Models\Region|null $province
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\RefundOrder[] $refundOrders
-<<<<<<< HEAD
+ * <<<<<<< HEAD
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\MasterClassification[] $services
-=======
->>>>>>> 530dce36ec2cdbde45fa1533280d465cbb5a3597
+ * =======
+ * >>>>>>> 530dce36ec2cdbde45fa1533280d465cbb5a3597
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master query()
@@ -71,7 +71,10 @@ class Master extends Model implements JWTSubject, Authenticatable, MustVerifyEma
 {
     use ModelAttributesAccess, CurrencyUnitTrait, \Illuminate\Auth\Authenticatable, \Illuminate\Auth\MustVerifyEmail;
 
-    protected $fillable = ['name', 'real_name', 'avatar', 'mobile', 'email', 'mobile', 'email_verified_at', 'password', 'remember_token'];
+    protected $fillable = [
+        'name', 'real_name', 'avatar', 'mobile', 'email', 'email_verified_at', 'password', 'remember_token',
+        'balance', 'province_code', 'city_code', 'area_code', 'wallet_password', 'sex', 'emergency_mobile'
+    ];
 
     public function setBalanceAttribute($value)
     {
