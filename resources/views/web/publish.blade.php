@@ -26,34 +26,18 @@
                     <p class="task-txt-left"><span><em class="red-dot">*</em>服务类目：</span></p>
                 </div>
                 <ul class="serve-category-list">
-                    <li class="radiobox"><label class="radiobox"><input type="radio" class="radio-input"><em
-                        class="taskIcon taskIcon1 taskIcon1On"></em><span>家具</span><em class="tTrue"></em></label></li>
-                    <li class="radiobox"><label class="radiobox"><input type="radio" class="radio-input"><em
-                        class="taskIcon taskIcon2 taskIcon2On"></em><span>灯具</span><em class="tTrue"></em></label></li>
-                    <li class="radiobox"><label class="radiobox"><input type="radio" class="radio-input"><em
-                        class="taskIcon taskIcon4 taskIcon4On"></em><span>卫浴</span><em class="tTrue"></em></label></li>
-                    <li class="radiobox"><label class="radiobox"><input type="radio" class="radio-input"><em
-                        class="taskIcon taskIcon11 taskIcon11On"></em><span>晾衣架/窗帘</span><em class="tTrue"></em></label>
-                    </li>
-                    <li class="radiobox"><label class="radiobox"><input type="radio" class="radio-input"><em
-                        class="taskIcon taskIcon15 taskIcon15On"></em><span>智能锁</span><em class="tTrue"></em><span
-                        class="suoNew"></span></label></li>
-                    <li class="radiobox"><label class="radiobox"><input type="radio" class="radio-input"><em
-                        class="taskIcon taskIcon13 taskIcon13On"></em><span>净水器</span><em class="tTrue"></em></label>
-                    </li>
-                    <li class="radiobox"><label class="radiobox"><input type="radio" class="radio-input"><em
-                        class="taskIcon taskIcon14 taskIcon14On"></em><span>家电</span><em class="tTrue"></em></label>
-                    </li>
-                    <li class="radiobox"><label class="radiobox"><input type="radio" class="radio-input"><em
-                        class="taskIcon taskIcon12 taskIcon12On"></em><span>浴霸</span><em class="tTrue"></em></label>
-                    </li>
-                    <li class="radiobox"><label class="radiobox"><input type="radio" class="radio-input"><em
-                        class="taskIcon taskIcon8 taskIcon8On"></em><span>墙纸</span><em class="tTrue"></em></label></li>
-                    <li class="radiobox"><label class="radiobox"><input type="radio" class="radio-input"><em
-                        class="taskIcon taskIcon9 taskIcon9On"></em><span>地毯</span><em class="tTrue"></em></label></li>
-                    <li class="radiobox"><label class="radiobox"><input type="radio" class="radio-input"><em
-                        class="taskIcon taskIcon10 taskIcon10On"></em><span>健身器材</span><em class="tTrue"></em></label>
-                    </li>
+                    @foreach($classifications as $classification)
+                        <li class="radiobox">
+                            <label class="radiobox" style="display: block;">
+                                <input type="radio" class="radio-input">
+                                <div style="width: 100%;margin-top: 8px;">
+                                    <span>{{$classification->name}}</span>
+                                </div>
+                                <img src="{{$classification->iconUrl}}" style="margin-top:8px;width: 60%; height: auto;">
+                                <em class="tTrue"></em>
+                            </label>
+                        </li>
+                    @endforeach
                 </ul>
             </div>
         </div>
