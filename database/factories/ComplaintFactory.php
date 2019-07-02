@@ -14,7 +14,7 @@ $factory->define(Complaint::class, function (Faker $faker) {
     $evidenceStatus = $faker->randomElement(array_keys(Complaint::STATUS_EVIDENCE));
 
     /** @var Order $order */
-    $order = Order::inRandomOrder()->first();
+//    $order = Order::inRandomOrder()->whereIn('status', [Order::ORDER_WAIT_CHECK, Order::ORDER_EMPLOYED])->first();
 
     $images = $faker->randomElements([
         "https://fupo.jp/wp-content/uploads/2019/04/MG_7849-c2.jpg",
@@ -29,8 +29,6 @@ $factory->define(Complaint::class, function (Faker $faker) {
 
     $model = [
         'complaint_no' => orderNo('C'),
-        'order_id' => $order->id,
-        'order_no' => $order->orderNo,
         'complaint_type_id' => $complaintType->id,
         'status' => $status,
         'evidence_status' => $evidenceStatus,

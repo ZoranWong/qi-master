@@ -4,9 +4,11 @@ namespace App\Models;
 
 use App\Models\Traits\CurrencyUnitTrait;
 use App\Models\Traits\ModelAttributesAccess;
+use App\Presenters\ComplaintPresenter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use McCool\LaravelAutoPresenter\HasPresenter;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
@@ -29,7 +31,9 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @property-read mixed $evidenceStatusDesc
  * @property-read mixed $statusDesc
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ComplaintItem[] $items
+ * @property-read \App\Models\Master $master
  * @property-read \App\Models\Order $order
+ * @property-read \App\Models\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Complaint newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Complaint newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Complaint query()
@@ -47,7 +51,7 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Complaint whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class Complaint extends Model implements Transformable
+class Complaint extends Model implements Transformable, HasPresenter
 {
     use TransformableTrait, CurrencyUnitTrait, ModelAttributesAccess;
 
@@ -57,8 +61,8 @@ class Complaint extends Model implements Transformable
      * @var array
      */
     protected $fillable = [
-        'complaint_no', 'order_id', 'order_no', 'status', 'evidence_status',
-        'complaint_type_id', 'complaint_info', 'result', 'compensation'
+        'complaint_no', 'order_id', 'order_no', 'status', 'evidence_status', 'master_id',
+        'complaint_type_id', 'complaint_info', 'result', 'compensation', 'user_id'
     ];
 
     protected $casts = [
@@ -125,6 +129,16 @@ class Complaint extends Model implements Transformable
         return $this->belongsTo(Order::class, 'order_id');
     }
 
+    public function master()
+    {
+        return $this->belongsTo(Master::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function getStatusDescAttribute()
     {
         return static::STATUS[$this->status];
@@ -143,5 +157,16 @@ class Complaint extends Model implements Transformable
     public function getCompensationAttribute()
     {
         return $this->attributes['compensation'] / CURRENCY_UNIT_CONVERT_NUM;
+    }
+
+    /**
+     * Get the presenter class.
+     *
+     * @return string
+     */
+    public function getPresenterClass()
+    {
+        // TODO: Implement getPresenterClass() method.
+        return ComplaintPresenter::class;
     }
 }

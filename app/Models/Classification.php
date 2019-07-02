@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Traits\ModelAttributesAccess;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -22,6 +23,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
  * @property \Illuminate\Support\Carbon|null $updatedAt
  * @property-read mixed $statusDesc
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ServiceType[] $serviceTypes
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ServiceType[] $services
  * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Classification newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Classification newQuery()
@@ -72,6 +74,11 @@ class Classification extends Model
                 $classification->iconUrl = '';
             }
         });
+    }
+
+    public function scopeActive(Builder $query)
+    {
+        return $query->where('status', true);
     }
 
     /**

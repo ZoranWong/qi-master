@@ -8,6 +8,7 @@ use App\Exceptions\InvalidRequestException;
 use App\Http\Requests\ApplyRefundRequest;
 use App\Http\Requests\OrderRequest;
 use App\Http\Requests\SendReviewRequest;
+use App\Models\Classification;
 use App\Models\CouponCode;
 use App\Models\UserAddress;
 use App\Models\Order;
@@ -63,7 +64,12 @@ class OrdersController extends Controller
             'count' => $count,
             'page' => $request->input('page', 1),
             'limit' => $limit,
-            'status' => $request->input('status', null)
+            'status' => $request->input('status', null),
+            'tag' => $request->input('tag', null),
+            'date' => $request->input('date', null),
+            'orderDate' => $request->input('order_date', null),
+            'orderNo' => $request->input('order_no', null),
+            'searchField' => $request->input('search_field', null)
         ]);
 
         return $view;
@@ -168,14 +174,18 @@ class OrdersController extends Controller
 
     public function publish($step = 'publish')
     {
+        $view = null;
         if (isMobile()) {
-
-            return view('h5.'.$step);
+            $view = view('h5.'.$step);
         } else {
-            return view('web.publish')->with([
+            $view = view('web.publish')->with([
                 'selected' => 'publish',
                 'currentMenu' => 'publish'
             ]);
         }
+        $classifications = Classification::with(['serviceTypes'])->get();
+        return $view->with([
+            'classifications' => $classifications
+        ]);
     }
 }

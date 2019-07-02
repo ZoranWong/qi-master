@@ -17,6 +17,7 @@ Route::group(['middleware' => ['guard:web']], function (Router $router) {
     $router->get('/register', 'HomeController@register')->name('register');
     $router->get('/forget/password', 'HomeController@forgetPassword')->name('forget.password');
     $router->group(['middleware' => ['auth']], function (Router $router) {
+        $router->get('/auth/logout', 'Auth\\LoginController@logout')->name('user.logout');
         $router->get('', 'HomeController@index')->name('home');
         $router->get('orders', 'OrdersController@index');
         $router->get('orders/{order}', 'OrdersController@show');
@@ -26,7 +27,7 @@ Route::group(['middleware' => ['guard:web']], function (Router $router) {
         $router->get('favorite', 'FavoriteMasterController@index');
         $router->get('refund', 'RefundsController@refunds');
         $router->get('refund/{id}', 'RefundsController@show');
-        $router->get('complaint', 'RefundsController@complaint');
+        $router->get('complaint', 'ComplaintsController@index');
         $router->get('wallet', 'WalletController@show');
         $router->get('profile', 'UsersController@profile');
         $router->get('security', 'UsersController@security');

@@ -9,14 +9,19 @@ class UsersController extends Controller
     //
     public function profile()
     {
+        $view = null;
+        $user = auth()->user();
         if(isMobile()){
 
         }else{
-            return view('web.profile')->with([
+            $view = view('web.profile')->with([
                 'selected' => 'profile',
                 'currentMenu' => 'profile'
             ]);
         }
+        return $view->with([
+            'user' => $user
+        ]);
     }
 
     public function security()

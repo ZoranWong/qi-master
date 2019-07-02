@@ -61,9 +61,9 @@
                         <a href="/message">我的消息</a>
                     </li>
 
-                    <li class="{{$currentMenu === 'resource' ? 'router-link-active' : ''}}">
-                        <a href="/">资质管理</a>
-                    </li>
+                    {{--<li class="{{$currentMenu === 'resource' ? 'router-link-active' : ''}}">--}}
+                        {{--<a href="/">资质管理</a>--}}
+                    {{--</li>--}}
                 </ul>
             </li>
         </ul>

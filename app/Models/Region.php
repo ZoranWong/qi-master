@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * App\Models\Region
  *
- * @property string $regionCode 行政编号
+ * @property int $regionCode 行政编号
  * @property string $parentCode 上级行政区域
  * @property string $name 行政区名称
  * @property int $status 状态：0-关闭服务 1-开启服务
@@ -43,6 +43,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Region extends Model
 {
     use SoftDeletes, ModelAttributesAccess;
+
+    protected $primaryKey = 'region_code';
 
     protected $fillable = ['region_code', 'parent_code', 'name', 'status'];
 
@@ -97,7 +99,7 @@ class Region extends Model
      */
     public function children()
     {
-        return $this->hasMany(self::class, 'parent_code', 'region_code');
+        return $this->hasMany(self::class, 'parent_code', 'region_code')->with('children');
     }
 
     /**

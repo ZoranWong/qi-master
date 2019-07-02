@@ -2,6 +2,7 @@
 
 use App\Models\Complaint;
 use App\Models\ComplaintItem;
+use App\Models\Order;
 use Faker\Generator;
 use Illuminate\Database\Seeder;
 
@@ -18,11 +19,21 @@ class ComplaintSeeder extends Seeder
         ComplaintItem::truncate();
         $faker = app(Generator::class);
 
-        $complaints = factory(Complaint::class, 20)->create();
+        /** @var Order[]|\Illuminate\Database\Eloquent\Collection $orders */
+        $orders = Order::inRandomOrder()->whereIn('status', [Order::ORDER_WAIT_CHECK, Order::ORDER_EMPLOYED])->get();
+        $orders->map(function (Order $order) use ($faker){
+            $complaints = factory(Complaint::class, 1)->create([
+                'order_id' => $order->id,
+                'order_no' => $order->orderNo,
+                'user_id' => $order->userId,
+                'master_id' => $order->masterId,
+            ]);
 
-        foreach ($complaints as $complaint) {
-            $this->complaintItems($complaint, $faker);
-        }
+            foreach ($complaints as $complaint) {
+                $this->complaintItems($complaint, $faker);
+            }
+        });
+
     }
 
     protected function complaintItems(Complaint $complaint, Generator $faker)

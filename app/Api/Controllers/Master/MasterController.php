@@ -3,10 +3,13 @@
 namespace App\Api\Controllers\Master;
 
 use App\Api\Controller;
+use App\Http\Requests\MasterServiceUpdateRequest;
 use App\Http\Requests\UserUpdatePasswordRequest;
 use App\Models\Master;
+use App\Models\MasterService;
 use App\Repositories\MasterRepository;
 use App\Transformers\MasterTransformer;
+use Dingo\Api\Http\Response;
 use Illuminate\Http\JsonResponse;
 
 class MasterController extends Controller
@@ -93,5 +96,40 @@ class MasterController extends Controller
         return response()->json([
             'message' => '钱包密码已设置'
         ]);
+    }
+
+    /**
+     * 设置服务信息
+     * @param MasterServiceUpdateRequest $request
+     * @return Response
+     */
+    public function updateServiceInfo(MasterServiceUpdateRequest $request)
+    {
+        $data = $request->only(['services', 'key_areas', 'other_areas', 'work_day', 'work_time', 'team_nums', 'truck_nums', 'truck_type', 'truck_tonnage']);
+
+        /** @var Master $master */
+        $master = auth()->user();
+
+        $keyAreas = $data['key_areas'];
+        $otherAreas = $data['other_areas'];
+
+        $serviceAreas = [];
+        foreach ($keyAreas as $keyArea) {
+            $serviceAreas[] = ['region_code' => $keyArea, 'type' => MasterService::TYPE_KEY, 'weight' => MasterService::WEIGHT_KEY];
+        }
+        foreach ($otherAreas as $otherArea) {
+            $serviceAreas[] = ['region_code' => $otherArea, 'type' => MasterService::TYPE_OTHER, 'weight' => MasterService::WEIGHT_OTHER];
+        }
+
+        // 更新服务区域
+        $master->serviceAreas()->where('type', '<>', MasterService::TYPE_CORE)->delete();
+        $master->serviceAreas()->createMany($serviceAreas);
+        // 更新服务类目类型
+        $master->services()->delete();
+        $master->services()->createMany($data['services']);
+        // 更新其他服务信息
+        $master->update($data);
+
+        return $this->response->noContent();
     }
 }

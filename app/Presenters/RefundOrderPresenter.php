@@ -24,9 +24,20 @@ class RefundOrderPresenter extends BasePresenter
         return $this->wrappedObject->master->name;
     }
 
+
+    public function orderNo()
+    {
+        return $this->wrappedObject->order->orderNo;
+    }
+
     public function refundAmountFormat()
     {
         return number_format($this->wrappedObject->amount, 2);
+    }
+
+    public function orderAmount()
+    {
+        return number_format($this->wrappedObject->order->totalAmount, 2);
     }
 
     public function applyDate()

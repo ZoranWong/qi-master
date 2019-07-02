@@ -11,6 +11,7 @@ $api->group(['prefix' => 'masters', 'namespace' => 'Master'], function (Router $
         $api->put('/changePwd', ['as' => 'masters.change_password', 'uses' => 'MasterController@changePassword']);
         $api->put('/changeWalletPwd', ['as' => 'masters.change_wallet_password', 'uses' => 'MasterController@changeWalletPassword']);
         $api->put('/setWalletPwd', ['as' => 'masters.set_wallet_password', 'uses' => 'MasterController@setWalletPassword']);
+        $api->post('/service_info/update', ['as' => 'masters.update_service_info', 'uses' => 'MasterController@updateServiceInfo']);
         /**
          * 订单
          */

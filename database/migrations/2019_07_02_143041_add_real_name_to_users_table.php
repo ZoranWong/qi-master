@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class ChangeCommentToRemark extends Migration
+class AddRealNameToUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class ChangeCommentToRemark extends Migration
      */
     public function up()
     {
-        Schema::table('orders', function (Blueprint $table) {
-            $table->dropColumn('comment');
-            $table->text('remark')->comment('订单备注');
+        Schema::table('users', function (Blueprint $table) {
+            //
+            $table->string('real_name')->default('')->comment('姓名');
         });
     }
 
@@ -26,9 +26,8 @@ class ChangeCommentToRemark extends Migration
      */
     public function down()
     {
-        Schema::table('remark', function (Blueprint $table) {
-            $table->dropColumn('remark');
-            $table->text('comment')->comment('订单备注');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('real_name');
         });
     }
 }

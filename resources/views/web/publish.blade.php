@@ -9,6 +9,78 @@
     <link rel="stylesheet" href="/web/css/styles.css"/>
     <script type="text/javascript" src="/web/js/jquery-3.3.1.js"></script>
     <script type="text/javascript" src="/web/plugin/layui/layui.js"></script>
+    <style>
+        li.radio-box {
+            margin: 6px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .step-1 .task-txt-left {
+            margin-top: 42px;
+        }
+
+        .step-2 .task-txt-left {
+            margin-top: 18px;
+        }
+
+        .classification.selected,
+        .service-type-btn.selected {
+            border: #f38752 1px solid;
+        }
+
+        .service-classification-list li {
+            float: left;
+            width: 90px;
+            height: 90px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-right: 20px;
+            margin-bottom: 12px;
+            text-align: center;
+            cursor: pointer;
+            position: relative;
+            transition: .2s ease-out;
+            -moz-transition: .15s ease-out;
+            font-size: 14px;
+        }
+
+        .service-classification-list li .radiobox {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            cursor: pointer;
+        }
+
+        .service-classification-list li .radiobox input {
+            display: none;
+        }
+
+        li.classification img.classification-icon {
+            margin-top: 8px;
+            width: 52%;
+            height: auto;
+        }
+        .big-title{
+            font-size: 24px;
+            font-weight: 400;
+            border-left: #f7a881 2px solid;
+            padding-left: 12px;
+            color: #4a4a4a;
+            margin-top: 42px;
+        }
+        .order-info{
+            border-top: #adadad 1px solid;
+            margin-top: 12px;
+            padding-top: 12px;
+            padding-left: 24px;
+        }
+        .publish{
+            margin-bottom: 48px;
+        }
+    </style>
 </head>
 
 <body>
@@ -19,48 +91,268 @@
 
 <!--content-->
 <div class="max-width">
-    <div class="publish">
-        <div class="step-1">
-            <div class="task-section clearfix">
-                <div class="fl">
-                    <p class="task-txt-left"><span><em class="red-dot">*</em>服务类目：</span></p>
+    <div class="publish layui-form">
+        <div class="big-title">商品信息</div>
+        <div class="order-info product-info">
+            <div class="step-1">
+                <div class="task-section clearfix">
+                    <div class="fl">
+                        <p class="task-txt-left">
+                        <span>
+                            <em class="red-dot">*</em>服务类目：
+                        </span>
+                        </p>
+                    </div>
+                    <ul class="service-classification-list">
+                        @foreach($classifications as $key => $classification)
+                            <li class="radiobox classification {{$key === 0 ? 'selected' : ''}}"
+                                data-id="{{$classification->id}}">
+                                <label class="radiobox" style="display: block;">
+                                    <input name="classification_id" type="radio" class="radio-input">
+                                    <div style="width: 100%;margin-top: 8px;">
+                                        <span>{{$classification->name}}</span>
+                                    </div>
+                                    <img class="classification-icon" src="{{$classification->iconUrl}}">
+                                </label>
+                            </li>
+                        @endforeach
+                    </ul>
                 </div>
-                <ul class="serve-category-list">
-                    <li class="radiobox"><label class="radiobox"><input type="radio" class="radio-input"><em
-                        class="taskIcon taskIcon1 taskIcon1On"></em><span>家具</span><em class="tTrue"></em></label></li>
-                    <li class="radiobox"><label class="radiobox"><input type="radio" class="radio-input"><em
-                        class="taskIcon taskIcon2 taskIcon2On"></em><span>灯具</span><em class="tTrue"></em></label></li>
-                    <li class="radiobox"><label class="radiobox"><input type="radio" class="radio-input"><em
-                        class="taskIcon taskIcon4 taskIcon4On"></em><span>卫浴</span><em class="tTrue"></em></label></li>
-                    <li class="radiobox"><label class="radiobox"><input type="radio" class="radio-input"><em
-                        class="taskIcon taskIcon11 taskIcon11On"></em><span>晾衣架/窗帘</span><em class="tTrue"></em></label>
-                    </li>
-                    <li class="radiobox"><label class="radiobox"><input type="radio" class="radio-input"><em
-                        class="taskIcon taskIcon15 taskIcon15On"></em><span>智能锁</span><em class="tTrue"></em><span
-                        class="suoNew"></span></label></li>
-                    <li class="radiobox"><label class="radiobox"><input type="radio" class="radio-input"><em
-                        class="taskIcon taskIcon13 taskIcon13On"></em><span>净水器</span><em class="tTrue"></em></label>
-                    </li>
-                    <li class="radiobox"><label class="radiobox"><input type="radio" class="radio-input"><em
-                        class="taskIcon taskIcon14 taskIcon14On"></em><span>家电</span><em class="tTrue"></em></label>
-                    </li>
-                    <li class="radiobox"><label class="radiobox"><input type="radio" class="radio-input"><em
-                        class="taskIcon taskIcon12 taskIcon12On"></em><span>浴霸</span><em class="tTrue"></em></label>
-                    </li>
-                    <li class="radiobox"><label class="radiobox"><input type="radio" class="radio-input"><em
-                        class="taskIcon taskIcon8 taskIcon8On"></em><span>墙纸</span><em class="tTrue"></em></label></li>
-                    <li class="radiobox"><label class="radiobox"><input type="radio" class="radio-input"><em
-                        class="taskIcon taskIcon9 taskIcon9On"></em><span>地毯</span><em class="tTrue"></em></label></li>
-                    <li class="radiobox"><label class="radiobox"><input type="radio" class="radio-input"><em
-                        class="taskIcon taskIcon10 taskIcon10On"></em><span>健身器材</span><em class="tTrue"></em></label>
-                    </li>
-                </ul>
             </div>
+            <div class="step-2">
+                <div class="task-section clearfix">
+                    <div class="fl">
+                        <p class="task-txt-left">
+                        <span>
+                            <em class="red-dot">*</em>服务类型：
+                        </span>
+                        </p>
+                    </div>
+                    @foreach($classifications as $key => $classification)
+                        <ul data-id="{{$classification->id}}"
+                            class="classification-{{$classification->id}} service-type-list flex {{$key === 0 ? 'selected' : 'hidden'}}">
+                            @foreach($classification->serviceTypes as $k => $serviceType)
+                                <li class="radio-box service-type" data-id="{{$serviceType->id}}">
+                                    <label class="radio-box" style="display: block;">
+                                        <input name="service_type_id" type="radio" class="radio-input"
+                                               value="{{$serviceType->name}}">
+                                        <button data-id="{{$serviceType->id}}"
+                                                class="service-type-btn layui-btn layui-btn-primary {{$k === 0 ? 'selected' : ''}}">
+                                            {{$serviceType->name}}
+                                        </button>
+                                    </label>
+                                </li>
+                            @endforeach
+                        </ul>
+                    @endforeach
+                </div>
+            </div>
+            <div class="step-3">
+                <div class="task-section clearfix">
+                    <div class="fl">
+                        <p class="task-txt-left">
+                        <span>
+                            <em class="red-dot">*</em>商品图片：
+                        </span>
+                        </p>
+                    </div>
+                    <div class="layui-from-item">
+                        <div class="">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="step-4">
+                <div class="task-section clearfix">
+                    <div class="fl">
+                        <p class="task-txt-left">
+                        <span>
+                            <em class="red-dot">*</em>商品类别：
+                        </span>
+                        </p>
+                    </div>
+                    <div class="layui-from-item">
+                        <div class="">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="step-5">
+                <div class="task-section clearfix">
+                    <div class="fl">
+                        <p class="task-txt-left">
+                        <span>
+                            <em class="red-dot">*</em>商品型号：
+                        </span>
+                        </p>
+                    </div>
+                    <div class="layui-from-item">
+                        <div class="">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="step-6">
+                <div class="task-section clearfix">
+                    <div class="fl">
+                        <p class="task-txt-left">
+                        <span>
+                            <em class="red-dot">*</em>商品数量：
+                        </span>
+                        </p>
+                    </div>
+                    <div class="layui-from-item">
+                        <div class="">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="step-7">
+                <div class="task-section clearfix">
+                    <div class="fl">
+                        <p class="task-txt-left">
+                        <span>
+                            <em class="red-dot"></em>特使要求：
+                        </span>
+                        </p>
+                    </div>
+                    <div class="layui-from-item">
+                        <div class="">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="big-title">客户信息</div>
+        <div class="order-info customer-info">
+            <div class="step-8">
+                <div class="task-section clearfix">
+                    <div class="fl">
+                        <p class="task-txt-left">
+                        <span>
+                            <em class="red-dot">*</em>客户姓名：
+                        </span>
+                        </p>
+                    </div>
+                    <div class="layui-from-item">
+                        <div class="">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="step-9">
+                <div class="task-section clearfix">
+                    <div class="fl">
+                        <p class="task-txt-left">
+                        <span>
+                            <em class="red-dot">*</em>手机号码：
+                        </span>
+                        </p>
+                    </div>
+                    <div class="layui-from-item">
+                        <div class="">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="step-10">
+                <div class="task-section clearfix">
+                    <div class="fl">
+                        <p class="task-txt-left">
+                        <span>
+                            <em class="red-dot">*</em>所在区域：
+                        </span>
+                        </p>
+                    </div>
+                    <div class="layui-from-item">
+                        <div class="">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="step-11">
+                <div class="task-section clearfix">
+                    <div class="fl">
+                        <p class="task-txt-left">
+                        <span>
+                            <em class="red-dot">*</em>详细地址：
+                        </span>
+                        </p>
+                    </div>
+                    <div class="layui-from-item">
+                        <div class="">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="big-title">其他信息</div>
+        <div class="order-info other-info">
+            <div class="step-12">
+                <div class="task-section clearfix">
+                    <div class="fl">
+                        <p class="task-txt-left">
+                        <span>
+                            <em class="red-dot">*</em>期望时间：
+                        </span>
+                        </p>
+                    </div>
+                    <div class="layui-from-item">
+                        <div class="">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="step-13">
+                <div class="task-section clearfix">
+                    <div class="fl">
+                        <p class="task-txt-left">
+                        <span>
+                            <em class="red-dot">*</em>备注：
+                        </span>
+                        </p>
+                    </div>
+                    <div class="layui-from-item">
+                        <div class="">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+
         </div>
     </div>
 </div>
 <!--contend end-->
 
 </body>
+
+<script>
+    $(function () {
+        $('.service-classification-list li.classification').click(function () {
+            $('.service-classification-list li.classification.selected').removeClass('selected');
+            $(this).addClass('selected');
+            $('.service-type-list').addClass('hidden')
+            let id = $(this).data('id');
+            $(`.service-type-list.classification-${id}`).removeClass('hidden');
+        });
+        $('.service-type-btn').click(function () {
+            $('.service-type-btn.selected').removeClass('selected');
+            $(this).addClass('selected');
+        });
+    });
+</script>
 
 </html>

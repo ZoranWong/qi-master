@@ -19,10 +19,11 @@ class   OrdersSeeder extends Seeder
         OrderItem::truncate();
         OfferOrder::truncate();
         PaymentOrder::truncate();
+        RefundOrder::truncate();
 
         $faker = app(Generator::class);
         // 创建 100 笔订单
-        $generator = $this->buildOrder(10);
+        $generator = $this->buildOrder(1);
         ini_set('memory_limit', '-1');
         foreach ($generator as $orders) {
             cache()->delete(date('YmdHis'));

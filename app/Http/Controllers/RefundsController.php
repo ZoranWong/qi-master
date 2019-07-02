@@ -23,19 +23,20 @@ class RefundsController extends Controller
         $refunds = [];
         $count = 0;
         $page = $request->input('page', 1);
-        $limit = $request->input('limit', 15);try{
+        $limit = $request->input('limit', 15);
+        try {
             $dispatcher = $this->dispatcher();
-            /**@var LengthAwarePaginator $page**/
+            /**@var LengthAwarePaginator $page * */
             $paginator = $dispatcher->get('/users/refunds', $request->all());
             $refunds = $paginator->items();
             $count = $paginator->total();
             $page = $paginator->currentPage();
             $limit = $paginator->perPage();
 
-        }catch (\Exception $exception) {
+        } catch (\Exception $exception) {
             dd($exception);
         }
-        dd($refunds);
+
         $view->with([
             'refunds' => $refunds,
             'page' => $page,
@@ -57,15 +58,5 @@ class RefundsController extends Controller
         }
     }
 
-    public function complaint()
-    {
-        if (isMobile()) {
 
-        } else {
-            return view('web.complaint')->with([
-                'selected' => 'refund',
-                'currentMenu' => 'complaint'
-            ]);
-        }
-    }
 }
