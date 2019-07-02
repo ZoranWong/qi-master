@@ -33,8 +33,7 @@ class MasterCreateRequest extends FormRequest
             'city_code' => 'required',
             'area_code' => 'required',
             'address' => 'required',
-            'classification_id' => 'required',// 服务类目,
-            'service_type_ids' => 'required|array',// 服务类型
+            'services' => 'required|array',// 服务，包括多个服务类目和服务类型
             'key_areas' => 'required|array',
             'other_areas' => 'required|array',
         ];
