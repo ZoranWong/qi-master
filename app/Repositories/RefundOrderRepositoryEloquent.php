@@ -7,6 +7,7 @@ use App\Models\RefundOrder;
 use App\Models\User;
 use App\Validators\RefundOrderValidator;
 use Dingo\Api\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Exceptions\RepositoryException;
@@ -46,7 +47,7 @@ class RefundOrderRepositoryEloquent extends BaseRepository implements RefundOrde
 
         /** @var User|Master $user */
         $user = auth()->user();
-
+        Log::info('------user------', $user->toArray());
         $paginator = $user->refundOrders()->paginate($limit);
 
         return $paginator;

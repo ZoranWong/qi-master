@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Region;
 use Dingo\Api\Dispatcher;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -29,6 +30,7 @@ class FavoriteMasterController extends Controller
         }catch (\Exception $exception){
         }
         $view = null;
+        $regions = Region::where('parent_code', 0)->get();
         if (isMobile()) {
             $view = view('h5.favorite');
         } else {
@@ -41,7 +43,8 @@ class FavoriteMasterController extends Controller
             'masters' => $masters,
             'page' => $page,
             'limit' => $limit,
-            'count' => $count
+            'count' => $count,
+            'regions' => $regions
         ]);
         return $view;
     }

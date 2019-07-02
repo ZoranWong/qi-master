@@ -4,12 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Dingo\Api\Dispatcher;
-use Dingo\Api\Routing\Helpers;
+
 
 class HomeController extends Controller
 {
-    use Helpers, ApiDispatcher;
-
+    //
     public function index()
     {
         /**@var User $user * */
@@ -18,8 +17,6 @@ class HomeController extends Controller
         $dispatcher = $this->dispatcher();
         try {
             $user = $dispatcher->get('/users/profile');
-        } catch (\Exception $exception) {
-
         } catch (\Exception $exception) {
         }
         $view = null;

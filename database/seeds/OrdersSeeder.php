@@ -33,14 +33,9 @@ class   OrdersSeeder extends Seeder
         }
     }
 
-<<<<<<< HEAD
-    protected function buildOrder($count, $limit = 1000) {
-        for ($i =0; $i < $count; $i ++) {
-=======
     protected function buildOrder($count, $limit = 1000)
     {
         for ($i = 0; $i < $count; $i++) {
->>>>>>> 530dce36ec2cdbde45fa1533280d465cbb5a3597
             yield factory(Order::class, $limit)->create();
         }
     }
@@ -105,7 +100,7 @@ class   OrdersSeeder extends Seeder
             $refundOrder->masterId = $master->id;
             $refundOrder->remark = $faker->text(64);
             $refundOrder->paymentOrderId = $paymentOrder->id;
-            $refundOrder->refundMethod = $faker->randomElement(array_keys(RefundOrder::REFUND_MODES));
+            $refundOrder->refundMode = $faker->randomElement(array_keys(RefundOrder::REFUND_MODES));
             $refundOrder->refundMethod = $faker->randomElement(array_keys(RefundOrder::REFUND_METHODS));
             $order->refundOrders()->save($refundOrder);
 
