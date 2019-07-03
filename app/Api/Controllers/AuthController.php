@@ -10,6 +10,7 @@ use App\Models\Master;
 use App\Models\MasterService;
 use App\Models\User;
 use App\Repositories\MasterRepository;
+use Douyasi\IdentityCard\ID;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\Inflector\Inflector;
 
@@ -95,15 +96,22 @@ class AuthController extends Controller
     /**
      * 免费入驻
      * @param MasterCreateRequest $request
+     * @param MasterRepository $masterRepository
+     * @return JsonResponse
      */
     public function freeSettle(MasterCreateRequest $request, MasterRepository $masterRepository)
     {
         $data = $request->only([
-            'mobile', 'captcha', 'password', 'emergency_mobile', 'province_code', 'city_code', 'area_code', 'address',
+            'name', 'id_card_no', 'mobile', 'captcha', 'password', 'emergency_mobile', 'province_code', 'city_code', 'area_code', 'address',
             'services', 'key_areas', 'other_areas'
         ]);
 
         // TODO 验证码验证
+
+        // 身份证验证
+        if (!(new ID())->validateIDCard($data['id_card_no'])) {
+            $this->response->errorBadRequest('身份证号码格式错误');
+        }
 
         if (count($masterRepository->findWhere(['mobile' => $data['mobile']]))) {
             $this->response->errorForbidden('手机号已注册，不可重复注册');

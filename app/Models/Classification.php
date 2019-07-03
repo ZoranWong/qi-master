@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
  * @property \Illuminate\Support\Carbon|null $deletedAt
  * @property \Illuminate\Support\Carbon|null $createdAt
  * @property \Illuminate\Support\Carbon|null $updatedAt
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Category[] $categories
  * @property-read mixed $statusDesc
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ServiceType[] $serviceTypes
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ServiceType[] $services
