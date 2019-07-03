@@ -23,7 +23,13 @@ class MasterServicesSeeder extends Seeder
             MasterService::TYPE_KEY,
             MasterService::TYPE_OTHER
         ];
-        $masters->map(function (Master $master)use ($faker, $types) {
+        $weights = [
+            MasterService::TYPE_CORE => MasterService::WEIGHT_CORE,
+            MasterService::TYPE_KEY => MasterService::WEIGHT_KEY,
+            MasterService::TYPE_OTHER => MasterService::WEIGHT_OTHER
+        ];
+
+        $masters->map(function (Master $master)use ($faker, $types, $weights) {
             $master->services()->delete();
             $count = random_int(1, 1000) % 3 + 1;
             $masterServices = [];
@@ -40,7 +46,7 @@ class MasterServicesSeeder extends Seeder
                 $masterService = new MasterService();
                 $masterService->regionCode = $area ? $area->regionCode : ($city ? $city->regionCode : $province->regionCode);
                 $masterService->type = $types[$i];
-                $masterService->weight = $faker->randomDigit;
+                $masterService->weight = $weights[$masterService->type];
                 $masterServices[] = $masterService;
             }
             $master->serviceAreas()->saveMany($masterServices);
