@@ -42,9 +42,12 @@ class InitRegionalismCodeCommand extends Command
             base64_decode('5aW955qE77yB')
         ]);
         if($choice){
+            $bar = $this->output->createProgressBar(15);
             for ($i = 0; $i = 15; $i ++) {
                 sleep(1);
+                $bar->advance();
             }
+            $bar->finish();
             $this->info(base64_decode('546w5Zyo5aW95LqG5Y+v5Lul5a6M5oiQ5Ymp5L2Z6YOo5YiG5LqG'));
             return;
         }
