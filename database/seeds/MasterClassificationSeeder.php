@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\Models\Master;
+use App\Models\Classification;
 class MasterClassificationSeeder extends Seeder
 {
     /**
@@ -17,9 +18,9 @@ class MasterClassificationSeeder extends Seeder
         $masters->map(function (Master $master) {
             $master->services()->delete();
             /**
-             * @var \App\Models\Classification $classification
+             * @var Classification $classification
              * */
-            $classification = \App\Models\Classification::inRandomOrder()->first();
+            $classification = Classification::inRandomOrder()->first();
             $data['classification_id'] = $classification->id;
             $data['services'] = $classification->serviceTypes->map(function (\App\Models\ServiceType $serviceType) {
                 return [
