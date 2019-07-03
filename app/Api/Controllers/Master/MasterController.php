@@ -7,6 +7,7 @@ use App\Http\Requests\MasterServiceUpdateRequest;
 use App\Http\Requests\UserUpdatePasswordRequest;
 use App\Models\Master;
 use App\Models\MasterService;
+use App\Models\ServiceType;
 use App\Repositories\MasterRepository;
 use App\Transformers\MasterTransformer;
 use Dingo\Api\Http\Response;
@@ -126,7 +127,16 @@ class MasterController extends Controller
         $master->serviceAreas()->createMany($serviceAreas);
         // 更新服务类目类型
         $master->services()->delete();
-        $master->services()->createMany($data['services']);
+        $services = $data['services'];
+        foreach ($services as &$service) {
+            $serviceTypes = ServiceType::whereIn('id', $service['services'])->get();
+            $service['services'] = [];
+            foreach ($serviceTypes as $serviceType) {
+                $service['services'][] = ['id' => $serviceType->id, 'name' => $serviceType->name];
+            }
+        }
+
+        $master->services()->createMany($services);
         // 更新其他服务信息
         $master->update($data);
 
