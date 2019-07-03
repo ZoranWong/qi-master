@@ -80,6 +80,9 @@
         .publish{
             margin-bottom: 48px;
         }
+        .order-info{
+            display: grid;
+        }
     </style>
 </head>
 
@@ -91,63 +94,67 @@
 
 <!--content-->
 <div class="max-width">
-    <div class="publish layui-form">
+    <form class="publish layui-form">
         <div class="big-title">商品信息</div>
         <div class="order-info product-info">
-            <div class="step-1">
+            <div class="step-1 layui-form-item">
                 <div class="task-section clearfix">
-                    <div class="fl">
+                    <label class="fl layui-form-label">
                         <p class="task-txt-left">
                         <span>
                             <em class="red-dot">*</em>服务类目：
                         </span>
                         </p>
+                    </label>
+                    <div class="layui-input-block">
+                        <ul class="service-classification-list">
+                            @foreach($classifications as $key => $classification)
+                                <li class="radiobox classification {{$key === 0 ? 'selected' : ''}}"
+                                    data-id="{{$classification->id}}">
+                                    <label class="radiobox" style="display: block;">
+                                        <input name="classification_id" type="radio" class="radio-input">
+                                        <div style="width: 100%;margin-top: 8px;">
+                                            <span>{{$classification->name}}</span>
+                                        </div>
+                                        <img class="classification-icon" src="{{$classification->iconUrl}}">
+                                    </label>
+                                </li>
+                            @endforeach
+                        </ul>
                     </div>
-                    <ul class="service-classification-list">
-                        @foreach($classifications as $key => $classification)
-                            <li class="radiobox classification {{$key === 0 ? 'selected' : ''}}"
-                                data-id="{{$classification->id}}">
-                                <label class="radiobox" style="display: block;">
-                                    <input name="classification_id" type="radio" class="radio-input">
-                                    <div style="width: 100%;margin-top: 8px;">
-                                        <span>{{$classification->name}}</span>
-                                    </div>
-                                    <img class="classification-icon" src="{{$classification->iconUrl}}">
-                                </label>
-                            </li>
-                        @endforeach
-                    </ul>
                 </div>
             </div>
-            <div class="step-2">
+            <div class="step-2 layui-form-item">
                 <div class="task-section clearfix">
-                    <div class="fl">
+                    <div class="fl layui-form-label">
                         <p class="task-txt-left">
                         <span>
                             <em class="red-dot">*</em>服务类型：
                         </span>
                         </p>
                     </div>
-                    @foreach($classifications as $key => $classification)
-                        <ul data-id="{{$classification->id}}"
-                            class="classification-{{$classification->id}} service-type-list flex {{$key === 0 ? 'selected' : 'hidden'}}">
-                            @foreach($classification->serviceTypes as $k => $serviceType)
-                                <li class="radio-box service-type" data-id="{{$serviceType->id}}">
-                                    <label class="radio-box" style="display: block;">
-                                        <input name="service_type_id" type="radio" class="radio-input"
-                                               value="{{$serviceType->name}}">
-                                        <button data-id="{{$serviceType->id}}"
-                                                class="service-type-btn layui-btn layui-btn-primary {{$k === 0 ? 'selected' : ''}}">
-                                            {{$serviceType->name}}
-                                        </button>
-                                    </label>
-                                </li>
-                            @endforeach
-                        </ul>
-                    @endforeach
+                    <div class="layui-input-block">
+                        @foreach($classifications as $key => $classification)
+                            <ul data-id="{{$classification->id}}"
+                                class="classification-{{$classification->id}} service-type-list flex {{$key === 0 ? 'selected' : 'hidden'}}">
+                                @foreach($classification->serviceTypes as $k => $serviceType)
+                                    <li class="radio-box service-type" data-id="{{$serviceType->id}}">
+                                        <label class="radio-box" style="display: block;">
+                                            <input name="service_type_id" type="radio" class="radio-input"
+                                                   value="{{$serviceType->name}}">
+                                            <button data-id="{{$serviceType->id}}"
+                                                    class="service-type-btn layui-btn layui-btn-primary {{$k === 0 ? 'selected' : ''}}">
+                                                {{$serviceType->name}}
+                                            </button>
+                                        </label>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @endforeach
+                    </div>
                 </div>
             </div>
-            <div class="step-3">
+            <div class="step-3 layui-form-item">
                 <div class="task-section clearfix">
                     <div class="fl">
                         <p class="task-txt-left">
@@ -163,7 +170,7 @@
                     </div>
                 </div>
             </div>
-            <div class="step-4">
+            <div class="step-4 layui-form-item">
                 <div class="task-section clearfix">
                     <div class="fl">
                         <p class="task-txt-left">
@@ -179,19 +186,17 @@
                     </div>
                 </div>
             </div>
-            <div class="step-5">
-                <div class="task-section clearfix">
-                    <div class="fl">
+            <div class="step-5 ">
+                <div class="layui-form-item">
+                    <div class="fl layui-form-label">
                         <p class="task-txt-left">
                         <span>
                             <em class="red-dot">*</em>商品型号：
                         </span>
                         </p>
                     </div>
-                    <div class="layui-from-item">
-                        <div class="">
-
-                        </div>
+                    <div class="layui-input-block">
+                        <input class="product-title" type="text">
                     </div>
                 </div>
             </div>
@@ -204,7 +209,7 @@
                         </span>
                         </p>
                     </div>
-                    <div class="layui-from-item">
+                    <div class="">
                         <div class="">
 
                         </div>
@@ -333,7 +338,7 @@
         <div class="layui-form-item">
 
         </div>
-    </div>
+    </form>
 </div>
 <!--contend end-->
 

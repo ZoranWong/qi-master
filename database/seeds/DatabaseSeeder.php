@@ -11,6 +11,7 @@ class DatabaseSeeder extends Seeder
         $this->call(UsersSeeder::class);
         $this->call(MasterSeeder::class);
         $this->call(UserAddressesSeeder::class);
+        $this->call(ServiceTypeSeeder::class);
         $this->call(ClassificationSeeder::class);
         $this->call(CategorySeeder::class);
         $this->call(ProductsSeeder::class);
@@ -18,7 +19,6 @@ class DatabaseSeeder extends Seeder
         $this->call(PermissionSeeder::class);
         $this->call(MenuSeeder::class);
         $this->call(CategorySeeder::class);
-        $this->call(ServiceTypeSeeder::class);
         $this->call(OrdersSeeder::class);
         $this->call(WithdrawOrdersSeeder::class);
         $this->call(ComplaintTypeSeeder::class);
