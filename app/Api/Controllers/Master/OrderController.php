@@ -5,9 +5,11 @@ namespace App\Api\Controllers\Master;
 use App\Api\Controller;
 use App\Models\Order;
 use App\Repositories\OrderRepository;
+use App\Transformers\Master\NewOrderDetailTransformer;
 use App\Transformers\Master\NewOrderTransformer;
 use App\Transformers\OrderDetailTransformer;
 use App\Transformers\OrderTransformer;
+use Dingo\Api\Http\Response;
 
 class OrderController extends Controller
 {
@@ -36,6 +38,10 @@ class OrderController extends Controller
         return $this->response->item($order, new OrderDetailTransformer);
     }
 
+    /**
+     * 新单列表
+     * @return Response
+     */
     public function newOrders()
     {
         $paginator = $this->repository->getNewOrderList();
@@ -43,11 +49,16 @@ class OrderController extends Controller
         return $this->response->paginator($paginator, new NewOrderTransformer);
     }
 
+    /**
+     * 新单详情
+     * @param Order $order
+     * @return Response
+     */
     public function newOrderDetail(Order $order)
     {
         $order = $this->repository->with(['comment', 'classification', 'serviceType'])->find($order->id);
 
-        return $this->response->item($order, new OrderDetailTransformer);
+        return $this->response->item($order, new NewOrderDetailTransformer);
     }
 
 }
