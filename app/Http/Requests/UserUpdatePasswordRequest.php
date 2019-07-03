@@ -23,7 +23,7 @@ class UserUpdatePasswordRequest extends FormRequest
      */
     public function rules()
     {
-        $uri = request()->getUri();
+        $uri = request()->url();
 
         $prefix = '';
 
@@ -47,7 +47,7 @@ class UserUpdatePasswordRequest extends FormRequest
             unset($rules['mobile']);
         }
 
-        \Log::info('更新密码路由:', ['request_uri' => $uri, 'uri' => api_route('masters.change_password')]);
+        \Log::info('更新密码路由:', ['request_uri' => $uri]);
         return $rules;
     }
 }
