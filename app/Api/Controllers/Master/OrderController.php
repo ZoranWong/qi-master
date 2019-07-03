@@ -43,4 +43,11 @@ class OrderController extends Controller
         return $this->response->paginator($paginator, new NewOrderTransformer);
     }
 
+    public function newOrderDetail(Order $order)
+    {
+        $order = $this->repository->with(['comment', 'classification', 'serviceType'])->find($order->id);
+
+        return $this->response->item($order, new OrderDetailTransformer);
+    }
+
 }
