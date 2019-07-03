@@ -149,4 +149,22 @@ class MasterController extends Controller
 
         return $this->response->noContent();
     }
+
+    public function getOrderStatistics()
+    {
+        $master = $this->repository->getOrderStatistics();
+
+        return response()->json([
+            'data' => [
+                'order_wait_agree_count' => $master->order_wait_agree_count,
+                'order_wait_pay_count' => $master->order_wait_pay_count,
+                'order_wait_pre_appoint_count' => $master->order_wait_pre_appoint_count,
+                'order_wait_sign_count' => $master->order_wait_sign_count,
+                'order_signed_count' => $master->order_signed_count,
+                'order_wait_check_count' => $master->order_wait_check_count,
+                'order_completed_count' => $master->order_completed_count,
+                'order_closed_count' => $master->order_closed_count
+            ]
+        ]);
+    }
 }
