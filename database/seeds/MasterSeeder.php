@@ -30,7 +30,7 @@ class MasterSeeder extends Seeder
             /**
              * @var Master $master
              * */
-            $master->areaCode = $area->regionCode;
+            $master->areaCode = $area ? $area->regionCode : ($city ? $city->regionCode : $province->regionCode);;
             $master->save();
         }
     }
