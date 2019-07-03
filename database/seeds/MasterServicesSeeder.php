@@ -15,6 +15,7 @@ class MasterServicesSeeder extends Seeder
     public function run()
     {
         //
+        MasterService::truncate();
         $masters = Master::all();
         $faker = app(Generator::class);
         $types = [
@@ -42,7 +43,7 @@ class MasterServicesSeeder extends Seeder
                 $masterService->weight = $faker->randomDigit;
                 $masterServices[] = $masterService;
             }
-            $master->services()->saveMany($masterServices);
+            $master->serviceAreas()->saveMany($masterServices);
         });
     }
 }
