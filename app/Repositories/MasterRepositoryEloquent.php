@@ -65,12 +65,11 @@ class MasterRepositoryEloquent extends BaseRepository implements MasterRepositor
      */
     public function getOrderStatistics()
     {
-        /** @var Master $master */
-        $master = auth()->user();
-
-        $this->withCount([
-            'orderWaitHired', 'orderWaitPay', 'orderWaitPreAppoint',
+        $master = $this->withCount([
+            'orderWaitAgree', 'orderWaitPay', 'orderWaitPreAppoint',
             'orderWaitSign', 'orderSigned', 'orderWaitCheck', 'orderCompleted', 'orderClosed'
-        ]);
+        ])->find(auth()->id());
+
+        return $master;
     }
 }

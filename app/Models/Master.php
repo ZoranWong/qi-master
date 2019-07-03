@@ -193,7 +193,15 @@ class Master extends Model implements JWTSubject, Authenticatable, MustVerifyEma
      */
     public function orderCompleted()
     {
-        return $this->orders()->where('status', Order::ORDER_COMPLETED);
+        return $this->orders()->whereIn('status', [Order::ORDER_CHECKED, Order::ORDER_COMPLETED]);
+    }
+
+    /**
+     * 我的已关闭订单
+     */
+    public function orderClosed()
+    {
+        return $this->orders()->where('status', Order::ORDER_CLOSED);
     }
 
     /**

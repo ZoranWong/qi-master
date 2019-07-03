@@ -10,7 +10,7 @@ $factory->define(Order::class, function (Faker $faker) {
     // 随机取一个用户
     $user = User::query()->inRandomOrder()->first();
     $master = Master::query()->inRandomOrder()->first();
-    /**@var Region $region*/
+    /**@var Region $region */
     $region = Region::query()->inRandomOrder()->first();
 
     $orderNo = orderNo();
@@ -27,7 +27,7 @@ $factory->define(Order::class, function (Faker $faker) {
         Order::ORDER_WAIT_CHECK,
         Order::ORDER_CHECKED,
         Order::ORDER_COMPLETED,
-        Order::ORDER_CANCEL
+        Order::ORDER_CLOSED
     ]);
 
     return [

@@ -106,7 +106,7 @@ class Order extends Model implements HasPresenter
     const ORDER_WAIT_CHECK = 8;// 待验收(待收款,确认验收即打款)
     const ORDER_CHECKED = 9;// 验收完成，待评价
     const ORDER_COMPLETED = 10;// 订单完成
-    const ORDER_CANCEL = 11;// 订单关闭
+    const ORDER_CLOSED = 11;// 订单关闭
 
     const ORDER_STATUS = [
         self::ORDER_WAIT_OFFER => '待报价',
@@ -120,7 +120,7 @@ class Order extends Model implements HasPresenter
         self::ORDER_WAIT_CHECK => '待验收',
         self::ORDER_CHECKED => '已验收',
         self::ORDER_COMPLETED => '订单完成',
-        self::ORDER_CANCEL => '订单关闭'
+        self::ORDER_CLOSED => '订单关闭'
     ];
 
 
