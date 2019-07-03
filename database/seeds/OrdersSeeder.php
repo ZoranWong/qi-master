@@ -66,14 +66,16 @@ class   OrdersSeeder extends Seeder
             $orderItem->installFee = $faker->randomDigitNotNull;
             $orderItem->otherFee = $faker->randomDigitNotNull;
             $orderItem = $order->items()->save($orderItem);
+            if($order->status !== Order::ORDER_WAIT_OFFER){
+                $offerOrder = new OfferOrder();
+                $offerOrder->masterId = $master->id;
+                $offerOrder->orderItemId = $orderItem->id;
+                $offerOrder->status = $order->status;
+                $offerOrder->userId = $order->userId;
+                $offerOrder->quotePrice = $faker->randomDigitNotNull;
+                $order->offerOrders()->save($offerOrder);
+            }
 
-            $offerOrder = new OfferOrder();
-            $offerOrder->masterId = $master->id;
-            $offerOrder->orderItemId = $orderItem->id;
-            $offerOrder->status;
-            $offerOrder->userId = $order->userId;
-            $offerOrder->quotePrice = $faker->randomDigitNotNull;
-            $order->offerOrders()->save($offerOrder);
 
             $paymentOrder = new PaymentOrder();
             $paymentOrder->userId = $order->userId;
