@@ -24,6 +24,8 @@ class MasterCreateRequest extends FormRequest
     public function rules()
     {
         return [
+            'name' => 'required',
+            'id_card_no' => 'required',
             'mobile' => 'required|phone_number',
             'captcha' => 'required',
             'password' => 'required|confirmed',

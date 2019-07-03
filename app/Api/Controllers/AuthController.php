@@ -8,9 +8,12 @@ use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Models\Master;
 use App\Models\MasterService;
+use App\Models\ServiceType;
 use App\Models\User;
 use App\Repositories\MasterRepository;
+use Douyasi\IdentityCard\ID;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\Inflector\Inflector;
 
 class AuthController extends Controller
@@ -95,15 +98,23 @@ class AuthController extends Controller
     /**
      * 免费入驻
      * @param MasterCreateRequest $request
+     * @param MasterRepository $masterRepository
+     * @return JsonResponse
+     * @throws \Exception
      */
     public function freeSettle(MasterCreateRequest $request, MasterRepository $masterRepository)
     {
         $data = $request->only([
-            'mobile', 'captcha', 'password', 'emergency_mobile', 'province_code', 'city_code', 'area_code', 'address',
+            'name', 'id_card_no', 'mobile', 'captcha', 'password', 'emergency_mobile', 'province_code', 'city_code', 'area_code', 'address',
             'services', 'key_areas', 'other_areas'
         ]);
 
         // TODO 验证码验证
+
+        // 身份证验证
+        if (!(new ID())->validateIDCard($data['id_card_no'])) {
+            $this->response->errorBadRequest('身份证号码格式错误');
+        }
 
         if (count($masterRepository->findWhere(['mobile' => $data['mobile']]))) {
             $this->response->errorForbidden('手机号已注册，不可重复注册');
@@ -115,21 +126,36 @@ class AuthController extends Controller
         $keyAreas = $data['key_areas'];
         $otherAreas = $data['other_areas'];
 
-        $serviceAreas = [];
-        foreach ($keyAreas as $keyArea) {
-            $serviceAreas[] = ['region_code' => $keyArea, 'type' => MasterService::TYPE_KEY, 'weight' => MasterService::WEIGHT_KEY];
+        DB::beginTransaction();
+        try {
+            $serviceAreas = [];
+            foreach ($keyAreas as $keyArea) {
+                $serviceAreas[] = ['region_code' => $keyArea, 'type' => MasterService::TYPE_KEY, 'weight' => MasterService::WEIGHT_KEY];
+            }
+            foreach ($otherAreas as $otherArea) {
+                $serviceAreas[] = ['region_code' => $otherArea, 'type' => MasterService::TYPE_OTHER, 'weight' => MasterService::WEIGHT_OTHER];
+            }
+
+            /** @var Master $master */
+            $master = $masterRepository->create($data);
+
+            $services = $data['services'];
+            foreach ($services as &$service) {
+                $serviceTypes = ServiceType::whereIn('id', $service['services'])->get();
+                $service['services'] = [];
+                foreach ($serviceTypes as $serviceType) {
+                    $service['services'][] = ['id' => $serviceType->id, 'name' => $serviceType->name];
+                }
+            }
+
+            $master->services()->createMany($services);
+            $serviceAreas[] = ['region_code' => $master->areaCode, 'type' => MasterService::TYPE_CORE, 'weight' => MasterService::WEIGHT_CORE];
+            $master->serviceAreas()->createMany($serviceAreas);
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            $this->response->error($e->getTraceAsString(), 500);
         }
-        foreach ($otherAreas as $otherArea) {
-            $serviceAreas[] = ['region_code' => $otherArea, 'type' => MasterService::TYPE_OTHER, 'weight' => MasterService::WEIGHT_OTHER];
-        }
-
-        /** @var Master $master */
-        $master = $masterRepository->create($data);
-
-        $master->services()->createMany($data['services']);
-
-        $serviceAreas[] = ['region_code' => $master->areaCode, 'type' => MasterService::TYPE_CORE, 'weight' => MasterService::WEIGHT_CORE];
-        $master->serviceAreas()->createMany($serviceAreas);
 
         // 设置模型提供器
         auth()->getProvider()->setModel(Master::class);

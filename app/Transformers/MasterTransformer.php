@@ -24,10 +24,17 @@ class MasterTransformer extends TransformerAbstract
         return [
             'id' => (int)$model->id,
             'name' => $model->name,
+            'id_card_no' => $model->idCardNo,
             'real_name' => $model->realName,
             'avatar' => $model->avatar,
             'mobile' => $model->mobile,
             'balance' => $model->balance,
+            'work_day' => $model->workDay,
+            'work_time' => $model->workTime,
+            'team_nums' => $model->teamNums,
+            'truck_nums' => $model->truckNums,
+            'truck_type' => Master::TRUCK_TYPES[$model->truckType],
+            'truck_tonnage' => $model->truckTonnage,
 
             // 服务省市区
             'province' => $model->province,
