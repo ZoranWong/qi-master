@@ -60,6 +60,7 @@ class   OrdersSeeder extends Seeder
                 'service_requirements' => [
                 ]
             ];
+            $order->image = $product->image;
             $orderItem->installFee = $faker->randomDigitNotNull;
             $orderItem->otherFee = $faker->randomDigitNotNull;
             $orderItem = $order->items()->save($orderItem);
@@ -131,6 +132,7 @@ class   OrdersSeeder extends Seeder
             ];
 
             $order->comment()->save($comment);
+            $order->save();
         }
     }
 }
