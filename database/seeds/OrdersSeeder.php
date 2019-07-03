@@ -46,7 +46,9 @@ class   OrdersSeeder extends Seeder
 
         $count = $faker->randomDigitNotNull % 3 + 1;
         for ($i = 0; $i < $count; $i++) {
-            $master = Master::query()->inRandomOrder()->first();
+            $master = Master::query()->inRandomOrder()->whereIn('id', [1, 2, 3, 4, 5])
+                ->get()
+                ->random(1)->first();
             $product = Product::query()->inRandomOrder()->first();
             $orderItem = new OrderItem();
             $orderItem->status = $order->status;
