@@ -24,6 +24,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
  * @property-read mixed $statusDesc
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ServiceType[] $serviceTypes
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ServiceType[] $services
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Classification active()
  * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Classification newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Classification newQuery()

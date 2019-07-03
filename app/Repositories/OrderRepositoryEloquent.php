@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Dingo\Api\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Query\JoinClause;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Exceptions\RepositoryException;
@@ -111,12 +112,32 @@ class OrderRepositoryEloquent extends BaseRepository implements OrderRepository
         return $paginator;
     }
 
+    /**
+     * 新单列表
+     * 只推荐与师傅服务区域相关的新单
+     * 顺序：权重降序，新单时间升序
+     * @return mixed
+     */
     public function getNewOrderList()
     {
-        $paginator = $this->with(['serviceType', 'classification'])->scopeQuery(function ($query) {
-            return $query->whereIn('status', [Order::ORDER_WAIT_HIRE, Order::ORDER_WAIT_OFFER])->inRandomOrder();
+        /** @var Master $master */
+        $master = auth()->user();
+
+        $paginator = $this->with(['serviceType', 'classification'])->scopeQuery(function (Builder $query) use ($master) {
+            return $query->whereIn('status', [Order::ORDER_WAIT_HIRE, Order::ORDER_WAIT_OFFER])
+                ->join('master_services', function (JoinClause $join) use ($master) {
+                    $join->on('orders.region_code', '=', 'master_services.region_code')
+                        ->where('master_services.master_id', '=', $master->id);
+                })
+                ->selectRaw("orders.*,master_services.master_id,master_services.weight+(rand() * 10) as random_weight")
+                ->where('master_services.master_id', $master->id)
+                ->orderBy('random_weight', 'desc')
+                ->orderBy('orders.created_at', 'asc');
         })->paginate(request()->input('limit', PAGE_SIZE));
 
+        dd($paginator->items());
+
         return $paginator;
+
     }
 }

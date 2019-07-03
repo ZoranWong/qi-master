@@ -4,9 +4,11 @@ namespace App\Api\Controllers;
 
 use App\Api\Controller;
 use App\Models\Classification;
+use App\Models\ComplaintType;
 use App\Models\Region;
 use App\Models\ServiceType;
 use App\Transformers\ClassificationTransformer;
+use App\Transformers\ComplaintTypeTransformer;
 use App\Transformers\RegionTransformer;
 use App\Transformers\ServiceTypeTransformer;
 use Dingo\Api\Http\Response;
@@ -43,5 +45,15 @@ class HomeController extends Controller
         $levelList = Region::getProvinces();
 
         return $this->response->collection($levelList, new RegionTransformer);
+    }
+
+    /**
+     * 投诉类型
+     */
+    public function complaintTypes()
+    {
+        $complaintTypes = ComplaintType::topLevel()->with(['children'])->get(['id', 'name']);
+
+        return $this->response->collection($complaintTypes, new ComplaintTypeTransformer);
     }
 }
