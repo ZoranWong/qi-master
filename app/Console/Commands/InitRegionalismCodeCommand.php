@@ -49,7 +49,7 @@ class InitRegionalismCodeCommand extends Command
             }
             $bar->finish();
             $this->info(base64_decode('546w5Zyo5aW95LqG5Y+v5Lul5a6M5oiQ5Ymp5L2Z6YOo5YiG5LqG'));
-            return;
+//            return;
         }
         $choice = $this->ask('This command will truncate regions table,confirm(y/n)?', 'y');
 
