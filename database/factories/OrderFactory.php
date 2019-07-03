@@ -10,8 +10,9 @@ $factory->define(Order::class, function (Faker $faker) {
     // 随机取一个用户
     $user = User::query()->inRandomOrder()->first();
     $master = Master::query()->inRandomOrder()->first();
-    /**@var Region $region */
-    $region = Region::query()->inRandomOrder()->where('parent_code', 0)->first();
+    /**@var Region $region*/
+    $region = Region::query()->inRandomOrder()->first();
+
     $orderNo = orderNo();
     $type = $faker->randomElement([
         Order::ORDER_TYPE_FIXED_PRICE,
