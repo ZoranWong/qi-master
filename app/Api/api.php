@@ -26,11 +26,15 @@ $api->version('v1', ['namespace' => 'App\Api\Controllers'], function (Router $ap
         /**
          * 用户
          */
-        require_once app_path('Api/user-api.php');
+        $api->group(['middleware' => 'guard.users'], function (Router $api) {
+            require_once app_path('Api/user-api.php');
+        });
 
         /**
          * 师傅
          */
-        require_once app_path('Api/master-api.php');
+        $api->group(['middleware' => 'guard:masters'], function (Router $api) {
+            require_once app_path('Api/master-api.php');
+        });
     });
 });

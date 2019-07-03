@@ -27,6 +27,7 @@ class OrderController extends Controller
 
     public function detail(Order $order)
     {
+        dd(auth()->id(), $order->masterId);
         if (auth()->id() !== $order->masterId) {
             $this->response->errorForbidden('您无权查看不属于您的订单详情');
         }
