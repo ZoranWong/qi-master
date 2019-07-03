@@ -153,7 +153,9 @@ class Master extends Model implements JWTSubject, Authenticatable, MustVerifyEma
      */
     public function orderOnProceeding()
     {
-        return $this->orders()->where('status', Order::ORDER_PROCEEDING);
+        return $this->orders()->whereIn('status', [
+            Order::ORDER_PROCEEDING_WAIT_PRE_APPOINT, Order::ORDER_PROCEEDING_APPOINTED, Order::ORDER_PROCEEDING_PRODUCT_RECEIVED, Order::ORDER_PROCEEDING_SIGNED
+        ]);
     }
 
     /**
