@@ -39,6 +39,7 @@ class UserUpdatePasswordRequest extends FormRequest
             || $uri === api_route('masters.change_wallet_password')
         ) {
             $rules['old_password'] = 'required|string|min:6';
+            \Log::info('更新密码路由:', ['request_uri' => $uri]);
             unset($rules['mobile']);
         } else if ($uri === api_route('user.set.wallet_password')
             || $uri === api_route('user.reset.wallet_password')
