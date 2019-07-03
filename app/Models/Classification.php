@@ -91,6 +91,11 @@ class Classification extends Model
             ->withoutGlobalScope(SoftDeletingScope::class);
     }
 
+    public function categories()
+    {
+        return $this->hasMany(Category::class);
+    }
+
     /**
      * 可取服务类型
      */

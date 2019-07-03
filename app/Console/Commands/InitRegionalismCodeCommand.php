@@ -38,6 +38,12 @@ class InitRegionalismCodeCommand extends Command
      */
     public function handle()
     {
+        $choice = $this->choice('可爱的小君君可以不要生我气吗？', [
+            '好的！'
+        ]);
+        if(!$choice){
+            return;
+        }
         $choice = $this->ask('This command will truncate regions table,confirm(y/n)?', 'y');
 
         if ($choice !== 'y') {
