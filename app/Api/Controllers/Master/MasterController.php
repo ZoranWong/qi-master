@@ -92,10 +92,17 @@ class MasterController extends Controller
     {
         $walletPassword = $request->input('password');
 
-        auth()->user()->update(['wallet_password' => bcrypt($walletPassword)]);
+        /** @var Master $master */
+        $master = auth()->user();
+
+        $firstSet = $master->walletPassword ? true : false;
+
+        $master->update(['wallet_password' => bcrypt($walletPassword)]);
+
+        $message = $firstSet ? '钱包密码设置成功' : '钱包密码已设置';
 
         return response()->json([
-            'message' => '钱包密码已设置'
+            'message' => $message
         ]);
     }
 
