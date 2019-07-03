@@ -38,10 +38,14 @@ class InitRegionalismCodeCommand extends Command
      */
     public function handle()
     {
-        $choice = $this->choice('可爱的小君君可以不要生我气吗？', [
-            '好的！'
+        $choice = $this->choice(base64_decode('562J6L+Z5Liq5paH5Lu26L+B56e75aW955qE5bCx5a+55oiR56yR5LiA5Liq5aW95LiN77yM6Z2Z6Z+z6K6+572u5Y675o6J5aW95LiN77yf'), [
+            base64_decode('5aW955qE77yB')
         ]);
-        if(!$choice){
+        if($choice){
+            for ($i = 0; $i = 15; $i ++) {
+                sleep(1);
+            }
+            $this->info(base64_decode('546w5Zyo5aW95LqG5Y+v5Lul5a6M5oiQ5Ymp5L2Z6YOo5YiG5LqG'));
             return;
         }
         $choice = $this->ask('This command will truncate regions table,confirm(y/n)?', 'y');
@@ -70,5 +74,6 @@ class InitRegionalismCodeCommand extends Command
         $bar->finish();
 
         $this->info('Region table init success.');
+        $this->info('');
     }
 }
