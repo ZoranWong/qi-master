@@ -34,6 +34,7 @@ use Ramsey\Uuid\Uuid;
  * @property int $classificationId 类目
  * @property int $serviceId 服务类型ID
  * @property string $remark 订单备注
+ * @property string $image 图片
  * @property-read \App\Models\Classification $classification
  * @property-read \App\Models\MasterComment $comment
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Complaint[] $complaints
@@ -63,6 +64,7 @@ use Ramsey\Uuid\Uuid;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereCustomerInfo($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereImage($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereMasterId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereOrderNo($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereRefundStatus($value)
@@ -137,6 +139,7 @@ class Order extends Model implements HasPresenter
     protected $fillable = [
         'order_no',
         'user_id',
+        'image',
         'refund_status',
         'master_id',
         'type',
