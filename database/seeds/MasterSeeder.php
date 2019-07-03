@@ -23,10 +23,10 @@ class MasterSeeder extends Seeder
             $province = Region::inRandomOrder()->where('parent_code', 0)->first();
 
             /**@var Region $city*/
-            $city = $province->children->random(1)->first();
+            $city = $province->children->count() > 0 ? $province->children->random(1)->first() : null;
 
             /**@var Region $area*/
-            $area = $city->children->random(1)->first();
+            $area = $city && $city->children->count() > 0 ? $city->children->random(1)->first() : null;
             /**
              * @var Master $master
              * */
