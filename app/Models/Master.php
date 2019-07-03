@@ -151,6 +151,34 @@ class Master extends Model implements JWTSubject, Authenticatable, MustVerifyEma
     }
 
     /**
+     * 我的待预约订单
+     */
+    public function orderWaitPreAppoint()
+    {
+        return $this->orders()->where('status', Order::ORDER_PROCEEDING_WAIT_PRE_APPOINT);
+    }
+
+    /**
+     * 我的待上门订单
+     */
+    public function orderWaitSign()
+    {
+        return $this->orders()->where('status', Order::ORDER_PROCEEDING_APPOINTED);
+    }
+
+    /**
+     * 我的待完成订单（服务完成，非订单完成）
+     */
+    public function orderSigned()
+    {
+        return $this->orders()->where('status', Order::ORDER_PROCEEDING_SIGNED);
+    }
+
+    /**
+     *
+     */
+
+    /**
      * 我的服务中订单
      */
     public function orderOnProceeding()

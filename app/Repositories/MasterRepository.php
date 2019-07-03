@@ -12,4 +12,6 @@ use Prettus\Repository\Contracts\RepositoryInterface;
 interface MasterRepository extends RepositoryInterface
 {
     public function getMasterInfo();
+
+    public function getOrderStatistics();
 }

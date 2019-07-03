@@ -59,4 +59,18 @@ class MasterRepositoryEloquent extends BaseRepository implements MasterRepositor
         return $master;
     }
 
+    /**
+     * app端订单页统计数据
+     * 待接单，待支付，待预约，待上门，待完成，待收款，已完成，已关闭
+     */
+    public function getOrderStatistics()
+    {
+        /** @var Master $master */
+        $master = auth()->user();
+
+        $this->withCount([
+            'orderWaitHired', 'orderWaitPay', 'orderWaitPreAppoint',
+            'orderWaitSign', 'orderSigned', 'orderWaitCheck', 'orderCompleted', 'orderClosed'
+        ]);
+    }
 }

@@ -149,4 +149,9 @@ class MasterController extends Controller
 
         return $this->response->noContent();
     }
+
+    public function getOrderStatistics()
+    {
+        $this->repository->getOrderStatistics();
+    }
 }

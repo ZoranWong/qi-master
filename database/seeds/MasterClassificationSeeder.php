@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Database\Seeder;
-use App\Models\Master;
 use App\Models\Classification;
+use App\Models\Master;
+use Illuminate\Database\Seeder;
+
 class MasterClassificationSeeder extends Seeder
 {
     /**

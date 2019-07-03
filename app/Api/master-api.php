@@ -13,6 +13,7 @@ $api->group(['prefix' => 'masters', 'namespace' => 'Master'], function (Router $
         $api->put('/changeWalletPwd', ['as' => 'masters.change_wallet_password', 'uses' => 'MasterController@changeWalletPassword']);
         $api->put('/setWalletPwd', ['as' => 'masters.set_wallet_password', 'uses' => 'MasterController@setWalletPassword']);
         $api->post('/service_info/update', ['as' => 'masters.update_service_info', 'uses' => 'MasterController@updateServiceInfo']);
+        $api->get('/order_statistics', ['as' => 'masters.order_statistics', 'uses' => 'MasterController@getOrderStatistics']);
         /**
          * 订单
          */

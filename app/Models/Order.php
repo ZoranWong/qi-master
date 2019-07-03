@@ -102,8 +102,8 @@ class Order extends Model implements HasPresenter
     const ORDER_PROCEEDING_WAIT_PRE_APPOINT = 4;// 服务中-待预约客户
     const ORDER_PROCEEDING_APPOINTED = 5;// 服务中-已预约客户
     const ORDER_PROCEEDING_PRODUCT_RECEIVED = 6;// 服务中-已提货签收
-    const ORDER_PROCEEDING_SIGNED = 7;// 服务中-已上门签到
-    const ORDER_WAIT_CHECK = 8;// 待验收
+    const ORDER_PROCEEDING_SIGNED = 7;// 服务中-已上门签到(待完成)
+    const ORDER_WAIT_CHECK = 8;// 待验收(待收款,确认验收即打款)
     const ORDER_CHECKED = 9;// 验收完成，待评价
     const ORDER_COMPLETED = 10;// 订单完成
     const ORDER_CANCEL = 11;// 订单关闭
