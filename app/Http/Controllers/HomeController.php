@@ -28,6 +28,7 @@ class HomeController extends Controller
                 'currentMenu' => ''
             ]);
         }
+
         $orders = $user->orders()->with(['items', 'offerOrders'])->offset(0)->limit(10)->get();
         $view->with('user', $user)->with('orders', $orders);
         return $view;
