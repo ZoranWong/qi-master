@@ -3,7 +3,7 @@
     <th colspan="6">
         <span>订单号：{{$order->orderNo}}</span>
         <span>{{$order->publishedAt}}</span>
-        <span>服务商：{{ $order->master->name ?? $order->master->realName }}（{{ $order->master->mobile }}）</span>
+        <span>服务商：{{ $order->master ? ($order->master->name ?? $order->master->realName) : '' }}（{{ $order->master ? $order->master->mobile : ''}}）</span>
     </th>
 </tr>
 </thead>
@@ -22,7 +22,7 @@
     </td>
     <td>
         <div class="text-center">
-            <div>{{ $order->master->name ?? $order->master->realName }}/{{$order->master->mobile}}</div>
+            <div>{{$order->master ? ($order->master->name ?? $order->master->realName) : '' }}/{{$order->master ? $order->master->mobile : ''}}</div>
             <div>{{$order->customerAddress}}</div>
         </div>
     </td>

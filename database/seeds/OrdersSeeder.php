@@ -46,9 +46,12 @@ class   OrdersSeeder extends Seeder
 
         $count = $faker->randomDigitNotNull % 3 + 1;
         for ($i = 0; $i < $count; $i++) {
-            $master = Master::query()->inRandomOrder()->whereIn('id', [1, 2, 3, 4, 5])
+            $master = Master::query()
+                ->inRandomOrder()
+                ->whereIn('id', [1, 2, 3, 4, 5])
                 ->get()
-                ->random(1)->first();
+                ->random(1)
+                ->first();
             $product = Product::query()->inRandomOrder()->first();
             $orderItem = new OrderItem();
             $orderItem->status = $order->status;
@@ -62,19 +65,18 @@ class   OrdersSeeder extends Seeder
                 'service_requirements' => [
                 ]
             ];
+            $order->masterId = $master->id;
             $order->image = $product->image;
             $orderItem->installFee = $faker->randomDigitNotNull;
             $orderItem->otherFee = $faker->randomDigitNotNull;
             $orderItem = $order->items()->save($orderItem);
-            if($order->status !== Order::ORDER_WAIT_OFFER){
-                $offerOrder = new OfferOrder();
-                $offerOrder->masterId = $master->id;
-                $offerOrder->orderItemId = $orderItem->id;
-                $offerOrder->status = $order->status;
-                $offerOrder->userId = $order->userId;
-                $offerOrder->quotePrice = $faker->randomDigitNotNull;
-                $order->offerOrders()->save($offerOrder);
-            }
+            $offerOrder = new OfferOrder();
+            $offerOrder->masterId = $master->id;
+            $offerOrder->orderItemId = $orderItem->id;
+            $offerOrder->status = $order->status;
+            $offerOrder->userId = $order->userId;
+            $offerOrder->quotePrice = $faker->randomDigitNotNull;
+            $order->offerOrders()->save($offerOrder);
 
 
             $paymentOrder = new PaymentOrder();
