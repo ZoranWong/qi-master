@@ -39,15 +39,15 @@ class MasterController extends AdminController
             return number_format($value, 2);
         });
         $grid->column('offerOrders', '接单数')->display(function ($value) {
-            return count($value);
+            return $value ? count($value) : 0;
         });
 
         $grid->column('runningOrders', '服务中的工单')->display(function ($value) {
-            return count($value);
+            return $value ? count($value) : 0;
         });
 
         $grid->column('completedOrders', '完成的工单')->display(function ($value) {
-            return count($value);
+            return $value ? count($value) : 0;
         });
 
         $grid->column('email', '邮箱');
