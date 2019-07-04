@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -17,6 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ComplaintType newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ComplaintType newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ComplaintType query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ComplaintType topLevel()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ComplaintType whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ComplaintType whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ComplaintType whereName($value)
@@ -26,8 +28,12 @@ use Illuminate\Database\Eloquent\Model;
  */
 class ComplaintType extends Model
 {
-    //
-    protected $fillable = ['parent_id', 'name'];
+    protected $fillable = ['id', 'parent_id', 'name'];
+
+    public function scopeTopLevel(Builder $query)
+    {
+        return $query->where('parent_id', 0);
+    }
 
     public function parent()
     {
@@ -36,6 +42,7 @@ class ComplaintType extends Model
 
     public function children()
     {
-        return $this->hasMany(ComplaintType::class, 'parent_id');
+        return $this->hasMany(ComplaintType::class, 'parent_id')->with('children')
+            ->select('id', 'name', 'parent_id');
     }
 }

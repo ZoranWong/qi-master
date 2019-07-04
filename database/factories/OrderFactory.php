@@ -10,7 +10,9 @@ $factory->define(Order::class, function (Faker $faker) {
     // 随机取一个用户
     $user = User::query()->inRandomOrder()->first();
     $master = Master::query()->inRandomOrder()->first();
+    /**@var Region $region */
     $region = Region::query()->inRandomOrder()->first();
+
     $orderNo = orderNo();
     $type = $faker->randomElement([
         Order::ORDER_TYPE_FIXED_PRICE,
@@ -25,7 +27,7 @@ $factory->define(Order::class, function (Faker $faker) {
         Order::ORDER_WAIT_CHECK,
         Order::ORDER_CHECKED,
         Order::ORDER_COMPLETED,
-        Order::ORDER_CANCEL
+        Order::ORDER_CLOSED
     ]);
 
     return [
@@ -39,7 +41,7 @@ $factory->define(Order::class, function (Faker $faker) {
         'remark' => $faker->text(124),
         'contact_user_name' => $faker->name,
         'contact_user_phone' => $faker->phoneNumber,
-        'region_code' => $region['region_code'],
+        'region_code' => $region->regionCode,
         'customer_info' => [
             "area" => "东城区",
             "city" => "市辖区",

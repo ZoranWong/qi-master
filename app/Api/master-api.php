@@ -8,10 +8,12 @@ $api->group(['prefix' => 'masters', 'namespace' => 'Master'], function (Router $
         $api->get('/profile', ['as' => 'masters.profile', 'uses' => 'MasterController@profile']);
         $api->get('/offerOrders', ['as' => 'masters.offer_orders', 'uses' => 'OfferOrderController@index']);
         $api->get('/newOrders', ['as' => 'masters.new_orders', 'uses' => 'OrderController@newOrders']);
+        $api->get('/newOrders/{order}', ['as' => 'masters.new_orders.detail', 'uses' => 'OrderController@newOrderDetail']);
         $api->put('/changePwd', ['as' => 'masters.change_password', 'uses' => 'MasterController@changePassword']);
         $api->put('/changeWalletPwd', ['as' => 'masters.change_wallet_password', 'uses' => 'MasterController@changeWalletPassword']);
         $api->put('/setWalletPwd', ['as' => 'masters.set_wallet_password', 'uses' => 'MasterController@setWalletPassword']);
         $api->post('/service_info/update', ['as' => 'masters.update_service_info', 'uses' => 'MasterController@updateServiceInfo']);
+        $api->get('/order_statistics', ['as' => 'masters.order_statistics', 'uses' => 'MasterController@getOrderStatistics']);
         /**
          * 订单
          */

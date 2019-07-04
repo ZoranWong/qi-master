@@ -8,6 +8,7 @@ $api->version('v1', ['namespace' => 'App\Api\Controllers'], function (Router $ap
     $api->get('classifications', ['as' => 'classifications.list', 'uses' => 'HomeController@classifications']);
     $api->get('service_types', ['as' => 'service_types.list', 'uses' => 'HomeController@serviceTypes']);
     $api->get('regions', ['as' => 'region.list', 'uses' => 'HomeController@regions']);
+    $api->get('complaint_types', ['as' => 'complaint_type.list', 'uses' => 'HomeController@complaintTypes']);
 
     $api->group(['prefix' => 'auth/users', 'middleware' => ['guard:users']], function (Router $api) {
         $api->post('login', ['as' => 'user.login', 'uses' => 'AuthController@login']);
@@ -25,11 +26,15 @@ $api->version('v1', ['namespace' => 'App\Api\Controllers'], function (Router $ap
         /**
          * 用户
          */
-        require_once app_path('Api/user-api.php');
+        $api->group(['middleware' => 'guard.users'], function (Router $api) {
+            require_once app_path('Api/user-api.php');
+        });
 
         /**
          * 师傅
          */
-        require_once app_path('Api/master-api.php');
+        $api->group(['middleware' => 'guard:masters'], function (Router $api) {
+            require_once app_path('Api/master-api.php');
+        });
     });
 });

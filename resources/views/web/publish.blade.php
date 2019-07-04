@@ -18,17 +18,21 @@
             display: none;
         }
 
-        .step-1 .task-txt-left {
+        .step step-1 .task-txt-left {
             margin-top: 42px;
         }
 
-        .step-2 .task-txt-left {
+        .step step-2 .task-txt-left {
             margin-top: 18px;
         }
 
         .classification.selected,
         .service-type-btn.selected {
             border: #f38752 1px solid;
+        }
+
+        .service-classification-list {
+            display: flex;
         }
 
         .service-classification-list li {
@@ -63,7 +67,8 @@
             width: 52%;
             height: auto;
         }
-        .big-title{
+
+        .big-title {
             font-size: 24px;
             font-weight: 400;
             border-left: #f7a881 2px solid;
@@ -71,17 +76,23 @@
             color: #4a4a4a;
             margin-top: 42px;
         }
-        .order-info{
+
+        .order-info {
             border-top: #adadad 1px solid;
             margin-top: 12px;
             padding-top: 12px;
-            padding-left: 24px;
+            padding-left: 64px;
+            width: 100%;
+            display: block;
         }
-        .publish{
+
+        .publish {
             margin-bottom: 48px;
         }
-        .order-info{
-            display: grid;
+
+        .step {
+            width: 100%;
+            display: flex;
         }
     </style>
 </head>
@@ -97,22 +108,16 @@
     <form class="publish layui-form">
         <div class="big-title">商品信息</div>
         <div class="order-info product-info">
-            <div class="step-1 layui-form-item">
-                <div class="task-section clearfix">
-                    <label class="fl layui-form-label">
-                        <p class="task-txt-left">
-                        <span>
-                            <em class="red-dot">*</em>服务类目：
-                        </span>
-                        </p>
-                    </label>
+            <div class="step step-1">
+                <div class="layui-form-item">
+                    <div class="layui-form-label"><em class="red-dot">*</em>服务类目：</div>
                     <div class="layui-input-block">
                         <ul class="service-classification-list">
                             @foreach($classifications as $key => $classification)
                                 <li class="radiobox classification {{$key === 0 ? 'selected' : ''}}"
                                     data-id="{{$classification->id}}">
                                     <label class="radiobox" style="display: block;">
-                                        <input name="classification_id" type="radio" class="radio-input">
+                                        {{--<input name="classification_id" type="radio" class="radio-input hidden" >--}}
                                         <div style="width: 100%;margin-top: 8px;">
                                             <span>{{$classification->name}}</span>
                                         </div>
@@ -124,14 +129,10 @@
                     </div>
                 </div>
             </div>
-            <div class="step-2 layui-form-item">
-                <div class="task-section clearfix">
-                    <div class="fl layui-form-label">
-                        <p class="task-txt-left">
-                        <span>
-                            <em class="red-dot">*</em>服务类型：
-                        </span>
-                        </p>
+            <div class="step step-2">
+                <div class="layui-form-item">
+                    <div class="layui-form-label">
+                        <em class="red-dot">*</em>服务类型：
                     </div>
                     <div class="layui-input-block">
                         @foreach($classifications as $key => $classification)
@@ -140,12 +141,12 @@
                                 @foreach($classification->serviceTypes as $k => $serviceType)
                                     <li class="radio-box service-type" data-id="{{$serviceType->id}}">
                                         <label class="radio-box" style="display: block;">
-                                            <input name="service_type_id" type="radio" class="radio-input"
-                                                   value="{{$serviceType->name}}">
-                                            <button data-id="{{$serviceType->id}}"
-                                                    class="service-type-btn layui-btn layui-btn-primary {{$k === 0 ? 'selected' : ''}}">
+                                            {{--<input name="service_type_id" type="radio" class="radio-input"--}}
+                                                   {{--value="{{$serviceType->name}}" >--}}
+                                            <a data-id="{{$serviceType->id}}"
+                                               class="service-type-btn layui-btn layui-btn-primary {{$k === 0 ? 'selected' : ''}}">
                                                 {{$serviceType->name}}
-                                            </button>
+                                            </a>
                                         </label>
                                     </li>
                                 @endforeach
@@ -154,189 +155,141 @@
                     </div>
                 </div>
             </div>
-            <div class="step-3 layui-form-item">
-                <div class="task-section clearfix">
-                    <div class="fl">
-                        <p class="task-txt-left">
-                        <span>
-                            <em class="red-dot">*</em>商品图片：
-                        </span>
-                        </p>
-                    </div>
-                    <div class="layui-from-item">
-                        <div class="">
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="step-4 layui-form-item">
-                <div class="task-section clearfix">
-                    <div class="fl">
-                        <p class="task-txt-left">
-                        <span>
-                            <em class="red-dot">*</em>商品类别：
-                        </span>
-                        </p>
-                    </div>
-                    <div class="layui-from-item">
-                        <div class="">
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="step-5 ">
+            <div class="step step-3">
                 <div class="layui-form-item">
-                    <div class="fl layui-form-label">
-                        <p class="task-txt-left">
-                        <span>
-                            <em class="red-dot">*</em>商品型号：
-                        </span>
-                        </p>
+                    <div class="layui-form-label">
+                        <em class="red-dot">*</em>商品图片：
                     </div>
-                    <div class="layui-input-block">
-                        <input class="product-title" type="text">
+                    <div class="layui-input-block flex">
+                        <button class="layui-btn layui-btn-primary">
+                            <i class="layui-icon layui-icon-add-circle-fine"></i>
+                            选择/上传商品</button>
                     </div>
                 </div>
             </div>
-            <div class="step-6">
-                <div class="task-section clearfix">
-                    <div class="fl">
-                        <p class="task-txt-left">
-                        <span>
-                            <em class="red-dot">*</em>商品数量：
-                        </span>
-                        </p>
+            <div class="step step-4">
+                <div class="layui-form-item">
+                    <div class="layui-form-label">
+                        <em class="red-dot">*</em>商品类别：
                     </div>
-                    <div class="">
-                        <div class="">
-
-                        </div>
+                    <div class="layui-input-block flex">
+                        <select name="city" lay-verify="required">
+                            <option value=""></option>
+                            <option value="0">北京</option>
+                            <option value="1">上海</option>
+                            <option value="2">广州</option>
+                            <option value="3">深圳</option>
+                            <option value="4">杭州</option>
+                        </select>
+                        <select name="city" lay-verify="required">
+                            <option value=""></option>
+                            <option value="0">北京</option>
+                            <option value="1">上海</option>
+                            <option value="2">广州</option>
+                            <option value="3">深圳</option>
+                            <option value="4">杭州</option>
+                        </select>
                     </div>
                 </div>
             </div>
-            <div class="step-7">
-                <div class="task-section clearfix">
-                    <div class="fl">
-                        <p class="task-txt-left">
-                        <span>
-                            <em class="red-dot"></em>特使要求：
-                        </span>
-                        </p>
+            <div class="step step-5">
+                <div class="layui-form-item">
+                    <div class="layui-form-label">
+                        <em class="red-dot">*</em>商品型号：
                     </div>
-                    <div class="layui-from-item">
-                        <div class="">
-
-                        </div>
+                    <div class="layui-input-block flex">
+                        <input type="text" class="layui-input" name="title">
+                    </div>
+                </div>
+            </div>
+            <div class="step step-6">
+                <div class="layui-form-item">
+                    <div class="layui-form-label">
+                        <em class="red-dot">*</em>商品数量：
+                    </div>
+                    <div class="layui-input-block flex">
+                        <input type="number" class="layui-input" name="num"/>
+                    </div>
+                </div>
+            </div>
+            <div class="step step-7">
+                <div class="layui-form-item">
+                    <div class="layui-form-label">
+                        特殊要求：
+                    </div>
+                    <div class="layui-input-block flex">
+                        <textarea class="layui-textarea"></textarea>
                     </div>
                 </div>
             </div>
         </div>
         <div class="big-title">客户信息</div>
         <div class="order-info customer-info">
-            <div class="step-8">
-                <div class="task-section clearfix">
-                    <div class="fl">
-                        <p class="task-txt-left">
-                        <span>
-                            <em class="red-dot">*</em>客户姓名：
-                        </span>
-                        </p>
+            <div class="step step-8">
+                <div class="layui-form-item">
+                    <div class="layui-form-label">
+                        <em class="red-dot">*</em>客户姓名：
                     </div>
-                    <div class="layui-from-item">
-                        <div class="">
-
-                        </div>
+                    <div class="layui-input-block flex">
+                        <input type="text" class="layui-input" name="title">
                     </div>
                 </div>
             </div>
-            <div class="step-9">
-                <div class="task-section clearfix">
-                    <div class="fl">
-                        <p class="task-txt-left">
-                        <span>
-                            <em class="red-dot">*</em>手机号码：
-                        </span>
-                        </p>
+            <div class="step step-9">
+                <div class="layui-form-item">
+                    <div class="layui-form-label">
+                        <em class="red-dot">*</em>手机号码：
                     </div>
-                    <div class="layui-from-item">
-                        <div class="">
-
-                        </div>
+                    <div class="layui-input-block flex">
+                        <input type="text" class="layui-input" name="title">
                     </div>
                 </div>
             </div>
-            <div class="step-10">
-                <div class="task-section clearfix">
-                    <div class="fl">
-                        <p class="task-txt-left">
-                        <span>
-                            <em class="red-dot">*</em>所在区域：
-                        </span>
-                        </p>
+            <div class="step step-10">
+                <div class="layui-form-item">
+                    <div class="layui-form-label">
+                        <em class="red-dot">*</em>所在区域：
                     </div>
-                    <div class="layui-from-item">
-                        <div class="">
-
-                        </div>
+                    <div class="layui-input-block flex">
+                        <input type="text" class="layui-input" name="title">
                     </div>
                 </div>
             </div>
-            <div class="step-11">
-                <div class="task-section clearfix">
-                    <div class="fl">
-                        <p class="task-txt-left">
-                        <span>
-                            <em class="red-dot">*</em>详细地址：
-                        </span>
-                        </p>
+            <div class="step step-11">
+                <div class="layui-form-item">
+                    <div class="layui-form-label">
+                        <em class="red-dot">*</em>详细地址：
                     </div>
-                    <div class="layui-from-item">
-                        <div class="">
-
-                        </div>
+                    <div class="layui-input-block flex">
+                        <input type="text" class="layui-input" name="title">
                     </div>
                 </div>
             </div>
         </div>
         <div class="big-title">其他信息</div>
         <div class="order-info other-info">
-            <div class="step-12">
-                <div class="task-section clearfix">
-                    <div class="fl">
-                        <p class="task-txt-left">
-                        <span>
-                            <em class="red-dot">*</em>期望时间：
-                        </span>
-                        </p>
+            <div class="step step-12">
+                <div class="layui-form-item">
+                    <div class="layui-form-label">
+                        <em class="red-dot">*</em>期望时间：
                     </div>
-                    <div class="layui-from-item">
-                        <div class="">
-
-                        </div>
+                    <div class="layui-input-block flex">
+                        <input type="text" class="layui-input" name="title">
                     </div>
                 </div>
             </div>
-            <div class="step-13">
-                <div class="task-section clearfix">
-                    <div class="fl">
-                        <p class="task-txt-left">
-                        <span>
-                            <em class="red-dot">*</em>备注：
-                        </span>
-                        </p>
+            <div class="step step-13">
+                <div class="layui-form-item">
+                    <div class="layui-form-label">
+                        <em class="red-dot">*</em>备注：
                     </div>
-                    <div class="layui-from-item">
-                        <div class="">
-
-                        </div>
+                    <div class="layui-input-block flex">
+                        <input type="text" class="layui-input" name="title">
                     </div>
                 </div>
             </div>
         </div>
         <div class="layui-form-item">
-
         </div>
     </form>
 </div>
@@ -345,6 +298,7 @@
 </body>
 
 <script>
+    var classifications = {!! $classifications !!};
     $(function () {
         $('.service-classification-list li.classification').click(function () {
             $('.service-classification-list li.classification.selected').removeClass('selected');
@@ -356,6 +310,14 @@
         $('.service-type-btn').click(function () {
             $('.service-type-btn.selected').removeClass('selected');
             $(this).addClass('selected');
+        });
+    });
+    layui.use('form', function(){
+        var form = layui.form;
+        //监听提交
+        form.on('submit(formDemo)', function(data){
+            layer.msg(JSON.stringify(data.field));
+            return false;
         });
     });
 </script>

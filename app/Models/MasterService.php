@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\ModelAttributesAccess;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -29,6 +30,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class MasterService extends Model
 {
+    use ModelAttributesAccess;
     protected $fillable = [
         'master_id', 'region_code', 'type', 'weight'
     ];

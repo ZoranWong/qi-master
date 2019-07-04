@@ -2,6 +2,7 @@
 
 use App\Models\Master;
 use Illuminate\Database\Seeder;
+use App\Models\Region;
 
 class MasterSeeder extends Seeder
 {
@@ -18,12 +19,18 @@ class MasterSeeder extends Seeder
             'password' => bcrypt('secret')
         ]);
         foreach ($masters as $master) {
-            /**@var \App\Models\Region $region**/
-            $region = \App\Models\Region::inRandomOrder()->where('parent_code', 0)->first();
+            /**@var \App\Models\Region $province**/
+            $province = Region::inRandomOrder()->where('parent_code', 0)->first();
+
+            /**@var Region $city*/
+            $city = $province->children->count() > 0 ? $province->children->random(1)->first() : null;
+
+            /**@var Region $area*/
+            $area = $city && $city->children->count() > 0 ? $city->children->random(1)->first() : null;
             /**
              * @var Master $master
              * */
-            $master->areaCode = $region->regionCode;
+            $master->areaCode = $area ? $area->regionCode : ($city ? $city->regionCode : $province->regionCode);;
             $master->save();
         }
     }

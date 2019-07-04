@@ -21,9 +21,11 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
  * @property \Illuminate\Support\Carbon|null $deletedAt
  * @property \Illuminate\Support\Carbon|null $createdAt
  * @property \Illuminate\Support\Carbon|null $updatedAt
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Category[] $categories
  * @property-read mixed $statusDesc
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ServiceType[] $serviceTypes
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ServiceType[] $services
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Classification active()
  * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Classification newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Classification newQuery()
@@ -89,6 +91,11 @@ class Classification extends Model
         return $this->belongsToMany(ServiceType::class, 'classification_services', 'classification_id', 'service_id')
             ->using(ClassificationService::class)
             ->withoutGlobalScope(SoftDeletingScope::class);
+    }
+
+    public function categories()
+    {
+        return $this->hasMany(Category::class);
     }
 
     /**

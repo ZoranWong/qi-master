@@ -14,11 +14,11 @@ use Faker\Generator as Faker;
 */
 
 $factory->define(App\Models\User::class, function (Faker $faker) {
-    /**@var \App\Models\Region $province*/
+    /**@var \App\Models\Region $province */
     $province = \App\Models\Region::getProvinces()->first();
-    /**@var \App\Models\Region $city*/
+    /**@var \App\Models\Region $city */
     $city = $province->children->first();
-    /**@var \App\Models\Region $area*/
+    /**@var \App\Models\Region $area */
     $area = $city->children->first();
     return [
         'name' => $faker->unique()->name,
@@ -31,7 +31,7 @@ $factory->define(App\Models\User::class, function (Faker $faker) {
         'province' => $province->name,
         'city' => $city->name,
         'area' => $area->name,
-        'balance' => $faker->randomDigit*1000,
+        'balance' => $faker->randomDigit * 1000,
         'address' => $faker->streetAddress,
         'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
         'remember_token' => str_random(10),

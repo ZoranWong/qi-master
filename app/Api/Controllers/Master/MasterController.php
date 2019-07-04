@@ -7,6 +7,7 @@ use App\Http\Requests\MasterServiceUpdateRequest;
 use App\Http\Requests\UserUpdatePasswordRequest;
 use App\Models\Master;
 use App\Models\MasterService;
+use App\Models\ServiceType;
 use App\Repositories\MasterRepository;
 use App\Transformers\MasterTransformer;
 use Dingo\Api\Http\Response;
@@ -91,10 +92,17 @@ class MasterController extends Controller
     {
         $walletPassword = $request->input('password');
 
-        auth()->user()->update(['wallet_password' => bcrypt($walletPassword)]);
+        /** @var Master $master */
+        $master = auth()->user();
+
+        $firstSet = $master->walletPassword ? true : false;
+
+        $master->update(['wallet_password' => bcrypt($walletPassword)]);
+
+        $message = $firstSet ? '钱包密码设置成功' : '钱包密码已设置';
 
         return response()->json([
-            'message' => '钱包密码已设置'
+            'message' => $message
         ]);
     }
 
@@ -126,10 +134,37 @@ class MasterController extends Controller
         $master->serviceAreas()->createMany($serviceAreas);
         // 更新服务类目类型
         $master->services()->delete();
-        $master->services()->createMany($data['services']);
+        $services = $data['services'];
+        foreach ($services as &$service) {
+            $serviceTypes = ServiceType::whereIn('id', $service['services'])->get();
+            $service['services'] = [];
+            foreach ($serviceTypes as $serviceType) {
+                $service['services'][] = ['id' => $serviceType->id, 'name' => $serviceType->name];
+            }
+        }
+
+        $master->services()->createMany($services);
         // 更新其他服务信息
         $master->update($data);
 
         return $this->response->noContent();
+    }
+
+    public function getOrderStatistics()
+    {
+        $master = $this->repository->getOrderStatistics();
+
+        return response()->json([
+            'data' => [
+                'order_wait_agree_count' => $master->order_wait_agree_count,
+                'order_wait_pay_count' => $master->order_wait_pay_count,
+                'order_wait_pre_appoint_count' => $master->order_wait_pre_appoint_count,
+                'order_wait_sign_count' => $master->order_wait_sign_count,
+                'order_signed_count' => $master->order_signed_count,
+                'order_wait_check_count' => $master->order_wait_check_count,
+                'order_completed_count' => $master->order_completed_count,
+                'order_closed_count' => $master->order_closed_count
+            ]
+        ]);
     }
 }

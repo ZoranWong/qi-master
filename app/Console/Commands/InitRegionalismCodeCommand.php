@@ -64,5 +64,6 @@ class InitRegionalismCodeCommand extends Command
         $bar->finish();
 
         $this->info('Region table init success.');
+        $this->info('');
     }
 }
