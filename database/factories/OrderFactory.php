@@ -9,7 +9,7 @@ use Faker\Generator as Faker;
 $factory->define(Order::class, function (Faker $faker) {
     // 随机取一个用户
     $user = User::query()->inRandomOrder()->first();
-    $master = Master::query()->inRandomOrder()->first();
+//    $master = Master::query()->inRandomOrder()->first();
     /**@var Region $region */
     $region = Region::query()->inRandomOrder()->first();
 
@@ -32,7 +32,7 @@ $factory->define(Order::class, function (Faker $faker) {
 
     return [
         'user_id' => $user->id,
-        'master_id' => $master->id,
+//        'master_id' => $master->id,
         'type' => $type,
         'status' => $status,
         'total_amount' => $faker->randomDigit,

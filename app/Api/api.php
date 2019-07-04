@@ -26,7 +26,7 @@ $api->version('v1', ['namespace' => 'App\Api\Controllers'], function (Router $ap
         /**
          * 用户
          */
-        $api->group(['middleware' => 'guard.users'], function (Router $api) {
+        $api->group(['middleware' => ['guard:users']], function (Router $api) {
             require_once app_path('Api/user-api.php');
         });
 

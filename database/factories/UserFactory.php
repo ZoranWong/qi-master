@@ -17,9 +17,9 @@ $factory->define(App\Models\User::class, function (Faker $faker) {
     /**@var \App\Models\Region $province */
     $province = \App\Models\Region::getProvinces()->first();
     /**@var \App\Models\Region $city */
-    $city = $province->children->first();
+    $city = $province ? $province->children->random(1)->first() : null;
     /**@var \App\Models\Region $area */
-    $area = $city->children->first();
+    $area = $city ? $city->children->random(1)->first() : null;
     return [
         'name' => $faker->unique()->name,
         'real_name' => $faker->name,
@@ -28,9 +28,9 @@ $factory->define(App\Models\User::class, function (Faker $faker) {
         'email' => $faker->unique()->safeEmail,
         'email_verified_at' => now(),
         'mobile' => $faker->unique()->phoneNumber,
-        'province' => $province->name,
-        'city' => $city->name,
-        'area' => $area->name,
+        'province' => $province ? $province->name  : '',
+        'city' => $city ? $city->name : '',
+        'area' => $city ? $area->name : '',
         'balance' => $faker->randomDigit * 1000,
         'address' => $faker->streetAddress,
         'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
