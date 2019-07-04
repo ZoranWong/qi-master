@@ -13,6 +13,8 @@ $factory->define(Order::class, function (Faker $faker) {
     /**@var Region $region */
     $region = Region::query()->inRandomOrder()->first();
     $master = Master::find(1);
+    /**@var \App\Models\MasterService $masterService*/
+    $masterService = $master->serviceAreas->first();
     $orderNo = orderNo();
     $type = $faker->randomElement([
         Order::ORDER_TYPE_FIXED_PRICE,
@@ -41,7 +43,7 @@ $factory->define(Order::class, function (Faker $faker) {
         'remark' => $faker->text(124),
         'contact_user_name' => $faker->name,
         'contact_user_phone' => $faker->phoneNumber,
-        'region_code' => $master->areaCode,//$region->regionCode,
+        'region_code' => $masterService->regionCode,//$region->regionCode,
         'customer_info' => [
             "area" => "东城区",
             "city" => "市辖区",
