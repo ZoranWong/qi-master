@@ -42,7 +42,7 @@ use Storage;
 class Product extends Model
 {
     protected $fillable = [
-        'classification_id', 'category_id', 'child_category_id', 'title', 'image'
+        'classification_id', 'category_id', 'child_category_id', 'user_id', 'title', 'image'
     ];
 
     public static function boot()
@@ -95,5 +95,10 @@ class Product extends Model
             return $this->attributes['image'];
         }
         return Storage::disk('public')->url($this->attributes['image']);
+    }
+
+    public function user()
+    {
+        return $this;
     }
 }

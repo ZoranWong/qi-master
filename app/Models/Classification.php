@@ -111,9 +111,9 @@ class Classification extends Model
         return self::STATUS[$this->status];
     }
 
-    public function getIconUrlAttribute($icon_url)
+    public function getIconUrlAttribute()
     {
-        return getImageUrl($icon_url);
+        return getImageUrl($this->attributes['icon_url']);
     }
 
     public function __toString()
