@@ -2,13 +2,14 @@
 
 use Illuminate\Database\Seeder;
 use App\Models\Classification;
-
+use App\Models\ServiceType;
 class ClassificationSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      *
      * @return void
+     * @throws Exception
      */
     public function run()
     {
@@ -27,10 +28,11 @@ class ClassificationSeeder extends Seeder
              * @var Classification $classification
              * */
             $classification->update(['name' => $names[$key]]);
-            $services = \App\Models\ServiceType::inRandomOrder()->limit(random_int(1, 5))->select(['id'])->get();
-            $services =  $services->map(function (\App\Models\ServiceType $serviceType) {
+            $services = ServiceType::inRandomOrder()->limit(random_int(1, 5))->select(['id'])->get();
+            $services =  $services->map(function (ServiceType $serviceType) {
                 return $serviceType->id;
             })->toArray();
+            var_dump($services);
             $classification->services()->sync($services);
         }
     }

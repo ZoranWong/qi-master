@@ -7,9 +7,15 @@
     <link rel="stylesheet" href="/web/plugin/layui/css/layui.css"/>
     <link rel="stylesheet" href="/web/css/common.css"/>
     <link rel="stylesheet" href="/web/css/styles.css"/>
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.css" rel="stylesheet">
     <script type="text/javascript" src="/web/js/jquery-3.3.1.js"></script>
     <script type="text/javascript" src="/web/plugin/layui/layui.js"></script>
+    <script src="https://cdn.bootcss.com/underscore.js/1.9.1/underscore-min.js"></script>
+    <script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <style>
+        body{
+            background-color: #f2f2f2 !important;
+        }
         .schedule {
             display: flex;
             height: 2px;
@@ -111,5 +117,8 @@
 
 </body>
 <script>
+    $(function () {
+        
+    });
 </script>
 </html>
