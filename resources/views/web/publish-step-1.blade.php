@@ -147,6 +147,23 @@
         border: #fe8f00 1px solid;
         color: #fe8f00;
     }
+    .img-box {
+        width: 64px;
+        height: 64px;
+    }
+    .product-item .product-left {
+        margin: 24px;
+    }
+
+    .product-item .product-right {
+        margin: 12px;
+    }
+    .product-item .product-item-desc {
+        margin: 8px;
+    }
+    .product-item .product-item-desc .title {
+        margin-top: 8px;
+    }
 </style>
 <div class="step">
     <div class="step-header">
@@ -221,13 +238,65 @@
             <span class="required-icon">*</span>
             <span>商品信息：</span>
         </div>
-        <div class="q-form-right flex">
-            <ul class="product-list flex">
-                <div class="layui-btn layui-btn-primary q-form-btn"  data-toggle="modal" data-target="#productSelector">
-                    <i class="layui-icon layui-icon-add-1"></i>
-                    添加商品图片
+        <div class="q-form-right">
+            <div class="product-list flex">
+                <div class="product-item flex">
+                    <div class="product-left">
+                        <div class="img-box">
+                            <img src="http://pic27.nipic.com/20130325/11918471_071536564166_2.jpg">
+                        </div>
+                    </div>
+                    <div class="product-right">
+                        <div class="product-item-desc category flex">
+                            <div class="title">
+                                <span class="required-icon">*</span>商品类别：
+                            </div>
+                            <div class="selector layui-select-group flex">
+                                <select class="layui-select category-id"></select>
+                                <select class="layui-select child-category-id"></select>
+                            </div>
+                            <input type="number" name="title" required lay-verify="required" placeholder="数量"
+                                   class="layui-input" style="width: 64px;margin-left: 12px;">
+                        </div>
+                        <div class="product-item-desc property flex">
+                            <div class="title">
+                                <span class="required-icon">*</span>商品属性：
+                            </div>
+                            <div class="selector layui-select-group">
+                                <select class="layui-select"></select>
+                            </div>
+                        </div>
+                        <div class="product-item-desc product-name flex">
+                            <div class="title">
+                                <span class="required-icon">*</span>商品型号：
+                            </div>
+                            <div class="selector layui-select-group">
+                                <select class="layui-select"></select>
+                            </div>
+                        </div>
+                        <div class="product-item-desc requirement flex">
+                            <div class="title">
+                                <span class="required-icon">*</span>服务要求：
+                            </div>
+                            <div class="selector layui-select-group">
+                                <select class="layui-select"></select>
+                            </div>
+                        </div>
+                        <div class="product-item-desc spec-requirement flex">
+                            <div class="title">
+                                特殊要求：
+                            </div>
+                            <div class="selector layui-select-group">
+                                <input name="spec_desc" type="text" class="layui-input">
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </ul>
+            </div>
+            <div class="layui-btn layui-btn-primary q-form-btn add-product"  data-toggle="modal" data-target="#productSelector">
+                <i class="layui-icon layui-icon-add-1"></i>
+                添加商品图片
+            </div>
         </div>
     </div>
 </div>
@@ -260,7 +329,7 @@
                 let serviceType = serviceTypes[i];
 
                 let item = `<li class="service-type">
-                    <div class="layui-btn layui-btn-primary service-type-btn q-form-btn">${serviceType['name']}</div>
+                    <div class="layui-btn layui-btn-primary service-type-btn q-form-btn" data-use-history="${serviceType['use_history_product']}">${serviceType['name']}</div>
                 </li>`;
                 listHtml += item;
             }
@@ -278,6 +347,16 @@
                 </div>
             `);
             $('.products-container').removeClass('hidden');
+            let useHistory = $(this).data('use-history');
+            if(useHistory) {
+                $('.add-product').attr('data-target', '#productSelector');
+                $('.add-product').attr('data-toggle', 'modal');
+                $('.add-product').removeClass('add-product-item');
+            }else{
+                $('.add-product').removeAttr('data-target');
+                $('.add-product').removeAttr('data-toggle');
+                $('.add-product').addClass('add-product-item');
+            }
         });
 
         $('document').on('mouseenter', '.service-type-btn', function () {

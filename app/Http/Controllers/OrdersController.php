@@ -183,7 +183,8 @@ class OrdersController extends Controller
                 'currentMenu' => 'publish'
             ]);
         }
-        $classifications = Classification::with(['serviceTypes', 'categories.children'])->get();
+        $classifications = Classification::with(['serviceTypes', 'categories.children', 'categories.properties'])
+            ->get();
         return $view->with([
             'classifications' => $classifications
         ]);

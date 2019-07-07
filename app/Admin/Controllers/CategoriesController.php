@@ -104,12 +104,11 @@ class CategoriesController extends Controller
     {
         $form = $this->basicForm();
 
-        $form
-            ->tab('类别商品属性', function (Form $form) {
+        $form->tab('类别商品属性', function (Form $form) {
                 $form->customizeHasMany('properties', '商品属性', function (NestedForm $form) {
                     static $key;
                     $form->setKey($key);
-                    $key++;
+                    $key ++;
                     $form->text('title', '属性名称')->rules('required');
                     $form->customizeTable('value', '属性值(多项)', function (NestedForm $nestedForm) use ($form) {
                         $nestedForm->setRelationName(function (&$relationName) {
@@ -122,15 +121,15 @@ class CategoriesController extends Controller
                         });
                         $nestedForm->setDefaultKeyNameRerenderCallback("__PROPERTIES__");
                         $nestedForm->text('title', '属性小名称');
-                        $nestedForm->currency('price', '价格')->symbol('￥');
+                        $nestedForm->currency('price', '价格')
+                            ->symbol('￥');
                     })->setSlug('properties')->setDefaultKeyName('__PROPERTIES__');
                 })->setSlug('properties');
-            })
-            ->tab('类别专属服务要求', function (Form $form) {
+            })->tab('类别专属服务要求', function (Form $form) {
                 $form->customizeHasMany('requirements', '服务类型要求', function (NestedForm $form) {
                     static $key;
                     $form->setKey($key);
-                    $key++;
+                    $key ++;
                     $serviceTypes = ServiceType::all()->pluck('name', 'id');
                     $form->select('service_id', '服务类型')->options($serviceTypes);
                     $form->text('name', '要求名称')->rules('required');
@@ -187,13 +186,17 @@ class CategoriesController extends Controller
         $form->tab('基础信息', function (Form $form) {
             $form->display('id', 'ID');
             $classifications = Classification::all()->pluck('name', 'id');
-            $form->select('classification_id', '所属类目')->options($classifications)->required();
+            $form->select('classification_id', '所属类目')
+                ->options($classifications)->required();
             $categories = Category::selectOptions();
-            $form->select('parent_id', '父分类')->options($categories);
+            $form->select('parent_id', '父分类')
+                ->options($categories);
             $form->text('name', trans('admin.name'));
-            $form->text('unit', '单位')->default('')->placeholder('输入 单位 如套，个，件，箱...');
+            $form->text('unit', '单位')->default('')
+                ->placeholder('输入 单位 如套，个，件，箱...');
             $form->currency('price', '报价')->symbol('¥');
-            $form->number('sort', '排序')->default(0)->rules('required|numeric');
+            $form->number('sort', '排序')->default(0)
+                ->rules('required|numeric');
         });
 
         return $form;
@@ -202,7 +205,8 @@ class CategoriesController extends Controller
     public function topCategories()
     {
         $classificationId = \Illuminate\Support\Facades\Request::input('q');
-        $categories = Category::where('classification_id', $classificationId)->where('parent_id', 0)->get(['id', 'name as text']);
+        $categories = Category::where('classification_id', $classificationId)
+            ->where('parent_id', 0)->get(['id', 'name as text']);
         return response()->json($categories);
     }
 
