@@ -151,18 +151,52 @@
         width: 64px;
         height: 64px;
     }
+    .product-item {
+        width: 764px;
+        border: #c5c5c5 1px solid;
+        border-radius: 4px;
+        margin: 12px;
+    }
     .product-item .product-left {
         margin: 24px;
     }
 
     .product-item .product-right {
         margin: 12px;
+        position: relative;
     }
     .product-item .product-item-desc {
         margin: 8px;
     }
     .product-item .product-item-desc .title {
         margin-top: 8px;
+    }
+    .remove-btn {
+        position: absolute;
+        right: -98px;
+        top: 0;
+        cursor: pointer;
+    }
+    .remove-btn i{
+        font-size: 32px;
+        color: #c5c5c5;
+    }
+    .add-product {
+        margin-left: 8px;
+    }
+    .next-opt p {
+        margin-top: 12px;
+        text-align: right;
+        font-size: 14px;
+        color: #c5c5c5;
+    }
+    .next-btn {
+        background: #fe8f00;
+        color: #ffffff;
+        position: absolute;
+        right: 0;
+        margin-top: 8px;
+        margin-bottom: 32px;
     }
 </style>
 <div class="step">
@@ -188,7 +222,7 @@
                         <li class="radio-box classification-radio-box flex">
                             <div class="classification" data-id="{{$classification->id}}">
                                 <p class="icon">
-                                    <input class="radio-input" type="radio">
+                                    {{--<input class="radio-input" type="radio">--}}
                                     <image class="classification-icon" src="{{$classification->iconUrl}}"></image>
                                 </p>
                                 <p class="classification-name"><span>{{$classification->name}}</span></p>
@@ -210,7 +244,7 @@
         <div class="q-form-right flex">
             <div class="classification-selected classification">
                 <p class="icon">
-                    <input class="radio-input" type="radio">
+                    {{--<input class="radio-input" type="radio">--}}
                     <image class="classification-icon" src="{{$classifications[0]->iconUrl}}"></image>
                 </p>
 
@@ -290,6 +324,7 @@
                                 <input name="spec_desc" type="text" class="layui-input">
                             </div>
                         </div>
+                        <div  class="remove-btn"><i class="layui-icon layui-icon-delete"></i></div>
                     </div>
                 </div>
             </div>
@@ -299,6 +334,10 @@
             </div>
         </div>
     </div>
+</div>
+<div class="next-opt">
+    <p>还差一步，继续完善订单详细信息，就能成功发单了！</p>
+    <div class="layui-btn layui-btn-primary next-btn">下一步</div>
 </div>
 @include('web.user-products')
 <script>
