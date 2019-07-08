@@ -23,13 +23,13 @@ $factory->define(Order::class, function (Faker $faker) {
     ]);
     $status = $faker->randomElement([
         Order::ORDER_WAIT_OFFER,
-//        Order::ORDER_WAIT_HIRE,
-//        Order::ORDER_WAIT_AGREE,
-//        Order::ORDER_EMPLOYED,
-//        Order::ORDER_WAIT_CHECK,
-//        Order::ORDER_CHECKED,
-//        Order::ORDER_COMPLETED,
-//        Order::ORDER_CLOSED
+        Order::ORDER_WAIT_HIRE,
+        Order::ORDER_WAIT_AGREE,
+        Order::ORDER_EMPLOYED,
+        Order::ORDER_WAIT_CHECK,
+        Order::ORDER_CHECKED,
+        Order::ORDER_COMPLETED,
+        Order::ORDER_CLOSED
     ]);
 
     return [
