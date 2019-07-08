@@ -70,74 +70,76 @@ class   OrdersSeeder extends Seeder
             $orderItem->installFee = $faker->randomDigitNotNull;
             $orderItem->otherFee = $faker->randomDigitNotNull;
             $orderItem = $order->items()->save($orderItem);
-            $offerOrder = new OfferOrder();
-            $offerOrder->masterId = $master->id;
-            $offerOrder->orderItemId = $orderItem->id;
-            $offerOrder->status = $order->status;
-            $offerOrder->userId = $order->userId;
-            $offerOrder->quotePrice = $faker->randomDigitNotNull;
-            $order->offerOrders()->save($offerOrder);
+            if($order->status !== Order::ORDER_WAIT_OFFER) {
+                $offerOrder = new OfferOrder();
+                $offerOrder->masterId = $master->id;
+                $offerOrder->orderItemId = $orderItem->id;
+                $offerOrder->status = $order->status;
+                $offerOrder->userId = $order->userId;
+                $offerOrder->quotePrice = $faker->randomDigitNotNull;
+                $order->offerOrders()->save($offerOrder);
 
 
-            $paymentOrder = new PaymentOrder();
-            $paymentOrder->userId = $order->userId;
-            $paymentOrder->masterId = $master->id;
-            $paymentOrder->amount = $faker->randomDigitNotNull;
-            $paymentOrder->status = $faker->randomElement([
-                PaymentOrder::STATUS_UNPAID,
-                PaymentOrder::STATUS_PAID,
-                PaymentOrder::STATUS_CLOSED
-            ]);
-            $paymentOrder->paidAt = $faker->date('Y-m-d h:i:s');
-            $paymentOrder->payType = $faker->randomElement([
-                PaymentOrder::PAY_TYPE_AL,
-                PaymentOrder::PAY_TYPE_WX,
-                PaymentOrder::PAY_TYPE_BANK,
-                PaymentOrder::PAY_TYPE_CASH
-            ]);
-            $paymentOrder = $order->payments()->save($paymentOrder);
-            $refundOrder = new RefundOrder();
-            $refundOrder->amount = $faker->randomDigitNotNull;
-            $refundOrder->status = $faker->randomElement([
-                RefundOrder::REFUND_STATUS_WAIT,
-                RefundOrder::REFUND_STATUS_HANDLING,
-                RefundOrder::REFUND_STATUS_DONE,
-                RefundOrder::REFUND_STATUS_REFUSED
-            ]);
-            $refundOrder->userId = $order->userId;
-            $refundOrder->masterId = $master->id;
-            $refundOrder->remark = $faker->text(64);
-            $refundOrder->paymentOrderId = $paymentOrder->id;
-            $refundOrder->refundMode = $faker->randomElement(array_keys(RefundOrder::REFUND_MODES));
-            $refundOrder->refundMethod = $faker->randomElement(array_keys(RefundOrder::REFUND_METHODS));
-            $order->refundOrders()->save($refundOrder);
+                $paymentOrder = new PaymentOrder();
+                $paymentOrder->userId = $order->userId;
+                $paymentOrder->masterId = $master->id;
+                $paymentOrder->amount = $faker->randomDigitNotNull;
+                $paymentOrder->status = $faker->randomElement([
+                    PaymentOrder::STATUS_UNPAID,
+                    PaymentOrder::STATUS_PAID,
+                    PaymentOrder::STATUS_CLOSED
+                ]);
+                $paymentOrder->paidAt = $faker->date('Y-m-d h:i:s');
+                $paymentOrder->payType = $faker->randomElement([
+                    PaymentOrder::PAY_TYPE_AL,
+                    PaymentOrder::PAY_TYPE_WX,
+                    PaymentOrder::PAY_TYPE_BANK,
+                    PaymentOrder::PAY_TYPE_CASH
+                ]);
+                $paymentOrder = $order->payments()->save($paymentOrder);
+                $refundOrder = new RefundOrder();
+                $refundOrder->amount = $faker->randomDigitNotNull;
+                $refundOrder->status = $faker->randomElement([
+                    RefundOrder::REFUND_STATUS_WAIT,
+                    RefundOrder::REFUND_STATUS_HANDLING,
+                    RefundOrder::REFUND_STATUS_DONE,
+                    RefundOrder::REFUND_STATUS_REFUSED
+                ]);
+                $refundOrder->userId = $order->userId;
+                $refundOrder->masterId = $master->id;
+                $refundOrder->remark = $faker->text(64);
+                $refundOrder->paymentOrderId = $paymentOrder->id;
+                $refundOrder->refundMode = $faker->randomElement(array_keys(RefundOrder::REFUND_MODES));
+                $refundOrder->refundMethod = $faker->randomElement(array_keys(RefundOrder::REFUND_METHODS));
+                $order->refundOrders()->save($refundOrder);
 
-            $comment = new MasterComment();
-            $comment->userId = $order->userId;
-            $comment->masterId = $order->masterId;
-            $comment->content = $faker->text(124);
-            $comment->type = $faker->randomElement([
-                MasterComment::TYPE_GOOD,
-                MasterComment::TYPE_NORMAL,
-                MasterComment::TYPE_BAD
-            ]);
-            $comment->labels = [
-                $faker->text(5),
-                $faker->text(6),
-                $faker->text(7)
-            ];
-            $comment->rates = [
-                'quality' => $faker->randomElement([
-                    1, 2, 3, 4, 5, 6
-                ]),
-                'attitude' => $faker->randomElement([
-                    1, 2, 3, 4, 5, 6
-                ]), 'speed' => $faker->randomElement([
-                    1, 2, 3, 4, 5, 6
-                ])
-            ];
+                $comment = new MasterComment();
+                $comment->userId = $order->userId;
+                $comment->masterId = $order->masterId;
+                $comment->content = $faker->text(124);
+                $comment->type = $faker->randomElement([
+                    MasterComment::TYPE_GOOD,
+                    MasterComment::TYPE_NORMAL,
+                    MasterComment::TYPE_BAD
+                ]);
+                $comment->labels = [
+                    $faker->text(5),
+                    $faker->text(6),
+                    $faker->text(7)
+                ];
+                $comment->rates = [
+                    'quality' => $faker->randomElement([
+                        1, 2, 3, 4, 5, 6
+                    ]),
+                    'attitude' => $faker->randomElement([
+                        1, 2, 3, 4, 5, 6
+                    ]), 'speed' => $faker->randomElement([
+                        1, 2, 3, 4, 5, 6
+                    ])
+                ];
 
-            $order->comment()->save($comment);
+                $order->comment()->save($comment);
+            }
             $order->save();
         }
     }
