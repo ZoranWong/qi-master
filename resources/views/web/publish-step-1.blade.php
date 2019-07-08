@@ -274,7 +274,67 @@
         </div>
         <div class="q-form-right">
             <div class="product-list flex">
-                <div class="product-item flex">
+
+            </div>
+            <div class="layui-btn layui-btn-primary q-form-btn add-product"  data-toggle="modal" data-target="#productSelector">
+                <i class="layui-icon layui-icon-add-1"></i>
+                添加商品图片
+            </div>
+        </div>
+    </div>
+</div>
+<div class="next-opt">
+    <p>还差一步，继续完善订单详细信息，就能成功发单了！</p>
+    <div class="layui-btn layui-btn-primary next-btn">下一步</div>
+</div>
+@include('web.user-products')
+<script>
+
+    $(function () {
+
+        $('.change-classification').click(function () {
+            $('.select-classification').removeClass('hidden');
+            $('.select-product').addClass('hidden');
+            $('.products-container').addClass('hidden');
+        });
+        if(classifications.length > 0 && classifications[0]['service_types'].length > 0)
+            serviceTypesListRender(classifications[0]['service_types']);
+        $('.classifications-selector .classification').click(function () {
+            $('.select-classification').addClass('hidden');
+            $('.select-product').removeClass('hidden');
+            let id = $(this).data('id');
+            orderInfo['classification_id'] = id;
+            let classification = _.find(classifications, {id: id});
+            $('.classifications-selected .classification-selected .classification-icon').attr('src', classification['icon_url']);
+            $('.classifications-selected .classification-selected .classification-name span').html(classification['name']);
+            serviceTypesListRender(classification['service_types']);
+        });
+
+        function serviceTypesListRender(serviceTypes) {
+            let count = serviceTypes.length;
+            let listHtml = '';
+            for (let i = 0; i < count; i++) {
+                let serviceType = serviceTypes[i];
+
+                let item = `<li class="service-type">
+                    <div class="layui-btn layui-btn-primary service-type-btn q-form-btn" data-id = "${serviceType['id']}" data-use-history="${serviceType['use_history_product']}">${serviceType['name']}</div>
+                </li>`;
+                listHtml += item;
+            }
+
+            $('.service-type-list').html(listHtml);
+        }
+
+        function renderProductsList(products, itemRender) {
+            let html = '';
+            products.forEach(function (value) {
+                html += itemRender(value);
+            })
+            $('.products-container .product-list').html(html);
+        }
+
+        function historyProductItemRender(product) {
+            return ` <div class="product-item flex">
                     <div class="product-left">
                         <div class="img-box">
                             <img src="http://pic27.nipic.com/20130325/11918471_071536564166_2.jpg">
@@ -326,56 +386,13 @@
                         </div>
                         <div  class="remove-btn"><i class="layui-icon layui-icon-delete"></i></div>
                     </div>
-                </div>
-            </div>
-            <div class="layui-btn layui-btn-primary q-form-btn add-product"  data-toggle="modal" data-target="#productSelector">
-                <i class="layui-icon layui-icon-add-1"></i>
-                添加商品图片
-            </div>
-        </div>
-    </div>
-</div>
-<div class="next-opt">
-    <p>还差一步，继续完善订单详细信息，就能成功发单了！</p>
-    <div class="layui-btn layui-btn-primary next-btn">下一步</div>
-</div>
-@include('web.user-products')
-<script>
-    const classifications = {!! $classifications !!};
-    $(function () {
-
-        $('.change-classification').click(function () {
-            $('.select-classification').removeClass('hidden');
-            $('.select-product').addClass('hidden');
-            $('.products-container').addClass('hidden');
-        });
-        if(classifications.length > 0 && classifications[0]['service_types'].length > 0)
-            serviceTypesListRender(classifications[0]['service_types']);
-        $('.classifications-selector .classification').click(function () {
-            $('.select-classification').addClass('hidden');
-            $('.select-product').removeClass('hidden');
-            let id = $(this).data('id');
-            let classification = _.find(classifications, {id: id});
-            $('.classifications-selected .classification-selected .classification-icon').attr('src', classification['icon_url']);
-            $('.classifications-selected .classification-selected .classification-name span').html(classification['name']);
-            serviceTypesListRender(classification['service_types']);
-        });
-
-        function serviceTypesListRender(serviceTypes) {
-            let count = serviceTypes.length;
-            let listHtml = '';
-            for (let i = 0; i < count; i++) {
-                let serviceType = serviceTypes[i];
-
-                let item = `<li class="service-type">
-                    <div class="layui-btn layui-btn-primary service-type-btn q-form-btn" data-use-history="${serviceType['use_history_product']}">${serviceType['name']}</div>
-                </li>`;
-                listHtml += item;
-            }
-
-            $('.service-type-list').html(listHtml);
+                </div>`;
         }
 
+        function noHistoryProductRender() {
+            return '';
+        }
+        let productItemRender = null;
         $(document).on('click', '.service-type-btn', function () {
             $('.service-type .service-type-btn').removeClass('service-type-selected');
             $(this).addClass('service-type-selected');
@@ -387,19 +404,48 @@
             `);
             $('.products-container').removeClass('hidden');
             let useHistory = $(this).data('use-history');
+
             if(useHistory) {
-                $('.add-product').attr('data-target', '#productSelector');
+                // $('.add-product').attr('data-target', '#productSelector');
                 $('.add-product').attr('data-toggle', 'modal');
                 $('.add-product').removeClass('add-product-item');
+                productItemRender = historyProductItemRender;
             }else{
-                $('.add-product').removeAttr('data-target');
+                // $('.add-product').removeAttr('data-target');
                 $('.add-product').removeAttr('data-toggle');
                 $('.add-product').addClass('add-product-item');
+                productItemRender = noHistoryProductRender;
             }
+
+            orderInfo['service_type_id'] = $(this).data('id');
+            orderInfo['products'] = productsDict[orderInfo['service_type_id']] ? productsDict[orderInfo['service_type_id']] :
+                (productsDict[orderInfo['service_type_id']] = []);
+            renderProductsList(orderInfo['products'], productItemRender);
+        });
+
+        $(document).on('click', '.add-product[data-toggle="modal"]', function () {
+           $('#productSelector').modal('show');
+           $(document).trigger('RefreshSelector', [
+                   orderInfo['service_type_id'],
+                   orderInfo['classification_id']
+           ]);
         });
 
         $('document').on('mouseenter', '.service-type-btn', function () {
 
+        });
+
+        $(document).on('AddProductEvent', function (event) {
+            let serviceId = event.serviceId;
+            if (!productsDict[serviceId]) {
+                productsDict[serviceId] = [];
+            }
+
+            if(!_.find(productsDict[serviceId], {id: event.product.id})) {
+                productsDict[serviceId].push(event.product)
+            }
+
+            renderProductsList(orderInfo['products'], productItemRender);
         });
     });
 </script>

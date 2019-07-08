@@ -356,7 +356,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="layui-btn layui-btn-primary" data-dismiss="modal">取消</button>
-                <button type="button" class="layui-btn layui-btn-primary layui-bg-blue">确定</button>
+                <button type="button" class="layui-btn layui-btn-primary layui-bg-blue add-product-event-btn">确定</button>
             </div>
 
         </div>
@@ -385,6 +385,13 @@
             });
             $(document).on('click', '.product-card', function () {
                 $(this).toggleClass('active');
+            });
+            $('.add-product-event-btn').click(function () {
+                $('#productSelector').modal('hide');
+            });
+
+            $(document).on('RefreshSelector', function (event, serviceTypeId, classificationId) {
+                console.log('----------- refresh selector ---------', serviceTypeId, classificationId);
             });
         });
     });

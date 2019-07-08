@@ -117,6 +117,15 @@
 
 </body>
 <script>
+    const classifications = {!! $classifications !!};
+    const orderInfo = {
+        classification_id: classifications[0] ? classifications[0]['id'] :null,
+        category_id: null,
+        child_category_id: null,
+        service_type_id: null,
+        products: []
+    };
+    const productsDict = {};
     $(function () {
         layui.use(['layer', 'form'], function(){
             var layer = layui.layer
