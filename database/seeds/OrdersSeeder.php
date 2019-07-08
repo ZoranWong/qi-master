@@ -56,7 +56,7 @@ class   OrdersSeeder extends Seeder
             $orderItem = new OrderItem();
             $orderItem->status = $order->status;
             $orderItem->type = $order->type;
-            $orderItem->masterId = $master->id;
+
             $orderItem->productId = $product->id;
             $orderItem->product = [
                 'id' => $product->id,
@@ -65,7 +65,10 @@ class   OrdersSeeder extends Seeder
                 'service_requirements' => [
                 ]
             ];
-            $order->masterId = $master->id;
+            if($order->status !== Order::ORDER_WAIT_OFFER) {
+                $orderItem->masterId = $master->id;
+                $order->masterId = $master->id;
+            }
             $order->image = $product->image;
             $orderItem->installFee = $faker->randomDigitNotNull;
             $orderItem->otherFee = $faker->randomDigitNotNull;
