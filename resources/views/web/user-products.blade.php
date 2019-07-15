@@ -122,6 +122,7 @@
         margin-top: 128px;
         margin-bottom: 12px;
     }
+
     .upload-file-box {
         text-align: center;
         width: 82px;
@@ -136,10 +137,12 @@
         color: #fe8f00;
         font-size: 12px;
     }
+
     .tab-item .comments {
         text-align: center;
         font-size: 12px;
     }
+
     #productPage {
         position: absolute;
         right: 54px;
@@ -161,11 +164,6 @@
                 <div class="tab-item flex ">
                     <div class="left-part">
                         <ul class="categories-list">
-                            <li class="category-item active">全部(523)</li>
-                            <li class="category-item">不配(523)</li>
-                            <li class="category-item">府门(523)</li>
-                            <li class="category-item">了吗(523)</li>
-                            <li class="category-item">龙没(523)</li>
                         </ul>
                     </div>
                     <div class="right-part">
@@ -176,168 +174,6 @@
                         </div>
                         <div class="product-list">
                             <ul>
-                                <li class="product-card">
-                                    <div class="product-img">
-                                        <img src="http://pic27.nipic.com/20130325/11918471_071536564166_2.jpg">
-                                        <div class="selector">
-                                            <i class="layui-icon layui-icon-ok-circle"></i>
-                                        </div>
-                                    </div>
-                                    <div class="product-name">XXXXXX</div>
-                                </li>
-                                <li class="product-card">
-                                    <div class="product-img">
-                                        <img src="http://pic27.nipic.com/20130325/11918471_071536564166_2.jpg">
-                                        <div class="selector">
-                                            <i class="layui-icon layui-icon-ok-circle"></i>
-                                        </div>
-                                    </div>
-                                    <div class="product-name">XXXXXX</div>
-                                </li>
-                                <li class="product-card">
-                                    <div class="product-img">
-                                        <img src="http://pic27.nipic.com/20130325/11918471_071536564166_2.jpg">
-                                        <div class="selector">
-                                            <i class="layui-icon layui-icon-ok-circle"></i>
-                                        </div>
-                                    </div>
-                                    <div class="product-name">XXXXXX</div>
-                                </li>
-                                <li class="product-card">
-                                    <div class="product-img">
-                                        <img src="http://pic27.nipic.com/20130325/11918471_071536564166_2.jpg">
-                                        <div class="selector">
-                                            <i class="layui-icon layui-icon-ok-circle"></i>
-                                        </div>
-                                    </div>
-                                    <div class="product-name">XXXXXX</div>
-                                </li>
-                                <li class="product-card">
-                                    <div class="product-img">
-                                        <img src="http://pic27.nipic.com/20130325/11918471_071536564166_2.jpg">
-                                        <div class="selector">
-                                            <i class="layui-icon layui-icon-ok-circle"></i>
-                                        </div>
-                                    </div>
-                                    <div class="product-name">XXXXXX</div>
-                                </li>
-                                <li class="product-card">
-                                    <div class="product-img">
-                                        <img src="http://pic27.nipic.com/20130325/11918471_071536564166_2.jpg">
-                                        <div class="selector">
-                                            <i class="layui-icon layui-icon-ok-circle"></i>
-                                        </div>
-                                    </div>
-                                    <div class="product-name">XXXXXX</div>
-                                </li>
-                                <li class="product-card">
-                                    <div class="product-img">
-                                        <img src="http://pic27.nipic.com/20130325/11918471_071536564166_2.jpg">
-                                        <div class="selector">
-                                            <i class="layui-icon layui-icon-ok-circle"></i>
-                                        </div>
-                                    </div>
-                                    <div class="product-name">XXXXXX</div>
-                                </li>
-                                <li class="product-card">
-                                    <div class="product-img">
-                                        <img src="http://pic27.nipic.com/20130325/11918471_071536564166_2.jpg">
-                                        <div class="selector">
-                                            <i class="layui-icon layui-icon-ok-circle"></i>
-                                        </div>
-                                    </div>
-                                    <div class="product-name">XXXXXX</div>
-                                </li>
-                                <li class="product-card">
-                                    <div class="product-img">
-                                        <img src="http://pic27.nipic.com/20130325/11918471_071536564166_2.jpg">
-                                        <div class="selector">
-                                            <i class="layui-icon layui-icon-ok-circle"></i>
-                                        </div>
-                                    </div>
-                                    <div class="product-name">XXXXXX</div>
-                                </li>
-                                <li class="product-card">
-                                    <div class="product-img">
-                                        <img src="http://pic27.nipic.com/20130325/11918471_071536564166_2.jpg">
-                                        <div class="selector">
-                                            <i class="layui-icon layui-icon-ok-circle"></i>
-                                        </div>
-                                    </div>
-                                    <div class="product-name">XXXXXX</div>
-                                </li>
-                                <li class="product-card">
-                                    <div class="product-img">
-                                        <img src="http://pic27.nipic.com/20130325/11918471_071536564166_2.jpg">
-                                        <div class="selector">
-                                            <i class="layui-icon layui-icon-ok-circle"></i>
-                                        </div>
-                                    </div>
-                                    <div class="product-name">XXXXXX</div>
-                                </li>
-                                <li class="product-card">
-                                    <div class="product-img">
-                                        <img src="http://pic27.nipic.com/20130325/11918471_071536564166_2.jpg">
-                                        <div class="selector">
-                                            <i class="layui-icon layui-icon-ok-circle"></i>
-                                        </div>
-                                    </div>
-                                    <div class="product-name">XXXXXX</div>
-                                </li>
-                                <li class="product-card">
-                                    <div class="product-img">
-                                        <img src="http://pic27.nipic.com/20130325/11918471_071536564166_2.jpg">
-                                        <div class="selector">
-                                            <i class="layui-icon layui-icon-ok-circle"></i>
-                                        </div>
-                                    </div>
-                                    <div class="product-name">XXXXXX</div>
-                                </li>
-                                <li class="product-card">
-                                    <div class="product-img">
-                                        <img src="http://pic27.nipic.com/20130325/11918471_071536564166_2.jpg">
-                                        <div class="selector">
-                                            <i class="layui-icon layui-icon-ok-circle"></i>
-                                        </div>
-                                    </div>
-                                    <div class="product-name">XXXXXX</div>
-                                </li>
-                                <li class="product-card">
-                                    <div class="product-img">
-                                        <img src="http://pic27.nipic.com/20130325/11918471_071536564166_2.jpg">
-                                        <div class="selector">
-                                            <i class="layui-icon layui-icon-ok-circle"></i>
-                                        </div>
-                                    </div>
-                                    <div class="product-name">XXXXXX</div>
-                                </li>
-                                <li class="product-card">
-                                    <div class="product-img">
-                                        <img src="http://pic27.nipic.com/20130325/11918471_071536564166_2.jpg">
-                                        <div class="selector">
-                                            <i class="layui-icon layui-icon-ok-circle"></i>
-                                        </div>
-                                    </div>
-                                    <div class="product-name">XXXXXX</div>
-                                </li>
-                                <li class="product-card">
-                                    <div class="product-img">
-                                        <img src="http://pic27.nipic.com/20130325/11918471_071536564166_2.jpg">
-                                        <div class="selector">
-                                            <i class="layui-icon layui-icon-ok-circle"></i>
-                                        </div>
-                                    </div>
-                                    <div class="product-name">XXXXXX</div>
-                                </li>
-                                <li class="product-card">
-                                    <div class="product-img">
-                                        <img src="http://pic27.nipic.com/20130325/11918471_071536564166_2.jpg">
-                                        <div class="selector">
-                                            <i class="layui-icon layui-icon-ok-circle"></i>
-                                        </div>
-                                    </div>
-                                    <div class="product-name">XXXXXX</div>
-                                </li>
                             </ul>
                         </div>
                         <div id="productPage"></div>
@@ -364,8 +200,61 @@
 </div>
 <script>
     $(function () {
-        layui.use('laypage', function(){
+        layui.use('laypage', function () {
+            let classifications = {!! $classifications !!};
             var laypage = layui.laypage;
+            let search = '';
+            let page = 1;
+            let categoryId = '';
+            let selectedProducts = {};
+            let serviceId = null;
+            function refreshProductsPanel(limit = 18) {
+                $.get({
+                    url: "{{$productsUrl}}&category_id="+categoryId+"&page=" + page + "&search=" + search + "&limit=" + limit,
+                    success: function (res) {
+                        refreshProducts(res.data, res.meta.pagination);
+                    },
+                    fail: function () {
+                    }
+                });
+            }
+            function paginatorRender(count, limit, page) {
+                laypage.render({
+                    elem: 'productPage', //注意，这里的 test1 是 ID，不用加 # 号
+                    count: count, //数据总数，从服务端得到
+                    limit: limit,
+                    curr: page
+                });
+            }
+            function productsRender(products) {
+                let count = products.length;
+                let html = '';
+                for (let i = 0; i< count; i ++) {
+                    html += productRender(products[i]);
+                }
+
+                $("#productSelector .product-list>ul").html(html);
+            }
+
+            function productRender(product) {
+                let productJson = JSON.stringify(product);
+                let active = selectedProducts[product['id']] ? "active" : "";
+                return `
+                <li class="product-card ${active}" data-product='${productJson}'>
+                    <div class="product-img">
+                        <img src="${product['image']}">
+                        <div class="selector">
+                            <i class="layui-icon layui-icon-ok-circle"></i>
+                        </div>
+                    </div>
+                    <div class="product-name">${product['title']}</div>
+                </li>
+                `;
+            }
+            function refreshProducts(products, paginator) {
+                productsRender(products);
+                paginatorRender(paginator['total'], paginator['per_page'], paginator['current_page'])
+            }
 
             //执行一个laypage实例
             laypage.render({
@@ -382,16 +271,53 @@
             $(document).on('click', '.category-item', function () {
                 $('.category-item').removeClass('active');
                 $(this).addClass('active');
+                search = '';
+                categoryId = $(this).data('category-id');
+                page = 1;
+                refreshProductsPanel();
             });
             $(document).on('click', '.product-card', function () {
                 $(this).toggleClass('active');
+                console.log($(this).data('product'));
+                let product = ($(this).data('product'));
+                if(typeof selectedProducts[product['id']] !== 'undefined') {
+                    delete selectedProducts[product['id']];
+                }else{
+                    selectedProducts[product['id']] = product;
+                }
             });
             $('.add-product-event-btn').click(function () {
                 $('#productSelector').modal('hide');
+                $(document).trigger('AddProductEvent', [serviceId, selectedProducts]);
+            });
+            $(".search-btn").click(function () {
+                search = $('.search-input').val();
+                page = 1;
+                refreshProductsPanel();
             });
 
+            $(document).on('click', '.layui-laypage>a', function () {
+                console.log('----------------+++++++--------------');
+                page = $(this).data('page');
+                refreshProductsPanel();
+            });
+
+            function categoryListRender (categories) {
+                let html = '';
+                let count = categories.length;
+                for(let i =0; i < count; i ++){
+                    html += `<li class="category-item" data-idx="${i}" data-category-id="${categories[i]['id']}">${categories[i]['name']}</li>`;
+                }
+
+                $('#productSelector .categories-list').html(html);
+                $('#productSelector .categories-list .category-item[data-idx="0"]').trigger('click');
+            }
+
             $(document).on('RefreshSelector', function (event, serviceTypeId, classificationId) {
-                console.log('----------- refresh selector ---------', serviceTypeId, classificationId);
+                let classification = _.find(classifications, {id: classificationId});
+                serviceId = serviceTypeId;
+                console.log('----------- refresh selector ---------', serviceTypeId, classificationId, classification);
+                categoryListRender(classification['categories']);
             });
         });
     });

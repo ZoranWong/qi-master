@@ -2,6 +2,8 @@
 
 use App\Models\Product;
 use Illuminate\Database\Seeder;
+use App\Models\Classification;
+use App\Models\Category;
 
 class ProductsSeeder extends Seeder
 {
@@ -15,11 +17,6 @@ class ProductsSeeder extends Seeder
     {
         Product::truncate();
         // 创建 30 个商品
-        $products = factory(Product::class, 30)->create();
-        foreach ($products as $product) {
-            /**@var Product $product**/
-            $product->categories()->sync([random_int(1, 10)]);
-            $product->classifications()->sync([random_int(1, 5)]);
-        }
+        factory(Product::class, 500)->create();
     }
 }

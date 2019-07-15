@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\ModelAttributesAccess;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Storage;
@@ -41,6 +42,7 @@ use Storage;
  */
 class Product extends Model
 {
+    use ModelAttributesAccess;
     protected $fillable = [
         'classification_id', 'category_id', 'child_category_id', 'user_id', 'title', 'image'
     ];

@@ -15,6 +15,7 @@ use App\Models\Order;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Services\OrderService;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class OrdersController extends Controller
 {
@@ -183,10 +184,13 @@ class OrdersController extends Controller
                 'currentMenu' => 'publish'
             ]);
         }
+        $user = auth()->user();
+        $token = JWTAuth::fromUser($user);
         $classifications = Classification::with(['serviceTypes', 'categories.children', 'categories.properties'])
             ->get();
         return $view->with([
-            'classifications' => $classifications
+            'classifications' => $classifications,
+            'productsUrl' => api_route('user.products.list')."?token={$token}"
         ]);
     }
 }

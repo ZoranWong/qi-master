@@ -173,7 +173,7 @@
     }
     .remove-btn {
         position: absolute;
-        right: -98px;
+        right: 12px;
         top: 0;
         cursor: pointer;
     }
@@ -273,7 +273,7 @@
             <span>商品信息：</span>
         </div>
         <div class="q-form-right">
-            <div class="product-list flex">
+            <div class="product-list flex-column" style="display: flex !important;">
 
             </div>
             <div class="layui-btn layui-btn-primary q-form-btn add-product"  data-toggle="modal" data-target="#productSelector">
@@ -287,7 +287,7 @@
     <p>还差一步，继续完善订单详细信息，就能成功发单了！</p>
     <div class="layui-btn layui-btn-primary next-btn">下一步</div>
 </div>
-@include('web.user-products')
+@include('web.user-products', ['classifications' => $classifications, 'productsUrl' => $productsUrl])
 <script>
 
     $(function () {
@@ -334,10 +334,10 @@
         }
 
         function historyProductItemRender(product) {
-            return ` <div class="product-item flex">
+            return ` <div class="product-item" style="display: flex !important;position: relative;">
                     <div class="product-left">
                         <div class="img-box">
-                            <img src="http://pic27.nipic.com/20130325/11918471_071536564166_2.jpg">
+                            <img src="${product['image']}">
                         </div>
                     </div>
                     <div class="product-right">
@@ -384,8 +384,8 @@
                                 <input name="spec_desc" type="text" class="layui-input">
                             </div>
                         </div>
-                        <div  class="remove-btn"><i class="layui-icon layui-icon-delete"></i></div>
                     </div>
+                    <div  class="remove-btn"><i class="layui-icon layui-icon-delete"></i></div>
                 </div>`;
         }
 
@@ -435,16 +435,13 @@
 
         });
 
-        $(document).on('AddProductEvent', function (event) {
-            let serviceId = event.serviceId;
-            if (!productsDict[serviceId]) {
-                productsDict[serviceId] = [];
-            }
+        $(document).on('AddProductEvent', function (event, serviceId, selectedProducts) {
+            orderInfo['products'] = productsDict[serviceId] = [];
 
-            if(!_.find(productsDict[serviceId], {id: event.product.id})) {
-                productsDict[serviceId].push(event.product)
+            for (let key in selectedProducts) {
+                productsDict[serviceId].push(selectedProducts[key]);
             }
-
+            console.log('-------------', productsDict, serviceId);
             renderProductsList(orderInfo['products'], productItemRender);
         });
     });

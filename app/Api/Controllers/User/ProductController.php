@@ -28,7 +28,15 @@ class ProductController extends Controller
     {
         $limit = $request->input('limit', PAGE_SIZE);
 
-        $paginator = $this->repository->paginate($limit);
+        $paginator = $this->repository->scopeQuery(function ($query) use($request){
+            if(($categoryId = $request->input('category_id'))) {
+                $query = $query->where('category_id', $categoryId);
+            }
+            if(($search = $request->input('search')) && $search !== ''){
+                $query = $query->where('title', 'like', "%{$search}%");
+            }
+            return $query;
+        })->paginate($limit);
 
         return $this->response->paginator($paginator, new ProductTransformer);
     }

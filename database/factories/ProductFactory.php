@@ -4,6 +4,7 @@ use Faker\Generator as Faker;
 use App\Models\Classification;
 use App\Models\Category;
 use App\Models\ServiceType;
+use \App\Models\User;
 
 $factory->define(App\Models\Product::class, function (Faker $faker) {
     $image = $faker->randomElement([
@@ -16,6 +17,7 @@ $factory->define(App\Models\Product::class, function (Faker $faker) {
         "http://decomyplace.com/img/blog/150616_clei_5.jpg",
         "http://decomyplace.com/img/blog/150616_clei_10.jpg"
     ]);
+    $user = User::find(1);
     $classification = Classification::query()->inRandomOrder()->first();
     $category = Category::where('classification_id', $classification->id)->where('parent_id', 0)->inRandomOrder()->first();
     $childCategory = Category::where('parent_id', $category->id)->inRandomOrder()->first();
@@ -25,6 +27,7 @@ $factory->define(App\Models\Product::class, function (Faker $faker) {
         'category_id' => $category->id,
         'child_category_id' => $childCategory ? $childCategory->id : 0,
         'service_id' => $service ? $service->id : 0,
+        'user_id' => $user->id,
         'title' => $faker->word,
         'image' => $image,
     ];

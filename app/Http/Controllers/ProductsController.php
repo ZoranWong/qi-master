@@ -6,6 +6,7 @@ use App\Exceptions\InvalidRequestException;
 use App\Models\Classification;
 use App\Models\OrderItem;
 use App\Models\Product;
+use App\Repositories\ProductRepository;
 use Illuminate\Http\Request;
 
 class ProductsController extends Controller
