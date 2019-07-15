@@ -3,6 +3,7 @@
 use App\Models\Classification;
 use App\Models\Master;
 use Illuminate\Database\Seeder;
+use App\Models\ServiceType;
 
 class MasterClassificationSeeder extends Seeder
 {
@@ -23,7 +24,7 @@ class MasterClassificationSeeder extends Seeder
              * */
             $classification = Classification::inRandomOrder()->first();
             $data['classification_id'] = $classification->id;
-            $data['services'] = $classification->serviceTypes->map(function (\App\Models\ServiceType $serviceType) {
+            $data['services'] = $classification->serviceTypes->map(function (ServiceType $serviceType) {
                 return [
                     'id' => $serviceType->id,
                     'name' => $serviceType->name
