@@ -35,6 +35,9 @@ class ProductController extends Controller
             if(($search = $request->input('search')) && $search !== ''){
                 $query = $query->where('title', 'like', "%{$search}%");
             }
+            if(($serviceId = $request->input('service_id', null))) {
+                $query = $query->where('service_id', $serviceId);
+            }
             return $query;
         })->paginate($limit);
 
@@ -48,7 +51,7 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request)
     {
-        $data = $request->only(['classification_id', 'category_id', 'child_category_id', 'title', 'image']);
+        $data = $request->only(['classification_id', 'category_id', 'child_category_id', 'service_id', 'title', 'image']);
 
         $product = $this->repository->create($data);
 
@@ -63,7 +66,7 @@ class ProductController extends Controller
      */
     public function update(ProductRequest $request, Product $product)
     {
-        $data = $request->only(['classification_id', 'category_id', 'child_category_id', 'title', 'image']);
+        $data = $request->only(['classification_id', 'category_id', 'service_id', 'child_category_id', 'title', 'image']);
 
         $product->update($data);
 

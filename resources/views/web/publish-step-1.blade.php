@@ -28,10 +28,12 @@
         max-width: 180px;
         min-width: 124px;
         margin-top: 10px;
+        height: max-content;
     }
 
     .q-form-right {
         width: 85%;
+        height: max-content;
     }
 
     .q-form-label span {
@@ -105,6 +107,7 @@
         border: #fe8f00 1px solid;
         position: relative;
         color: #fe8f00;
+        overflow: hidden;
     }
 
     .selected-icon {
@@ -181,6 +184,9 @@
         font-size: 32px;
         color: #c5c5c5;
     }
+    .remove-btn:hover i{
+        color: #FE8F00;
+    }
     .add-product {
         margin-left: 8px;
     }
@@ -197,6 +203,9 @@
         right: 0;
         margin-top: 8px;
         margin-bottom: 32px;
+    }
+    .layui-textarea {
+        width: 416px !important;
     }
 </style>
 <div class="step">
@@ -291,50 +300,86 @@
 <script>
 
     $(function () {
+        layui.use(['form'], function () {
+            let form = layui.form;
+            let classification = classifications[0];
+            $('.change-classification').click(function () {
+                $('.select-classification').removeClass('hidden');
+                $('.select-product').addClass('hidden');
+                $('.products-container').addClass('hidden');
+            });
+            if(classifications.length > 0 && classifications[0]['service_types'].length > 0)
+                serviceTypesListRender(classifications[0]['service_types']);
+            $('.classifications-selector .classification').click(function () {
+                $('.select-classification').addClass('hidden');
+                $('.select-product').removeClass('hidden');
+                let id = $(this).data('id');
+                orderInfo['classification_id'] = id;
+                classification = _.find(classifications, {id: id});
+                $('.classifications-selected .classification-selected .classification-icon').attr('src', classification['icon_url']);
+                $('.classifications-selected .classification-selected .classification-name span').html(classification['name']);
+                serviceTypesListRender(classification['service_types']);
+            });
 
-        $('.change-classification').click(function () {
-            $('.select-classification').removeClass('hidden');
-            $('.select-product').addClass('hidden');
-            $('.products-container').addClass('hidden');
-        });
-        if(classifications.length > 0 && classifications[0]['service_types'].length > 0)
-            serviceTypesListRender(classifications[0]['service_types']);
-        $('.classifications-selector .classification').click(function () {
-            $('.select-classification').addClass('hidden');
-            $('.select-product').removeClass('hidden');
-            let id = $(this).data('id');
-            orderInfo['classification_id'] = id;
-            let classification = _.find(classifications, {id: id});
-            $('.classifications-selected .classification-selected .classification-icon').attr('src', classification['icon_url']);
-            $('.classifications-selected .classification-selected .classification-name span').html(classification['name']);
-            serviceTypesListRender(classification['service_types']);
-        });
+            function serviceTypesListRender(serviceTypes) {
+                let count = serviceTypes.length;
+                let listHtml = '';
+                for (let i = 0; i < count; i++) {
+                    let serviceType = serviceTypes[i];
 
-        function serviceTypesListRender(serviceTypes) {
-            let count = serviceTypes.length;
-            let listHtml = '';
-            for (let i = 0; i < count; i++) {
-                let serviceType = serviceTypes[i];
-
-                let item = `<li class="service-type">
+                    let item = `<li class="service-type">
                     <div class="layui-btn layui-btn-primary service-type-btn q-form-btn" data-id = "${serviceType['id']}" data-use-history="${serviceType['use_history_product']}">${serviceType['name']}</div>
                 </li>`;
-                listHtml += item;
+                    listHtml += item;
+                }
+
+                $('.service-type-list').html(listHtml);
             }
 
-            $('.service-type-list').html(listHtml);
-        }
+            function renderProductsList(products, itemRender) {
+                let html = '';
+                products.forEach(function (value) {
+                    html += itemRender(value);
+                })
+                $('.products-container .product-list').html(html);
+                form.render('select');
+            }
 
-        function renderProductsList(products, itemRender) {
-            let html = '';
-            products.forEach(function (value) {
-                html += itemRender(value);
-            })
-            $('.products-container .product-list').html(html);
-        }
+            function categorySelector() {
+                console.log('------------------', classification);
+                let selectorBegin = "<select class=\"layui-select category-id\">"
+                let options = "";
+                let selectorEnd = "</select>";
 
-        function historyProductItemRender(product) {
-            return ` <div class="product-item" style="display: flex !important;position: relative;">
+                for (let i = 0; i < classification['categories'].length; i ++) {
+                    options += `<option ${i === 0 ? 'selected' : ''}>${classification['categories'][i]['name']}</option>`;
+                }
+                let children = classification['categories'][0]['children'];
+                return selectorBegin + options + selectorEnd + childCategorySelector(children);
+            }
+
+            function childCategorySelector(children) {
+                if(children.length > 0) {
+                    let selectorBegin = "<select class=\"layui-select child-category-id\">";
+                    let options = "";
+                    let selectorEnd = "</select>";
+
+                    return selectorBegin + options + selectorEnd;
+                }else{
+                    return '';
+                }
+            }
+
+            function properties() {
+                let selectorBegin = "<select class=\"layui-select\">";
+                let options = "";
+                let selectorEnd = "</select>";
+                return selectorBegin + options + selectorEnd;
+            }
+
+            function historyProductItemRender(product) {
+                return `
+                <div class="product-item product-item-${product['id']}" style="display: flex !important;position: relative;" data-product-id="${product['id']}">
                     <div class="product-left">
                         <div class="img-box">
                             <img src="${product['image']}">
@@ -346,10 +391,9 @@
                                 <span class="required-icon">*</span>商品类别：
                             </div>
                             <div class="selector layui-select-group flex">
-                                <select class="layui-select category-id"></select>
-                                <select class="layui-select child-category-id"></select>
+                                ${categorySelector()}
                             </div>
-                            <input type="number" name="title" required lay-verify="required" placeholder="数量"
+                            <input type="number" name="num" required lay-verify="required" placeholder="数量"
                                    class="layui-input" style="width: 64px;margin-left: 12px;">
                         </div>
                         <div class="product-item-desc property flex">
@@ -357,7 +401,7 @@
                                 <span class="required-icon">*</span>商品属性：
                             </div>
                             <div class="selector layui-select-group">
-                                <select class="layui-select"></select>
+                              ${properties()}
                             </div>
                         </div>
                         <div class="product-item-desc product-name flex">
@@ -365,7 +409,7 @@
                                 <span class="required-icon">*</span>商品型号：
                             </div>
                             <div class="selector layui-select-group">
-                                <select class="layui-select"></select>
+                                <input class="title layui-input " name="title" type="text" required lay-verify="required" placeholder="商品型号">
                             </div>
                         </div>
                         <div class="product-item-desc requirement flex">
@@ -381,68 +425,78 @@
                                 特殊要求：
                             </div>
                             <div class="selector layui-select-group">
-                                <input name="spec_desc" type="text" class="layui-input">
+                                <textarea name="spec_desc" type="text" class="layui-textarea" style="with:416px !important;"></textarea>
                             </div>
                         </div>
                     </div>
                     <div  class="remove-btn"><i class="layui-icon layui-icon-delete"></i></div>
                 </div>`;
-        }
+            }
 
-        function noHistoryProductRender() {
-            return '';
-        }
-        let productItemRender = null;
-        $(document).on('click', '.service-type-btn', function () {
-            $('.service-type .service-type-btn').removeClass('service-type-selected');
-            $(this).addClass('service-type-selected');
-            $('.service-type-btn .selected-icon').remove();
-            $(this).append(`
-            <div class="selected-icon">
+            function noHistoryProductRender() {
+                return '';
+            }
+            let productItemRender = null;
+            $(document).on('click', '.service-type-btn', function () {
+                $('.service-type .service-type-btn').removeClass('service-type-selected');
+                $(this).addClass('service-type-selected');
+                $('.service-type-btn .selected-icon').remove();
+                $(this).append(`<div class="selected-icon">
                     <i class="icon layui-icon layui-icon-ok"></i>
-                </div>
-            `);
-            $('.products-container').removeClass('hidden');
-            let useHistory = $(this).data('use-history');
+                </div>`);
+                $('.products-container').removeClass('hidden');
+                let useHistory = $(this).data('use-history');
 
-            if(useHistory) {
-                // $('.add-product').attr('data-target', '#productSelector');
-                $('.add-product').attr('data-toggle', 'modal');
-                $('.add-product').removeClass('add-product-item');
-                productItemRender = historyProductItemRender;
-            }else{
-                // $('.add-product').removeAttr('data-target');
-                $('.add-product').removeAttr('data-toggle');
-                $('.add-product').addClass('add-product-item');
-                productItemRender = noHistoryProductRender;
-            }
+                if(useHistory) {
+                    // $('.add-product').attr('data-target', '#productSelector');
+                    $('.add-product').attr('data-toggle', 'modal');
+                    $('.add-product').removeClass('add-product-item');
+                    productItemRender = historyProductItemRender;
+                }else{
+                    // $('.add-product').removeAttr('data-target');
+                    $('.add-product').removeAttr('data-toggle');
+                    $('.add-product').addClass('add-product-item');
+                    productItemRender = noHistoryProductRender;
+                }
 
-            orderInfo['service_type_id'] = $(this).data('id');
-            orderInfo['products'] = productsDict[orderInfo['service_type_id']] ? productsDict[orderInfo['service_type_id']] :
-                (productsDict[orderInfo['service_type_id']] = []);
-            renderProductsList(orderInfo['products'], productItemRender);
-        });
+                orderInfo['service_type_id'] = $(this).data('id');
+                orderInfo['products'] = productsDict[orderInfo['service_type_id']] ? productsDict[orderInfo['service_type_id']] :
+                    (productsDict[orderInfo['service_type_id']] = []);
+                renderProductsList(orderInfo['products'], productItemRender);
+            });
 
-        $(document).on('click', '.add-product[data-toggle="modal"]', function () {
-           $('#productSelector').modal('show');
-           $(document).trigger('RefreshSelector', [
-                   orderInfo['service_type_id'],
-                   orderInfo['classification_id']
-           ]);
-        });
+            $(document).on('click', '.add-product[data-toggle="modal"]', function () {
+                $('#productSelector').modal('show');
+                $(document).trigger('RefreshSelector', [
+                    orderInfo['service_type_id'],
+                    orderInfo['classification_id']
+                ]);
+            });
 
-        $('document').on('mouseenter', '.service-type-btn', function () {
+            $('document').on('mouseenter', '.service-type-btn', function () {
 
-        });
+            });
 
-        $(document).on('AddProductEvent', function (event, serviceId, selectedProducts) {
-            orderInfo['products'] = productsDict[serviceId] = [];
+            $(document).on('click', '.remove-btn', function () {
+                let item = $(this).closest('.product-item');
+                let productId = $(item).data('product-id');
+                console.log('.product-item-'+productId);
+                let product = _.find(orderInfo['products'], {id: productId});
+                let index = orderInfo['products'].indexOf(product);
+                orderInfo['products'].splice(index, 1);
+                $(document).trigger('RemoveProduct', [productId]);
+                renderProductsList(orderInfo['products'], productItemRender);
+            });
 
-            for (let key in selectedProducts) {
-                productsDict[serviceId].push(selectedProducts[key]);
-            }
-            console.log('-------------', productsDict, serviceId);
-            renderProductsList(orderInfo['products'], productItemRender);
+            $(document).on('AddProductEvent', function (event, serviceId, selectedProducts) {
+                orderInfo['products'] = productsDict[serviceId] = [];
+
+                for (let key in selectedProducts) {
+                    productsDict[serviceId].push(selectedProducts[key]);
+                }
+                console.log('-------------', productsDict, serviceId);
+                renderProductsList(orderInfo['products'], productItemRender);
+            });
         });
     });
 </script>

@@ -44,7 +44,7 @@ class Product extends Model
 {
     use ModelAttributesAccess;
     protected $fillable = [
-        'classification_id', 'category_id', 'child_category_id', 'user_id', 'title', 'image'
+        'classification_id', 'category_id', 'child_category_id', 'user_id', 'title', 'image', 'service_id'
     ];
 
     public static function boot()

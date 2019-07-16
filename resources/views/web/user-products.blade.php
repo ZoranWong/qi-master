@@ -208,9 +208,10 @@
             let categoryId = '';
             let selectedProducts = {};
             let serviceId = null;
+            let selectedDict = {};
             function refreshProductsPanel(limit = 18) {
                 $.get({
-                    url: "{{$productsUrl}}&category_id="+categoryId+"&page=" + page + "&search=" + search + "&limit=" + limit,
+                    url: "{{$productsUrl}}&category_id="+categoryId+ "&service_id=" + serviceId +"&page=" + page + "&search=" + search + "&limit=" + limit,
                     success: function (res) {
                         refreshProducts(res.data, res.meta.pagination);
                     },
@@ -280,11 +281,18 @@
                 $(this).toggleClass('active');
                 console.log($(this).data('product'));
                 let product = ($(this).data('product'));
+
+                if(selectedDict && typeof selectedDict[serviceId] === 'undefined'){
+                    selectedDict[serviceId] = {};
+                }
+                selectedProducts = selectedDict[serviceId];
+                console.log('------------', serviceId, selectedDict[serviceId]);
                 if(typeof selectedProducts[product['id']] !== 'undefined') {
                     delete selectedProducts[product['id']];
                 }else{
                     selectedProducts[product['id']] = product;
                 }
+
             });
             $('.add-product-event-btn').click(function () {
                 $('#productSelector').modal('hide');
@@ -316,8 +324,12 @@
             $(document).on('RefreshSelector', function (event, serviceTypeId, classificationId) {
                 let classification = _.find(classifications, {id: classificationId});
                 serviceId = serviceTypeId;
-                console.log('----------- refresh selector ---------', serviceTypeId, classificationId, classification);
+                // console.log('----------- refresh selector ---------', serviceTypeId, classificationId, classification);
                 categoryListRender(classification['categories']);
+            });
+
+            $(document).on('RemoveProduct', function (event, productId) {
+                delete selectedProducts[productId];
             });
         });
     });
