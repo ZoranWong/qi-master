@@ -354,7 +354,7 @@
                 for (let i = 0; i < classification['categories'].length; i ++) {
                     options += `<option ${i == selectedIndex ? 'selected' : ''} value="${i}">${classification['categories'][i]['name']}</option>`;
                 }
-                let children = classification['categories'][0]['children'];
+                let children = classification['categories'][selectedIndex]['children'];
                 return selectorBegin + options + selectorEnd + childCategorySelector(children);
             }
 
@@ -370,24 +370,14 @@
                 form.render('select');
             });
 
-            $('.products-container').on('click', 'select', function () {
-                let index = $(this).val();
-                console.log('------------ category ---------', index)
-                let selector = categorySelector(index);
-                let productItem = $(this).parent('.product-item');
-                console.log('------------ product item ---------', productItem, $(productItem).find('.selector.product-properties'));
-                $($(productItem).find('.selector.product-categories')).html(selector);
-                let propertyArray = classification['categories'][0]['properties'];
-                properties(propertyArray, 0, $(productItem).find('.selector.product-properties'));
-                form.render('select');
-            });
-
             function childCategorySelector(children) {
                 if(children.length > 0) {
                     let selectorBegin = "<select class=\"layui-select child-category-id\">";
                     let options = "";
                     let selectorEnd = "</select>";
-
+                    for (let i = 0; i < children.length; i ++) {
+                        options += `<option value="${children[i]['id']}">${children[i]['name']}</option>`;
+                    }
                     return selectorBegin + options + selectorEnd;
                 }else{
                     return '';
