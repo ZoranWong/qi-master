@@ -345,18 +345,42 @@
                 form.render('select');
             }
 
-            function categorySelector() {
+            function categorySelector(selectedIndex = 0) {
                 console.log('------------------', classification);
-                let selectorBegin = "<select class=\"layui-select category-id\">"
+                let selectorBegin = `<select class=\"layui-select category-id\" lay-filter='categories' value='${selectedIndex}'>`;
                 let options = "";
                 let selectorEnd = "</select>";
 
                 for (let i = 0; i < classification['categories'].length; i ++) {
-                    options += `<option ${i === 0 ? 'selected' : ''}>${classification['categories'][i]['name']}</option>`;
+                    options += `<option ${i == selectedIndex ? 'selected' : ''} value="${i}">${classification['categories'][i]['name']}</option>`;
                 }
                 let children = classification['categories'][0]['children'];
                 return selectorBegin + options + selectorEnd + childCategorySelector(children);
             }
+
+            form.on('select(categories)', function(data){
+                let index = data['value'];
+                console.log('------------ category ---------', index, data)
+                let selector = categorySelector(index);
+                let productItem = $(data['elem']).closest('.product-item');
+                $($(productItem).find('.selector.product-categories')).html(selector);
+                let propertyArray = classification['categories'][index]['properties'];
+                console.log("--------------", propertyArray, $(productItem).find('.selector.product-properties'));
+                properties(propertyArray, 0, $(productItem).find('.selector.product-properties'));
+                form.render('select');
+            });
+
+            $('.products-container').on('click', 'select', function () {
+                let index = $(this).val();
+                console.log('------------ category ---------', index)
+                let selector = categorySelector(index);
+                let productItem = $(this).parent('.product-item');
+                console.log('------------ product item ---------', productItem, $(productItem).find('.selector.product-properties'));
+                $($(productItem).find('.selector.product-categories')).html(selector);
+                let propertyArray = classification['categories'][0]['properties'];
+                properties(propertyArray, 0, $(productItem).find('.selector.product-properties'));
+                form.render('select');
+            });
 
             function childCategorySelector(children) {
                 if(children.length > 0) {
@@ -370,10 +394,24 @@
                 }
             }
 
-            function properties() {
+            function properties(list, selectedIndex = 0, parent = null) {
                 let selectorBegin = "<select class=\"layui-select\">";
                 let options = "";
                 let selectorEnd = "</select>";
+                console.log('----- parent -----', list);
+                if(list && list.length > 0 && parent){
+                    let selector = '';
+                    for (let i = 0; i < list.length; i ++) {
+                        selector += '<select class="layui-select select-property">';
+                        for(let k = 0; k < list[i]['value'].length; k ++){
+                            selector += `<option ${k === selectedIndex ? 'selected' : ''} value="${k}">${list[i]['value'][k]['title']}</option>`;
+                        }
+                        selector += '</select>';
+                    }
+                    return $(parent).html(selector);
+                }else if(parent){
+                    return $(parent).html(selectorBegin + options + selectorEnd);
+                }
                 return selectorBegin + options + selectorEnd;
             }
 
@@ -390,7 +428,7 @@
                             <div class="title">
                                 <span class="required-icon">*</span>商品类别：
                             </div>
-                            <div class="selector layui-select-group flex">
+                            <div class="selector product-categories layui-select-group flex">
                                 ${categorySelector()}
                             </div>
                             <input type="number" name="num" required lay-verify="required" placeholder="数量"
@@ -400,7 +438,7 @@
                             <div class="title">
                                 <span class="required-icon">*</span>商品属性：
                             </div>
-                            <div class="selector layui-select-group">
+                            <div class="selector product-properties layui-select-group flex">
                               ${properties()}
                             </div>
                         </div>
