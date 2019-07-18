@@ -296,7 +296,10 @@
     <p>还差一步，继续完善订单详细信息，就能成功发单了！</p>
     <div class="layui-btn layui-btn-primary next-btn">下一步</div>
 </div>
-@include('web.user-products', ['classifications' => $classifications, 'productsUrl' => $productsUrl])
+@include('web.user-products', ['classifications' => $classifications,
+ 'productsUrl' => $productsUrl,
+ 'productUpload' => $productUpload
+ ])
 <script>
 
     $(function () {
@@ -345,17 +348,17 @@
                 form.render('select');
             }
 
-            function categorySelector(selectedIndex = 0) {
+            function categorySelector(selectedIndex = 0, childIndex = 0) {
                 console.log('------------------', classification);
                 let selectorBegin = `<select class=\"layui-select category-id\" lay-filter='categories' value='${selectedIndex}'>`;
                 let options = "";
                 let selectorEnd = "</select>";
 
-                for (let i = 0; i < classification['categories'].length; i ++) {
-                    options += `<option ${i == selectedIndex ? 'selected' : ''} value="${i}">${classification['categories'][i]['name']}</option>`;
+                for (let i = 0; i < classification['top_categories'].length; i ++) {
+                    options += `<option ${i == selectedIndex ? 'selected' : ''} value="${i}">${classification['top_categories'][i]['name']}</option>`;
                 }
-                let children = classification['categories'][selectedIndex]['children'];
-                return selectorBegin + options + selectorEnd + childCategorySelector(children);
+                let children = classification['top_categories'][selectedIndex]['children'];
+                return selectorBegin + options + selectorEnd + childCategorySelector(children, selectedIndex, childIndex);
             }
 
             form.on('select(categories)', function(data){
@@ -364,19 +367,33 @@
                 let selector = categorySelector(index);
                 let productItem = $(data['elem']).closest('.product-item');
                 $($(productItem).find('.selector.product-categories')).html(selector);
-                let propertyArray = classification['categories'][index]['properties'];
+                let propertyArray = classification['top_categories'][index]['properties'];
                 console.log("--------------", propertyArray, $(productItem).find('.selector.product-properties'));
                 properties(propertyArray, 0, $(productItem).find('.selector.product-properties'));
                 form.render('select');
             });
 
-            function childCategorySelector(children) {
+            form.on('select(child-categories)', function(data){
+                let index = data['value'];
+                let parentIndex = $(data['elem']).data('parent-index');
+                console.log('------------ category ---------', index, data)
+                let selector = categorySelector(parentIndex, index);
+                let productItem = $(data['elem']).closest('.product-item');
+                $($(productItem).find('.selector.product-categories')).html(selector);
+                // console.log(classification['top_categories'][parentIndex]['children'], index);return;
+                let propertyArray = classification['top_categories'][parentIndex]['children'][index]['properties'];
+                console.log("--------------", propertyArray, $(productItem).find('.selector.product-properties'));
+                properties(propertyArray, 0, $(productItem).find('.selector.product-properties'));
+                form.render('select');
+            });
+
+            function childCategorySelector(children, parentIndex, selectedIndex = 0) {
                 if(children.length > 0) {
-                    let selectorBegin = "<select class=\"layui-select child-category-id\">";
+                    let selectorBegin = `<select class=\"layui-select child-category-id\" lay-filter='child-categories' value = "${selectedIndex}" data-parent-index = '${parentIndex}'>`;
                     let options = "";
                     let selectorEnd = "</select>";
                     for (let i = 0; i < children.length; i ++) {
-                        options += `<option value="${children[i]['id']}">${children[i]['name']}</option>`;
+                        options += `<option value="${i}" ${selectedIndex == i ? 'selected' : ''}>${children[i]['name']}</option>`;
                     }
                     return selectorBegin + options + selectorEnd;
                 }else{

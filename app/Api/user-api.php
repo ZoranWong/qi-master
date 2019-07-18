@@ -6,6 +6,7 @@ use Dingo\Api\Routing\Router;
 
 $api->group(['prefix' => 'users', 'namespace' => 'User'], function (Router $api) {
     $api->put('/resetPwd', 'UserController@resetPassword');
+    $api->post('/upload/product', ['uses' => 'ProductController@uploadImage', 'as' => 'user.upload.product']);
 
     $api->group(['middleware' => ['auth']], function (Router $api) {
         $api->get('/profile', ['as' => 'user.profile', 'uses' => 'UserController@profile']);

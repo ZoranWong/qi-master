@@ -109,7 +109,11 @@
             </div>
         </div>
         <form class="layui-form publish-form">
-            @include('web.publish-step-1', ['classifications' => $classifications, 'productsUrl' => $productsUrl])
+            @include('web.publish-step-1', [
+            'classifications' => $classifications,
+             'productsUrl' => $productsUrl,
+              'productUpload' => $productUpload
+              ])
         </form>
     </div>
 </div>

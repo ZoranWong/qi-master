@@ -9,6 +9,7 @@ use App\Repositories\ProductRepository;
 use App\Transformers\ProductTransformer;
 use Dingo\Api\Http\Request;
 use Dingo\Api\Http\Response;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -71,5 +72,16 @@ class ProductController extends Controller
         $product->update($data);
 
         return $this->response->noContent();
+    }
+
+    public function uploadImage(Request $request)
+    {
+        $path = $request->file('file')->storeAs('/test/products',
+            hash('md5', $request->file('file')->getFilename()).'.'.
+            $request->file('file')->getClientOriginalExtension());
+        $path = Storage::url($path);
+        return $this->response->array([
+            'path' => $path
+        ]);
     }
 }

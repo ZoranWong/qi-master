@@ -186,11 +186,13 @@ class OrdersController extends Controller
         }
         $user = auth()->user();
         $token = JWTAuth::fromUser($user);
-        $classifications = Classification::with(['serviceTypes', 'categories.children', 'categories.properties'])
+        $classifications = Classification::with(['serviceTypes', 'topCategories.children',
+            'topCategories.properties', 'topCategories.children.properties'])
             ->get();
         return $view->with([
             'classifications' => $classifications,
-            'productsUrl' => api_route('user.products.list')."?token={$token}"
+            'productsUrl' => api_route('user.products.list')."?token={$token}",
+            'productUpload' => api_route('user.upload.product')
         ]);
     }
 }

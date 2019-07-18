@@ -167,6 +167,7 @@ return [
          */
         Barryvdh\Debugbar\ServiceProvider::class,
         Barryvdh\Cors\ServiceProvider::class,
+        Iidestiny\LaravelFilesystemOss\OssStorageServiceProvider::class,
         /*
          * Application Service Providers...
          */

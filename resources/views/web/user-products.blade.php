@@ -179,7 +179,7 @@
                         <div id="productPage"></div>
                     </div>
                 </div>
-                <div class="tab-item upload-item hidden">
+                <div class="tab-item upload-item hidden" id="uploadProduct">
                     <div class="upload-file-box layui-upload-drag">
                         <i class="layui-icon layui-icon-upload"></i>
                         <div class="tips"><p>上传本地图片</p></div>
@@ -200,15 +200,26 @@
 </div>
 <script>
     $(function () {
-        layui.use('laypage', function () {
+        layui.use(['laypage', 'upload'], function () {
             let classifications = {!! $classifications !!};
-            var laypage = layui.laypage;
+            let laypage = layui.laypage;
+            let upload = layui.upload; //得到 upload 对象
             let search = '';
             let page = 1;
             let categoryId = '';
             let selectedProducts = {};
             let serviceId = null;
             let selectedDict = {};
+            upload.render({
+                elem: '#uploadProduct'
+                ,url: '{{$productUpload}}'
+                ,done: function(res, index, upload){ //上传后的回调
+
+                }
+                //,accept: 'file' //允许上传的文件类型
+                //,size: 50 //最大允许上传的文件大小
+                //,……
+            })
             function refreshProductsPanel(limit = 18) {
                 $.get({
                     url: "{{$productsUrl}}&category_id="+categoryId+ "&service_id=" + serviceId +"&page=" + page + "&search=" + search + "&limit=" + limit,
@@ -325,7 +336,7 @@
                 let classification = _.find(classifications, {id: classificationId});
                 serviceId = serviceTypeId;
                 // console.log('----------- refresh selector ---------', serviceTypeId, classificationId, classification);
-                categoryListRender(classification['categories']);
+                categoryListRender(classification['top_categories']);
             });
 
             $(document).on('RemoveProduct', function (event, productId) {

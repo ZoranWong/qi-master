@@ -25,6 +25,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
  * @property-read mixed $statusDesc
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ServiceType[] $serviceTypes
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ServiceType[] $services
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Category[] $topCategories
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Classification active()
  * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Classification newModelQuery()
@@ -96,6 +97,11 @@ class Classification extends Model
     public function categories()
     {
         return $this->hasMany(Category::class);
+    }
+
+    public function topCategories()
+    {
+        return $this->hasMany(Category::class)->where('parent_id', 0);
     }
 
     /**

@@ -15,6 +15,7 @@
         "encore/laravel-admin": "1.7.0",
         "endroid/qr-code": "^3.5",
         "fideloper/proxy": "^4.0",
+        "iidestiny/laravel-filesystem-oss": "^1.2",
         "jxlwqq/material-ui": "^1.0",
         "laravel/framework": "^5.7.0",
         "laravel/tinker": "^1.0",
