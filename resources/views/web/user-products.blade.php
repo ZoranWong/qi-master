@@ -214,7 +214,14 @@
                 elem: '#uploadProduct'
                 ,url: '{{$productUpload}}'
                 ,done: function(res, index, upload){ //上传后的回调
-
+                    $('#productSelector').modal('hide');
+                    let id = 'NP' + Math.random() * 10000;
+                    if(selectedDict && typeof selectedDict[serviceId] === 'undefined'){
+                        selectedDict[serviceId] = {};
+                    }
+                    selectedProducts = selectedDict[serviceId];
+                    selectedProducts[id] = {image: res.path, id: id, np: true};
+                    $(document).trigger('AddProductEvent', [serviceId, selectedProducts]);
                 }
                 //,accept: 'file' //允许上传的文件类型
                 //,size: 50 //最大允许上传的文件大小
@@ -279,6 +286,7 @@
                 $(this).addClass('active');
                 $('.tab-item').addClass('hidden');
                 $($('.tab-item').get($(this).index())).removeClass('hidden');
+                $('.modal-footer').toggleClass('hidden');
             });
             $(document).on('click', '.category-item', function () {
                 $('.category-item').removeClass('active');
@@ -335,7 +343,6 @@
             $(document).on('RefreshSelector', function (event, serviceTypeId, classificationId) {
                 let classification = _.find(classifications, {id: classificationId});
                 serviceId = serviceTypeId;
-                // console.log('----------- refresh selector ---------', serviceTypeId, classificationId, classification);
                 categoryListRender(classification['top_categories']);
             });
 

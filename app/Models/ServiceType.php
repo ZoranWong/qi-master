@@ -16,7 +16,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \Illuminate\Support\Carbon|null $deletedAt
  * @property \Illuminate\Support\Carbon|null $createdAt
  * @property \Illuminate\Support\Carbon|null $updatedAt
+ * @property int $useHistoryProduct 是否使用历史记录产品
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Classification[] $classifications
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ServiceRequirement[] $requirements
  * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ServiceType newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ServiceType newQuery()
@@ -30,6 +32,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ServiceType whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ServiceType whereTips($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ServiceType whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ServiceType whereUseHistoryProduct($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ServiceType withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ServiceType withoutTrashed()
  * @mixin \Eloquent
@@ -56,6 +59,12 @@ class ServiceType extends Model
     {
         return $this->belongsToMany(Classification::class, 'classification_services',
             'service_id', 'classification_id');
+    }
+
+
+    public function requirements()
+    {
+        return $this->hasMany(ServiceRequirement::class);
     }
 
     public function __toString()

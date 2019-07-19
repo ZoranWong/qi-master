@@ -382,8 +382,10 @@
                 $($(productItem).find('.selector.product-categories')).html(selector);
                 // console.log(classification['top_categories'][parentIndex]['children'], index);return;
                 let propertyArray = classification['top_categories'][parentIndex]['children'][index]['properties'];
+                let requirementsArray = classification['top_categories'][parentIndex]['children'][index]['requirements'];
                 console.log("--------------", propertyArray, $(productItem).find('.selector.product-properties'));
                 properties(propertyArray, 0, $(productItem).find('.selector.product-properties'));
+                requirements(requirementsArray, 0, $(productItem).find('.selector.product-requirements'));
                 form.render('select');
             });
 
@@ -420,6 +422,28 @@
                     return $(parent).html(selectorBegin + options + selectorEnd);
                 }
                 return selectorBegin + options + selectorEnd;
+            }
+
+            function requirements(requirements, selectedIndex =0, parent = null) {
+                console.log(requirements);
+                let count = requirements.length;
+                let render = function (value, count, name) {
+                    console.log('===========', value);
+                    let selector = `<select class="layui-select" placehodler="请选择${name}">`;
+                    for (let i = 0; i < count; i ++) {
+                        selector += `<option value="${i}">${value[i]['title']}</option>`;
+                    }
+                    selector += `</select>`;
+                    return selector;
+                }
+                let html = '';
+                for(let i = 0; i < count; i ++){
+                    html += render(requirements[i]['value'], requirements[i]['value'].length, requirements[i]['name']);
+                }
+                console.log('====== requirements ======', parent);
+                if(parent) {
+                    $(parent).html(html);
+                }
             }
 
             function historyProductItemRender(product) {
@@ -461,7 +485,7 @@
                             <div class="title">
                                 <span class="required-icon">*</span>服务要求：
                             </div>
-                            <div class="selector layui-select-group">
+                            <div class="selector layui-select-group product-requirements">
                                 <select class="layui-select"></select>
                             </div>
                         </div>
@@ -479,7 +503,31 @@
             }
 
             function noHistoryProductRender() {
-                return '';
+                return `
+                <div class="product-item" style="display: flex !important;position: relative;">
+                    <div class="product-right">
+                        <div class="product-item-desc category flex">
+                            <div class="title">
+                                <span class="required-icon">*</span>商品类别：
+                            </div>
+                            <div class="selector product-categories layui-select-group flex">
+                                ${categorySelector()}
+                            </div>
+                        </div>
+                        <div class="product-item-desc spec-requirement flex">
+                            <div class="title">
+                                 <span class="required-icon">*</span>故障描述：
+                            </div>
+                            <div class="selector layui-select-group">
+                                <textarea name="spec_desc" type="text" class="layui-textarea" style="with:416px !important;min-height: 32px !important;"></textarea>
+                            </div>
+                            <div class="product-images">
+                                <div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div  class="remove-btn"><i class="layui-icon layui-icon-delete"></i></div>
+                </div>`;
             }
             let productItemRender = null;
             $(document).on('click', '.service-type-btn', function () {
@@ -491,7 +539,9 @@
                 </div>`);
                 $('.products-container').removeClass('hidden');
                 let useHistory = $(this).data('use-history');
-
+                orderInfo['service_type_id'] = $(this).data('id');
+                orderInfo['products'] = productsDict[orderInfo['service_type_id']] ? productsDict[orderInfo['service_type_id']] :
+                    (productsDict[orderInfo['service_type_id']] = []);
                 if(useHistory) {
                     // $('.add-product').attr('data-target', '#productSelector');
                     $('.add-product').attr('data-toggle', 'modal');
@@ -504,9 +554,7 @@
                     productItemRender = noHistoryProductRender;
                 }
 
-                orderInfo['service_type_id'] = $(this).data('id');
-                orderInfo['products'] = productsDict[orderInfo['service_type_id']] ? productsDict[orderInfo['service_type_id']] :
-                    (productsDict[orderInfo['service_type_id']] = []);
+
                 renderProductsList(orderInfo['products'], productItemRender);
             });
 
@@ -516,6 +564,11 @@
                     orderInfo['service_type_id'],
                     orderInfo['classification_id']
                 ]);
+            });
+
+            $(document).on('click', '.add-product-item', function () {
+                orderInfo['products'].push({});
+                renderProductsList(orderInfo['products'], productItemRender);
             });
 
             $('document').on('mouseenter', '.service-type-btn', function () {

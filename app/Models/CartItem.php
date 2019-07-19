@@ -8,19 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * App\Models\CartItem
  *
- * @property int $id
- * @property int $userId
- * @property int $productSkuId
- * @property int $amount
  * @property-read \App\Models\ProductSku $productSku
  * @property-read \App\Models\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CartItem newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CartItem newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CartItem query()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CartItem whereAmount($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CartItem whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CartItem whereProductSkuId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CartItem whereUserId($value)
  * @mixin \Eloquent
  */
 class CartItem extends Model

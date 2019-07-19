@@ -187,7 +187,8 @@ class OrdersController extends Controller
         $user = auth()->user();
         $token = JWTAuth::fromUser($user);
         $classifications = Classification::with(['serviceTypes', 'topCategories.children',
-            'topCategories.properties', 'topCategories.children.properties'])
+            'topCategories.properties', 'topCategories.children.properties',
+            'topCategories.requirements', 'topCategories.children.requirements'])
             ->get();
         return $view->with([
             'classifications' => $classifications,

@@ -27,6 +27,8 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @property array $result 处理结果
  * @property \Illuminate\Support\Carbon|null $createdAt
  * @property \Illuminate\Support\Carbon|null $updatedAt
+ * @property int $userId 用户ID
+ * @property int $masterId 师傅ID
  * @property-read \App\Models\ComplaintType $complaintType
  * @property-read mixed $evidenceStatusDesc
  * @property-read mixed $statusDesc
@@ -44,11 +46,13 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Complaint whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Complaint whereEvidenceStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Complaint whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Complaint whereMasterId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Complaint whereOrderId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Complaint whereOrderNo($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Complaint whereResult($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Complaint whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Complaint whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Complaint whereUserId($value)
  * @mixin \Eloquent
  */
 class Complaint extends Model implements Transformable, HasPresenter

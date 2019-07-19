@@ -19,6 +19,7 @@ use Storage;
  * @property int $serviceId 服务类型ID
  * @property int $categoryId 类别ID
  * @property int $childCategoryId 子类别ID
+ * @property int $userId 用户ID
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Category[] $categories
  * @property-read \App\Models\Category $category
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Category[] $childCategories
@@ -38,6 +39,7 @@ use Storage;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereServiceId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereUserId($value)
  * @mixin \Eloquent
  */
 class Product extends Model
