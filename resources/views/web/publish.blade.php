@@ -81,6 +81,93 @@
             /*background-color: #ffffff;*/
             padding-bottom: 32px;
         }
+        .step-header {
+            background-color: #fbb55b;
+            padding: 12px;
+            display: flex;
+        }
+
+        .step-header div {
+            color: #fff;
+            font-size: 16px;
+        }
+
+        .step-header i {
+            font-size: 16px;
+        }
+
+        .q-form-group {
+            margin-top: 18px;
+        }
+
+        .required-icon {
+            color: #a83800;
+        }
+
+        .q-form-item-left {
+            width: 15%;
+            text-align: right;
+            max-width: 180px;
+            min-width: 124px;
+            margin-top: 10px;
+            height: max-content;
+        }
+
+        .q-form-right {
+            width: 85%;
+            height: max-content;
+        }
+
+        .q-form-label span {
+            vert-align: middle;
+            line-height: 100%;
+            display: inline;
+            height: 100%;
+        }
+
+        .q-form-item {
+            background-color: #ffffff;
+            border-bottom-left-radius: 4px;
+            border-bottom-right-radius: 4px;
+            padding-bottom: 32px;
+            /*margin-bottom: 12px;*/
+        }
+
+        .hidden {
+            display: none;
+        }
+        .selected-icon {
+            color: #ffffff;
+            position: absolute;
+            right: 0;
+            text-align: right;
+            bottom: 0;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 0 0 28px 28px;
+            border-color: transparent transparent #fe8f00 transparent;
+            /*border-bottom-right-radius: 4px;*/
+        }
+
+        .selected-icon i.icon {
+            position: absolute;
+            right: 0;
+            bottom: -28px;
+        }
+        .form-item-module {
+            margin-top: 18px;
+            padding-top: 32px;
+            border-radius: 4px;
+        }
+
+        .q-form-btn:hover {
+            border: #fe8f00 1px solid;
+            color: #fe8f00;
+        }
+        .step.step-form{
+            margin-top: -18px;
+        }
     </style>
 </head>
 
@@ -109,11 +196,22 @@
             </div>
         </div>
         <form class="layui-form publish-form">
+            <div class="step">
+                <div class="step-header">
+                    <div class="icon">
+                        <i class="layui-icon layui-icon-auz"></i>
+                    </div>
+                    <div>
+                        平台提供线上担保交易，保障您的资金安全，且不会收取您任何佣金。80%的带货跑路、漫天加价均由线下交易导致，请勿线下交易。
+                    </div>
+                </div>
+            </div>
             @include('web.publish-step-1', [
             'classifications' => $classifications,
              'productsUrl' => $productsUrl,
               'productUpload' => $productUpload
               ])
+            @include('web.publish-step-2')
         </form>
     </div>
 </div>

@@ -210,16 +210,18 @@
             let selectedProducts = {};
             let serviceId = null;
             let selectedDict = {};
+            let classificationId = null;
             upload.render({
                 elem: '#uploadProduct'
                 ,url: '{{$productUpload}}'
                 ,done: function(res, index, upload){ //上传后的回调
                     $('#productSelector').modal('hide');
                     let id = 'NP' + Math.random() * 10000;
-                    if(selectedDict && typeof selectedDict[serviceId] === 'undefined'){
-                        selectedDict[serviceId] = {};
+                    let key = classificationId+'-'+serviceId;
+                    if(selectedDict && typeof selectedDict[key] === 'undefined'){
+                        selectedDict[key] = {};
                     }
-                    selectedProducts = selectedDict[serviceId];
+                    selectedProducts = selectedDict[key];
                     selectedProducts[id] = {image: res.path, id: id, np: true};
                     $(document).trigger('AddProductEvent', [serviceId, selectedProducts]);
                 }
@@ -300,12 +302,12 @@
                 $(this).toggleClass('active');
                 console.log($(this).data('product'));
                 let product = ($(this).data('product'));
-
-                if(selectedDict && typeof selectedDict[serviceId] === 'undefined'){
-                    selectedDict[serviceId] = {};
+                let key = classificationId+'-'+serviceId;
+                if(selectedDict && typeof selectedDict[key] === 'undefined'){
+                    selectedDict[key] = {};
                 }
-                selectedProducts = selectedDict[serviceId];
-                console.log('------------', serviceId, selectedDict[serviceId]);
+                selectedProducts = selectedDict[key];
+                console.log('------------', serviceId, selectedDict[key]);
                 if(typeof selectedProducts[product['id']] !== 'undefined') {
                     delete selectedProducts[product['id']];
                 }else{
@@ -340,9 +342,10 @@
                 $('#productSelector .categories-list .category-item[data-idx="0"]').trigger('click');
             }
 
-            $(document).on('RefreshSelector', function (event, serviceTypeId, classificationId) {
-                let classification = _.find(classifications, {id: classificationId});
+            $(document).on('RefreshSelector', function (event, serviceTypeId, cId) {
+                let classification = _.find(classifications, {id: cId});
                 serviceId = serviceTypeId;
+                classificationId = cId;
                 categoryListRender(classification['top_categories']);
             });
 
