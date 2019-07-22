@@ -6,17 +6,21 @@
     .step-2 .q-form-item {
         padding-top: 32px;
     }
+    .step-2 .q-form-item .layui-btn.active{
+        background-color: #FE8F00;
+        color: #ffffff;
+    }
 </style>
 <div class="step step-2 step-form other-info hidden">
     <div class="order-type">
         <div class="q-form-group">
             <div class="q-form-item flex">
-                <div class="layui-btn layui-btn-primary">指定师傅</div>
-                <div class="layui-btn layui-btn-primary">普通订单</div>
+                <div class="layui-btn layui-btn-primary active" data-order-type="0">普通订单</div>
+                <div class="layui-btn layui-btn-primary" data-order-type="1">指定师傅</div>
             </div>
         </div>
     </div>
-    <div class="order-master">
+    <div class="order-master hidden">
         <div class="q-form-group">
             <div class="q-form-item flex">
                 <div class="q-form-item-left q-form-label">
@@ -170,7 +174,14 @@
 <script>
 $(function () {
     $(document).on('click', '.order-type .layui-btn', function () {
+        $('.order-type .layui-btn').removeClass('active');
         $(this).addClass('active');
+        let type = $(this).data('order-type');
+        if(type) {
+            $('.order-master').removeClass('hidden');
+        }else{
+            $('.order-master').addClass('hidden');
+        }
     });
 });
 </script>
