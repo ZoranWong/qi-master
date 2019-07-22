@@ -317,7 +317,8 @@
             });
             $('.add-product-event-btn').click(function () {
                 $('#productSelector').modal('hide');
-                $(document).trigger('AddProductEvent', [serviceId, selectedProducts]);
+                let key = classificationId + '-' + serviceId;
+                $(document).trigger('AddProductEvent', [key, selectedProducts]);
             });
             $(".search-btn").click(function () {
                 search = $('.search-input').val();

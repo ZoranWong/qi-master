@@ -32,7 +32,7 @@ class ClassificationSeeder extends Seeder
             $services =  $services->map(function (ServiceType $serviceType) {
                 return $serviceType->id;
             })->toArray();
-            var_dump($services);
+//            var_dump($services);
             $classification->services()->sync($services);
         }
     }

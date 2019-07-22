@@ -11,7 +11,7 @@ $factory->define(MasterComment::class, function (Faker $faker) {
         '维修水平高', '做事效率高', '价格合适', '服务态度好', '顾客很满意'
     ];
 
-    $order = Order::with(['user', 'master'])->inRandomOrder()->first();
+    $order = Order::with(['user', 'master'])->whereHas('master')->inRandomOrder()->first();
     $type = $faker->randomElement(array_keys(MasterComment::TYPES));
     $labels = $faker->randomElements($labelOptions, 3);
 

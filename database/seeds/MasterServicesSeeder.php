@@ -38,7 +38,7 @@ class MasterServicesSeeder extends Seeder
                 $province = Region::inRandomOrder()->where('parent_code', 0)->first();
 
                 /**@var Region $city*/
-                $city = $province->children->count() > 0 ? $province->children->random(1)->first() : null;
+                $city = $province && $province->children->count() > 0 ? $province->children->random(1)->first() : null;
 
                 /**@var Region $area*/
                 $area = $city && $city->children->count() > 0 ? $city->children->random(1)->first() : null;
