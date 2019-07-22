@@ -168,6 +168,7 @@
     </div>
     <div class="next-opt">
         <p>还差一步，继续完善订单详细信息，就能成功发单了！</p>
+        <div class="layui-btn layui-btn-primary pre-btn">上一步</div>
         <div class="layui-btn layui-btn-primary next-btn">下一步</div>
     </div>
 </div>
@@ -182,6 +183,14 @@ $(function () {
         }else{
             $('.order-master').addClass('hidden');
         }
+
+        $('.step.step-2 .pre-btn').click(function () {
+            $('.step.step-1.step-form').removeClass('hidden');
+            $('.step.step-2.step-form').addClass('hidden');
+            $('.schedule .step.step-2').addClass('active');
+            $('.schedule .schedule-line').removeClass('step-1');
+            $('.schedule .schedule-line').addClass('step-2');
+        });
     });
 });
 </script>
