@@ -192,7 +192,7 @@ class Region extends Model
      */
     public static function getProvinces()
     {
-        return self::with('children')->whereParentCode(self::ROOT_PARENT_CODE)->get();
+        return self::with('children.children')->whereParentCode(self::ROOT_PARENT_CODE)->get();
     }
 
     public function __toString()

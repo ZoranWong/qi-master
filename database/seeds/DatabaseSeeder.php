@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CouponCodesSeeder::class);
         $this->call(PermissionSeeder::class);
         $this->call(MenuSeeder::class);
-        $this->call(CategorySeeder::class);
+//        $this->call(CategorySeeder::class);
         $this->call(WithdrawOrdersSeeder::class);
         $this->call(ComplaintTypeSeeder::class);
         $this->call(MessageSeeder::class);

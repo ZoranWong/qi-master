@@ -54,8 +54,6 @@
         overflow: hidden;
     }
 
-
-
     .service-type-btn {
         margin-left: 6px;
         margin-right: 6px;
@@ -70,8 +68,6 @@
         bottom: -36px;
         font-size: 14px;
     }
-
-
 
     .img-box {
         width: 64px;
@@ -141,15 +137,18 @@
     .layui-textarea {
         width: 416px !important;
     }
-    .product-images .product-image-upload{
+
+    .product-images .product-image-upload {
         margin: 12px;
     }
+
     .product-images .tips {
         color: #FE8F00;
         background-color: #f9e9cb;
         font-size: 14px;
         padding: 8px;
     }
+
     .product-images .product-image-upload .layui-icon {
         color: #c5c5c5;
         font-size: 24px;
@@ -284,15 +283,15 @@
             function renderProductsList(products, itemRender) {
                 let html = '';
                 products.forEach(function (value) {
-                    html += itemRender(value);
+                    let item = itemRender(value);
+                    html += item;
                 });
                 $('.products-container .product-list').html(html);
                 form.render('select');
             }
 
             function categorySelector(selectedIndex = 0, childIndex = 0) {
-                console.log('------------------', classification);
-                let selectorBegin = `<select class=\"layui-select category-id\" lay-filter='categories' value='${selectedIndex}'>`;
+                let selectorBegin = `<select name = "category_id" class="layui-select category-id" lay-filter='categories' value='${selectedIndex}'>`;
                 let options = "";
                 let selectorEnd = "</select>";
 
@@ -305,14 +304,19 @@
 
             form.on('select(categories)', function (data) {
                 let index = data['value'];
-                console.log('------------ category ---------', index, data)
                 let selector = categorySelector(index);
                 let productItem = $(data['elem']).closest('.product-item');
                 $($(productItem).find('.selector.product-categories')).html(selector);
                 let propertyArray = classification['top_categories'][index]['properties'];
-                console.log("--------------", propertyArray, $(productItem).find('.selector.product-properties'));
+                let requirementsArray = classification['top_categories'][index]['requirements'];
                 properties(propertyArray, 0, $(productItem).find('.selector.product-properties'));
+                requirements(requirementsArray, 0, $(productItem).find('.selector.product-requirements'));
                 form.render('select');
+
+                let productId = $(productItem).data('product-id');
+                let product = _.find(orderInfo['products'], {id: productId});
+                let key = $(data['elem']).attr('name');
+                product[key] = data['value'];
             });
 
             form.on('select(child-categories)', function (data) {
@@ -329,11 +333,30 @@
                 properties(propertyArray, 0, $(productItem).find('.selector.product-properties'));
                 requirements(requirementsArray, 0, $(productItem).find('.selector.product-requirements'));
                 form.render('select');
+                let productId = $(productItem).data('product-id');
+                let product = _.find(orderInfo['products'], {id: productId});
+                let key = $(data['elem']).attr('name');
+                product[key] = data['value'];
+            });
+
+            form.on('select(properties)', function (data) {
+                let productItem = $(data['elem']).closest('.product-item');
+                let productId = $(productItem).data('product-id');
+                let product = _.find(orderInfo['products'], {id: productId});
+                let key = $(data['elem']).attr('name');
+                product[key] = data['value'];
+            });
+            form.on('select(requirements)', function (data) {
+                let productItem = $(data['elem']).closest('.product-item');
+                let productId = $(productItem).data('product-id');
+                let product = _.find(orderInfo['products'], {id: productId});
+                let key = $(data['elem']).attr('name');
+                product[key] = data['value'];
             });
 
             function childCategorySelector(children, parentIndex, selectedIndex = 0) {
                 if (children.length > 0) {
-                    let selectorBegin = `<select class=\"layui-select child-category-id\" lay-filter='child-categories' value = "${selectedIndex}" data-parent-index = '${parentIndex}'>`;
+                    let selectorBegin = `<select name = "child_category_id" class=\"layui-select child-category-id\" lay-filter='child-categories' value = "${selectedIndex}" data-parent-index = '${parentIndex}'>`;
                     let options = "";
                     let selectorEnd = "</select>";
                     for (let i = 0; i < children.length; i++) {
@@ -353,7 +376,7 @@
                 if (list && list.length > 0 && parent) {
                     let selector = '';
                     for (let i = 0; i < list.length; i++) {
-                        selector += '<select class="layui-select select-property">';
+                        selector += '<select name = "properties[' + i + ']"class="layui-select select-property" lay-filter="properties" data-index="' + i + '">';
                         for (let k = 0; k < list[i]['value'].length; k++) {
                             selector += `<option ${k == selectedIndex ? 'selected' : ''} value="${k}">${list[i]['value'][k]['title']}</option>`;
                         }
@@ -367,11 +390,12 @@
             }
 
             function requirements(requirements, selectedIndex = 0, parent = null) {
+                console.log('====== requirements ======', parent, requirements);
                 console.log(requirements);
                 let count = requirements.length;
-                let render = function (value, count, name) {
+                let render = function (value, count, name, i) {
                     console.log('===========', value);
-                    let selector = `<select class="layui-select" placehodler="请选择${name}">`;
+                    let selector = `<select name="requirements[${i}]" lay-filter="requirements" class="layui-select" placehodler="请选择${name}" data-index="${i}">`;
                     for (let i = 0; i < count; i++) {
                         selector += `<option value="${i}">${value[i]['title']}</option>`;
                     }
@@ -380,9 +404,9 @@
                 }
                 let html = '';
                 for (let i = 0; i < count; i++) {
-                    html += render(requirements[i]['value'], requirements[i]['value'].length, requirements[i]['name']);
+                    html += render(requirements[i]['value'], requirements[i]['value'].length, requirements[i]['name'], i);
                 }
-                console.log('====== requirements ======', parent);
+
                 if (parent) {
                     $(parent).html(html);
                 }
@@ -420,14 +444,14 @@
                                 <span class="required-icon">*</span>商品型号：
                             </div>
                             <div class="selector layui-select-group">
-                                <input class="title layui-input " name="title" type="text" required lay-verify="required" placeholder="商品型号">
+                                <input class="title layui-input " value="${product['title']}" name="title" type="text" required lay-verify="required" placeholder="商品型号">
                             </div>
                         </div>
                         <div class="product-item-desc requirement flex">
                             <div class="title">
                                 <span class="required-icon">*</span>服务要求：
                             </div>
-                            <div class="selector layui-select-group product-requirements">
+                            <div class="selector layui-select-group product-requirements flex">
                                 <select class="layui-select"></select>
                             </div>
                         </div>
@@ -445,8 +469,11 @@
             }
 
             function noHistoryProductRender() {
+                let product = {
+                    'id': 'NH' + Math.random() * 10000
+                };
                 return `
-                <div class="product-item" style="display: flex !important;position: relative;">
+                <div class="product-item" style="display: flex !important;position: relative;" data-product-id="${product['id']}">
                     <div class="product-right">
                         <div class="product-item-desc category flex">
                             <div class="title">
@@ -555,11 +582,67 @@
         });
 
         $('.step.step-1 .next-btn').click(function () {
+            if(validate(orderInfo)) {
+                return;
+            }
             $('.step.step-1.step-form').addClass('hidden');
             $('.step.step-2.step-form').removeClass('hidden');
             $('.schedule .step.step-2').addClass('active');
             $('.schedule .schedule-line').removeClass('step-1');
             $('.schedule .schedule-line').addClass('step-2');
+
+            console.log('------ products info ----', orderInfo);
         });
+
+        $(document).on('change', '.product-item input', function () {
+            let productItem = $(this).closest('.product-item');
+            let productId = $(productItem).data('product-id');
+            let product = _.find(orderInfo['products'], {id: productId});
+            let key = $(this).attr('name');
+            product[key] = $(this).val();
+        });
+
+        function validate(data) {
+            let result = {};
+            if(!data['classification_id']) {
+                result['classification_id'] = '请选择类目';
+            }
+
+            if(!data['service_type_id']) {
+                result['service_type_id'] = '请选择服务类型';
+            }
+
+            if(!data['products']  || data['products'].length === 0) {
+                result['products'] = '请选择产品';
+            }
+
+            if(data['products'] && data['products'].length > 0) {
+                for (let i in data['products']) {
+                    let message = checkProduct(data['products'][i]);
+                    if(message)
+                        result['products'] = message;
+                }
+            }
+            if(_.isEmpty(result)) {
+                return false;
+            }else{
+                return result;
+            }
+        }
+
+        function checkProduct(product) {
+            if(!product['category_id']) {
+                return {'category_id': '无填写类型'};
+            }
+
+            if(!product['category_id']) {
+                return {'category_id': '无填写类型'};
+            }
+
+            if(!product['title']) {
+                return {'title': '无填写类型'};
+            }
+            return false;
+        }
     });
 </script>

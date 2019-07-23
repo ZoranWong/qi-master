@@ -80,6 +80,26 @@ use Ramsey\Uuid\Uuid;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Order withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Order withoutTrashed()
  * @mixin \Eloquent
+ * @property string $orderNo 订单编号
+ * @property int $userId 订单发布用户id
+ * @property int $refundStatus 退款状态
+ * @property int $masterId 雇佣师傅ID
+ * @property int $totalAmount 订单总金额,单位：分
+ * @property \Illuminate\Support\Carbon|null $createdAt
+ * @property \Illuminate\Support\Carbon|null $updatedAt
+ * @property string|null $deletedAt
+ * @property int|null $couponCodeId
+ * @property string|null $serviceDate 服务时间
+ * @property string $contactUserName 联系人姓名
+ * @property string $contactUserPhone 联系人电话
+ * @property array $customerInfo 客户信息
+ * @property string $regionCode 行政区域编号
+ * @property int $classificationId 类目
+ * @property int $serviceId 服务类型ID
+ * @property mixed $shippingInfo 快递信息
+ * @property-read mixed $statusDesc
+ * @property-read mixed $typeDesc
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereShippingInfo($value)
  */
 class Order extends Model implements HasPresenter
 {
