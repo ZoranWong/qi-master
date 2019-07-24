@@ -296,6 +296,7 @@ $(function () {
            let value = $(this).val();
            let key = $(this).attr('name');
            orderInfo[key] = value;
+           console.log('-----order info-----', orderInfo);
        });
    });
 });
