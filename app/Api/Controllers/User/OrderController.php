@@ -3,8 +3,10 @@
 namespace App\Api\Controllers\User;
 
 use App\Api\Controller;
+use App\Models\Master;
 use App\Models\OfferOrder;
 use App\Models\Order;
+use App\Repositories\MasterRepository;
 use App\Repositories\OfferOrderRepository;
 use App\Repositories\OrderRepository;
 use App\Transformers\OfferOrderTransformer;
@@ -120,5 +122,20 @@ class OrderController extends Controller
     public function publishFixedPrice()
     {
 
+    }
+
+    public function masters(Request $request)
+    {
+        $search = $request->get('search', null);
+
+        if($search) {
+            $masters = Master::where('mobile', 'like', "%{$search}%")
+                //->orWhere('name', 'like', "%{$search}%")
+                ->orWhere('real_name', 'like', "%{$search}%")
+                ->get();
+            return $this->response->array($masters->toArray());
+        }else{
+            return $this->response->array([]);
+        }
     }
 }

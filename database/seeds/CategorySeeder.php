@@ -2,6 +2,8 @@
 
 use App\Models\Category;
 use Illuminate\Database\Seeder;
+use App\Models\CategoryProperty;
+use App\Models\ServiceRequirement;
 
 class CategorySeeder extends Seeder
 {
@@ -66,21 +68,42 @@ class CategorySeeder extends Seeder
                 $brand->status = 1;
                 $brand->sort = random_int(0, 100);
                 $category->brands()->save($brand);
+                $properties = [];
+                for ($i = 0; $i < 2; $i ++) {
+                    $property = new CategoryProperty([
+                        'title' => $faker->name,
+                        'value' => $faker->randomElements( [
+                            ['title' => $faker->name],
+                            ['title' => $faker->name],
+                            ['title' => $faker->name],
+                            ['title' => $faker->name],
+                            ['title' => $faker->name],
+                            ['title' => $faker->name],
+                        ], $faker->randomDigit % 3 + 1)
+                    ]);
+                    array_push($properties, $property);
+                }
+                $category->properties()->saveMany($properties);
+                $requirements = [];
+                for ($i = 0; $i < 2; $i ++) {
+                    $requirement =new ServiceRequirement([
+                        'name' => $faker->name,
+                        'value' => $faker->randomElements( [
+                            ['title' => $faker->name],
+                            ['title' => $faker->name],
+                            ['title' => $faker->name],
+                            ['title' => $faker->name],
+                            ['title' => $faker->name],
+                            ['title' => $faker->name],
+                            ['title' => $faker->name],
+                        ], $faker->randomDigit % 3 + 1),
+                        'service_id' => $category->classification->services->random(1)->first()->id
+                    ]);
+                    array_push($requirements, $requirement);
+                }
+                $category->requirements()->saveMany($requirements);
                 $key ++;
             }
         }
-
-//        foreach ($categories as $key => $category) {
-//            /**@var Category $category * */
-////            $category->name = $names[$key % 5][$key % 2];
-////            $category->classificationId = (($key % 5) + 1);
-//            $category->update(['name' => $names[$key % 5][$key % 2], 'classification_id' => (($key % 5) + 1)]);
-//            $brand = new \App\Models\Brand();
-//            $brand->name = $brands[$key];
-//            $brand->status = 1;
-//            $brand->sort = random_int(0, 100);
-//            $category->brands()->save($brand);
-//
-//        }
     }
 }

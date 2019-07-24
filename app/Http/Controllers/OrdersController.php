@@ -10,6 +10,7 @@ use App\Http\Requests\OrderRequest;
 use App\Http\Requests\SendReviewRequest;
 use App\Models\Classification;
 use App\Models\CouponCode;
+use App\Models\Region;
 use App\Models\UserAddress;
 use App\Models\Order;
 use Carbon\Carbon;
@@ -190,10 +191,13 @@ class OrdersController extends Controller
             'topCategories.properties', 'topCategories.children.properties',
             'topCategories.requirements', 'topCategories.children.requirements'])
             ->get();
+        $provinces = Region::getProvinces();
         return $view->with([
             'classifications' => $classifications,
             'productsUrl' => api_route('user.products.list')."?token={$token}",
-            'productUpload' => api_route('user.upload.product')
+            'masterSearchUrl' => api_route('user.order.search_master')."?token={$token}",
+            'productUpload' => api_route('user.upload.product'),
+            'provinces' => $provinces
         ]);
     }
 }

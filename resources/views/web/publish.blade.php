@@ -211,7 +211,10 @@
              'productsUrl' => $productsUrl,
               'productUpload' => $productUpload
               ])
-            @include('web.publish-step-2')
+            @include('web.publish-step-2', [
+                'masterSearchUrl' => $masterSearchUrl,
+                'provinces' => $provinces
+            ])
         </form>
     </div>
 </div>
@@ -222,8 +225,6 @@
     const classifications = {!! $classifications !!};
     const orderInfo = {
         classification_id: classifications[0] ? classifications[0]['id'] :null,
-        category_id: null,
-        child_category_id: null,
         service_type_id: null,
         products: []
     };
