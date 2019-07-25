@@ -174,7 +174,8 @@
             layedit = layui.layedit,
             laydate = layui.laydate;
         element = layui.element;
-        laypage = layui.laypage
+        laypage = layui.laypage;
+        let search = {};
         laydate.render({
             elem: '#selectData',
             range: true
@@ -187,14 +188,14 @@
             jump: function (obj) {
                 console.log(obj);
                 if (!first) {
-                    location.href = "/orders?{{ $status !== null ? 'status='.$status : '' }}&page=" + obj.curr + '&limit=' + obj.limit;
+                    jump(search, obj.curr);
+                    {{--location.href = "/orders?{{ $status !== null ? 'status='.$status : '' }}&page=" + obj.curr + '&limit=' + obj.limit;--}}
                 }
                 first = false;
             }
         });
-        form.on('submit(search)', function (data) {
-            console.log(data);
-            let url = "/orders?{{ $status !== null ? 'status='.$status : '' }}&page={{$page}}&limit={{$limit}}";
+        function jump(data, page = 1){
+            let url = "/orders?{{ $status !== null ? 'status='.$status : '' }}&limit={{$limit}}&page="+page;
             for (let key in data.field) {
                 let value = data.field[key];
                 if(value) {
@@ -202,6 +203,11 @@
                 }
             }
             location.href = url;
+        }
+        form.on('submit(search)', function (data) {
+            console.log(data);
+            search = data;
+            jump(data);
         });
     })
 </script>

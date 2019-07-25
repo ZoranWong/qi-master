@@ -35,6 +35,8 @@ use Ramsey\Uuid\Uuid;
  * @property int $serviceId 服务类型ID
  * @property string $remark 订单备注
  * @property string $image 图片
+ * @property array $shippingInfo 快递信息
+ * @property array|null $products 产品
  * @property-read \App\Models\Classification $classification
  * @property-read \App\Models\MasterComment $comment
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Complaint[] $complaints
@@ -67,11 +69,13 @@ use Ramsey\Uuid\Uuid;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereImage($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereMasterId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereOrderNo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereProducts($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereRefundStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereRegionCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereRemark($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereServiceDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereServiceId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereShippingInfo($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereTotalAmount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereType($value)
@@ -80,26 +84,6 @@ use Ramsey\Uuid\Uuid;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Order withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Order withoutTrashed()
  * @mixin \Eloquent
- * @property string $orderNo 订单编号
- * @property int $userId 订单发布用户id
- * @property int $refundStatus 退款状态
- * @property int $masterId 雇佣师傅ID
- * @property int $totalAmount 订单总金额,单位：分
- * @property \Illuminate\Support\Carbon|null $createdAt
- * @property \Illuminate\Support\Carbon|null $updatedAt
- * @property string|null $deletedAt
- * @property int|null $couponCodeId
- * @property string|null $serviceDate 服务时间
- * @property string $contactUserName 联系人姓名
- * @property string $contactUserPhone 联系人电话
- * @property array $customerInfo 客户信息
- * @property string $regionCode 行政区域编号
- * @property int $classificationId 类目
- * @property int $serviceId 服务类型ID
- * @property mixed $shippingInfo 快递信息
- * @property-read mixed $statusDesc
- * @property-read mixed $typeDesc
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereShippingInfo($value)
  */
 class Order extends Model implements HasPresenter
 {
@@ -144,6 +128,7 @@ class Order extends Model implements HasPresenter
     ];
 
 
+    const STATUS_REFUND_DEFAULT = 0;
     const STATUS_REFUND_APPLYING = 1;
     const STATUS_REFUND_AGREED = 2;
     const STATUS_REFUND_REFUSED = 3;
@@ -174,7 +159,9 @@ class Order extends Model implements HasPresenter
         'region_code',
         'classification_id',
         'service_id',
-        'customer_info'
+        'customer_info',
+        'shipping_info',
+        'products'
     ];
 
     protected $dates = [
@@ -182,7 +169,14 @@ class Order extends Model implements HasPresenter
     ];
 
     protected $casts = [
-        'customer_info' => 'array'
+        'customer_info' => 'array',
+        'shipping_info' => 'array',
+        'products' => 'array'
+    ];
+
+    protected $attributes = [
+        'refund_status' => self::STATUS_REFUND_DEFAULT,
+        'remark' => ''
     ];
 
     public function __construct(array $attributes = [])
@@ -325,7 +319,7 @@ class Order extends Model implements HasPresenter
             // 随机生成 6 位的数字
             $no = $prefix . str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
             // 判断是否已经存在
-            if (!static::query()->where('no', $no)->exists()) {
+            if (!static::whereOrderNo($no)->exists()) {
                 return $no;
             }
         }

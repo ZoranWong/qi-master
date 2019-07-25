@@ -10,12 +10,15 @@ use App\Http\Requests\OrderRequest;
 use App\Http\Requests\SendReviewRequest;
 use App\Models\Classification;
 use App\Models\CouponCode;
+use App\Models\PaymentOrder;
 use App\Models\Region;
+use App\Models\User;
 use App\Models\UserAddress;
 use App\Models\Order;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Services\OrderService;
+use Illuminate\Support\Facades\DB;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class OrdersController extends Controller
@@ -49,15 +52,43 @@ class OrdersController extends Controller
         }
         $limit = $request->input('limit', 15);
         $offset = ($request->input('page', 1) - 1) * $limit;
+
         $query = $user->orders();
         if($request->input('status', null)) {
             $query->where('status', $request->input('status'));
         }
+        if(($tag = $request->input('tag', null))) {
+            switch ($tag) {
+                case 'ADDITION_FEE':
+
+                    $query->whereHas('payments', function ($query) {
+                        $query->where('type', PaymentOrder::TYPE_ADDITION_ORDER)
+                            ->where('status', PaymentOrder::STATUS_PAID);
+                    });
+                    break;
+                case 'REFUND':
+                    $query->whereHas('refundOrders');
+                    break;
+                case 'AFTER_SALE':
+                    $query->whereHas('complaints');
+                    break;
+            }
+
+        }
+
+        if(($date = $request->input('date', null))) {
+            $now = \Illuminate\Support\Carbon::now();
+            $start = $now->copy()->subMonth($date);
+            $query->where('created_at', '>=', $start->format('Y-m-d H:i:s'))
+                ->where('created_at', '<', $now->format('Y-m-d H:i:s'));
+        }
         $count = $query->count();
+//        dd(DB::getQueryLog(), $count);
         $orders = $query
-            ->with(['items', 'offerOrders'])
+            ->with(['offerOrders'])
             ->offset($offset)
             ->limit($limit)
+            ->orderBy('created_at', 'desc')
             ->get();
         $view->with([
             'selected' => 'orders',
@@ -197,7 +228,8 @@ class OrdersController extends Controller
             'productsUrl' => api_route('user.products.list')."?token={$token}",
             'masterSearchUrl' => api_route('user.order.search_master')."?token={$token}",
             'productUpload' => api_route('user.upload.product'),
-            'provinces' => $provinces
+            'provinces' => $provinces,
+            'publishOrder' => api_route('user.publish')."?token={$token}"
         ]);
     }
 }

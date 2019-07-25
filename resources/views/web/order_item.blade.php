@@ -3,7 +3,7 @@
     <th colspan="6">
         <span>订单号：{{$order->orderNo}}</span>
         <span>{{$order->publishedAt}}</span>
-        <span>服务商：{{ $order->master ? ($order->master->name ?? $order->master->realName) : '' }}（{{ $order->master ? $order->master->mobile : ''}}）</span>
+        <span>服务商：{{ $order->master ? ($order->master->name ?? $order->master->realName.'('.$order->master->mobile.')') : '等待雇佣' }}</span>
     </th>
 </tr>
 </thead>
@@ -22,7 +22,7 @@
     </td>
     <td>
         <div class="text-center">
-            <div>{{$order->master ? ($order->master->name ?? $order->master->realName) : '' }}/{{$order->master ? $order->master->mobile : ''}}</div>
+            <div>{{$order->master ? (($order->master->name ?? $order->master->realName). '/'. $order->master->mobile ) : '等待雇佣' }}</div>
             <div>{{$order->customerAddress}}</div>
         </div>
     </td>
@@ -37,16 +37,16 @@
     </td>
     <td>
         <div class="order-operation">
-            <a href="order/{{$order->id}}">查看订单</a>
+            <a href="orders/{{$order->id}}">查看订单</a>
             @if ($order->status === \App\Models\Order::ORDER_WAIT_HIRE)
                 <a class="order-operation-btn employ-master" href="">雇佣师傅</a>
             @endif
             @if($order->status === \App\Models\Order::ORDER_WAIT_CHECK)
                 <a class="order-operation-btn confirm-verify-goods">待验收</a>
             @endif
-            @if($order->status === \App\Models\Order::ORDER_WAIT_OFFER)
-                <a href="">修改订单</a>
-            @endif
+            {{--@if($order->status === \App\Models\Order::ORDER_WAIT_OFFER)--}}
+                {{--<a href="">修改订单</a>--}}
+            {{--@endif--}}
             @if($order->status !== \App\Models\Order::ORDER_CHECKED || $order->status !== \App\Models\Order::ORDER_COMPLETED)
                 <p class="color-999">取消订单</p>
             @endif

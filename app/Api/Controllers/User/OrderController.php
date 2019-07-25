@@ -6,6 +6,7 @@ use App\Api\Controller;
 use App\Models\Master;
 use App\Models\OfferOrder;
 use App\Models\Order;
+use App\Models\OrderItem;
 use App\Repositories\MasterRepository;
 use App\Repositories\OfferOrderRepository;
 use App\Repositories\OrderRepository;
@@ -14,6 +15,7 @@ use App\Transformers\OrderDetailTransformer;
 use App\Transformers\OrderTransformer;
 use Dingo\Api\Http\Request;
 use Dingo\Api\Http\Response;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 
 class OrderController extends Controller
@@ -111,9 +113,27 @@ class OrderController extends Controller
     /**
      * 发布报价招标订单
      */
-    public function publish()
+    public function publish(Request $request)
     {
+        Log::info('-------- order publish request --------', [$request->input()]);
+        $order = new Order();
+        $order->orderNo = Order::findAvailableNo();
+        $order->userId = $request->user()->id;
+        $order->classificationId = $request->input('classification_id');
+        $order->serviceId = $request->input('service_type_id');
+        $order->contactUserName = $request->input('contact_user_name');
+        $order->contactUserPhone = $request->input('contact_user_phone');
+        $order->customerInfo = $request->input('customer_info');
+        $order->shippingInfo = $request->input('shipping_info');
+        $order->products = $request->input('products');
+        $order->regionCode = $request->input('customer_info')['city_code'];
+        if($order->save()) {
+            return $this->response->array([
+                'message'=> 'f发布成功'
+            ]);
+        }
 
+        return $this->response->errorInternal('失败');
     }
 
     /**

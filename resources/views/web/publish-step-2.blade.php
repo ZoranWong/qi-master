@@ -89,7 +89,7 @@
                     <span>物流公司：</span>
                 </div>
                 <div class="q-form-item-right">
-                    <input class="layui-input shopping-company" placeholder="请输入物流公司">
+                    <input name="shipping_info[company]" c class="layui-input shopping-company" placeholder="请输入物流公司">
                 </div>
             </div>
             <div class="q-form-item flex">
@@ -255,7 +255,7 @@ $(function () {
        }
 
        function validate(data) {
-
+           return true;
        }
 
        form.on('select(province)', function (data) {
@@ -266,6 +266,8 @@ $(function () {
            $('.area-selector select.cities').html(citiesOptions);
            $('.area-selector select.areas').html('');
            form.render();
+           orderInfo['customer_info']['province_code'] = province['region_code'];
+           orderInfo['customer_info']['province'] = province['name'];
        });
 
        function regionsRender(regions)
@@ -285,11 +287,15 @@ $(function () {
            $('.area-selector select.areas').html(options);
            $('.area-selector select.areas').prop('disabled', false);
            form.render();
+           orderInfo['customer_info']['city_code'] = city['region_code'];
+           orderInfo['customer_info']['city'] = city['name'];
        });
 
        form.on('select(area)', function () {
            let areaIndex = data['value'];
            area = city['children'][areaIndex];
+           orderInfo['customer_info']['area_code'] = area['region_code'];
+           orderInfo['customer_info']['area'] = area['name'];
        });
 
        $(document).on('input change', '.step-2 input', function () {
@@ -297,6 +303,25 @@ $(function () {
            let key = $(this).attr('name');
            orderInfo[key] = value;
            console.log('-----order info-----', orderInfo);
+       });
+       let orderCreateUrl = "{{$publishOrder}}";
+       $(document).on('click', '.step-2 .next-btn', function () {
+           if(validate(orderInfo)) {
+               $.post({
+                   url: orderCreateUrl,
+                   data: orderInfo,
+                   success(){
+                       $('.step.step-2.step-form').addClass('hidden');
+                       $('.step.step-3.step-form').removeClass('hidden');
+                       $('.schedule .step.step-3').addClass('active');
+                       $('.schedule .schedule-line').removeClass('step-2');
+                       $('.schedule .schedule-line').addClass('step-3');
+                   },
+                   fail(){
+
+                   }
+               });
+           }
        });
    });
 });

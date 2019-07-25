@@ -73,7 +73,7 @@
             width: 50%;
         }
         .schedule .schedule-line.step-3{
-            width: 75%;
+            width: 100%;
         }
         .publish-form {
             top: 64px;
@@ -213,8 +213,10 @@
               ])
             @include('web.publish-step-2', [
                 'masterSearchUrl' => $masterSearchUrl,
-                'provinces' => $provinces
+                'provinces' => $provinces,
+                'publishOrder' => $publishOrder
             ])
+            @include('web.publish-step-3', [])
         </form>
     </div>
 </div>
@@ -226,7 +228,8 @@
     const orderInfo = {
         classification_id: classifications[0] ? classifications[0]['id'] :null,
         service_type_id: null,
-        products: []
+        products: [],
+        customer_info: {}
     };
     const productsDict = {};
     $(function () {
