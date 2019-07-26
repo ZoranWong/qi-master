@@ -31,6 +31,13 @@ class OrderPresenter extends BasePresenter
     {
         return $this->wrappedObject->createdAt->format('Y-m-d h:i:s');
     }
+
+    public function hopeServiceAt()
+    {
+        return $this->wrappedObject->serviceDate->format('Y-m-d h:i:s');
+    }
+
+
     public function employer()
     {
         return $this->wrappedObject->user;
@@ -58,5 +65,10 @@ class OrderPresenter extends BasePresenter
                 return 'color-22aac8';
             }
         }
+    }
+
+    public function customerName()
+    {
+        return $this->wrappedObject->customerInfo['name'];
     }
 }

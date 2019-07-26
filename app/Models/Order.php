@@ -26,7 +26,7 @@ use Ramsey\Uuid\Uuid;
  * @property \Illuminate\Support\Carbon|null $updatedAt
  * @property string|null $deletedAt
  * @property int|null $couponCodeId
- * @property string|null $serviceDate 服务时间
+ * @property \Illuminate\Support\Carbon|null $serviceDate 服务时间
  * @property string $contactUserName 联系人姓名
  * @property string $contactUserPhone 联系人电话
  * @property array $customerInfo 客户信息
@@ -166,6 +166,7 @@ class Order extends Model implements HasPresenter
 
     protected $dates = [
         'paid_at',
+        'service_date'
     ];
 
     protected $casts = [
@@ -176,7 +177,9 @@ class Order extends Model implements HasPresenter
 
     protected $attributes = [
         'refund_status' => self::STATUS_REFUND_DEFAULT,
-        'remark' => ''
+        'remark' => '',
+        'customer_info' => '[]',
+        'shipping_info' => '[]'
     ];
 
     public function __construct(array $attributes = [])

@@ -5,6 +5,7 @@ use App\Models\Order;
 use App\Models\Region;
 use App\Models\User;
 use Faker\Generator as Faker;
+use App\Models\Classification;
 
 $factory->define(Order::class, function (Faker $faker) {
     // 随机取一个用户
@@ -31,6 +32,10 @@ $factory->define(Order::class, function (Faker $faker) {
         Order::ORDER_COMPLETED,
         Order::ORDER_CLOSED
     ]);
+    /**@var Classification $classification*/
+    $classification = Classification::inRandomOrder()->first();
+    /**@var \App\Models\ServiceType $serviceType*/
+    $serviceType = $classification->services()->inRandomOrder()->first();
 
     return [
         'user_id' => $user->id,
@@ -55,7 +60,14 @@ $factory->define(Order::class, function (Faker $faker) {
             "has_elevator" => $faker->boolean
         ],
         'refund_status' => 0,
-        'classification_id' => rand(1, 5),
-        'service_id' => rand(1, 7)
+        'classification_id' => $classification->id,
+        'service_id' => $serviceType->id,
+        'shipping_info' => [
+            'company' => $faker->title(),
+            'address' => $faker->address,
+            'order_no' => $faker->uuid,
+            'phone' => $faker->phoneNumber,
+            'pack_num' => $faker->randomDigitNotNull % 10
+        ]
     ];
 });

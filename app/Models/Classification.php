@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Traits\ModelAttributesAccess;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -99,7 +100,7 @@ class Classification extends Model
         return $this->hasMany(Category::class);
     }
 
-    public function topCategories()
+    public function topCategories() : HasMany
     {
         return $this->hasMany(Category::class)->where('parent_id', 0);
     }

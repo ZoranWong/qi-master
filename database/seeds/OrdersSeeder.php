@@ -28,7 +28,7 @@ class   OrdersSeeder extends Seeder
         foreach ($generator as $orders) {
             cache()->delete(date('YmdHis'));
             foreach ($orders as $order) {
-                $this->orderItems($order, $faker);
+                $this->addProducts($order, $faker);
             }
             sleep(6);
         }
@@ -41,109 +41,50 @@ class   OrdersSeeder extends Seeder
         }
     }
 
-    protected function orderItems(Order $order, Generator $faker)
+    protected function addProducts(Order $order, Generator $faker)
     {
-
-        $count = $faker->randomDigitNotNull % 3 + 1;
-        for ($i = 0; $i < $count; $i++) {
-            $master = Master::query()
-                ->inRandomOrder()
-                ->whereIn('id', [1, 2, 3, 4, 5])
-                ->get()
-                ->random(1)
-                ->first();
-            $product = Product::query()->inRandomOrder()->first();
-            $orderItem = new OrderItem();
-            $orderItem->status = $order->status;
-            $orderItem->type = $order->type;
-
-            $orderItem->productId = $product->id;
-            $orderItem->product = [
-                'id' => $product->id,
-                'title' => $product->title,
-                'image' => $product->image,
-                'service_requirements' => [
-                ]
+        $count = random_int(1, 3);
+        $products = [];
+        for ($i = 0; $i < $count; $i ++) {
+            /**@var Product $productModel*/
+            $productModel = Product::inRandomOrder()->first();
+            /**@var \App\Models\Category $category*/
+            $category = $order->classification->topCategories()->inRandomOrder()->first();
+            /**@var \App\Models\Category $childCategory*/
+            $childCategory = $category->children()->inRandomOrder()->first();
+            $product = [
+                'id' => $productModel->id,
+                'image' => $productModel->image,
+                'title' => $productModel->title,
+                'remark' => $faker->text(100),
+                'num' => $faker->randomDigitNotNull % 10,
+                'category_id' => $category->id,
+                'category_name' => $category->name,
             ];
-            if($order->status !== Order::ORDER_WAIT_OFFER) {
-                $orderItem->masterId = $master->id;
-                $order->masterId = $master->id;
+            if($childCategory){
+                $product = array_merge($product, [
+                    'child_category_id' => $childCategory->id,
+                    'child_category_name' => $childCategory->name
+                ]);
             }
-            $order->image = $product->image;
-            $orderItem->installFee = $faker->randomDigitNotNull;
-            $orderItem->otherFee = $faker->randomDigitNotNull;
-            $orderItem = $order->items()->save($orderItem);
+            $products[] = $product;
+
             if($order->status !== Order::ORDER_WAIT_OFFER) {
-                $offerOrder = new OfferOrder();
-                $offerOrder->masterId = $master->id;
-                $offerOrder->orderItemId = $orderItem->id;
-                $offerOrder->status = $order->status;
-                $offerOrder->userId = $order->userId;
-                $offerOrder->quotePrice = $faker->randomDigitNotNull;
-                $order->offerOrders()->save($offerOrder);
-
-
-                $paymentOrder = new PaymentOrder();
-                $paymentOrder->userId = $order->userId;
-                $paymentOrder->masterId = $master->id;
-                $paymentOrder->amount = $faker->randomDigitNotNull;
-                $paymentOrder->status = $faker->randomElement([
-                    PaymentOrder::STATUS_UNPAID,
-                    PaymentOrder::STATUS_PAID,
-                    PaymentOrder::STATUS_CLOSED
-                ]);
-                $paymentOrder->paidAt = $faker->date('Y-m-d h:i:s');
-                $paymentOrder->payType = $faker->randomElement([
-                    PaymentOrder::PAY_TYPE_AL,
-                    PaymentOrder::PAY_TYPE_WX,
-                    PaymentOrder::PAY_TYPE_BANK,
-                    PaymentOrder::PAY_TYPE_CASH
-                ]);
-                $paymentOrder = $order->payments()->save($paymentOrder);
-                $refundOrder = new RefundOrder();
-                $refundOrder->amount = $faker->randomDigitNotNull;
-                $refundOrder->status = $faker->randomElement([
-                    RefundOrder::REFUND_STATUS_WAIT,
-                    RefundOrder::REFUND_STATUS_HANDLING,
-                    RefundOrder::REFUND_STATUS_DONE,
-                    RefundOrder::REFUND_STATUS_REFUSED
-                ]);
-                $refundOrder->userId = $order->userId;
-                $refundOrder->masterId = $master->id;
-                $refundOrder->remark = $faker->text(64);
-                $refundOrder->paymentOrderId = $paymentOrder->id;
-                $refundOrder->refundMode = $faker->randomElement(array_keys(RefundOrder::REFUND_MODES));
-                $refundOrder->refundMethod = $faker->randomElement(array_keys(RefundOrder::REFUND_METHODS));
-                $order->refundOrders()->save($refundOrder);
-
-                $comment = new MasterComment();
-                $comment->userId = $order->userId;
-                $comment->masterId = $order->masterId;
-                $comment->content = $faker->text(124);
-                $comment->type = $faker->randomElement([
-                    MasterComment::TYPE_GOOD,
-                    MasterComment::TYPE_NORMAL,
-                    MasterComment::TYPE_BAD
-                ]);
-                $comment->labels = [
-                    $faker->text(5),
-                    $faker->text(6),
-                    $faker->text(7)
-                ];
-                $comment->rates = [
-                    'quality' => $faker->randomElement([
-                        1, 2, 3, 4, 5, 6
-                    ]),
-                    'attitude' => $faker->randomElement([
-                        1, 2, 3, 4, 5, 6
-                    ]), 'speed' => $faker->randomElement([
-                        1, 2, 3, 4, 5, 6
-                    ])
-                ];
-
-                $order->comment()->save($comment);
+                $offerOrders = [];
+                $count = random_int(1, 10);
+                for ($i = 0; $i < $count; $i ++) {
+                    $master = Master::inRandomOrder()->first();
+                    $offerOrder = new OfferOrder();
+                    $offerOrder->userId = $order->userId;
+                    $offerOrder->masterId = $master->id;
+                    $offerOrder->quotePrice = ($faker->randomDigitNotNull % 100 ) * 100;
+                    $offerOrder->note = $faker->text();
+                    array_push($offerOrders, $offerOrder);
+                }
+                $order->offerOrders()->saveMany($offerOrders);
             }
-            $order->save();
         }
+        $order->products = $products;
+        $order->save();
     }
 }

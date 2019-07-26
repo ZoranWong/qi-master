@@ -110,14 +110,20 @@ class OrdersController extends Controller
 
     public function show($id, Request $request)
     {
+        $order = Order::with(['offerOrders', 'refundOrders.master', 'classification'])
+            ->find($id);
+        $view = null;
         if (isMobile()) {
-            return view('h5.orderDetail');
+            $view = view('h5.orderDetail');
         } else {
-            return view('web.orderinfo')->with([
+            $view = view('web.orderinfo')->with([
                 'selected' => 'orders',
                 'currentMenu' => 'orders'
             ]);
         }
+
+        $view->with('order', $order);
+        return $view;
     }
 
     public function received(Order $order, Request $request)
