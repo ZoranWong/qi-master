@@ -12,7 +12,7 @@ use League\Fractal\TransformerAbstract;
  */
 class OrderDetailTransformer extends TransformerAbstract
 {
-    protected $defaultIncludes = ['product_items'];
+//    protected $defaultIncludes = ['product_items'];
 
     /**
      * Transform the OrderDetail entity.
@@ -28,7 +28,8 @@ class OrderDetailTransformer extends TransformerAbstract
             'order_no' => $model->orderNo,
             'status' => $model->status,
             'status_desc' => $model->statusDesc,
-
+            'user' => $model->user->toArray(),
+            'service_type_name' => $model->serviceType->name,// 服务类型名称
             // 客户信息
             'customer_info' => $model->customerInfo,
             // 服务需求
@@ -44,15 +45,10 @@ class OrderDetailTransformer extends TransformerAbstract
                 'name' => $model->contactUserName,
                 'phone' => $model->contactUserPhone
             ],
+            'shipping_info' => $model->shippingInfo,
+            'product_snapshots' => $model->products,
             'created_at' => (string)$model->createdAt,
             'updated_at' => (string)$model->updatedAt
         ];
-    }
-
-    public function includeProductItems(Order $order)
-    {
-        $items = $order->items;
-
-        return $this->collection($items, new OrderItemTransformer);
     }
 }

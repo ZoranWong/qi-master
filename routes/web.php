@@ -20,7 +20,7 @@ Route::group(['middleware' => ['guard:web']], function (Router $router) {
         $router->get('/auth/logout', 'Auth\\LoginController@logout')->name('user.logout');
         $router->get('', 'HomeController@index')->name('home');
         $router->get('orders', 'OrdersController@index')->name('user.orders');
-        $router->get('orders/{order}', 'OrdersController@show');
+        $router->get('orders/{order}', 'OrdersController@show')->name('user.order.detail');
         $router->get('publish/{step?}', 'OrdersController@publish')->name('user.publish.order');
         $router->get('comments', 'CommentsController@index');
         $router->get('gallery', 'ProductsController@index');

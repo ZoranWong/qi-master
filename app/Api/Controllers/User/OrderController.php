@@ -7,6 +7,7 @@ use App\Models\Master;
 use App\Models\OfferOrder;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\PaymentOrder;
 use App\Repositories\MasterRepository;
 use App\Repositories\OfferOrderRepository;
 use App\Repositories\OrderRepository;
@@ -104,9 +105,20 @@ class OrderController extends Controller
         $offerOrder->update(['status' => OfferOrder::STATUS_HIRED]);
 
         $order->offerOrders()->whereKeyNot($offerOrderId)->update(['status' => OfferOrder::STATUS_REFUSED]);
-
-        $order->update(['status' => Order::ORDER_EMPLOYED]);
-
+        $paymentOrder = new PaymentOrder();
+        $paymentOrder->masterId = $order->masterId = $offerOrder->masterId;
+//        $paymentOrder->status = PaymentOrder::STATUS_UNPAID;
+        $paymentOrder->status = PaymentOrder::STATUS_PAID;
+        $paymentOrder->type = PaymentOrder::TYPE_QUOTE_ORDER;
+        $paymentOrder->offerOrderId = $offerOrder->id;
+        $paymentOrder->amount = $offerOrder->quotePrice;
+        $paymentOrder->userId = $order->userId;
+        $order->payments()->save($paymentOrder);
+        $order->totalAmount += $paymentOrder->amount;
+        $order->status |= Order::ORDER_EMPLOYED | Order::ORDER_PROCEEDING_WAIT_PRE_APPOINT;
+        $order->save();
+//        $order->update(['status' => $order->status | Order::ORDER_EMPLOYED]);
+//        $order->update(['status' => $order->status | Order::ORDER_EMPLOYED | Order::ORDER_PROCEEDING_WAIT_PRE_APPOINT]);
         return $this->response->item($offerOrder, new OfferOrderTransformer);
     }
 

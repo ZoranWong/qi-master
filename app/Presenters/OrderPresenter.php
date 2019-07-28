@@ -19,7 +19,11 @@ class OrderPresenter extends BasePresenter
     protected $wrappedObject;
     public function orderStatus()
     {
-        return Order::ORDER_STATUS[$this->wrappedObject->status];
+        $step = 0;
+        while (($tmp = $this->wrappedObject->status >> $step)) {
+            $step ++;
+        }
+        return Order::ORDER_STATUS[$step];
     }
 
     public function orderType()

@@ -28,6 +28,8 @@ class NewOrderTransformer extends TransformerAbstract
             'classification' => $model->classification->name,
             'rest_time' => Carbon::createFromTimestamp($model->createdAt->addHours(24)->timestamp - time())->format('h小时m分'),
             'customer_info' => $model->customerInfo,
+            'status' => $model->status,
+            'user_id' => $model->userId
         ];
     }
 }

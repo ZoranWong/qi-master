@@ -123,6 +123,9 @@ class OrdersController extends Controller
         }
 
         $view->with('order', $order);
+        $user = auth()->user();
+        $token = JWTAuth::fromUser($user);
+        $view->with('token', $token);
         return $view;
     }
 
@@ -187,6 +190,13 @@ class OrdersController extends Controller
         return redirect()->back();
     }
 
+    /**
+     * @param Order $order
+     * @param ApplyRefundRequest $request
+     * @return Order
+     * @throws InvalidRequestException
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function applyRefund(Order $order, ApplyRefundRequest $request)
     {
         // 校验订单是否属于当前用户

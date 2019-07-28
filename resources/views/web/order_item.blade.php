@@ -38,16 +38,16 @@
     <td>
         <div class="order-operation">
             <a href="orders/{{$order->id}}">查看订单</a>
-            @if ($order->status === \App\Models\Order::ORDER_WAIT_HIRE)
+            @if ($order->status & \App\Models\Order::ORDER_WAIT_HIRE && $order->status <= \App\Models\Order::ORDER_WAIT_HIRE)
                 <a class="order-operation-btn employ-master" href="">雇佣师傅</a>
             @endif
-            @if($order->status === \App\Models\Order::ORDER_WAIT_CHECK)
+            @if($order->status & \App\Models\Order::ORDER_WAIT_CHECK && $order->status <= \App\Models\Order::ORDER_WAIT_CHECK)
                 <a class="order-operation-btn confirm-verify-goods">待验收</a>
             @endif
             {{--@if($order->status === \App\Models\Order::ORDER_WAIT_OFFER)--}}
                 {{--<a href="">修改订单</a>--}}
             {{--@endif--}}
-            @if($order->status !== \App\Models\Order::ORDER_CHECKED || $order->status !== \App\Models\Order::ORDER_COMPLETED)
+            @if(!($order->status & \App\Models\Order::ORDER_CHECKED || $order->status & \App\Models\Order::ORDER_COMPLETED))
                 <p class="color-999">取消订单</p>
             @endif
         </div>

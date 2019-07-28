@@ -58,7 +58,7 @@ class OfferOrderRepositoryEloquent extends BaseRepository implements OfferOrderR
                 }
 
                 return $query;
-            })->paginate(request('limit', PAGE_SIZE));
+            })->orderBy('created_at', 'desc')->paginate(request('limit', PAGE_SIZE));
 
         return $paginator;
     }
