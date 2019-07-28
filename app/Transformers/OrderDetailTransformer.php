@@ -45,6 +45,7 @@ class OrderDetailTransformer extends TransformerAbstract
                 'name' => $model->contactUserName,
                 'phone' => $model->contactUserPhone
             ],
+            'shipping_info' => $model->shippingInfo,
             'product_snapshots' => $model->products,
             'created_at' => (string)$model->createdAt,
             'updated_at' => (string)$model->updatedAt
