@@ -69,9 +69,10 @@ class   OrdersSeeder extends Seeder
             }
             $products[] = $product;
 
-            if($order->status !== Order::ORDER_WAIT_OFFER) {
+            if($order->status & Order::ORDER_WAIT_HIRE) {
                 $offerOrders = [];
                 $count = random_int(1, 10);
+                $employed = false;
                 for ($i = 0; $i < $count; $i ++) {
                     $master = Master::inRandomOrder()->first();
                     $offerOrder = new OfferOrder();
@@ -79,6 +80,17 @@ class   OrdersSeeder extends Seeder
                     $offerOrder->masterId = $master->id;
                     $offerOrder->quotePrice = ($faker->randomDigitNotNull % 100 ) * 100;
                     $offerOrder->note = $faker->text();
+                    if($order->status & Order::ORDER_EMPLOYED && !$employed){
+                        $employed = true;
+                        $offerOrder->status = OfferOrder::STATUS_HIRED;
+                        $order->masterId = $offerOrder->masterId;
+                    }else{
+                        if($employed){
+                            $offerOrder->status = OfferOrder::STATUS_REFUSED_INDIRECTLY;
+                        }else{
+                            $offerOrder->status = OfferOrder::STATUS_WAIT;
+                        }
+                    }
                     array_push($offerOrders, $offerOrder);
                 }
                 $order->offerOrders()->saveMany($offerOrders);

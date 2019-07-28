@@ -126,9 +126,9 @@ if (!function_exists('isMobile')) {
 }
 
 if (!function_exists('api_route')) {
-    function api_route(string $routeAlias)
+    function api_route(string $routeAlias, $parameters = [])
     {
-        return app(UrlGenerator::class)->version(config('api.version'))->route($routeAlias);
+        return app(UrlGenerator::class)->version(config('api.version'))->route($routeAlias, $parameters);
     }
 }
 

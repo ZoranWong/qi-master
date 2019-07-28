@@ -147,7 +147,9 @@ class Master extends Model implements JWTSubject, Authenticatable, MustVerifyEma
      */
     public function orderWaitPay()
     {
-        return $this->orders()->where('status', Order::ORDER_EMPLOYED);
+        return $this->orders()
+            ->whereRaw('orders.status & ? = ?', [Order::ORDER_EMPLOYED, Order::ORDER_EMPLOYED])
+            ->where('orders.status', '<=', 2 * Order::ORDER_EMPLOYED - 1);
     }
 
     /**
@@ -155,7 +157,9 @@ class Master extends Model implements JWTSubject, Authenticatable, MustVerifyEma
      */
     public function orderWaitPreAppoint()
     {
-        return $this->orders()->where('status', Order::ORDER_PROCEEDING_WAIT_PRE_APPOINT);
+        return $this->orders()
+            ->whereRaw('orders.status & ? = ?', [Order::ORDER_PROCEEDING_WAIT_PRE_APPOINT, Order::ORDER_PROCEEDING_WAIT_PRE_APPOINT])
+            ->where('orders.status', '<=', 2 * Order::ORDER_PROCEEDING_WAIT_PRE_APPOINT - 1);
     }
 
     /**
@@ -163,7 +167,10 @@ class Master extends Model implements JWTSubject, Authenticatable, MustVerifyEma
      */
     public function orderWaitSign()
     {
-        return $this->orders()->where('status', Order::ORDER_PROCEEDING_APPOINTED);
+        return $this->orders()
+            ->whereRaw('orders.status & ? = ?', [Order::ORDER_PROCEEDING_APPOINTED, Order::ORDER_PROCEEDING_APPOINTED])
+            ->where('orders.status', '<=', 2 * Order::ORDER_PROCEEDING_APPOINTED - 1);
+//        return $this->orders()->where('status', Order::ORDER_PROCEEDING_APPOINTED);
     }
 
     /**
@@ -171,7 +178,10 @@ class Master extends Model implements JWTSubject, Authenticatable, MustVerifyEma
      */
     public function orderSigned()
     {
-        return $this->orders()->where('status', Order::ORDER_PROCEEDING_SIGNED);
+        return $this->orders()
+            ->whereRaw('orders.status & ? = ?', [Order::ORDER_PROCEEDING_SIGNED, Order::ORDER_PROCEEDING_SIGNED])
+            ->where('orders.status', '<=', 2 * Order::ORDER_PROCEEDING_SIGNED - 1);
+//        return $this->orders()->where('status', Order::ORDER_PROCEEDING_SIGNED);
     }
 
     /**
@@ -183,8 +193,9 @@ class Master extends Model implements JWTSubject, Authenticatable, MustVerifyEma
      */
     public function orderOnProceeding()
     {
-        return $this->orders()->whereIn('status', [
-            Order::ORDER_PROCEEDING_WAIT_PRE_APPOINT, Order::ORDER_PROCEEDING_APPOINTED, Order::ORDER_PROCEEDING_PRODUCT_RECEIVED, Order::ORDER_PROCEEDING_SIGNED
+        return $this->orders()->whereRaw('orders.status & ?', [
+            Order::ORDER_PROCEEDING_WAIT_PRE_APPOINT|Order::ORDER_PROCEEDING_APPOINTED|
+            Order::ORDER_PROCEEDING_PRODUCT_RECEIVED|Order::ORDER_PROCEEDING_SIGNED
         ]);
     }
 
@@ -193,7 +204,7 @@ class Master extends Model implements JWTSubject, Authenticatable, MustVerifyEma
      */
     public function orderCompleted()
     {
-        return $this->orders()->whereIn('status', [Order::ORDER_CHECKED, Order::ORDER_COMPLETED]);
+        return $this->orders()->whereRaw('orders.status & ?', [Order::ORDER_CHECKED|Order::ORDER_COMPLETED]);
     }
 
     /**
@@ -201,7 +212,7 @@ class Master extends Model implements JWTSubject, Authenticatable, MustVerifyEma
      */
     public function orderClosed()
     {
-        return $this->orders()->where('status', Order::ORDER_CLOSED);
+        return $this->orders()->whereRaw('orders.status & ? = ?', [Order::ORDER_CLOSED, Order::ORDER_CLOSED]);
     }
 
     /**
@@ -209,7 +220,7 @@ class Master extends Model implements JWTSubject, Authenticatable, MustVerifyEma
      */
     public function completedOrders()
     {
-        return $this->orders()->where('status', Order::ORDER_COMPLETED);
+        return $this->orders()->where('orders.status & ? = ?', [Order::ORDER_COMPLETED, Order::ORDER_COMPLETED]);
     }
 
     /**
@@ -217,7 +228,10 @@ class Master extends Model implements JWTSubject, Authenticatable, MustVerifyEma
      */
     public function orderWaitCheck()
     {
-        return $this->orders()->where('status', Order::ORDER_WAIT_CHECK);
+        return $this->orders()
+            ->whereRaw('orders.status & ? = ?', [Order::ORDER_WAIT_CHECK, Order::ORDER_WAIT_CHECK])
+            ->where('orders.status', '<=', 2 * Order::ORDER_WAIT_CHECK - 1);
+//        return $this->orders()->where('status', Order::ORDER_WAIT_CHECK);
     }
 
     /**

@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Master;
 use App\Models\MasterComment;
+use App\Models\OfferOrder;
 use App\Models\Order;
 use App\Models\User;
 use Carbon\Carbon;
@@ -100,14 +101,21 @@ class OrderRepositoryEloquent extends BaseRepository implements OrderRepository
         $limit = $request->input('limit', PAGE_SIZE);
 
         $queryData = $request->input();
-
-        $paginator = $this->scopeQuery(function ($query) use ($user, $queryData, $memberTypeId) {
-            return $query->where($memberTypeId, $user->id)->where(function (Builder $query) use ($queryData) {
+        if($queryData['status'] == 0){
+            return $this->scopeQuery(function ($query) use($memberTypeId, $user){
+                return $query->where('orders.type', Order::ORDER_TYPE_IMMEDIATE_HIRE)
+                    ->whereHas('offerOrders', function ($query) use ($memberTypeId, $user) {
+                    $query->where($memberTypeId, $user->id)->where('offer_orders.status', OfferOrder::STATUS_WAIT);
+                });
+            })->orderBy('orders.created_at', 'desc')->paginate($limit);
+        }
+        $paginator = $user->orders()->where(function (Builder $query) use ($queryData) {
                 if (isset($queryData['status'])) {
-                    $query->where('status', $queryData['status']);
+                    $query->whereRaw('orders.status & ? = ?', [$queryData['status'], $queryData['status']]);
+                    if(!($queryData['status'] & Order::ORDER_CHECKED || $queryData['status'] & Order::ORDER_COMPLETED || $queryData['status'] & Order::ORDER_CLOSED))
+                        $query->where('orders.status', '<=', 2 * $queryData['status'] - 1);
                 }
-            });
-        })->orderBy('created_at', 'desc')->paginate($limit);
+            })->orderBy('orders.created_at', 'desc')->paginate($limit);
 
         return $paginator;
     }
@@ -123,8 +131,13 @@ class OrderRepositoryEloquent extends BaseRepository implements OrderRepository
         /** @var Master $master */
         $master = auth()->user();
 
-        $paginator = $this->with(['serviceType', 'classification'])->scopeQuery(function (Builder $query) use ($master) {
-            return $query->whereIn('status', [Order::ORDER_WAIT_HIRE, Order::ORDER_WAIT_OFFER])
+        $paginator = $this->with(['serviceType', 'classification'])
+            ->scopeQuery(function (Builder $query) use ($master) {
+            return $query->whereRaw('status & ?',  [Order::ORDER_WAIT_HIRE|Order::ORDER_WAIT_OFFER])
+                ->whereDoesntHave('offerOrders', function ($query) {
+                    $query->where('master_id', auth()->user()->id);
+                })
+                ->where('status', '<=', Order::ORDER_WAIT_HIRE|Order::ORDER_WAIT_OFFER)
                 ->join('master_services', function (JoinClause $join) use ($master) {
                     $join->on('orders.region_code', '=', 'master_services.region_code')
                         ->where('master_services.master_id', '=', $master->id);

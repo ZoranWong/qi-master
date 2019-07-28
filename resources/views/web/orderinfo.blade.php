@@ -38,21 +38,21 @@
         </div>
         <div class="order-info">
             <div class="info-title">
-                <h2>订单号：S2294752457027096576</h2>
-                <a href="" class="">取消订单</a>
+                <h2>订单号：{{$order->orderNo}}</h2>
+                {{--<a href="" class="">取消订单</a>--}}
             </div>
 
             <div class="info-status">
                 <div class="left">
                     <p class="status-intro" style="margin-top: 130px;">
-                        已通知 <b>{{$order->offerOrders->count()}}</b> 位师傅
-                        <a href="javascript:void(0)">查看</a>
-                        <a href="javascript:void(0)">刷新</a>
+                        已有 <b>{{$order->offerOrders->count()}}</b> 位师傅参与报价
+                        {{--<a href="javascript:void(0)">查看</a>--}}
+                        {{--<a href="javascript:void(0)">刷新</a>--}}
                     </p>
-                    <div class="time">订单有效倒计时：</div>
+                    {{--<div class="time">订单有效倒计时：</div>--}}
                 </div>
                 <div class="right">
-                    <div style="overflow: hidden; margin-bottom: 50px;"><i class="status fl wait">等待报价</i>
+                    <div style="overflow: hidden; margin-bottom: 50px;"><i class="status fl wait">{{$order->orderStatus}}</i>
                         <div class="date fr">
                             订单发布时间：{{$order->publishedAt}}
                         </div>
@@ -60,15 +60,15 @@
                     <div class="status-bar">
                         <span class="step1 on">一键下单</span>
                         <span class="separator on"></span>
-                        <span class="step2 on">师傅报价</span>
-                        <span class="separator"></span>
-                        <span class="step3">雇佣师傅</span>
-                        <span class="separator separator"></span>
-                        <span class="step4">支付费用</span>
-                        <span class="separator"></span>
-                        <span class="step5">师傅服务</span>
-                        <span class="separator"></span>
-                        <span class="step6">验收完工</span>
+                        <span class="step2 {{$order->status & \App\Models\Order::ORDER_WAIT_HIRE ? 'on' : ''}}">师傅报价</span>
+                        <span class="separator {{$order->status & \App\Models\Order::ORDER_WAIT_HIRE ? 'on' : ''}}"></span>
+                        <span class="step3 {{$order->status & \App\Models\Order::ORDER_EMPLOYED ? 'on' : ''}}">雇佣师傅</span>
+                        <span class="separator {{$order->status & \App\Models\Order::ORDER_EMPLOYED ? 'on' : ''}}"></span>
+                        <span class="step4 {{$order->status & \App\Models\Order::ORDER_PROCEEDING_WAIT_PRE_APPOINT ? 'on' : ''}}">支付费用</span>
+                        <span class="separator {{$order->status & \App\Models\Order::ORDER_PROCEEDING_WAIT_PRE_APPOINT ? 'on' : ''}}"></span>
+                        <span class="step5 {{$order->status & \App\Models\Order::ORDER_PROCEEDING_APPOINTED ? 'on' : ''}}">师傅服务</span>
+                        <span class="separator {{$order->status & \App\Models\Order::ORDER_PROCEEDING_APPOINTED ? 'on' : ''}}"></span>
+                        <span class="step6 {{$order->status & \App\Models\Order::ORDER_CHECKED ? 'on' : ''}}">验收完工</span>
                     </div>
                 </div>
             </div>
@@ -158,8 +158,14 @@
                                     <div class="offer">
                                         <div>
                                             <b>¥{{$offerOrder->quotePriceFormat}}</b>
-                                            <button>雇佣并支付</button>
-                                            <div class="phone">13252632523</div>
+                                            @if($offerOrder->status === \App\Models\OfferOrder::STATUS_WAIT && ($order->status & \App\Models\Order::ORDER_WAIT_HIRE
+                                            && $order->status <= \App\Models\Order::ORDER_WAIT_HIRE))
+                                                <button class="employ-btn" data-url="{{api_route('user.order.hire_master', ['order' => $order->id]).'?token='.$token}}" data-id="{{$offerOrder->id}}">雇佣并支付</button>
+                                            @elseif($offerOrder->status === \App\Models\OfferOrder::STATUS_HIRED &&
+                                            ($order->status & \App\Models\Order::ORDER_EMPLOYED && $order->status <= \App\Models\Order::ORDER_EMPLOYED))
+                                                <button class="employ-btn">去支付</button>
+                                            @endif
+                                            <div class="phone">{{$offerOrder->master->mobile}}</div>
                                         </div>
                                     </div>
                                 </li>
@@ -182,11 +188,34 @@
 <script>
     const currentOrderData = {!! $order !!};
     $(function () {
-        $(".info-tab li").click(function () {
-            let i = $(this).index()
-            console.log(i)
-            $(this).addClass('selected').siblings().removeClass('selected');
-            $('.tab-content .tab-item').eq(i).addClass('show').siblings().removeClass('show').addClass('hide');
-        })
+        layui.use(['layer'], function () {
+            $(".info-tab li").click(function () {
+                let i = $(this).index()
+                console.log(i)
+                $(this).addClass('selected').siblings().removeClass('selected');
+                $('.tab-content .tab-item').eq(i).addClass('show').siblings().removeClass('show').addClass('hide');
+                $('.employ-btn').click(function () {
+                    let url = $(this).data('url');
+                    let id = $(this).data('id');
+                    layer.confirm('是否确认雇佣此人为您服务？', {
+                        btn: ['确认','取消'] //按钮
+                    }, function(){
+                        $.post({
+                            url: url,
+                            data: {'offer_order_id': id},
+                            success() {
+                                location.href = "{{route('user.order.detail', ['order' => $order->id])}}";
+                            },
+                            fail() {
+
+                            }
+                        });
+                    }, function() {
+
+                    });
+                });
+            });
+        });
+
     })
 </script>

@@ -36,7 +36,7 @@ class OfferOrderController extends Controller
     {
         $postData = $request->only(['quote_price', 'note']);
 
-        if ($order->status >= Order::ORDER_EMPLOYED) {
+        if ($order->status & Order::ORDER_EMPLOYED) {
             $this->response->errorForbidden('订单已不需要报价');
         }
 
@@ -48,7 +48,7 @@ class OfferOrderController extends Controller
             'note' => $postData['note'],
         ]);
         $offerOrder->update(['order_item_id' => $offerOrder->id]);
-
+        $order->status |= Order::ORDER_EMPLOYED;
         return $this->response->item($offerOrder, new OfferOrderTransformer);
     }
 }
