@@ -71,7 +71,7 @@ class   OrdersSeeder extends Seeder
 
             if($order->status !== Order::ORDER_WAIT_OFFER) {
                 $offerOrders = [];
-                $count = random_int(1, 10);
+                $count = random_int(3, 10);
                 for ($i = 0; $i < $count; $i ++) {
                     $master = Master::inRandomOrder()->first();
                     $offerOrder = new OfferOrder();
