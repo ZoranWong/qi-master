@@ -49,6 +49,7 @@ class OfferOrderController extends Controller
         ]);
         $offerOrder->update(['order_item_id' => $offerOrder->id]);
         $order->status |= Order::ORDER_EMPLOYED;
+        $order->save();
         return $this->response->item($offerOrder, new OfferOrderTransformer);
     }
 }
