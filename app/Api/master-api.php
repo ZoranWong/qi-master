@@ -21,12 +21,12 @@ $api->group(['prefix' => 'masters', 'namespace' => 'Master'], function (Router $
             $api->get('/', ['as' => 'master.orders.list', 'uses' => 'OrderController@index']);
             $api->get('/{order}', ['as' => 'master.orders.detail', 'uses' => 'OrderController@detail']);
             $api->post('/{order}/offer', ['as' => 'master.order.offer', 'uses' => 'OfferOrderController@store']);
-            $api->put('/{order}/reserve', ['as' => 'master.order.reserve', 'uses' => 'OfferOrderController@reserve']);
-            $api->put('/{order}/check_in', ['as' => 'master.order.check_in', 'uses' => 'OfferOrderController@checkIn']);
-            $api->put('/{order}/pick_up', ['as' => 'master.order.pick_up_product', 'uses' => 'OfferOrderController@pickUpProduct']);
-            $api->put('/{order}/secondary/reserve', ['as' => 'master.order.reserve.secondary', 'uses' => 'OfferOrderController@reserveSecondary']);
-            $api->put('/{order}/check/request', ['as' => 'master.order.reserve.check.request', 'uses' => 'OfferOrderController@requestCheck']);
-            $api->put('/{order}/completed', ['as' => 'master.order.completed', 'uses' => 'OfferOrderController@completedOrder']);
+            $api->put('/{order}/reserve', ['as' => 'master.order.reserve', 'uses' => 'OrderController@reserve']);
+            $api->put('/{order}/check_in', ['as' => 'master.order.check_in', 'uses' => 'OrderController@checkIn']);
+            $api->put('/{order}/pick_up', ['as' => 'master.order.pick_up_product', 'uses' => 'OrderController@pickUpProduct']);
+            $api->put('/{order}/secondary/reserve', ['as' => 'master.order.reserve.secondary', 'uses' => 'OrderController@reserveSecondary']);
+            $api->put('/{order}/check/request', ['as' => 'master.order.reserve.check.request', 'uses' => 'OrderController@requestCheck']);
+            $api->put('/{order}/completed', ['as' => 'master.order.completed', 'uses' => 'OrderController@completedOrder']);
         });
         /**
          * 投诉
