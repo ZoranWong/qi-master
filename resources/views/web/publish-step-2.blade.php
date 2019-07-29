@@ -291,7 +291,7 @@ $(function () {
            orderInfo['customer_info']['city'] = city['name'];
        });
 
-       form.on('select(area)', function () {
+       form.on('select(area)', function (data) {
            let areaIndex = data['value'];
            area = city['children'][areaIndex];
            orderInfo['customer_info']['area_code'] = area['region_code'];
