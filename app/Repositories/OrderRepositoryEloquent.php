@@ -143,9 +143,9 @@ class OrderRepositoryEloquent extends BaseRepository implements OrderRepository
 //                        ->where('master_services.master_id', '=', $master->id);
 //                })
 //                ->selectRaw("orders.*,master_services.master_id,master_services.weight+(rand() * 10) as random_weight")
-                ->selectRaw("orders.*,master_services.master_id,master_services.weight")
+//                ->selectRaw("orders.*,master_services.master_id,master_services.weight")
 //                ->where('master_services.master_id', $master->id)
-                ->orderBy('master_services.weight', 'desc')
+//                ->orderBy('master_services.weight', 'desc')
                 ->orderBy('orders.created_at', 'asc');
         })->paginate(request()->input('limit', PAGE_SIZE));
 
