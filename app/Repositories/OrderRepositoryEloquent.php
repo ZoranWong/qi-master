@@ -138,13 +138,13 @@ class OrderRepositoryEloquent extends BaseRepository implements OrderRepository
                     $query->where('master_id', auth()->user()->id);
                 })
                 ->where('status', '<=', Order::ORDER_WAIT_HIRE|Order::ORDER_WAIT_OFFER)
-                ->join('master_services', function (JoinClause $join) use ($master) {
-                    $join->on('orders.region_code', '=', 'master_services.region_code')
-                        ->where('master_services.master_id', '=', $master->id);
-                })
+//                ->join('master_services', function (JoinClause $join) use ($master) {
+//                    $join->on('orders.region_code', '=', 'master_services.region_code')
+//                        ->where('master_services.master_id', '=', $master->id);
+//                })
 //                ->selectRaw("orders.*,master_services.master_id,master_services.weight+(rand() * 10) as random_weight")
                 ->selectRaw("orders.*,master_services.master_id,master_services.weight")
-                ->where('master_services.master_id', $master->id)
+//                ->where('master_services.master_id', $master->id)
                 ->orderBy('master_services.weight', 'desc')
                 ->orderBy('orders.created_at', 'asc');
         })->paginate(request()->input('limit', PAGE_SIZE));
