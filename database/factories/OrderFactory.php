@@ -22,19 +22,10 @@ $factory->define(Order::class, function (Faker $faker) {
         Order::ORDER_TYPE_QUOTE_PRICE,
         Order::ORDER_TYPE_IMMEDIATE_HIRE
     ]);
-//    const ORDER_PROCEEDING_WAIT_PRE_APPOINT = 4;// 服务中-待预约客户
-//    const ORDER_PROCEEDING_APPOINTED = 8;// 服务中-已预约客户
-//    const ORDER_PROCEEDING_PRODUCT_RECEIVED = 16;// 服务中-已提货签收
-//    const ORDER_PROCEEDING_SIGNED = 32;// 服务中-已上门签到(待完成)
-//    const ORDER_WAIT_CHECK = 64;// 待验收(待收款,确认验收即打款)
-//    const ORDER_CHECKED = 128;// 验收完成，待评价
-//    const ORDER_COMPLETED = 256;// 订单完成
-//    const ORDER_CLOSED = 512;// 订单关闭
 
     $status = $faker->randomElement([
         Order::ORDER_WAIT_OFFER,
         Order::ORDER_WAIT_HIRE,
-//        Order::ORDER_WAIT_AGREE,
         Order::ORDER_EMPLOYED|Order::ORDER_WAIT_HIRE,
         Order::ORDER_PROCEEDING_WAIT_PRE_APPOINT|Order::ORDER_EMPLOYED|Order::ORDER_WAIT_HIRE,
         Order::ORDER_PROCEEDING_APPOINTED|Order::ORDER_PROCEEDING_WAIT_PRE_APPOINT|Order::ORDER_EMPLOYED|Order::ORDER_WAIT_HIRE,
@@ -43,7 +34,6 @@ $factory->define(Order::class, function (Faker $faker) {
         Order::ORDER_WAIT_CHECK|Order::ORDER_PROCEEDING_SIGNED|Order::ORDER_PROCEEDING_PRODUCT_RECEIVED|Order::ORDER_PROCEEDING_WAIT_PRE_APPOINT| Order::ORDER_PROCEEDING_APPOINTED|Order::ORDER_EMPLOYED|Order::ORDER_WAIT_HIRE,
         Order::ORDER_CHECKED|Order::ORDER_WAIT_CHECK|Order::ORDER_PROCEEDING_SIGNED|Order::ORDER_PROCEEDING_PRODUCT_RECEIVED| Order::ORDER_PROCEEDING_WAIT_PRE_APPOINT|Order::ORDER_PROCEEDING_APPOINTED|Order::ORDER_EMPLOYED|Order::ORDER_WAIT_HIRE,
         Order::ORDER_COMPLETED|Order::ORDER_CHECKED|Order::ORDER_WAIT_CHECK|Order::ORDER_PROCEEDING_SIGNED|Order::ORDER_PROCEEDING_PRODUCT_RECEIVED| Order::ORDER_PROCEEDING_WAIT_PRE_APPOINT|Order::ORDER_PROCEEDING_APPOINTED|Order::ORDER_EMPLOYED|Order::ORDER_WAIT_HIRE,
-//        Order::ORDER_CLOSED
     ]);
     /**@var Classification $classification*/
     $classification = Classification::inRandomOrder()->first();
