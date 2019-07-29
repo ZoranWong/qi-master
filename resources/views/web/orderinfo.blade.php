@@ -118,7 +118,7 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>{{$product['num']}}个</td>
+                                            <td>{{isset($product['num']) ? isset($product['num']) : 1}}个</td>
                                             <td>
                                                 {{isset($product['remark']) ? $product['remark'] : ''}}
                                             </td>
