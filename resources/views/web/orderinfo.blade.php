@@ -120,7 +120,7 @@
                                             </td>
                                             <td>{{$product['num']}}个</td>
                                             <td>
-                                                {{$product['remark']}}
+                                                {{isset($product['remark']) ? $product['remark'] : ''}}
                                             </td>
                                         </tr>
                                     @endforeach
