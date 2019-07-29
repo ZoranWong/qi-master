@@ -137,9 +137,9 @@ class OrderRepositoryEloquent extends BaseRepository implements OrderRepository
                 $query->whereRaw('status & ? = ? ',  [Order::ORDER_WAIT_HIRE, Order::ORDER_WAIT_HIRE])
                     ->orWhere('status', '=', Order::ORDER_WAIT_OFFER);
             })->where(function ($query) {
-                $query->whereDoesntHave('offerOrders', function ($query) {
-                    $query->where('master_id', auth()->user()->id);
-                })->orWhereDoesntHave('offerOrders');
+//                $query->whereDoesntHave('offerOrders', function ($query) {
+//                    $query->where('master_id', auth()->user()->id);
+//                })->orWhereDoesntHave('offerOrders');
             })->where('status', '<=', Order::ORDER_WAIT_HIRE)
 //                ->join('master_services', function (JoinClause $join) use ($master) {
 //                    $join->on('orders.region_code', '=', 'master_services.region_code')
