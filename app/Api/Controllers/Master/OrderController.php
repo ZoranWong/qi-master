@@ -139,7 +139,7 @@ class OrderController extends Controller
 
     public function completedOrder(Order $order)
     {
-        if($order !== request('code')){
+        if($order->orderCheckedCode !== request('code')){
             return $this->response->errorInternal('验收码错误！');
         }
         if ($order->status & Order::ORDER_WAIT_CHECK) {
