@@ -27,6 +27,7 @@ class MasterSeeder extends Seeder
 
             /**@var Region $area*/
             $area = $city && $city->children->count() > 0 ? $city->children->random(1)->first() : null;
+//            dd($area);
             /**
              * @var Master $master
              * */
