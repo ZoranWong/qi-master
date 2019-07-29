@@ -113,8 +113,8 @@
                                             <td>
                                                 <div class="text-center">
                                                     <div>{{$product['title']}}</div>
-                                                    <div>（{{$product['category_name'] ? $product['category_name'].
-                                                    ($product['child_category_name'] ??'') : ''}}）
+                                                    <div>（{{isset($product['category_name']) ? $product['category_name'].
+                                                    (isset($product['child_category_name']) ? $product['child_category_name'] : '') : ''}}）
                                                     </div>
                                                 </div>
                                             </td>
