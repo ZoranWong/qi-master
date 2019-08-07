@@ -385,7 +385,6 @@ class Order extends Model implements HasPresenter
      */
     public function getStatusDescAttribute()
     {
-//        return self::ORDER_STATUS[$this->status];
         $step = 0;
         while (($tmp = $this->status >> $step)) {
             $step ++;
