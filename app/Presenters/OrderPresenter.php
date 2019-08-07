@@ -38,7 +38,7 @@ class OrderPresenter extends BasePresenter
 
     public function hopeServiceAt()
     {
-        return $this->wrappedObject->serviceDate->format('Y-m-d h:i:s');
+        return $this->wrappedObject->serviceDate ? $this->wrappedObject->serviceDate->format('Y-m-d h:i:s') : '';
     }
 
 

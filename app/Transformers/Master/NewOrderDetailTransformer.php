@@ -49,6 +49,7 @@ class NewOrderDetailTransformer extends TransformerAbstract
                 'phone' => hidestr($model->contactUserPhone, 3, 4)
             ],
             'user' => $model->user,
+            'products' => $model->products,
             'created_at' => (string)$model->createdAt,
             'updated_at' => (string)$model->updatedAt,
             'ended_at' => $model->createdAt->addHours(24)->timestamp

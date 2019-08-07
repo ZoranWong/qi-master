@@ -133,20 +133,23 @@ class OrderRepositoryEloquent extends BaseRepository implements OrderRepository
 
         $paginator = $this->with(['serviceType', 'classification'])
             ->scopeQuery(function (Builder $query) use ($master) {
-            return $query->whereRaw('status & ?',  [Order::ORDER_WAIT_HIRE|Order::ORDER_WAIT_OFFER])
-                ->whereDoesntHave('offerOrders', function ($query) {
-                    $query->where('master_id', auth()->user()->id);
-                })
-                ->where('status', '<=', Order::ORDER_WAIT_HIRE|Order::ORDER_WAIT_OFFER)
-                ->join('master_services', function (JoinClause $join) use ($master) {
-                    $join->on('orders.region_code', '=', 'master_services.region_code')
-                        ->where('master_services.master_id', '=', $master->id);
-                })
+            return $query->where(function ($query) {
+                $query->whereRaw('status & ? = ? ',  [Order::ORDER_WAIT_HIRE, Order::ORDER_WAIT_HIRE])
+                    ->orWhere('status', '=', Order::ORDER_WAIT_OFFER);
+            })->where(function ($query) {
+//                $query->whereDoesntHave('offerOrders', function ($query) {
+//                    $query->where('master_id', auth()->user()->id);
+//                })->orWhereDoesntHave('offerOrders');
+            })->where('status', '<=', Order::ORDER_WAIT_HIRE)
+//                ->join('master_services', function (JoinClause $join) use ($master) {
+//                    $join->on('orders.region_code', '=', 'master_services.region_code')
+//                        ->where('master_services.master_id', '=', $master->id);
+//                })
 //                ->selectRaw("orders.*,master_services.master_id,master_services.weight+(rand() * 10) as random_weight")
-                ->selectRaw("orders.*,master_services.master_id,master_services.weight")
-                ->where('master_services.master_id', $master->id)
-                ->orderBy('master_services.weight', 'desc')
-                ->orderBy('orders.created_at', 'asc');
+//                ->selectRaw("orders.*,master_services.master_id,master_services.weight")
+//                ->where('master_services.master_id', $master->id)
+//                ->orderBy('master_services.weight', 'desc')
+                ->orderBy('orders.created_at', 'desc');
         })->paginate(request()->input('limit', PAGE_SIZE));
 
         return $paginator;

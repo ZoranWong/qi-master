@@ -113,14 +113,14 @@
                                             <td>
                                                 <div class="text-center">
                                                     <div>{{$product['title']}}</div>
-                                                    <div>（{{$product['category_name'] ? $product['category_name'].
-                                                    ($product['child_category_name'] ??'') : ''}}）
+                                                    <div>（{{isset($product['category_name']) ? $product['category_name'].
+                                                    (isset($product['child_category_name']) ? $product['child_category_name'] : '') : ''}}）
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>{{$product['num']}}个</td>
+                                            <td>{{isset($product['num']) ? isset($product['num']) : 1}}个</td>
                                             <td>
-                                                {{$product['remark']}}
+                                                {{isset($product['remark']) ? $product['remark'] : ''}}
                                             </td>
                                         </tr>
                                     @endforeach

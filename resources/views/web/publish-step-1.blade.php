@@ -317,6 +317,7 @@
                 let product = _.find(orderInfo['products'], {id: productId});
                 let key = $(data['elem']).attr('name');
                 product[key] = data['value'];
+                product['category_name'] = classification['top_categories'][index]['name'];
             });
 
             form.on('select(child-categories)', function (data) {
@@ -337,6 +338,7 @@
                 let product = _.find(orderInfo['products'], {id: productId});
                 let key = $(data['elem']).attr('name');
                 product[key] = data['value'];
+                product['child_category_name'] = classification['top_categories'][parentIndex]['children'][index]['name'];
             });
 
             form.on('select(properties)', function (data) {
