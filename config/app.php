@@ -168,6 +168,9 @@ return [
         Barryvdh\Debugbar\ServiceProvider::class,
         Barryvdh\Cors\ServiceProvider::class,
         Iidestiny\LaravelFilesystemOss\OssStorageServiceProvider::class,
+        Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+        Prettus\Repository\Providers\RepositoryServiceProvider::class,
+        \Barryvdh\Omnipay\ServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -178,8 +181,7 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         App\Providers\RepositoryServiceProvider::class,
-        Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
-        Prettus\Repository\Providers\RepositoryServiceProvider::class,
+        \App\Providers\PaymentServiceProvider::class,
     ],
 
     /*
@@ -229,6 +231,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'AutoPresenter' => McCool\LaravelAutoPresenter\Facades\AutoPresenter::class,
+        'Omnipay' => Barryvdh\Omnipay\Facade::class,
     ],
 
     'order_ttl' => 1800,

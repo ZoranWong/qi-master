@@ -159,11 +159,11 @@
                                         <div>
                                             <b>¥{{$offerOrder->quotePriceFormat}}</b>
                                             @if($offerOrder->status === \App\Models\OfferOrder::STATUS_WAIT && ($order->status & \App\Models\Order::ORDER_WAIT_HIRE
-                                            && $order->status <= \App\Models\Order::ORDER_WAIT_HIRE))
+                                            && $order->status < \App\Models\Order::ORDER_EMPLOYED))
                                                 <button class="employ-btn" data-url="{{api_route('user.order.hire_master', ['order' => $order->id]).'?token='.$token}}" data-id="{{$offerOrder->id}}">雇佣并支付</button>
                                             @elseif($offerOrder->status === \App\Models\OfferOrder::STATUS_HIRED &&
-                                            ($order->status & \App\Models\Order::ORDER_EMPLOYED && $order->status <= \App\Models\Order::ORDER_EMPLOYED))
-                                                <button class="employ-btn">去支付</button>
+                                            ($order->status & \App\Models\Order::ORDER_EMPLOYED && $order->status < \App\Models\Order::ORDER_PROCEEDING_WAIT_PRE_APPOINT))
+                                                <button class="pay-btn">去支付</button>
                                             @endif
                                             <div class="phone">{{$offerOrder->master->mobile}}</div>
                                         </div>
@@ -177,7 +177,17 @@
 
         </div>
     </div>
-
+    <div id="payTypePopup" style="display: none;">
+        <form class="layui-form">
+            <div class="layui-form-item">
+                <ul>
+                    <li><input type="radio" name="pay_type" value="WechatPay" title="微信支付" checked></li>
+                    <li><input type="radio" name="pay_type" value="AliPay" title="支付宝支付"></li>
+                    <li><input type="radio" name="pay_type" value="BalancePay" title="余额支付"></li>
+                </ul>
+            </div>
+        </form>
+    </div>
 </div>
 
 <!--content--end-->
@@ -188,12 +198,48 @@
 <script>
     const currentOrderData = {!! $order !!};
     $(function () {
-        layui.use(['layer'], function () {
+        layui.use(['layer', 'form'], function () {
+            let form = layui.form;
+            form.render();
             $(".info-tab li").click(function () {
                 let i = $(this).index()
                 console.log(i)
                 $(this).addClass('selected').siblings().removeClass('selected');
                 $('.tab-content .tab-item').eq(i).addClass('show').siblings().removeClass('show').addClass('hide');
+                function payLayer(id = 1) {
+                    layer.open({
+                        title: '选择支付方式',
+                        content: $('#payTypePopup').html(),
+                        success(data) {
+                            form.render();
+                        },
+                        yes(data){
+                            let payType = $('div#layui-layer1.layui-layer.layui-layer-dialog input:radio:checked[name="pay_type"]').val();
+                            let host = location.origin;
+                            switch (payType) {
+                                case 'WechatPay':
+                                    let url = `${host}/wx/pay/${id}`;
+                                    layer.closeAll();
+                                    layer.open({
+                                        title: '选择支付方式',
+                                        content: `<img src="${url}"/>`,
+                                        success(data) {
+                                            form.render();
+                                        }
+                                    });
+                                    break;
+                                case 'AliPay':
+                                    break;
+                                case 'BalancePay':
+                                    break;
+                            }
+                        }
+                    });
+
+                }
+                $('.pay-btn').click(function () {
+                    payLayer();
+                });
                 $('.employ-btn').click(function () {
                     let url = $(this).data('url');
                     let id = $(this).data('id');
@@ -203,8 +249,8 @@
                         $.post({
                             url: url,
                             data: {'offer_order_id': id},
-                            success() {
-                                location.href = "{{route('user.order.detail', ['order' => $order->id])}}";
+                            success(data) {
+                                payLayer();
                             },
                             fail() {
 

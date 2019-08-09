@@ -25,6 +25,7 @@ use McCool\LaravelAutoPresenter\HasPresenter;
  * @property int $type 0-报价费用 1-追加费用
  * @property int $payType 支付类型：0-支付宝 1-微信 2-银联 3-现金
  * @property \Illuminate\Support\Carbon|null $paidAt 支付时间
+ * @property string $code 编号
  * @property-read mixed $statusDesc
  * @property-read \App\Models\Master $master
  * @property-read \App\Models\Order $order
@@ -36,6 +37,7 @@ use McCool\LaravelAutoPresenter\HasPresenter;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PaymentOrder query()
  * @method static bool|null restore()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PaymentOrder whereAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PaymentOrder whereCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PaymentOrder whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PaymentOrder whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PaymentOrder whereId($value)
@@ -56,7 +58,7 @@ class PaymentOrder extends Model implements HasPresenter
 {
     use SoftDeletes, ModelAttributesAccess, CurrencyUnitTrait;
 
-    protected $fillable = ['amount', 'order_id', 'status', 'user_id', 'master_id', 'offer_order_id', 'type', 'pay_type', 'paid_at'];
+    protected $fillable = ['amount', 'code', 'order_id', 'status', 'user_id', 'master_id', 'offer_order_id', 'type', 'pay_type', 'paid_at'];
 
     protected $dates = ['deleted_at', 'paid_at'];
 
@@ -88,7 +90,22 @@ class PaymentOrder extends Model implements HasPresenter
         self::PAY_TYPE_BANK => '银联',
         self::PAY_TYPE_CASH => '现金'
     ];
-
+    protected static function boot()
+    {
+        parent::boot();
+        // 监听模型创建事件，在写入数据库之前触发
+        static::creating(function (PaymentOrder $model) {
+            // 如果模型的 no 字段为空
+            if (!$model->code) {
+                // 调用 findAvailableNo 生成订单流水号
+                $model->code = static::findAvailableNo();
+                // 如果生成失败，则终止创建订单
+                if (!$model->code) {
+                    return false;
+                }
+            }
+        });
+    }
     /**
      * 状态描述
      */
@@ -132,4 +149,21 @@ class PaymentOrder extends Model implements HasPresenter
         // TODO: Implement getPresenterClass() method.
         return PaymentOrderPresenter::class;
     }
+
+    public static function findAvailableNo()
+    {
+        // 订单流水号前缀
+        $prefix = date('YmdHis');
+        for ($i = 0; $i < 10; $i++) {
+            // 随机生成 6 位的数字
+            $no = $prefix . str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
+            // 判断是否已经存在
+            if (!static::whereCode($no)->exists()) {
+                return $no;
+            }
+        }
+
+        return false;
+    }
+
 }
