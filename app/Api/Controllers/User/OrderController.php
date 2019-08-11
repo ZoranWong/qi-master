@@ -4,6 +4,7 @@ namespace App\Api\Controllers\User;
 
 use App\Api\Controller;
 use App\Models\Master;
+use App\Models\MasterComment;
 use App\Models\OfferOrder;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -170,5 +171,38 @@ class OrderController extends Controller
         }else{
             return $this->response->array([]);
         }
+    }
+
+    public function checkedOrder(Order $order)
+    {
+        $order->status |= Order::ORDER_CHECKED;
+        $order->save();
+        return $this->response->noContent();
+    }
+
+    public function commentOrder(Order $order)
+    {
+        $comment = new MasterComment();
+        $comment->userId = auth()->user()->id;
+        $comment->masterId = $order->masterId;
+        $comment->content = request('content');
+        $comment->type = request('type', MasterComment::TYPE_NORMAL);
+        $comment->labels = request('labels', []);
+        $comment->rates = request('rates');
+        $order->comment()->save($comment);
+        return $this->response->noContent();
+    }
+
+    public function addAdditionOrder(Order $order)
+    {
+
+    }
+
+    public function cancelOrder(Order $order)
+    {
+        $order->status |= Order::ORDER_CLOSED;
+        $order->save();
+
+        return $this->response->noContent();
     }
 }

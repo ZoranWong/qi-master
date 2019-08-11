@@ -85,11 +85,11 @@
 
             <div class="info-main">
                 <ul class="info-tab">
-                    <li class="selected">订单信息</li>
-                    <li>服务信息</li>
+                    <li class="{{request('service', false) ? '' : 'selected'}} order-info-tab">订单信息</li>
+                    <li class="{{request('service', false) ? 'selected' : ''}}  master-service-tab">服务信息</li>
                 </ul>
                 <div class="tab-content">
-                    <div class="tab-item">
+                    <div class="tab-item {{request('service', false)? 'hide' : ''}}">
                         <dl class="tab-info">
                             <dt>服务需求</dt>
                             <dd>服务类型：（{{$order->classification->name}}）</dd>
@@ -142,7 +142,7 @@
                             <dd>创建订单：{{$order->publishedAt}}</dd>
                         </dl>
                     </div>
-                    <div class="tab-item hide">
+                    <div class="tab-item {{request('service', false)? '' : 'hide'}}">
                         <ul class="offer-list">
                             @foreach($order->offerOrders as $offerOrder)
                                 <li>
@@ -283,6 +283,5 @@
                 });
             });
         });
-
     })
 </script>

@@ -9,7 +9,7 @@ use App\Models\Classification;
 
 $factory->define(Order::class, function (Faker $faker) {
     // 随机取一个用户
-    $user = User::query()->inRandomOrder()->first();
+    $user = User::query()->find(1);
 //    $master = Master::query()->inRandomOrder()->first();
     /**@var Region $region */
     $region = Region::query()->inRandomOrder()->first();

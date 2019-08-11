@@ -43,7 +43,7 @@ class OrdersController extends Controller
     public function index(Request $request)
     {
         $view = null;
-        /**@var User $user**/
+        /**@var User $user * */
         $user = auth()->user();
         if (isMobile()) {
             $view = view('h5.order');
@@ -54,10 +54,12 @@ class OrdersController extends Controller
         $offset = ($request->input('page', 1) - 1) * $limit;
 
         $query = $user->orders();
-        if($request->input('status', null)) {
-            $query->where('status', $request->input('status'));
+        if ($request->input('status', null)) {
+            $status = $request->input('status');
+            $query->whereRaw('status & ? = ?', [$status, $status])
+                ->where('status', '<', 2 * $status);
         }
-        if(($tag = $request->input('tag', null))) {
+        if (($tag = $request->input('tag', null))) {
             switch ($tag) {
                 case 'ADDITION_FEE':
 
@@ -76,7 +78,7 @@ class OrdersController extends Controller
 
         }
 
-        if(($date = $request->input('date', null))) {
+        if (($date = $request->input('date', null))) {
             $now = \Illuminate\Support\Carbon::now();
             $start = $now->copy()->subMonth($date);
             $query->where('created_at', '>=', $start->format('Y-m-d H:i:s'))
@@ -224,7 +226,7 @@ class OrdersController extends Controller
     {
         $view = null;
         if (isMobile()) {
-            $view = view('h5.'.$step);
+            $view = view('h5.' . $step);
         } else {
             $view = view('web.publish')->with([
                 'selected' => 'publish',
@@ -240,11 +242,11 @@ class OrdersController extends Controller
         $provinces = Region::getProvinces();
         return $view->with([
             'classifications' => $classifications,
-            'productsUrl' => api_route('user.products.list')."?token={$token}",
-            'masterSearchUrl' => api_route('user.order.search_master')."?token={$token}",
+            'productsUrl' => api_route('user.products.list') . "?token={$token}",
+            'masterSearchUrl' => api_route('user.order.search_master') . "?token={$token}",
             'productUpload' => api_route('user.upload.product'),
             'provinces' => $provinces,
-            'publishOrder' => api_route('user.publish')."?token={$token}"
+            'publishOrder' => api_route('user.publish') . "?token={$token}"
         ]);
     }
 }
