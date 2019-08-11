@@ -28,11 +28,10 @@ class OrderTransformer extends TransformerAbstract
             'total_amount' => $model->totalAmount,
             'status' => $model->status,
             'status_desc' => $model->statusDesc,
-
+            'product_snapshots' => $model->products,
             'service_type' => $model->serviceType->name,// 服务类型
             'classification' => $model->classification->name,// 类目
             'offer_orders_count' => $model->offerOrders()->count(),// 报价数
-
             'created_at' => (string)$model->createdAt,
             'updated_at' => (string)$model->updatedAt
         ];

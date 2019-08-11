@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Illuminate\Support\Carbon|null $createdAt
  * @property \Illuminate\Support\Carbon|null $updatedAt
  * @property-read \App\Models\Classification $classification
+ * @property-read \App\Models\Region $region
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\MasterService newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\MasterService newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\MasterService query()
@@ -54,6 +55,11 @@ class MasterService extends Model
     public function classification()
     {
         return $this->belongsTo(Classification::class);
+    }
+
+    public function region()
+    {
+        return $this->belongsTo(Region::class, 'region_code', 'region_code');
     }
 
 }

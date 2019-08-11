@@ -52,7 +52,8 @@
                     {{--<div class="time">订单有效倒计时：</div>--}}
                 </div>
                 <div class="right">
-                    <div style="overflow: hidden; margin-bottom: 50px;"><i class="status fl wait">{{$order->orderStatus}}</i>
+                    <div style="overflow: hidden; margin-bottom: 50px;"><i
+                            class="status fl wait">{{$order->orderStatus}}</i>
                         <div class="date fr">
                             订单发布时间：{{$order->publishedAt}}
                         </div>
@@ -60,15 +61,24 @@
                     <div class="status-bar">
                         <span class="step1 on">一键下单</span>
                         <span class="separator on"></span>
-                        <span class="step2 {{$order->status & \App\Models\Order::ORDER_WAIT_HIRE ? 'on' : ''}}">师傅报价</span>
-                        <span class="separator {{$order->status & \App\Models\Order::ORDER_WAIT_HIRE ? 'on' : ''}}"></span>
-                        <span class="step3 {{$order->status & \App\Models\Order::ORDER_EMPLOYED ? 'on' : ''}}">雇佣师傅</span>
-                        <span class="separator {{$order->status & \App\Models\Order::ORDER_EMPLOYED ? 'on' : ''}}"></span>
-                        <span class="step4 {{$order->status & \App\Models\Order::ORDER_PROCEEDING_WAIT_PRE_APPOINT ? 'on' : ''}}">支付费用</span>
-                        <span class="separator {{$order->status & \App\Models\Order::ORDER_PROCEEDING_WAIT_PRE_APPOINT ? 'on' : ''}}"></span>
-                        <span class="step5 {{$order->status & \App\Models\Order::ORDER_PROCEEDING_APPOINTED ? 'on' : ''}}">师傅服务</span>
-                        <span class="separator {{$order->status & \App\Models\Order::ORDER_PROCEEDING_APPOINTED ? 'on' : ''}}"></span>
-                        <span class="step6 {{$order->status & \App\Models\Order::ORDER_CHECKED ? 'on' : ''}}">验收完工</span>
+                        <span
+                            class="step2 {{$order->status & \App\Models\Order::ORDER_WAIT_HIRE ? 'on' : ''}}">师傅报价</span>
+                        <span
+                            class="separator {{$order->status & \App\Models\Order::ORDER_WAIT_HIRE ? 'on' : ''}}"></span>
+                        <span
+                            class="step3 {{$order->status & \App\Models\Order::ORDER_EMPLOYED ? 'on' : ''}}">雇佣师傅</span>
+                        <span
+                            class="separator {{$order->status & \App\Models\Order::ORDER_EMPLOYED ? 'on' : ''}}"></span>
+                        <span
+                            class="step4 {{$order->status & \App\Models\Order::ORDER_PROCEEDING_WAIT_PRE_APPOINT ? 'on' : ''}}">支付费用</span>
+                        <span
+                            class="separator {{$order->status & \App\Models\Order::ORDER_PROCEEDING_WAIT_PRE_APPOINT ? 'on' : ''}}"></span>
+                        <span
+                            class="step5 {{$order->status & \App\Models\Order::ORDER_PROCEEDING_APPOINTED ? 'on' : ''}}">师傅服务</span>
+                        <span
+                            class="separator {{$order->status & \App\Models\Order::ORDER_PROCEEDING_APPOINTED ? 'on' : ''}}"></span>
+                        <span
+                            class="step6 {{$order->status & \App\Models\Order::ORDER_CHECKED ? 'on' : ''}}">验收完工</span>
                     </div>
                 </div>
             </div>
@@ -114,7 +124,8 @@
                                                 <div class="text-center">
                                                     <div>{{$product['title']}}</div>
                                                     <div>（{{isset($product['category_name']) ? $product['category_name'].
-                                                    (isset($product['child_category_name']) ? $product['child_category_name'] : '') : ''}}）
+                                                    (isset($product['child_category_name']) ? $product['child_category_name'] : '') : ''}}
+                                                        ）
                                                     </div>
                                                 </div>
                                             </td>
@@ -137,30 +148,38 @@
                                 <li>
                                     <a href="">
                                         <div class="img-box">
-                                            <img src="{{$offerOrder->master['avatar']}}">
+                                            <img src="{{$offerOrder->master->avatar}}">
                                         </div>
                                     </a>
                                     <div class="intro">
-                                        <div class="name"><span class="fl">{{$offerOrder->master['name']}}</span>
+                                        <div class="name"><span class="fl">{{$offerOrder->master->name}}</span>
                                         </div>
-                                        <p><span>搬货/</span><span>安装/</span><span>维修</span></p>
+                                        <p>
+                                            <span>
+                                                {{$offerOrder->master->serviceByGep}}
+                                            </span>
+                                        </p>
                                         <p></p>
-                                        <div class="area"><span class="icon">服务范围</span> <b>蜀山区</b><b>市辖区</b><b>瑶海区</b><b>包河区</b><b>庐阳区</b><b>肥西县</b>
+                                        <div class="area"><span class="icon">服务范围</span>
+                                            {!!$offerOrder->master->serviceArea!!}
                                         </div>
                                     </div>
                                     <div class="data">
                                         <div class="rate">
-                                            评分：<b class="f-yellow">4.99分</b>
+                                            评分：<b class="f-yellow">{{$offerOrder->master->score}}分</b>
                                         </div>
-                                        <div>服务 79 单 / 与我合作 0 次</div>
-                                        <div>好评率100%</div>
+                                        <div>服务 {{$offerOrder->master->serviceOrderCount}} 单 / 与我合作 {{$offerOrder->master->serviceWithMeOrderCount}} 次</div>
+                                        <div>好评率{{$offerOrder->master->goodCommentRate}}</div>
                                     </div>
                                     <div class="offer">
                                         <div>
                                             <b>¥{{$offerOrder->quotePriceFormat}}</b>
                                             @if($offerOrder->status === \App\Models\OfferOrder::STATUS_WAIT && ($order->status & \App\Models\Order::ORDER_WAIT_HIRE
                                             && $order->status < \App\Models\Order::ORDER_EMPLOYED))
-                                                <button class="employ-btn" data-url="{{api_route('user.order.hire_master', ['order' => $order->id]).'?token='.$token}}" data-id="{{$offerOrder->id}}">雇佣并支付</button>
+                                                <button class="employ-btn"
+                                                        data-url="{{api_route('user.order.hire_master', ['order' => $order->id]).'?token='.$token}}"
+                                                        data-id="{{$offerOrder->id}}">雇佣并支付
+                                                </button>
                                             @elseif($offerOrder->status === \App\Models\OfferOrder::STATUS_HIRED &&
                                             ($order->status & \App\Models\Order::ORDER_EMPLOYED && $order->status < \App\Models\Order::ORDER_PROCEEDING_WAIT_PRE_APPOINT))
                                                 <button class="pay-btn">去支付</button>
@@ -206,6 +225,7 @@
                 console.log(i)
                 $(this).addClass('selected').siblings().removeClass('selected');
                 $('.tab-content .tab-item').eq(i).addClass('show').siblings().removeClass('show').addClass('hide');
+
                 function payLayer(id = 1) {
                     layer.open({
                         title: '选择支付方式',
@@ -213,7 +233,7 @@
                         success(data) {
                             form.render();
                         },
-                        yes(data){
+                        yes(data) {
                             let payType = $('div#layui-layer1.layui-layer.layui-layer-dialog input:radio:checked[name="pay_type"]').val();
                             let host = location.origin;
                             switch (payType) {
@@ -237,6 +257,7 @@
                     });
 
                 }
+
                 $('.pay-btn').click(function () {
                     payLayer();
                 });
@@ -244,8 +265,8 @@
                     let url = $(this).data('url');
                     let id = $(this).data('id');
                     layer.confirm('是否确认雇佣此人为您服务？', {
-                        btn: ['确认','取消'] //按钮
-                    }, function(){
+                        btn: ['确认', '取消'] //按钮
+                    }, function () {
                         $.post({
                             url: url,
                             data: {'offer_order_id': id},
@@ -256,7 +277,7 @@
 
                             }
                         });
-                    }, function() {
+                    }, function () {
 
                     });
                 });

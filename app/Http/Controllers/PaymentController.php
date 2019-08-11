@@ -21,7 +21,7 @@ class PaymentController extends Controller
     {
         $orderPayData = [
             'body'              => 'The test order',
-            'out_trade_no'      => $order->id,
+            'out_trade_no'      => $order->code,
             'total_fee'         => $order->amount * 100, //=0.01
             'spbill_create_ip'  => request()->ip(),
             'fee_type'          => 'CNY'
@@ -71,7 +71,7 @@ class PaymentController extends Controller
         $orderPayData = [
             'biz_content' => [
                 'subject'      => 'test',
-                'out_trade_no' => $order->id,
+                'out_trade_no' => $order->code,
                 'total_amount' => $order->amount,
                 'product_code' => 'FAST_INSTANT_TRADE_PAY',
             ]
@@ -126,7 +126,7 @@ class PaymentController extends Controller
     public function unionPay(PaymentOrder $order)
     {
         $orderPayData = [
-            'orderId'   => $order->id, //Your order ID
+            'orderId'   => $order->code, //Your order ID
             'txnTime'   => date('YmdHis'), //Should be format 'YmdHis'
             'orderDesc' => 'My order title', //Order Title
             'txnAmt'    => $order->amount, //Order Total Fee

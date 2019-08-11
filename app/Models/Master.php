@@ -41,6 +41,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property int $truckType 货车类型
  * @property float $truckTonnage 货车吨位
  * @property string $idCardNo 身份证号码
+ * @property int $score 积分
  * @property-read \App\Models\Region|null $area
  * @property-read \App\Models\Region|null $city
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\MasterComment[] $comments
@@ -71,6 +72,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereProvinceCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereRealName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereRememberToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereScore($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereSex($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereTeamNums($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master whereTruckNums($value)
@@ -89,7 +91,8 @@ class Master extends Model implements JWTSubject, Authenticatable, MustVerifyEma
     protected $fillable = [
         'name', 'real_name', 'avatar', 'mobile', 'email', 'email_verified_at', 'password', 'remember_token',
         'balance', 'province_code', 'city_code', 'area_code', 'wallet_password', 'sex', 'emergency_mobile',
-        'address', 'work_day', 'work_time', 'team_nums', 'truck_nums', 'truck_type', 'truck_tonnage', 'id_card_no'
+        'address', 'work_day', 'work_time', 'team_nums', 'truck_nums', 'truck_type', 'truck_tonnage', 'id_card_no',
+        'score'
     ];
 
     protected $casts = [

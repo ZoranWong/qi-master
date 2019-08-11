@@ -110,7 +110,7 @@ class OrdersController extends Controller
 
     public function show($id, Request $request)
     {
-        $order = Order::with(['offerOrders', 'refundOrders.master', 'classification'])
+        $order = Order::with(['offerOrders.master.services', 'refundOrders.master', 'classification'])
             ->find($id);
         $view = null;
         if (isMobile()) {
@@ -121,7 +121,6 @@ class OrdersController extends Controller
                 'currentMenu' => 'orders'
             ]);
         }
-
         $view->with('order', $order);
         $user = auth()->user();
         $token = JWTAuth::fromUser($user);
