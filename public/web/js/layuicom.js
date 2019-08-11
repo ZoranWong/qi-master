@@ -61,17 +61,17 @@ layui.use(['form', 'layedit', 'laydate', 'laypage', 'element', 'rate', 'layer', 
     });
 
     //评分
-    layui.each($('.rate'), function (index, elem) {
-        rate.render({
-            elem: elem,
-            value: 1.5,
-            half: true,
-            text: true,
-            setText: function (value) {
-                this.span.text(value);
-            }
-        })
-    });
+    // layui.each($('.rate'), function (index, elem) {
+    //     rate.render({
+    //         elem: elem,
+    //         value: 1.5,
+    //         half: true,
+    //         text: true,
+    //         setText: function (value) {
+    //             this.span.text(value);
+    //         }
+    //     })
+    // });
     //多图上传
 
     //上传商品图片

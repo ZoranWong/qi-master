@@ -24,13 +24,13 @@
             <ul class="clearfix">
                 <li>您的位置：</li>
                 <li>
-                    <a href="index.html">首页</a>
+                    <a href="/">首页</a>
                 </li>
                 <li>
                     <a href=""></a> <span class="separator">&gt;</span>
                 </li>
                 <li>
-                    <a href="comment.html">评价管理</a> <span class="separator">&gt;</span>
+                    <a href="/comments">评价管理</a> <span class="separator">&gt;</span>
                 </li>
                 <li>评价订单</li>
             </ul>
@@ -43,15 +43,15 @@
                 <ul>
                     <li>
                         <span>订单编号：</span>
-                        <span>P10658972787</span>
+                        <span>{{$order->orderNo}}</span>
                     </li>
                     <li>
                         <span>服务商：</span>
-                        <span>李青生</span>
+                        <span>{{$order->master->masterName}}</span>
                     </li>
                     <li>
                         <span>下单时间：</span>
-                        <span>2019-03-21 09:11</span>
+                        <span>{{$order->publishedAt}}</span>
                     </li>
                 </ul>
             </div>
@@ -60,46 +60,49 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">综合评分</label>
                     <div class="layui-input-block radio-style">
-                        <input type="radio" name="grade" value="好评" title="好评" checked="">
-                        <input type="radio" name="grade" value="中评" title="中评">
-                        <input type="radio" name="grade" value="差评" title="差评">
+                        <input type="radio" name="type" value="1" title="好评" checked="">
+                        <input type="radio" name="type" value="2" title="中评">
+                        <input type="radio" name="type" value="3" title="差评">
                     </div>
                 </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">整体印象</label>
-                    <div class="layui-input-block radio-style">
-                        <input type="checkbox" name="impre" value="认真负责" title="认真负责" checked="">
-                        <input type="checkbox" name="impre" value="技术不错" title="技术不错">
-                        <input type="checkbox" name="impre" value="服务态度好" title="服务态度好">
-                        <input type="checkbox" name="impre" value="上门时间准时" title="上门时间准时">
-                        <input type="checkbox" name="impre" value="随意加价" title="随意加价">
-                        <input type="checkbox" name="impre" value="价格合适" title="价格合适">
-                        <input type="checkbox" name="impre" value="维修水平高" title="维修水平高">
-                        <input type="checkbox" name="impre" value="安装速度快" title="安装速度快">
-                        <input type="checkbox" name="impre" value="做事拖沓" title="做事拖沓">
-                        <input type="checkbox" name="impre" value="不按时上门服务" title="不按时上门服务">
-                    </div>
-                </div>
+                {{--<div class="layui-form-item">--}}
+                    {{--<label class="layui-form-label">整体印象</label>--}}
+                    {{--<div class="layui-input-block radio-style">--}}
+                        {{--<input type="checkbox" name="impre" value="认真负责" title="认真负责" checked>--}}
+                        {{--<input type="checkbox" name="impre" value="技术不错" title="技术不错">--}}
+                        {{--<input type="checkbox" name="impre" value="服务态度好" title="服务态度好">--}}
+                        {{--<input type="checkbox" name="impre" value="上门时间准时" title="上门时间准时">--}}
+                        {{--<input type="checkbox" name="impre" value="随意加价" title="随意加价">--}}
+                        {{--<input type="checkbox" name="impre" value="价格合适" title="价格合适">--}}
+                        {{--<input type="checkbox" name="impre" value="维修水平高" title="维修水平高">--}}
+                        {{--<input type="checkbox" name="impre" value="安装速度快" title="安装速度快">--}}
+                        {{--<input type="checkbox" name="impre" value="做事拖沓" title="做事拖沓">--}}
+                        {{--<input type="checkbox" name="impre" value="不按时上门服务" title="不按时上门服务">--}}
+                    {{--</div>--}}
+                {{--</div>--}}
                 <div class="layui-form-item my-rate">
                     <label class="layui-form-label">服务质量</label>
-                    <div class="rate"></div>
+                    <div class="rate quality"></div>
+                    <input type="hidden" name="rates[quality]">
                 </div>
                 <div class="layui-form-item my-rate">
                     <label class="layui-form-label">服务态度</label>
-                    <div class="rate"></div>
+                    <div class="rate attitude"></div>
+                    <input type="hidden" name="rates[attitude]">
                 </div>
                 <div class="layui-form-item my-rate">
                     <label class="layui-form-label">服务速度</label>
-                    <div class="rate"></div>
+                    <div class="rate speed"></div>
+                    <input type="hidden" name="rates[speed]">
                 </div>
                 <div class="layui-form-item">
                     <div class="text">具体评价一下服务商在此任务中的表现（5字-100字）</div>
                     <div class="layui-input-inline">
-                        <textarea placeholder="您对服务商在本次服务中的表现还满意吗？" class="layui-textarea"></textarea>
+                        <textarea name="content" placeholder="您对服务商在本次服务中的表现还满意吗？" class="layui-textarea"></textarea>
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <button class="layui-btn inquire" lay-submit="" lay-filter="">提交</button>
+                    <button class="layui-btn inquire" lay-submit="" lay-filter="*">提交</button>
                 </div>
 
             </div>
@@ -111,7 +114,57 @@
 </div>
 
 <!--content--end-->
-
 </body>
+<script>
+    layui.use(['form',  'rate'], function () {
+        let form = layui.form;
+        let rate = layui.rate;
+        rate.render({
+            elem: $('.rate.quality'),
+            value: 1.5,
+            half: true,
+            text: true,
+            setText: function (value) {
+                this.span.text(value);
+                $('input[name="rates[quality]"]').val(value);
+            },
+            choose: function (value) {
+                $('input[name="rates[quality]"]').val(value);
+            }
+        });
+        rate.render({
+            elem: $('.rate.attitude'),
+            value: 1.5,
+            half: true,
+            text: true,
+            setText: function (value) {
+                this.span.text(value);
+                $('input[name="rates[attitude]"]').val(value);
+            },
+            choose: function (value) {
+                $('input[name="rates[attitude]"]').val(value);
+            }
+        });
+
+        rate.render({
+            elem: $('.rate.speed'),
+            value: 1.5,
+            half: true,
+            text: true,
+            setText: function (value) {
+                this.span.text(value);
+                $('input[name="rates[speed]"]').val(value);
+            },
+            choose: function (value) {
+                $('input[name="rates[speed]"]').val(value);
+            }
+        });
+
+        form.render();
+        form.on('submit(*)', function(data){
+
+        });
+    });
+</script>
 
 </html>

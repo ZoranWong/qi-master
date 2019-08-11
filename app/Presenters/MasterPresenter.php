@@ -64,4 +64,9 @@ class MasterPresenter extends BasePresenter
     {
         return "0%";
     }
+
+    public function masterName()
+    {
+        return $this->wrappedObject->realName ?? $this->wrappedObject->name;
+    }
 }

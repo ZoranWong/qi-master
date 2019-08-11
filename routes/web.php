@@ -21,6 +21,7 @@ Route::group(['middleware' => ['guard:web']], function (Router $router) {
         $router->get('', 'HomeController@index')->name('home');
         $router->get('orders', 'OrdersController@index')->name('user.orders');
         $router->get('orders/{order}', 'OrdersController@show')->name('user.order.detail');
+        $router->get('orders/{order}/comment', 'CommentsController@comment')->name('user.order.comment');
         $router->get('publish/{step?}', 'OrdersController@publish')->name('user.publish.order');
         $router->get('comments', 'CommentsController@index');
         $router->get('gallery', 'ProductsController@index');

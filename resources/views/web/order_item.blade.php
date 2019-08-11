@@ -51,7 +51,7 @@
                 <a class="order-operation-btn order-addition-opt-btn" data-order-id = "{{$order->id}}">增加费用</a>
             @endif
             @if($order->status & \App\Models\Order::ORDER_CHECKED && $order->status < \App\Models\Order::ORDER_COMPLETED)
-                <a class="order-operation-btn order-comment-opt-btn" data-order-id="{{$order->id}}">评价</a>
+                <a class="order-operation-btn order-comment-opt-btn" data-order-id="{{$order->id}}" href="/orders/{{$order->id}}/comment">评价</a>
             @endif
             @if(!($order->status & \App\Models\Order::ORDER_CHECKED || $order->status & \App\Models\Order::ORDER_COMPLETED))
                 <a class="color-999 order-cancel-opt-btn" data-order-id="{{$order->id}}">取消订单</a>

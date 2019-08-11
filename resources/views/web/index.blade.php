@@ -10,6 +10,45 @@
     @stack('styles')
     <script type="text/javascript" src="/web/js/jquery-3.3.1.js"></script>
     <script type="text/javascript" src="/web/plugin/layui/layui.js"></script>
+    <style type="text/css">
+        .color-ff5000 {
+            color: #ff5000;
+        }
+
+        .color-22aac8 {
+            color: #22aac8;
+        }
+
+        .color-999 {
+            color: #999;
+        }
+
+        .order-operation a {
+            display: block;
+            color: #666;
+        }
+
+        .order-operation .employ-master {
+            background-color: #0b8ded;
+            border: 1px solid #037dd7;
+        }
+
+        .order-operation .order-operation-btn {
+            display: block;
+            width: 66px;
+            margin: 0 auto;
+            margin-bottom: 5px;
+            line-height: 22px;
+            color: #fff;
+        }
+
+        .order-operation .order-operation-btn {
+            background-color: #29bbe6;
+        }
+        .order-operation .order-operation-btn:hover{
+            cursor: pointer;
+        }
+    </style>
 </head>
 
 <body>
