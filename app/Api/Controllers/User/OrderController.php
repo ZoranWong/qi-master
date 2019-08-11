@@ -3,6 +3,7 @@
 namespace App\Api\Controllers\User;
 
 use App\Api\Controller;
+use App\Http\Requests\OrderAdditionPaymentRequest;
 use App\Models\Master;
 use App\Models\MasterComment;
 use App\Models\OfferOrder;
@@ -193,16 +194,23 @@ class OrderController extends Controller
         return $this->response->noContent();
     }
 
-    public function addAdditionOrder(Order $order)
+    public function addAdditionOrder(Order $order, OrderAdditionPaymentRequest $request)
     {
-
+        $paymentOrder = new PaymentOrder();
+        $paymentOrder->amount= $request->input('amount');
+        $paymentOrder->masterId = $order->masterId;
+        $paymentOrder->userId = $order->userId;
+        $paymentOrder->type = PaymentOrder::TYPE_ADDITION_ORDER;
+        $data = $order->payments()->save($paymentOrder);
+        return $this->response->array([
+            'payment_order_id' => $data->id
+        ]);
     }
 
     public function cancelOrder(Order $order)
     {
         $order->status |= Order::ORDER_CLOSED;
         $order->save();
-
         return $this->response->noContent();
     }
 }
