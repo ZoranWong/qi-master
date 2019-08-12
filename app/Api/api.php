@@ -9,6 +9,7 @@ $api->version('v1', ['namespace' => 'App\Api\Controllers'], function (Router $ap
     $api->get('service_types', ['as' => 'service_types.list', 'uses' => 'HomeController@serviceTypes']);
     $api->get('regions', ['as' => 'region.list', 'uses' => 'HomeController@regions']);
     $api->get('complaint_types', ['as' => 'complaint_type.list', 'uses' => 'HomeController@complaintTypes']);
+    $api->post('upload/file', ['as' => 'upload.file', 'uses' => 'UploadController@upload']);
 
     $api->group(['prefix' => 'auth/users', 'middleware' => ['guard:users']], function (Router $api) {
         $api->post('login', ['as' => 'user.login', 'uses' => 'AuthController@login']);
