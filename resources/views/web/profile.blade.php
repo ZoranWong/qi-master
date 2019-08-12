@@ -10,6 +10,7 @@
     <script type="text/javascript" src="/web/js/jquery-3.3.1.js"></script>
     {{--<script src="https://cdn.bootcss.com/jquery/1.7/jquery.min.js"></script>--}}
     <script type="text/javascript" src="/web/plugin/layui/layui.js"></script>
+    <script type="text/javascript" src="/web/js/common.js"></script>
     <script type="text/javascript" src="/web/js/layuicom.js"></script>
     <script type="text/javascript" src="/web/plugin/pccity/js/bootstrap.min.js"></script>
     {{--<script type="text/javascript" src="/web/plugin/pccity/js/distpicker.data.js"></script>--}}
@@ -50,7 +51,7 @@
                         <div class="layui-input-inline">
                             <div class="upload-head-img">
                                 <img src="{{$user->avatarUrl}}" id="headimg">
-                                <input type="file" accept="image/*" id="upload-head-img">
+                                <input name="avatar" type="file" accept="image/*" id="upload-head-img">
                             </div>
                         </div>
                     </div>
@@ -152,8 +153,12 @@
             var $img = $("#headimg");
             if (fileObj && fileObj.files && fileObj.files[0]) {
                 dataURL = windowURL.createObjectURL(fileObj.files[0]);
-                console.log(dataURL)
                 $img.attr('src', dataURL);
+                uploadFiles(fileObj.files[0], 'files', "{{api_route('upload.file')}}", function () {
+                    $('input[name="avatar"]').val(data['paths'][0]);
+                }, function () {
+
+                });
             } else {
                 dataURL = $file.val();
                 var imgObj = document.getElementById("headimg");　　　　　　　　 // 1、在设置filter属性时，元素必须已经存在在DOM树中，动态创建的Node，也需要在设置属性前加入到DOM中，先设置属性再加入，无效；
@@ -163,7 +168,6 @@
                 imgObj.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = dataURL;
             }
         });
-
 
     })
 </script>

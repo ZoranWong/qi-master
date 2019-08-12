@@ -162,7 +162,13 @@
 
         form.render();
         form.on('submit(*)', function(data){
-
+            $.post({
+                "url": "{{api_route('user.order.comment', ['order' => $order->id])}}?token={{$token}}",
+                data: data.field,
+                success(){
+                    location.href = "{{route('user.orders.comments')}}";
+                }
+            });
         });
     });
 </script>

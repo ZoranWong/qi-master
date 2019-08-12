@@ -22,8 +22,32 @@ function checkTime(i) {
     return i;
 }
 
-// window.setInterval(function () {
-//     ShowCountDown(2019, 2, 26, 'countdown');
-// }, 1000);
+function uploadFiles(files, key, url, success,fail) {
+    let form = new FormData();
+    if(Array.isArray(files)) {
+        let count = files.length;
+        for(let i = 0; i < count; i ++) {
+            form.append(key, files[i])
+        }
+    }else{
+        form.append(key, files);
+    }
 
+
+    $.ajax({
+        url: url,
+        method: 'POST',
+        data: form,
+        processData: false,
+        contentType: false,
+        success(data) {
+            if(success)
+                success(data);
+        },
+        fail(error) {
+            if(fail)
+                fail(error);
+        }
+    });
+}
 

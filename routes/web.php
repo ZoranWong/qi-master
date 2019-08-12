@@ -23,7 +23,7 @@ Route::group(['middleware' => ['guard:web']], function (Router $router) {
         $router->get('orders/{order}', 'OrdersController@show')->name('user.order.detail');
         $router->get('orders/{order}/comment', 'CommentsController@comment')->name('user.order.comment');
         $router->get('publish/{step?}', 'OrdersController@publish')->name('user.publish.order');
-        $router->get('comments', 'CommentsController@index');
+        $router->get('comments', 'CommentsController@index')->name('user.orders.comments');
         $router->get('gallery', 'ProductsController@index');
         $router->get('favorite', 'FavoriteMasterController@index');
         $router->get('refund', 'RefundsController@refunds');
