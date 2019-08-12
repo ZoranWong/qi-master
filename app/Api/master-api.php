@@ -58,5 +58,6 @@ $api->group(['prefix' => 'masters', 'namespace' => 'Master'], function (Router $
         $api->group(['prefix' => 'messages'], function (Router $api) {
             $api->get('/', ['as' => 'master.messages.list', 'uses' => 'MessageController@index']);
         });
+        $api->post('master/withdraw', ['as' => 'master.withdraw', 'uses' => 'MasterController@drawDeposit']);
     });
 });

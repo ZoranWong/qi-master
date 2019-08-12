@@ -8,6 +8,7 @@ use App\Http\Requests\UserUpdatePasswordRequest;
 use App\Models\Master;
 use App\Models\MasterService;
 use App\Models\ServiceType;
+use App\Models\WithdrawDepositOrder;
 use App\Repositories\MasterRepository;
 use App\Transformers\MasterTransformer;
 use Dingo\Api\Http\Response;
@@ -166,5 +167,16 @@ class MasterController extends Controller
                 'order_closed_count' => $master->order_closed_count
             ]
         ]);
+    }
+
+    public function drawDeposit()
+    {
+        $order = new WithdrawDepositOrder();
+        $order->applyAmount = request('apply_amount');
+        $order->status = WithdrawDepositOrder::HANDLING;
+        /**@var Master $master*/
+        $master = auth()->user();
+        $master->withdrawOrders()->save($order);
+        return $this->response->noContent();
     }
 }

@@ -366,4 +366,9 @@ class Master extends Model implements JWTSubject, Authenticatable, MustVerifyEma
         // TODO: Implement getPresenterClass() method.
         return MasterPresenter::class;
     }
+
+    public function withdrawOrders()
+    {
+        return $this->hasMany(WithdrawDepositOrder::class);
+    }
 }
