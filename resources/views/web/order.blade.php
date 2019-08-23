@@ -251,6 +251,10 @@
         $(".order-operation .order-operation-btn.order-check-opt-btn").click(function () {
             console.log("--------- order check -----------");
             let id = $(this).data('order-id');
+            {{--$.ajax("{{api_route('user.order.checked', ['order' => $order->id]).'?token='.$token}}", {--}}
+                {{--method: 'PUT',--}}
+
+            {{--})--}}
         });
         $(".order-operation .order-operation-btn.order-comment-opt-btn").click(function () {
             console.log("--------- order comment -----------");

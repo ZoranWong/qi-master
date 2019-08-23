@@ -26,11 +26,15 @@ $api->group(['prefix' => 'users', 'namespace' => 'User'], function (Router $api)
         $api->group(['prefix' => 'orders'], function (Router $api) {
             $api->get('/', ['as' => 'user.order.list', 'uses' => 'OrderController@index']);
             $api->get('/{order}', ['as' => 'user.order.detail', 'uses' => 'OrderController@detail']);
+            $api->put('/{order}/checked', ['as' => 'user.order.checked', 'uses' => 'OrderController@checkedOrder']);
+            $api->put('/{order}/cancel', ['as' => 'user.order.cancel', 'uses' => 'OrderController@cancelOrder']);
             $api->get('/{order}/offers', ['as' => 'user.order.offers', 'uses' => 'OrderController@offerOrders']);
             $api->post('/fixedPrice/publish', ['as' => 'user.publish.fixed_price', 'uses' => 'OrderController@publishFixedPrice']);
             $api->post('/publish', ['as' => 'user.publish', 'uses' => 'OrderController@publish']);
             $api->post('/{order}/hireMaster', ['as' => 'user.order.hire_master', 'uses' => 'OrderController@hireMaster']);
             $api->get('search/masters', ['as' => 'user.order.search_master', 'uses' => 'OrderController@masters']);
+
+
         });
         /**
          * 投诉
