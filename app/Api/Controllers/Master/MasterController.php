@@ -3,13 +3,17 @@
 namespace App\Api\Controllers\Master;
 
 use App\Api\Controller;
+use App\Api\Requests\Master\BankAccountRequest;
+use App\Api\Requests\Master\DrawDepositRequest;
 use App\Http\Requests\MasterServiceUpdateRequest;
 use App\Http\Requests\UserUpdatePasswordRequest;
 use App\Models\Master;
+use App\Models\MasterBank;
 use App\Models\MasterService;
 use App\Models\ServiceType;
 use App\Models\WithdrawDepositOrder;
 use App\Repositories\MasterRepository;
+use App\Transformers\Api\Master\DrawDepositTransformer;
 use App\Transformers\MasterTransformer;
 use Dingo\Api\Http\Response;
 use Illuminate\Http\JsonResponse;
@@ -114,7 +118,8 @@ class MasterController extends Controller
      */
     public function updateServiceInfo(MasterServiceUpdateRequest $request)
     {
-        $data = $request->only(['services', 'key_areas', 'other_areas', 'work_day', 'work_time', 'team_nums', 'truck_nums', 'truck_type', 'truck_tonnage']);
+        $data = $request->only(['services', 'key_areas', 'other_areas', 'work_day',
+            'work_time', 'team_nums', 'truck_nums', 'truck_type', 'truck_tonnage']);
 
         /** @var Master $master */
         $master = auth()->user();
@@ -169,14 +174,63 @@ class MasterController extends Controller
         ]);
     }
 
-    public function drawDeposit()
+    public function drawDeposit(DrawDepositRequest $request)
     {
-        $order = new WithdrawDepositOrder();
-        $order->applyAmount = request('apply_amount');
-        $order->status = WithdrawDepositOrder::HANDLING;
         /**@var Master $master*/
         $master = auth()->user();
+        $order = new WithdrawDepositOrder();
+        $order->applyAmount = $request->input('apply_amount');
+        $order->status = WithdrawDepositOrder::HANDLING;
         $master->withdrawOrders()->save($order);
         return $this->response->noContent();
+    }
+
+    public function drawDeposits()
+    {
+        /**@var Master $master*/
+        $master = auth()->user();
+        $query = $master->withdrawOrders();
+        if(request('status', null)) {
+            $query->where('status', request('status'));
+        }
+        $data = $query->paginate(request('limit', PAGE_SIZE));
+
+        return $this->response->paginator($data, new DrawDepositTransformer);
+    }
+
+
+    public function addBankAccount(BankAccountRequest $request)
+    {
+        /**@var Master $master*/
+        $master = auth()->user();
+        $bank= new MasterBank();
+        $bank->bankAccountCode = $request->input('bank_account_code');
+        $bank->accountOpenBank = $request->input('account_open_bank');
+        $bank = $master->bankAccounts()->save($bank);
+        if($bank){
+           $this->response->errorInternal('失败');
+        }
+        return $this->response->noContent();
+    }
+
+
+    public function updateBankAccount(MasterBank $bank, BankAccountRequest $request)
+    {
+        $bank->bankAccountCode = $request->input('bank_account_code');
+        $bank->accountOpenBank = $request->input('account_open_bank');
+        $bank = $bank->save();
+        if($bank){
+            $this->response->errorInternal('失败！');
+        }
+        return $this->response->noContent();
+    }
+
+    public function deleteBankAccount(MasterBank $bank)
+    {
+        if($bank->delete()) {
+            return $this->response->noContent();
+        }else{
+            $this->response->errorInternal('失败！');
+        }
     }
 }

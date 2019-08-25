@@ -15,6 +15,9 @@ class CreateMasterBanksTable extends Migration
     {
         Schema::create('master_banks', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('account_open_bank')->comment('开户行地址');
+            $table->string('bank_account_code')->comment('银行账号');
+            $table->unsignedInteger('master_id')->comment('师傅ID');
             $table->timestamps();
         });
     }

@@ -41,8 +41,9 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property int $truckType 货车类型
  * @property float $truckTonnage 货车吨位
  * @property string $idCardNo 身份证号码
- * @property int $score 积分
+ * @property float $score 积分
  * @property-read \App\Models\Region|null $area
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\MasterBank[] $bankAccounts
  * @property-read \App\Models\Region|null $city
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\MasterComment[] $comments
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Message[] $messages
@@ -52,6 +53,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\RefundOrder[] $refundOrders
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\MasterService[] $serviceAreas
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\MasterClassification[] $services
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\WithdrawDepositOrder[] $withdrawOrders
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Master query()
@@ -370,5 +372,10 @@ class Master extends Model implements JWTSubject, Authenticatable, MustVerifyEma
     public function withdrawOrders()
     {
         return $this->hasMany(WithdrawDepositOrder::class);
+    }
+
+    public function bankAccounts()
+    {
+        return $this->hasMany(MasterBank::class);
     }
 }

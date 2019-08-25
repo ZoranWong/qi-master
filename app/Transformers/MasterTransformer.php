@@ -52,7 +52,7 @@ class MasterTransformer extends TransformerAbstract
                 'order_wait_agree_count' => $model->order_wait_agree_count,
                 'order_completed_count' => $model->order_completed_count,
             ],
-
+            'bank_accounts' => $model->bankAccounts,
             'created_at' => (string)$model->createdAt,
             'updated_at' => (string)$model->updatedAt
         ];

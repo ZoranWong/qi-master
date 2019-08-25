@@ -17,6 +17,46 @@ use Omnipay\WechatPay\Message\CreateOrderResponse;
 
 class PaymentController extends Controller
 {
+
+    public function charge()
+    {
+        $data = [
+            'type' => PaymentOrder::TYPE_RECHARGE,
+            'amount' => request('amount'),
+            'pay_type' =>request('pay_type'),
+            'master_id' => 0,
+            'order_id' => 0,
+            'offer_order_id' => 0,
+            'status' => PaymentOrder::STATUS_UNPAID
+        ];
+
+        $order = PaymentOrder::create($data);
+        if(!$order){
+            $this->response->errorInternal('失败');
+        }
+        if($order->payType === PaymentOrder::PAY_TYPE_AL) {
+            return $this->aliPay($order);
+        }elseif($order->payType === PaymentOrder::PAY_TYPE_WX) {
+            return $this->wxPay($order);
+        }
+    }
+
+    public function balancePay(PaymentOrder $order)
+    {
+        try{
+            $user = auth()->user();
+            if($order->type === PaymentOrder::PAY_TYPE_BALANCE && $order->amount < $user->balance) {
+                $user->balance -= $order->amount;
+                $user->save();
+                $order->status = PaymentOrder::STATUS_PAID;
+                $order->save();
+                return $this->response->noContent();
+            }
+        }catch (\Exception $exception) {
+            $this->response->errorInternal('失败');
+        }
+    }
+
     public function wxPay(PaymentOrder $order)
     {
         $orderPayData = [
@@ -24,7 +64,8 @@ class PaymentController extends Controller
             'out_trade_no'      => $order->code,
             'total_fee'         => $order->amount * 100, //=0.01
             'spbill_create_ip'  => request()->ip(),
-            'fee_type'          => 'CNY'
+            'fee_type'          => 'CNY',
+            'notify_url' => route('pay.notify', ['order' => $order->id])
         ];
 
         $gateway = request('gateway', 'Native');
@@ -74,6 +115,7 @@ class PaymentController extends Controller
                 'out_trade_no' => $order->code,
                 'total_amount' => $order->amount,
                 'product_code' => 'FAST_INSTANT_TRADE_PAY',
+                'notify_url' => route('pay.notify', ['order' => $order->id])
             ]
         ];
         $gateway = request('gateway', 'AopPage');
@@ -160,7 +202,7 @@ class PaymentController extends Controller
         return $response;
     }
 
-    public function notify()
+    public function notify(PaymentOrder $order)
     {
         $payType = request('pay_type', 'WxPay');
         $gateway = request('gateway', 'Native');
@@ -172,10 +214,12 @@ class PaymentController extends Controller
         ])->send();
         if ($response->isPaid()) {
             //pay success
-            $this->orderPaidSuccess();
+            $this->orderPaidSuccess($order);
+            die('success');
         }else{
             //pay fail
-            $this->orderPaidFail();
+            $this->orderPaidFail($order);
+            die('fail');
         }
     }
 
@@ -193,13 +237,16 @@ class PaymentController extends Controller
         return $data;
     }
 
-    protected function orderPaidSuccess()
+    protected function orderPaidSuccess(PaymentOrder $order)
     {
-
+        if($order->type === PaymentOrder::TYPE_RECHARGE) {
+            $order->user->balance += $order->amount;
+        }
+        $order->status = PaymentOrder::STATUS_PAID;
+        $order->save();
     }
 
-    protected function orderPaidFail()
+    protected function orderPaidFail(PaymentOrder $order)
     {
-
     }
 }

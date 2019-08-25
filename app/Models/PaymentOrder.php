@@ -73,22 +73,26 @@ class PaymentOrder extends Model implements HasPresenter
 
     const TYPE_QUOTE_ORDER = 0;
     const TYPE_ADDITION_ORDER = 1;
+    const TYPE_RECHARGE = 2;
 
     const ORDER_TYPE = [
         self::TYPE_QUOTE_ORDER => '报价费用',
-        self::TYPE_ADDITION_ORDER => '追加费用'
+        self::TYPE_ADDITION_ORDER => '追加费用',
+        self::TYPE_RECHARGE => '充值'
     ];
 
     const PAY_TYPE_AL = 0;
     const PAY_TYPE_WX = 1;
     const PAY_TYPE_BANK = 2;
     const PAY_TYPE_CASH = 3;
+    const PAY_TYPE_BALANCE = 4;
 
     const PAY_TYPE = [
         self::PAY_TYPE_AL => '支付宝',
         self::PAY_TYPE_WX => '微信支付',
         self::PAY_TYPE_BANK => '银联',
-        self::PAY_TYPE_CASH => '现金'
+        self::PAY_TYPE_CASH => '现金',
+        self::PAY_TYPE_BALANCE => '余额'
     ];
     protected static function boot()
     {

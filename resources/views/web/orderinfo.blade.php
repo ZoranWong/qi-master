@@ -236,21 +236,21 @@
                         yes(data) {
                             let payType = $('div#layui-layer1.layui-layer.layui-layer-dialog input:radio:checked[name="pay_type"]').val();
                             let host = location.origin;
+                            let url = "";
                             switch (payType) {
                                 case 'WechatPay':
-                                    let url = `${host}/wx/pay/${id}`;
+                                    url = `${host}/wx/pay/${id}`;
                                     layer.closeAll();
-                                    layer.open({
-                                        title: '选择支付方式',
-                                        content: `<img src="${url}"/>`,
-                                        success(data) {
-                                            form.render();
-                                        }
-                                    });
+                                    window.open(url)
                                     break;
                                 case 'AliPay':
+                                    url = `${host}/ali/pay/${id}`;
+                                    layer.closeAll();
+                                    window.open(url)
                                     break;
                                 case 'BalancePay':
+                                    url = `${host}/balance/pay/${id}?token=` + "{{$token}}";
+                                    $.get(url);
                                     break;
                             }
                         }

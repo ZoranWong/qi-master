@@ -38,9 +38,9 @@
                 <div class="clearfix item">
                     <label class="layui-form-label">充值金额</label>
                     <ul class="select-money">
-                        <li class="active">500</li>
-                        <li>1000</li>
-                        <li>1500</li>
+                        <li class="active" data-value="500">500</li>
+                        <li data-value="1000">1000</li>
+                        <li data-value="1500">1500</li>
                         <li class="recharge-money"><input type="text" placeholder="请输入充值金额" class="input"></li>
                     </ul>
 
@@ -48,18 +48,18 @@
                 <div class="item">
                     <label class="layui-form-label">支付方式</label>
                     <ul class="select-method clearfix">
-                        <li class="active">
+                        <li class="active" data-type="0">
                             <i class="alipay"></i>
                             支付宝
                         </li>
-                        <li>
+                        <li data-type="1">
                             <i class="wechat"></i>
                             微信
                         </li>
                     </ul>
                 </div>
                 <div class="layui-form-item">
-                    <button class="layui-btn inquire" lay-submit="" lay-filter="">立即充值</button>
+                    <button class="layui-btn inquire" lay-submit="" lay-filter="*">立即充值</button>
                 </div>
             </form>
         </div>
@@ -69,10 +69,24 @@
 <!--content end-->
 </body>
 <script>
+    let data = {
+        charge_amount: 500,
+        pay_type: 0
+    };
+
+    $(function () {
+        layui.use(['form'], function () {
+            let form = layui.form;
+            form.on("submit(*)", function () {
+                window.open("{{route('charge.pay')}}?charge_amount=" + data['charge_amount'] + "&pay_type=" + data['pay_type'])
+            });
+        });
+    });
     $(".select-method li").click(function () {
         var index = $(this).index()
         $(".select-method li").removeClass("active")
         $(".select-method li:eq(" + index + ")").addClass("active")
+        data['pay_type'] = $(this).data('type');
 
     })
 
@@ -80,8 +94,9 @@
         var index = $(this).index()
         $(".select-money li").removeClass("active")
         $(".select-money li:eq(" + index + ")").addClass("active")
+        data['charge_amount'] = $(this).data('value');
+    });
 
-    })
 </script>
 
 </html>
