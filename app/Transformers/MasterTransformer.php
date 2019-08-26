@@ -35,7 +35,7 @@ class MasterTransformer extends TransformerAbstract
             'truck_nums' => $model->truckNums,
             'truck_type' => Master::TRUCK_TYPES[$model->truckType],
             'truck_tonnage' => $model->truckTonnage,
-
+            'service_areas' => $model->serviceAreas,
             // 服务省市区
             'province' => $model->province,
             'city' => $model->city,
