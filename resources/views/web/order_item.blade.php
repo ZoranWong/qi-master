@@ -46,9 +46,11 @@
             @endif
             @if($order->status & \App\Models\Order::ORDER_WAIT_CHECK && $order->status < \App\Models\Order::ORDER_CHECKED)
                 <a class="order-operation-btn order-check-opt-btn" data-order-id = "{{$order->id}}">待验收</a>
+                <a class="order-operation-btn order-addition-opt-btn" data-order-id = "{{$order->id}}">申请退款</a>
             @endif
             @if($order->status & \App\Models\Order::ORDER_WAIT_CHECK && $order->status < \App\Models\Order::ORDER_CHECKED)
                 <a class="order-operation-btn order-addition-opt-btn" data-order-id = "{{$order->id}}">增加费用</a>
+                <a class="order-operation-btn order-addition-opt-btn" data-order-id = "{{$order->id}}">申请退款</a>
             @endif
             @if($order->status & \App\Models\Order::ORDER_CHECKED && $order->status < \App\Models\Order::ORDER_COMPLETED)
                 <a class="order-operation-btn order-comment-opt-btn" data-order-id="{{$order->id}}" href="/orders/{{$order->id}}/comment">评价</a>
