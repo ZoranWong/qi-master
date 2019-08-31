@@ -27,16 +27,18 @@ class PaymentController extends Controller
             'master_id' => 0,
             'order_id' => 0,
             'offer_order_id' => 0,
-            'status' => PaymentOrder::STATUS_UNPAID
+            'status' => PaymentOrder::STATUS_UNPAID,
+            'user_id' => auth()->id()
         ];
 
         $order = PaymentOrder::create($data);
         if(!$order){
             $this->response->errorInternal('失败');
         }
-        if($order->payType === PaymentOrder::PAY_TYPE_AL) {
+
+        if($order->payType == PaymentOrder::PAY_TYPE_AL) {
             return $this->aliPay($order);
-        }elseif($order->payType === PaymentOrder::PAY_TYPE_WX) {
+        }elseif($order->payType == PaymentOrder::PAY_TYPE_WX) {
             return $this->wxPay($order);
         }
     }
@@ -69,10 +71,12 @@ class PaymentController extends Controller
         ];
 
         $gateway = request('gateway', 'Native');
+
         /**
          * @var CreateOrderResponse $response
          * */
         $response = $this->pay('WxPay', $gateway, $orderPayData);
+
         switch ($gateway) {
             case "Js":
                 $data =  $response->getJsOrderData();

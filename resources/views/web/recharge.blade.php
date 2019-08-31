@@ -78,7 +78,7 @@
         layui.use(['form'], function () {
             let form = layui.form;
             form.on("submit(*)", function () {
-                window.open("{{route('charge.pay')}}?charge_amount=" + data['charge_amount'] + "&pay_type=" + data['pay_type'])
+                window.open("{{route('charge.pay')}}?charge_amount=" + data['charge_amount'] + "&pay_type=" + data['pay_type']);
             });
         });
     });

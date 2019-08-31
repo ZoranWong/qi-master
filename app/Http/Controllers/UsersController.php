@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class UsersController extends Controller
 {
@@ -38,12 +39,15 @@ class UsersController extends Controller
 
     public function recharge()
     {
+        $user = auth()->user();
+        $token = JWTAuth::fromUser($user);
         if(isMobile()){
 
         }else{
             return view('web.recharge')->with([
                 'selected' => 'wallet',
-                'currentMenu' => 'recharge'
+                'currentMenu' => 'recharge',
+                //'token' => $token
             ]);
         }
     }
