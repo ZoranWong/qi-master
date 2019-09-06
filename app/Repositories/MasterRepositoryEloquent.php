@@ -42,7 +42,7 @@ class MasterRepositoryEloquent extends BaseRepository implements MasterRepositor
     public function getMasterInfo()
     {
         /** @var Master $master */
-        $master = $this->with(['province:region_code,name', 'city:region_code,name', 'area:region_code,name'])
+        $master = $this->with(['province:region_code,name', 'city:region_code,name', 'area:region_code,name', 'serviceAreas.region'])
             ->withCount([
                 // 服务次数
                 'orders as order_nums',
