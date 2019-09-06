@@ -10,27 +10,27 @@
     <div class="box-body">
         <table class="table table-bordered">
             <tbody>
-                <tr>
-                    <td colspan="4" style="font-size: medium; font-weight: bold;">师傅个人信息</td>
-                </tr>
-                <tr>
-                    <td>账号名称：</td>
-                    <td>{{$master->name}}</td>
-                    <td>手机：</td>
-                    <td>{{$master->mobile}}</td>
-                </tr>
-                <tr>
-                    <td>姓名：</td>
-                    <td>{{$master->realName}}</td>
-                    <td>邮箱：</td>
-                    <td>{{$master->email}}</td>
-                </tr>
-                <tr>
-                    <td>接单数量：</td>
-                    <td>{{$master->name}}</td>
-                    <td>手机：</td>
-                    <td>{{$master->mobile}}</td>
-                </tr>
+            <tr>
+                <td colspan="4" style="font-size: medium; font-weight: bold;">师傅个人信息</td>
+            </tr>
+            <tr>
+                <td>账号名称：</td>
+                <td>{{$master->name}}</td>
+                <td>手机：</td>
+                <td>{{$master->mobile}}</td>
+            </tr>
+            <tr>
+                <td>姓名：</td>
+                <td>{{$master->realName}}</td>
+                <td>邮箱：</td>
+                <td>{{$master->email}}</td>
+            </tr>
+            <tr>
+                <td>接单数量：</td>
+                <td>{{$master->name}}</td>
+                <td>手机：</td>
+                <td>{{$master->mobile}}</td>
+            </tr>
             </tbody>
         </table>
         <table class="table table-bordered">
@@ -44,20 +44,22 @@
                 <td>订单价格</td>
                 <td>订单状态</td>
             </tr>
-            <tr>
-                @foreach($offerOrders as $key => $order)
+
+            @foreach($offerOrders as $key => $order)
+                <tr>
                     <td>{{$order->orderNo}}</td>
                     <td>{{$order->employer}}</td>
                     <td>{{$order->quotePriceFormat}}</td>
                     <td>{{$order->offerOrderStatus}}</td>
-                @endforeach
-            </tr>
+                </tr>
+            @endforeach
+
             </tbody>
         </table>
     </div>
 </div>
 <style>
-    .table-bordered{
+    .table-bordered {
         margin-bottom: 32px !important;
     }
 </style>
