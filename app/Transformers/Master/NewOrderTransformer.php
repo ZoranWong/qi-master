@@ -20,13 +20,15 @@ class NewOrderTransformer extends TransformerAbstract
      */
     public function transform(Order $model)
     {
+        $resetTime  = $model->resetTime();
         return [
             'id' => (int)$model->id,
 
             /* place your other model properties here */
             'service_type' => $model->serviceType->name,
             'classification' => $model->classification->name,
-            'rest_time' => Carbon::createFromTimestamp($model->createdAt->addHours(24)->timestamp - time())->format('h小时m分'),
+            'reset_second' => $resetTime,
+            'rest_time' => Carbon::createFromTimestamp($resetTime)->format('h小时m分'),
             'customer_info' => $model->customerInfo,
             'product_snapshots' => $model->products,
             'status' => $model->status,

@@ -50,9 +50,10 @@ class NewOrderDetailTransformer extends TransformerAbstract
             ],
             'user' => $model->user,
             'products' => $model->products,
+            'service_time' => $model->serviceDate->format('Y-m-d'),
             'created_at' => (string)$model->createdAt,
             'updated_at' => (string)$model->updatedAt,
-            'ended_at' => $model->createdAt->addHours(24)->timestamp
+            'ended_at' => $model->endAt()->timestamp
         ];
     }
 

@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Traits\CurrencyUnitTrait;
 use App\Models\Traits\ModelAttributesAccess;
 use App\Presenters\OrderPresenter;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Log;
@@ -126,6 +127,8 @@ class Order extends Model implements HasPresenter
     const ORDER_CHECKED = 128;// 验收完成，待评价
     const ORDER_COMPLETED = 256;// 订单完成
     const ORDER_CLOSED = 512;// 订单关闭
+
+    const OVER_DATE = 24;
 
     const ORDER_STATUS = [
         '待报价',
@@ -409,6 +412,19 @@ class Order extends Model implements HasPresenter
     {
         // TODO: Implement getPresenterClass() method.
         return OrderPresenter::class;
+    }
+
+    public function resetTime()
+    {
+        return $this->createdAt->addHours(self::OVER_DATE)->timestamp - time();
+    }
+
+    /**
+     * @return Carbon
+     * */
+    public function endAt()
+    {
+        return $this->createdAt->addHours(self::OVER_DATE);
     }
 
 }
