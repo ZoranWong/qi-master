@@ -71,6 +71,7 @@ $factory->define(Order::class, function (Faker $faker) {
             'order_no' => $faker->uuid,
             'phone' => $faker->phoneNumber,
             'pack_num' => $faker->randomDigitNotNull % 10
-        ]
+        ],
+        'created_at' => \Carbon\Carbon::now()->subHours(rand(0, 100))
     ];
 });
