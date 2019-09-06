@@ -28,7 +28,7 @@ class NewOrderTransformer extends TransformerAbstract
             'service_type' => $model->serviceType->name,
             'classification' => $model->classification->name,
             'reset_second' => $resetTime,
-            'rest_time' => Carbon::createFromTimestamp($resetTime)->format('h小时m分'),
+            'rest_time' => $model->resetTimeFormat('h小时m分'),
             'customer_info' => $model->customerInfo,
             'product_snapshots' => $model->products,
             'status' => $model->status,

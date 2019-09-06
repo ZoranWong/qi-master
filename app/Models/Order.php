@@ -414,9 +414,15 @@ class Order extends Model implements HasPresenter
         return OrderPresenter::class;
     }
 
+    /**/
     public function resetTime()
     {
-        return $this->createdAt->addHours(self::OVER_DATE)->timestamp - time();
+        return $this->endAt()->timestamp - time();
+    }
+
+    public function resetTimeFormat($format)
+    {
+        return $this->endAt()->diff(Carbon::now())->format($format);
     }
 
     /**
