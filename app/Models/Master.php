@@ -225,7 +225,7 @@ class Master extends Model implements JWTSubject, Authenticatable, MustVerifyEma
      */
     public function completedOrders()
     {
-        return $this->orders()->where('orders.status & ? = ?', [Order::ORDER_COMPLETED, Order::ORDER_COMPLETED]);
+        return $this->orders()->whereRaw('orders.status & ? = ?', [Order::ORDER_COMPLETED, Order::ORDER_COMPLETED]);
     }
 
     /**
