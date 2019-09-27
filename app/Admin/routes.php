@@ -113,6 +113,18 @@ Route::group([
             $router->get('/{serviceType}', 'ServiceTypeController@show');
             $router->delete('/{serviceType}', 'ServiceTypeController@destroy');
         });
+
+        $router->group(['prefix' => 'articles'], function (Router $router) {
+            $router->get('/', 'ArticleController@index');
+            $router->get('/create', 'ArticleController@create');
+            $router->post('/', 'ArticleController@store');
+            $router->get('/{article}/edit', 'ArticleController@edit');
+            $router->get('/{article}', 'ArticleController@show');
+            $router->put('/{article}', 'ArticleController@update');
+            $router->delete('/{article}', 'ArticleController@destory');
+        });
+
+        $router->resource('banners', "BannerController");
     });
 
     $router->group(['namespace' => config('admin.route.encore_namespace')], function (Router $router) {

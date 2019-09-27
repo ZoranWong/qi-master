@@ -26,7 +26,7 @@ class SetOrderItemIdToNullableFromOfferOrderTable extends Migration
     public function down()
     {
         Schema::table('offer_orders', function (Blueprint $table) {
-            $table->unsignedInteger('order_item-id')->nullable(false)->change();
+            $table->unsignedInteger('order_item_id')->nullable(false)->change();
         });
     }
 }

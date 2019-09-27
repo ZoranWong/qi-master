@@ -1,0 +1,30 @@
+<?php
+
+namespace App\Transformers;
+
+use League\Fractal\TransformerAbstract;
+use App\Models\Banner;
+
+/**
+ * Class BannerTransformer.
+ *
+ * @package namespace App\Transformers;
+ */
+class BannerTransformer extends TransformerAbstract
+{
+    /**
+     * Transform the Banner entity.
+     *
+     * @param \App\Models\Banner $model
+     *
+     * @return array
+     */
+    public function transform(Banner $model)
+    {
+        return [
+            'id'         => (int) $model->id,
+            'image_url' => $model->imageUrl,
+            'link' => $model->link
+        ];
+    }
+}

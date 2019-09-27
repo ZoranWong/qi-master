@@ -14,7 +14,6 @@ class DropColumnFromRefundOrdersTable extends Migration
     public function up()
     {
         Schema::table('refund_orders', function (Blueprint $table) {
-            $table->dropColumn('arbitration_status');
             $table->unsignedInteger('payment_order_id')->nullable()->change();
         });
     }
@@ -28,6 +27,7 @@ class DropColumnFromRefundOrdersTable extends Migration
     {
         Schema::table('refund_orders', function (Blueprint $table) {
             //
+//            $table->dropColumn('arbitration_status');
         });
     }
 }

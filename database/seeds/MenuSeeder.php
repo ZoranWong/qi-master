@@ -178,5 +178,21 @@ class MenuSeeder extends Seeder
                 'permission' => ''
             ]
         ]);
+
+        Menu::query()->create([
+            'parent_id' => 0,
+            'title' => '文章管理',
+            'icon' => 'fa-newspaper-o',
+            'uri' => '/articles',
+            'permission' => ''
+        ]);
+
+        Menu::query()->create([
+            'parent_id' => 0,
+            'title' => '轮播图管理',
+            'icon' => 'fa-bullhorn',
+            'uri' => '/banners',
+            'permission' => ''
+        ]);
     }
 }

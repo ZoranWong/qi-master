@@ -16,7 +16,7 @@ class ArticleController extends AdminController
      *
      * @var string
      */
-    protected $title = 'App\Models\Article';
+    protected $title = '文章管理';
 
     /**
      * Make a grid builder.
@@ -30,9 +30,7 @@ class ArticleController extends AdminController
         $grid->column('title', '标题');
         $grid->column('cover_url', '封面')->image('', 64, 64);
         $grid->column('sort', '排序')->sortable();
-        $grid->column('publish_at', '发布时间')->sortable()->display(function (Carbon $publishAt) {
-            return $publishAt->format('Y-m-d');
-        });
+        $grid->column('publish_at', '发布时间')->sortable();
         return $grid;
     }
 
@@ -61,11 +59,11 @@ class ArticleController extends AdminController
     protected function form()
     {
         $form = new Form(new Article);
-        $form->input('title', '标题');
+        $form->text('title', '标题');
         $form->image('cover_url', '封面');
         $form->number('sort', '排序');
         $form->date('publish_at', '发布时间');
-        $form->edit('content');
+        $form->UEditor('content');
         return $form;
     }
 }

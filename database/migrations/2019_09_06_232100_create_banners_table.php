@@ -16,7 +16,7 @@ class CreateBannersTable extends Migration
         Schema::create('banners', function (Blueprint $table) {
             $table->increments('id');
             $table->string('image_url')->comment('图片');
-            $table->string('link')->default('')->comment('连接');
+            $table->string('link')->nullable()->default('')->comment('连接');
             $table->timestamps();
         });
     }

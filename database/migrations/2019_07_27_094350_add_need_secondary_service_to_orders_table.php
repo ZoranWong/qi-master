@@ -30,7 +30,7 @@ class AddNeedSecondaryServiceToOrdersTable extends Migration
         Schema::table('orders', function (Blueprint $table) {
             //
             $table->dropColumn('need_secondary_service');
-            $table->timestamp('secondary_service_date');
+            $table->dropColumn('secondary_service_date');
         });
     }
 }

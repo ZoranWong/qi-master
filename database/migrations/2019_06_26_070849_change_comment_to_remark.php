@@ -26,7 +26,7 @@ class ChangeCommentToRemark extends Migration
      */
     public function down()
     {
-        Schema::table('remark', function (Blueprint $table) {
+        Schema::table('orders', function (Blueprint $table) {
             $table->dropColumn('remark');
             $table->text('comment')->comment('订单备注');
         });
