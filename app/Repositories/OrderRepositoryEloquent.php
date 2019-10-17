@@ -139,7 +139,7 @@ class OrderRepositoryEloquent extends BaseRepository implements OrderRepository
             })->where(function ($query) {
                 $query->whereDoesntHave('offerOrders', function ($query) {
                     $query->where('master_id', auth()->user()->id);
-                })->orWhereDoesntHave('offerOrders');
+                });
             })->join('master_services', function (JoinClause $join) use ($master) {
                     $join->where(function ($join) {
                         return $join->on('orders.region_code', '=', 'master_services.region_code')
