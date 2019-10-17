@@ -14,6 +14,7 @@ use App\Models\ServiceType;
 use App\Models\WithdrawDepositOrder;
 use App\Repositories\MasterRepository;
 use App\Transformers\Api\Master\DrawDepositTransformer;
+use App\Transformers\Master\BankTransformerTransformer;
 use App\Transformers\MasterTransformer;
 use Dingo\Api\Http\Response;
 use Illuminate\Http\JsonResponse;
@@ -232,5 +233,13 @@ class MasterController extends Controller
         }else{
             $this->response->errorInternal('失败！');
         }
+    }
+
+    public function getBankInfo()
+    {
+        /**@var Master $master*/
+        $master = auth()->user();
+        $master->bankAccounts;
+        return $this->response->collection($master->bankAccounts, new BankTransformerTransformer());
     }
 }

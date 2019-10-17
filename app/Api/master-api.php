@@ -19,6 +19,7 @@ $api->group(['prefix' => 'masters', 'namespace' => 'Master'], function (Router $
         $api->delete('/bank/account/{bank}', ['as' => 'masters.delete.bank.account', 'uses' => 'MasterController@deleteBankAccount']);
         $api->post('draw/deposit', ['as' => 'masters.draw.deposit', 'uses' => 'MasterController@drawDeposit']);
         $api->get('draw/deposits', ['as' => 'masters.draw.deposits', 'uses' => 'MasterController@drawDeposits']);
+        $api->get('banks', ['as' => 'masters.banks', 'uses' => 'MasterController@getBankInfo']);
 
 
 

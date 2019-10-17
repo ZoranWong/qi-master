@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\ModelAttributesAccess;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -24,6 +25,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Banner extends Model
 {
+    use ModelAttributesAccess;
     //
     protected $fillable = ['image_url', 'link'];
 }
