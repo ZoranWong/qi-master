@@ -141,7 +141,9 @@ class OrderController extends Controller
         $order->customerInfo = $request->input('customer_info');
         $order->shippingInfo = $request->input('shipping_info');
         $order->products = $request->input('products');
-        $order->regionCode = $request->input('customer_info')['city_code'];
+        $order->provinceCode = $request->input('customer_info')['province_code'];
+        $order->cityCode = $request->input('customer_info')['city_code'];
+        $order->regionCode = $request->input('customer_info')['area_code'];
         if($order->save()) {
             return $this->response->array([
                 'message'=> 'f发布成功'

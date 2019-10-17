@@ -14,6 +14,17 @@ use App\Exceptions\CouponCodeUnavailableException;
 
 class OrderService
 {
+    /**
+     *
+     * @param User $user
+     * @param UserAddress $address
+     * @param $remark
+     * @param $items
+     * @param CouponCode|null $coupon
+     * @return mixed
+     * @throws CouponCodeUnavailableException
+     * @throws \Throwable
+     */
     public function store(User $user, UserAddress $address, $remark, $items, CouponCode $coupon = null)
     {
         // 如果传入了优惠券，则先检查是否可用

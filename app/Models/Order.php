@@ -43,9 +43,11 @@ use Ramsey\Uuid\Uuid;
  * @property \Illuminate\Support\Carbon|null $pickUpDate 提货日期
  * @property int $needSecondaryService 是否需要二次上门
  * @property string|null $secondaryServiceDate 二次上门时间
- * @property \Illuminate\Support\Carbon|null $reqCheckDate 请求
+ * @property \Illuminate\Support\Carbon|null $reqCheckDate 请求用户验收
  * @property \Illuminate\Support\Carbon|null $orderCheckedDate 确认完成
  * @property string $orderCheckedCode 验收码
+ * @property string $provinceCode 省份编号
+ * @property string $cityCode 省份编号
  * @property-read \App\Models\Classification $classification
  * @property-read \App\Models\MasterComment $comment
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Complaint[] $complaints
@@ -68,6 +70,7 @@ use Ramsey\Uuid\Uuid;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order query()
  * @method static bool|null restore()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereCheckInDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereCityCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereClassificationId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereContactUserName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereContactUserPhone($value)
@@ -84,6 +87,7 @@ use Ramsey\Uuid\Uuid;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereOrderNo($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order wherePickUpDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereProducts($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereProvinceCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereRefundStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereRegionCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereRemark($value)
