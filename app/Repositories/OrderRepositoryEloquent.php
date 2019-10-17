@@ -142,15 +142,16 @@ class OrderRepositoryEloquent extends BaseRepository implements OrderRepository
                     $query->where('master_id', auth()->user()->id);
                 });
             })->join('master_services', function (JoinClause $join) use ($master) {
-                    $join->where(function ($join) {
-                        return $join->on('orders.region_code', '=', 'master_services.region_code')
-                            ->orOn('orders.city_code', '=', 'master_services.region_code')
-                            ->orOn('orders.province_code', '=', 'master_services.region_code');
+                    $join->on(function ($join) {
+                        /**@var JoinClause $join*/
+                        return $join->whereRaw('`orders`.`region_cod` = `master_services`.`region_code`')
+                            ->orWhereRaw("`orders`.`city_code` = concat(left(`master_services`.`region_code`, 4), '00')")
+                            ->orWhereRaw("`orders`.`province_code` = concat(left(`master_services`.`region_code`, 2), '0000')");
                     })->where('master_services.master_id', '=', $master->id);
                 })
                 ->selectRaw("orders.*,master_services.master_id,master_services.weight+(rand() * 10) as random_weight")
                 ->selectRaw("orders.*,master_services.master_id,master_services.weight")
-//                ->where('master_services.master_id', $master->id)
+                ->where('master_services.master_id', $master->id)
                 ->orderBy('master_services.weight', 'desc')
                 ->orderBy('orders.created_at', 'desc');
         })->paginate(request()->input('limit', PAGE_SIZE));
