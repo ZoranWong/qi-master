@@ -136,7 +136,7 @@ class OrderRepositoryEloquent extends BaseRepository implements OrderRepository
             ->scopeQuery(function (Builder $query) use ($master) {
             return $query->where(function ($query) {
                 $query->where('status', '<', Order::ORDER_EMPLOYED)
-                    ->where('orders.created_at', '>', Carbon::now()->subHours(Order::OVER_DATE));
+                    ->whereRaw('`orders`.`created_at` > ?', [Carbon::now()->subHours(Order::OVER_DATE)->format('Y-m-d H:i:s')]);
             })->where(function ($query) {
                 $query->whereDoesntHave('offerOrders', function ($query) {
                     $query->where('master_id', auth()->user()->id);
