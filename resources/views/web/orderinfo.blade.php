@@ -220,67 +220,66 @@
         layui.use(['layer', 'form'], function () {
             let form = layui.form;
             form.render();
+            function payLayer(id = 1) {
+                layer.open({
+                    title: '选择支付方式',
+                    content: $('#payTypePopup').html(),
+                    success(data) {
+                        form.render();
+                    },
+                    yes(data) {
+                        let payType = $('div#layui-layer1.layui-layer.layui-layer-dialog input:radio:checked[name="pay_type"]').val();
+                        let host = location.origin;
+                        let url = "";
+                        switch (payType) {
+                            case 'WechatPay':
+                                url = `${host}/wx/pay/${id}`;
+                                layer.closeAll();
+                                window.open(url)
+                                break;
+                            case 'AliPay':
+                                url = `${host}/ali/pay/${id}`;
+                                layer.closeAll();
+                                window.open(url)
+                                break;
+                            case 'BalancePay':
+                                url = `${host}/balance/pay/${id}?token=` + "{{$token}}";
+                                $.get(url);
+                                break;
+                        }
+                    }
+                });
+
+            }
+
+            $('.pay-btn').click(function () {
+                payLayer();
+            });
+            $('.employ-btn').click(function () {
+                let url = $(this).data('url');
+                let id = $(this).data('id');
+                layer.confirm('是否确认雇佣此人为您服务？', {
+                    btn: ['确认', '取消'] //按钮
+                }, function () {
+                    $.post({
+                        url: url,
+                        data: {'offer_order_id': id},
+                        success(data) {
+                            payLayer();
+                        },
+                        fail() {
+
+                        }
+                    });
+                }, function () {
+
+                });
+            });
             $(".info-tab li").click(function () {
                 let i = $(this).index()
                 console.log(i)
                 $(this).addClass('selected').siblings().removeClass('selected');
                 $('.tab-content .tab-item').eq(i).addClass('show').siblings().removeClass('show').addClass('hide');
-
-                function payLayer(id = 1) {
-                    layer.open({
-                        title: '选择支付方式',
-                        content: $('#payTypePopup').html(),
-                        success(data) {
-                            form.render();
-                        },
-                        yes(data) {
-                            let payType = $('div#layui-layer1.layui-layer.layui-layer-dialog input:radio:checked[name="pay_type"]').val();
-                            let host = location.origin;
-                            let url = "";
-                            switch (payType) {
-                                case 'WechatPay':
-                                    url = `${host}/wx/pay/${id}`;
-                                    layer.closeAll();
-                                    window.open(url)
-                                    break;
-                                case 'AliPay':
-                                    url = `${host}/ali/pay/${id}`;
-                                    layer.closeAll();
-                                    window.open(url)
-                                    break;
-                                case 'BalancePay':
-                                    url = `${host}/balance/pay/${id}?token=` + "{{$token}}";
-                                    $.get(url);
-                                    break;
-                            }
-                        }
-                    });
-
-                }
-
-                $('.pay-btn').click(function () {
-                    payLayer();
-                });
-                $('.employ-btn').click(function () {
-                    let url = $(this).data('url');
-                    let id = $(this).data('id');
-                    layer.confirm('是否确认雇佣此人为您服务？', {
-                        btn: ['确认', '取消'] //按钮
-                    }, function () {
-                        $.post({
-                            url: url,
-                            data: {'offer_order_id': id},
-                            success(data) {
-                                payLayer();
-                            },
-                            fail() {
-
-                            }
-                        });
-                    }, function () {
-
-                    });
-                });
             });
         });
     })
