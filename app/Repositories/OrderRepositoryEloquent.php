@@ -144,7 +144,7 @@ class OrderRepositoryEloquent extends BaseRepository implements OrderRepository
             })->join('master_services', function (JoinClause $join) use ($master) {
                     $join->on(function ($join) {
                         /**@var JoinClause $join*/
-                        return $join->whereRaw('`orders`.`region_cod` = `master_services`.`region_code`')
+                        return $join->whereRaw('`orders`.`region_code` = `master_services`.`region_code`')
                             ->orWhereRaw("`orders`.`city_code` = concat(left(`master_services`.`region_code`, 4), '00')")
                             ->orWhereRaw("`orders`.`province_code` = concat(left(`master_services`.`region_code`, 2), '0000')");
                     })->where('master_services.master_id', '=', $master->id);
