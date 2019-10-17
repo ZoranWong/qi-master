@@ -58,7 +58,8 @@ class OfferOrder extends Model implements HasPresenter
     protected $dates = ['deleted_at'];
 
     protected $attributes = [
-        'status' => self::STATUS_WAIT
+        'status' => self::STATUS_WAIT,
+        'quote_price' => 0
     ];
     const STATUS_WAIT = 0;
     const STATUS_HIRED = 1;
