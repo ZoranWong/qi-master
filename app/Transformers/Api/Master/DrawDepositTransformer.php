@@ -29,7 +29,6 @@ class DrawDepositTransformer extends TransformerAbstract
             'transfer_amount' => $model->transferAmount,
             'comment' => $model->comment,
             /* place your other model properties here */
-
             'created_at' => $model->createdAt,
             'updated_at' => $model->updatedAt
         ];

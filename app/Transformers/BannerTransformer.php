@@ -2,6 +2,7 @@
 
 namespace App\Transformers;
 
+use Illuminate\Support\Facades\Storage;
 use League\Fractal\TransformerAbstract;
 use App\Models\Banner;
 
@@ -23,7 +24,7 @@ class BannerTransformer extends TransformerAbstract
     {
         return [
             'id'         => (int) $model->id,
-            'image_url' => $model->imageUrl,
+            'image_url' => Storage::url($model->imageUrl),
             'link' => $model->link
         ];
     }

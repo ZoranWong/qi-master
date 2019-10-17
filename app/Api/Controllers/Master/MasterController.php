@@ -229,9 +229,13 @@ class MasterController extends Controller
 
     public function deleteBankAccount(MasterBank $bank)
     {
-        if ($bank->delete()) {
-            return $this->response->noContent();
-        } else {
+        try {
+            if ($bank->delete()) {
+                return $this->response->noContent();
+            } else {
+                $this->response->errorInternal('失败！');
+            }
+        } catch (\Exception $e) {
             $this->response->errorInternal('失败！');
         }
     }
