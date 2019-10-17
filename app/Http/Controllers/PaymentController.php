@@ -147,7 +147,7 @@ class PaymentController extends Controller
         $order = new PaymentOrder();
         $order->amount = $offerOrder->quotePrice;
 //        $order->payType = PaymentOrder::TYPE_QUOTE_ORDER;
-        $order->masterId = $offerOrder->masterId;
+        $order->masterId = $offerOrder->masterId ?? 0;
         $order->userId = $offerOrder->userId;
         $order->orderId = $offerOrder->orderId;
         $order->status = PaymentOrder::STATUS_UNPAID;
@@ -163,7 +163,7 @@ class PaymentController extends Controller
         $order = new PaymentOrder();
         $order->amount = $offerOrder->quotePrice;
 //        $order->payType = PaymentOrder::TYPE_QUOTE_ORDER;
-        $order->masterId = $offerOrder->masterId;
+        $order->masterId = $offerOrder->masterId ?? 0;
         $order->userId = $offerOrder->userId;
         $order->orderId = $offerOrder->orderId;
         $order->status = PaymentOrder::STATUS_UNPAID;
