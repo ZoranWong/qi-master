@@ -169,7 +169,8 @@ class PaymentController extends Controller
         $order->status = PaymentOrder::STATUS_UNPAID;
         $order->payType = PaymentOrder::PAY_TYPE_WX;
         $order->type = PaymentOrder::TYPE_QUOTE_ORDER;
-        $order = $offerOrder->order()->create($order->toArray());
+        $order->offerOrderId = $offerOrder->id;
+        $order->save();
 //        request()['gateway'] = 'AopJs';
         return app(PaymentController::class)->wxPay($order);
     }
