@@ -182,6 +182,7 @@ return [
 
         App\Providers\RepositoryServiceProvider::class,
         \App\Providers\PaymentServiceProvider::class,
+        \App\Sms\SmsServiceProvider::class,
     ],
 
     /*
