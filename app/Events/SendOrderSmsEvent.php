@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Models\Order;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -14,6 +15,10 @@ class SendOrderSmsEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    /**
+     * @var Order $order
+     * */
+    public $order = null;
     /**
      * Create a new event instance.
      *

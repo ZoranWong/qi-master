@@ -27,6 +27,6 @@ class SendOrderSmsListener
     public function handle(SendOrderSmsEvent $event)
     {
         //
-        app('sms')->sendSms();
+        app('sms')->sendSms($event->order->user->mobile, 'SMS_175531882', []);
     }
 }

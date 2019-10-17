@@ -2,6 +2,7 @@
 
 namespace App\Transformers\Master;
 
+use App\Models\Master;
 use League\Fractal\TransformerAbstract;
 use App\Models\MasterBank;
 
@@ -21,10 +22,13 @@ class BankTransformerTransformer extends TransformerAbstract
      */
     public function transform(MasterBank $model)
     {
+        /**@var Master $master*/
+        $master = auth()->user();
         return [
             'id'         => (int) $model->id,
             'account_open_bank' => $model->accountOpenBank,
-            'bank_account_code' => $model->bankAccountCode
+            'bank_account_code' => $model->bankAccountCode,
+            'balance' => $master->balance
         ];
     }
 }
