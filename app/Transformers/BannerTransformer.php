@@ -24,7 +24,7 @@ class BannerTransformer extends TransformerAbstract
     {
         return [
             'id'         => (int) $model->id,
-            'image_url' => Storage::path($model->imageUrl),
+            'image_url' => Storage::disk(config('admin.upload.disk'))->url($model->imageUrl),
             'link' => $model->link
         ];
     }

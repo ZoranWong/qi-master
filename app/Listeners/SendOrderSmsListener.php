@@ -27,6 +27,6 @@ class SendOrderSmsListener
     public function handle(SendOrderSmsEvent $event)
     {
         //
-        app('sms');
+        app('sms')->sendSms();
     }
 }
