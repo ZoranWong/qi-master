@@ -253,7 +253,7 @@
             }
 
             $('.pay-btn').click(function () {
-                payLayer();
+                payLayer(currentOrderData['id']);
             });
             $('.employ-btn').click(function () {
                 let url = $(this).data('url');
