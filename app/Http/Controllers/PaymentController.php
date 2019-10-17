@@ -87,6 +87,7 @@ class PaymentController extends Controller
                 break;
             case 'Native':
                 $data = $response->getCodeUrl();
+                \Log::debug('------------------', [$response->getData()]);
                 $qrCode = app(QrCodeFactory::class)->create($data);
                 return $this->response()->created()
                     ->header('Content-Type', $qrCode->getContentType())
