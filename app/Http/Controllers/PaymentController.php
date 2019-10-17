@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Master;
+use App\Models\OfferOrder;
 use App\Models\Order;
 use App\Models\PaymentOrder;
 use App\Models\User;
@@ -141,30 +142,34 @@ class PaymentController extends Controller
 
     }
 
-    public function aliPayOrderTest()
+    public function aliPayOrder(OfferOrder $offerOrder)
     {
         $order = new PaymentOrder();
-        $order->amount = 1;
-        $order->payType = PaymentOrder::TYPE_QUOTE_ORDER;
-        $order->masterId = Master::inRandomOrder()->first()->id;
-        $order->userId = User::inRandomOrder()->first()->id;
-        $order->orderId = Order::inRandomOrder()->first()->id;
+        $order->amount = $offerOrder->quotePrice;
+//        $order->payType = PaymentOrder::TYPE_QUOTE_ORDER;
+        $order->masterId = $offerOrder->masterId;
+        $order->userId = $offerOrder->userId;
+        $order->orderId = $offerOrder->orderId;
         $order->status = PaymentOrder::STATUS_UNPAID;
-        $order->save();
+        $order->payType = PaymentOrder::PAY_TYPE_AL;
+        $order->type = PaymentOrder::TYPE_QUOTE_ORDER;
+        $order = $offerOrder->order()->create($order->toArray());
         request()['gateway'] = 'AopJs';
         return app(PaymentController::class)->aliPay($order);
     }
 
-    public function wxPayOrderTest()
+    public function wxPayOrder(OfferOrder $offerOrder)
     {
         $order = new PaymentOrder();
-        $order->amount = 1;
-        $order->payType = PaymentOrder::TYPE_QUOTE_ORDER;
-        $order->masterId = Master::inRandomOrder()->first()->id;
-        $order->userId = User::inRandomOrder()->first()->id;
-        $order->orderId = Order::inRandomOrder()->first()->id;
+        $order->amount = $offerOrder->quotePrice;
+//        $order->payType = PaymentOrder::TYPE_QUOTE_ORDER;
+        $order->masterId = $offerOrder->masterId;
+        $order->userId = $offerOrder->userId;
+        $order->orderId = $offerOrder->orderId;
         $order->status = PaymentOrder::STATUS_UNPAID;
-        $order->save();
+        $order->payType = PaymentOrder::PAY_TYPE_WX;
+        $order->type = PaymentOrder::TYPE_QUOTE_ORDER;
+        $order = $offerOrder->order()->create($order->toArray());
 //        request()['gateway'] = 'AopJs';
         return app(PaymentController::class)->wxPay($order);
     }
