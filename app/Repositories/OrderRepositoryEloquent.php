@@ -134,8 +134,8 @@ class OrderRepositoryEloquent extends BaseRepository implements OrderRepository
         $paginator = $this->with(['serviceType', 'classification'])
             ->scopeQuery(function (Builder $query) use ($master) {
             return $query->where(function ($query) {
-                $query->where('status', '<', Order::ORDER_EMPLOYED)
-                    ->where('orders.created_at', '>', Carbon::now()->subHours(Order::OVER_DATE));
+                $query->where('status', '<', Order::ORDER_EMPLOYED);
+//                    ->where('orders.created_at', '>', Carbon::now()->subHours(Order::OVER_DATE));
             })->where(function ($query) {
                 $query->whereDoesntHave('offerOrders', function ($query) {
                     $query->where('master_id', auth()->user()->id);
