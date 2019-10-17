@@ -221,7 +221,7 @@ class MasterController extends Controller
         $bank->bankAccountCode = $request->input('bank_account_code');
         $bank->accountOpenBank = $request->input('account_open_bank');
         $bank = $bank->save();
-        if ($bank) {
+        if (!$bank) {
             $this->response->errorInternal('失败！');
         }
         return $this->response->noContent();
