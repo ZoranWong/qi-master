@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Traits\CurrencyUnitTrait;
+use App\Models\Traits\ModelAttributesAccess;
 use App\Presenters\WithdrawDepositOrderPresenter;
 use Encore\Admin\Auth\Database\Administrator;
 use Illuminate\Database\Eloquent\Model;
@@ -41,7 +42,7 @@ use McCool\LaravelAutoPresenter\HasPresenter;
 class WithdrawDepositOrder extends Model implements HasPresenter
 {
     //
-    use CurrencyUnitTrait;
+    use CurrencyUnitTrait, ModelAttributesAccess;
 
     const HANDLING = 0;
     const AGREE_WITHDRAW = 1;
