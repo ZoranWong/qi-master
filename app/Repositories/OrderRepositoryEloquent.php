@@ -141,10 +141,11 @@ class OrderRepositoryEloquent extends BaseRepository implements OrderRepository
                     $query->where('master_id', auth()->user()->id);
                 })->orWhereDoesntHave('offerOrders');
             })->join('master_services', function (JoinClause $join) use ($master) {
-                    $join->on('orders.region_code', '=', 'master_services.region_code')
-                        ->orOn('orders.city_code', '=', 'master_services.region_code')
-                        ->orOn('orders.province_code', '=', 'master_services.region_code')
-                        ->where('master_services.master_id', '=', $master->id);
+                    $join->where(function ($join) {
+                        return $join->on('orders.region_code', '=', 'master_services.region_code')
+                            ->orOn('orders.city_code', '=', 'master_services.region_code')
+                            ->orOn('orders.province_code', '=', 'master_services.region_code');
+                    })->where('master_services.master_id', '=', $master->id);
                 })
                 ->selectRaw("orders.*,master_services.master_id,master_services.weight+(rand() * 10) as random_weight")
                 ->selectRaw("orders.*,master_services.master_id,master_services.weight")
