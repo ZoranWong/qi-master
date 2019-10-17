@@ -158,8 +158,9 @@ class PaymentController extends Controller
         return app(PaymentController::class)->aliPay($order);
     }
 
-    public function wxPayOrder(OfferOrder $offerOrder)
+    public function wxPayOrder($offerOrderId)
     {
+        $offerOrder = OfferOrder::find($offerOrderId);
         $order = new PaymentOrder();
         $order->amount = $offerOrder->quotePrice;
 //        $order->payType = PaymentOrder::TYPE_QUOTE_ORDER;
