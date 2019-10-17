@@ -165,7 +165,7 @@ class PaymentController extends Controller
 //        $order->payType = PaymentOrder::TYPE_QUOTE_ORDER;
         $order->masterId = $offerOrder->masterId ?? 0;
         $order->userId = auth()->user()->id;
-        $order->orderId = $offerOrder->orderId;
+        $order->orderId = $offerOrder->orderId ?? 0;
         $order->status = PaymentOrder::STATUS_UNPAID;
         $order->payType = PaymentOrder::PAY_TYPE_WX;
         $order->type = PaymentOrder::TYPE_QUOTE_ORDER;
