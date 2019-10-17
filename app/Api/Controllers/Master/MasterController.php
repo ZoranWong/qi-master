@@ -17,6 +17,7 @@ use App\Transformers\Api\Master\DrawDepositTransformer;
 use App\Transformers\Master\BankTransformerTransformer;
 use App\Transformers\MasterTransformer;
 use Dingo\Api\Http\Response;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 
 class MasterController extends Controller
@@ -177,7 +178,7 @@ class MasterController extends Controller
 
     public function drawDeposit(DrawDepositRequest $request)
     {
-        /**@var Master $master*/
+        /**@var Master $master */
         $master = auth()->user();
         $order = new WithdrawDepositOrder();
         $order->applyAmount = $request->input('apply_amount');
@@ -188,10 +189,10 @@ class MasterController extends Controller
 
     public function drawDeposits()
     {
-        /**@var Master $master*/
+        /**@var Master $master */
         $master = auth()->user();
         $query = $master->withdrawOrders();
-        if(request('status', null)) {
+        if (request('status', null)) {
             $query->where('status', request('status'));
         }
         $data = $query->paginate(request('limit', PAGE_SIZE));
@@ -202,14 +203,14 @@ class MasterController extends Controller
 
     public function addBankAccount(BankAccountRequest $request)
     {
-        /**@var Master $master*/
+        /**@var Master $master */
         $master = auth()->user();
-        $bank= new MasterBank();
+        $bank = new MasterBank();
         $bank->bankAccountCode = $request->input('bank_account_code');
         $bank->accountOpenBank = $request->input('account_open_bank');
         $bank = $master->bankAccounts()->save($bank);
-        if($bank){
-           $this->response->errorInternal('失败');
+        if ($bank) {
+            $this->response->errorInternal('失败');
         }
         return $this->response->noContent();
     }
@@ -220,7 +221,7 @@ class MasterController extends Controller
         $bank->bankAccountCode = $request->input('bank_account_code');
         $bank->accountOpenBank = $request->input('account_open_bank');
         $bank = $bank->save();
-        if($bank){
+        if ($bank) {
             $this->response->errorInternal('失败！');
         }
         return $this->response->noContent();
@@ -228,18 +229,19 @@ class MasterController extends Controller
 
     public function deleteBankAccount(MasterBank $bank)
     {
-        if($bank->delete()) {
+        if ($bank->delete()) {
             return $this->response->noContent();
-        }else{
+        } else {
             $this->response->errorInternal('失败！');
         }
     }
 
     public function getBankInfo()
     {
-        /**@var Master $master*/
+        /**@var Master $master */
         $master = auth()->user();
-        $master->bankAccounts;
-        return $this->response->collection($master->bankAccounts, new BankTransformerTransformer());
+        if ($master->bankAccounts->count())
+            return $this->response->item($master->bankAccounts->first(), new BankTransformerTransformer());
+        throw new ModelNotFoundException('没有银行卡');
     }
 }
