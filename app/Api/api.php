@@ -4,7 +4,8 @@ use Dingo\Api\Routing\Router;
 
 /** @var Router $api */
 $api->version('v1', ['namespace' => 'App\Api\Controllers'], function (Router $api) {
-
+    $api->get('banners', ['as' => 'master.banners', 'uses' => 'BannerController@index']);
+    $api->get('articles', ['as' => 'master.banners', 'uses' => 'ArticleController@index']);
     $api->get('classifications', ['as' => 'classifications.list', 'uses' => 'HomeController@classifications']);
     $api->get('service_types', ['as' => 'service_types.list', 'uses' => 'HomeController@serviceTypes']);
     $api->get('regions', ['as' => 'region.list', 'uses' => 'HomeController@regions']);
