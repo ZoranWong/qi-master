@@ -12,6 +12,7 @@ use Dingo\Api\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Query\JoinClause;
+use Illuminate\Support\Facades\Log;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Exceptions\RepositoryException;
@@ -130,7 +131,7 @@ class OrderRepositoryEloquent extends BaseRepository implements OrderRepository
     {
         /** @var Master $master */
         $master = auth()->user();
-
+        Log::debug('--------------- date -----------------------', [Carbon::now()->subHours(Order::OVER_DATE)->format('Y-m-d H:i:s')]);
         $paginator = $this->with(['serviceType', 'classification'])
             ->scopeQuery(function (Builder $query) use ($master) {
             return $query->where(function ($query) {
