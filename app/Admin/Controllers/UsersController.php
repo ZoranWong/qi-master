@@ -151,48 +151,48 @@ SCRIPT;
     protected function sendCouponScript()
     {
         $view = <<<HTML
-<div class="layui-form send-coupon-form">
-    <div class="layui-form-item">
-        <label class="layui-form-label">优惠券类型</label>
-        <div class="layui-input-block">
-          <input type="radio" name="type" value="percent" title="折扣券">
-          <input type="radio" name="type" value="fixed" title="代金券" checked>
+<div class="form">
+    <div class="form-group row">
+        <label class="col-form-label">优惠券类型</label>
+        <div class="form-check form-check-inline">
+          <input name = "type" class="form-check-input" type="checkbox" id="percent" value="percent">
+          <label class="form-check-label" for="percent">折扣券</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input name = "type"  class="form-check-input" type="checkbox" id="fixed" value="fixed">
+          <label class="form-check-label" for="fixed">现金券</label>
         </div>
     </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">优惠券使用门槛</label>
-        <div class="layui-input-block">
-          <input type="text" name="" placeholder="请输入金额" autocomplete="off" class="layui-input">
+    <div class="form-group row">
+        <label for="floor" class="col-sm-2 col-form-label">使用门槛</label>
+        <div class="col-sm-10">
+          <input type="number" class="form-control-plaintext" id="floor" value="" placeholder="请输入优惠券门槛">
         </div>
     </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">优惠力度</label>
-        <div class="layui-input-block">
-          <input type="text" name="" placeholder="请输入优惠金额或者优惠折扣" autocomplete="off" class="layui-input">
+    <div class="form-group row">
+        <label for="value" class="col-sm-2 col-form-label">优惠力度</label>
+        <div class="col-sm-10">
+          <input type="number" class="form-control-plaintext" id="value" value="" placeholder="请输入优惠券金额或者折扣力度">
         </div>
     </div>
 </div>
 HTML;
 
         $script = <<<SCRIPT
-        layui.use('form', function(){
-          var form = layui.form;
-          $(document).on('click', '.send-user-coupon', function() {
+        
+        $(document).on('click', '.send-user-coupon', function() {
             swal({
                 title: '发送优惠券',
                 html: `{$view}`,
                 width: '720px',
                 confirmButtonText: '发送',
                 onRender: function(){
-                    form.render($('.send-coupon-form'));
+                    
                 }
             }).then(function (data) {
             
             });
         });
-  //各种基于事件的操作，下面会有进一步介绍
-});
-
         
 SCRIPT;
         Admin::script($script);
