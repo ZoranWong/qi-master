@@ -36,6 +36,7 @@ Route::group(['middleware' => ['guard:web']], function (Router $router) {
         $router->get('message', 'ServicesController@message');
         $router->any('wx/pay/{order}', 'PaymentController@wxPayOrder');
         $router->any('ali/pay/{order}', 'PaymentController@aliPayOrder');
+        $router->put('users/{order}/status/update', 'UserController@updateStatus')->name('user.status.update');
     });
 
     $router->any('balance/pay/{order}', 'PaymentController@balancePay');

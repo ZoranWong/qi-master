@@ -4,7 +4,9 @@ namespace App\Admin\Controllers;
 
 use App\Models\User;
 use App\Http\Controllers\Controller;
+use App\Repositories\UserRepository;
 use Encore\Admin\Controllers\HasResourceActions;
+use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
@@ -67,7 +69,7 @@ class UsersController extends Controller
         $grid->disableCreateButton();
 
         $grid->actions(function (Grid\Displayers\Actions $actions) {
-            /**@var User $user*/
+            /**@var User $user */
             $user = $actions->row;
             // 不在每一行后面展示查看按钮
             $actions->disableView();
@@ -75,9 +77,11 @@ class UsersController extends Controller
             $actions->disableDelete();
             // 不在每一行后面展示编辑按钮
             $actions->disableEdit();
-            $actions->append("<a class='btn btn-sm btn-primary user-forbidden' data-id='{$user->id}' >禁止</a>");
-            $actions->append("<a class='btn btn-sm btn-primary user-freeze' data-id='{$user->id}' >启用</a>");
-            $actions->append("<a class='btn btn-sm btn-primary send-coupon' data-id='{$user->id}' >发优惠券</a>");
+            $forbiddenDisable = ($user->status === 1 ? 'disable' : '');
+            $freezeDisable = ($user->status === 1 ? 'disable' : '');
+            $actions->append("<a {$forbiddenDisable} class='btn btn-sm btn-primary user-status-opt user-forbidden' data-id='{$user->id}' data-status = '0'>禁止</a>");
+            $actions->append("<a {$freezeDisable} class='btn btn-sm btn-primary user-status-opt user-freeze' data-id='{$user->id}' data-status='1' >启用</a>");
+            $actions->append("<a class='btn btn-sm btn-primary send-coupon' data-name = '{$user->name}' data-id='{$user->id}' >发优惠券</a>");
         });
 
         $grid->tools(function (Grid\Tools $tools) {
@@ -88,5 +92,48 @@ class UsersController extends Controller
         });
 
         return $grid;
+    }
+
+    public function updateStatus($userId, UserRepository $userRepository)
+    {
+        $user = $userRepository->find($userId);
+        if($user){
+            $user->status = request('status', !$user->status);
+            $user->save();
+            return $this->response->array(['message' => '更新成功']);
+        }else{
+            return $this->response->errorNotFound('没找到对应用户');
+        }
+    }
+
+
+    protected function updateUserStatus()
+    {
+        $token = csrf_token();
+        $url = route('user.forbidden');
+        $script = <<<SCRIPT
+         $.ajaxSetup({headers: {'X-CSRF-TOKEN': '$token'}});
+         $(document).on('click', '.user-status-opt', function(){
+            let id = $(this).data('id');
+            let name = $(this).data('name');
+            let status = $(this).data('status');
+            swal('确定禁止此用户').then(() => {
+                $.ajax({
+                    url: '{$url}/'+id + '/status/update', 
+                    method: 'PUT',
+                    data: {'status': status},
+                    dataType: 'json',
+                    success: (res) => {
+                        if(res.status) {
+                            swal(name + '已被禁止').then(() => {
+                                location.reload();
+                            });
+                        } 
+                    }
+                });
+             });
+         });
+SCRIPT;
+        Admin::script("");
     }
 }
