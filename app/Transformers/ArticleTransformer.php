@@ -27,7 +27,8 @@ class ArticleTransformer extends TransformerAbstract
             'cover_image' => $model->coverUrl,
             'title' => $model->title,
             'content' => $model->content,
-            'sort' => $model->sort
+            'sort' => $model->sort,
+            'review' => $model->review
         ];
     }
 }
