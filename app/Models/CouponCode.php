@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Exceptions\CouponCodeUnavailableException;
 use App\Models\Traits\ModelAttributesAccess;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
@@ -80,8 +81,8 @@ class CouponCode extends Model
     {
         $str = '';
 
-        if ($this->min_amount > 0) {
-            $str = '满' . str_replace('.00', '', $this->min_amount);
+        if ($this->minAmount > 0) {
+            $str = '满' . str_replace('.00', '', $this->minAmount);
         }
         if ($this->type === self::TYPE_PERCENT) {
             return $str . '优惠' . str_replace('.00', '', $this->value) . '%';
@@ -90,6 +91,12 @@ class CouponCode extends Model
         return $str . '减' . str_replace('.00', '', $this->value);
     }
 
+    /**
+     *
+     * @param User $user
+     * @param null $orderAmount
+     * @throws CouponCodeUnavailableException
+     */
     public function checkAvailable(User $user, $orderAmount = null)
     {
         if (!$this->enabled) {
@@ -100,30 +107,32 @@ class CouponCode extends Model
             throw new CouponCodeUnavailableException('该优惠券已被兑完');
         }
 
-        if ($this->not_before && $this->not_before->gt(Carbon::now())) {
+        if ($this->notBefore && $this->notBefore->gt(Carbon::now())) {
             throw new CouponCodeUnavailableException('该优惠券现在还不能使用');
         }
 
-        if ($this->not_after && $this->not_after->lt(Carbon::now())) {
+        if ($this->notAfter && $this->notAfter->lt(Carbon::now())) {
             throw new CouponCodeUnavailableException('该优惠券已过期');
         }
 
-        if (!is_null($orderAmount) && $orderAmount < $this->min_amount) {
+        if (!is_null($orderAmount) && $orderAmount < $this->minAmount) {
             throw new CouponCodeUnavailableException('订单金额不满足该优惠券最低金额');
         }
 
         $used = Order::where('user_id', $user->id)
             ->where('coupon_code_id', $this->id)
             ->where(function ($query) {
+                /**@var Builder $query*/
                 $query->where(function ($query) {
+                    /**@var Builder $query*/
                     $query->whereNull('paid_at')
                         ->where('closed', false);
                 })->orWhere(function ($query) {
+                    /**@var Builder $query*/
                     $query->whereNotNull('paid_at')
-                        ->where('refund_status', '!=', Order::REFUND_STATUS_SUCCESS);
+                        ->where('refund_status', '!=', Order::STATUS_REFUND_AGREED);
                 });
-            })
-            ->exists();
+            })->exists();
         if ($used) {
             throw new CouponCodeUnavailableException('你已经使用过这张优惠券了');
         }

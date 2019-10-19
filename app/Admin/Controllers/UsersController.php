@@ -66,18 +66,23 @@ class UsersController extends Controller
         // 不在页面显示 `新建` 按钮，因为我们不需要在后台新建用户
         $grid->disableCreateButton();
 
-        $grid->actions(function ($actions) {
+        $grid->actions(function (Grid\Displayers\Actions $actions) {
+            /**@var User $user*/
+            $user = $actions->row;
             // 不在每一行后面展示查看按钮
             $actions->disableView();
             // 不在每一行后面展示删除按钮
             $actions->disableDelete();
             // 不在每一行后面展示编辑按钮
             $actions->disableEdit();
+            $actions->append("<a class='btn btn-sm btn-primary user-forbidden' data-id='{$user->id}' >禁止</a>");
+            $actions->append("<a class='btn btn-sm btn-primary user-freeze' data-id='{$user->id}' >启用</a>");
+            $actions->append("<a class='btn btn-sm btn-primary send-coupon' data-id='{$user->id}' >发优惠券</a>");
         });
 
-        $grid->tools(function ($tools) {
+        $grid->tools(function (Grid\Tools $tools) {
             // 禁用批量删除按钮
-            $tools->batch(function ($batch) {
+            $tools->batch(function (Grid\Tools\BatchActions $batch) {
                 $batch->disableDelete();
             });
         });
