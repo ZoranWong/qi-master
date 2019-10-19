@@ -159,7 +159,7 @@ SCRIPT;
               <input name = "type" class="form-check-input" type="radio" id="percent" value="percent">
               <label class="form-check-label" for="percent">折扣券</label>
             </div>
-            <div class="form-check form-check-inline">
+            <div class="form-check form-check-inline" style="margin-left: 12px;">
               <input name = "type"  class="form-check-input" type="radio" id="fixed" value="fixed">
               <label class="form-check-label" for="fixed">现金券</label>
             </div>
