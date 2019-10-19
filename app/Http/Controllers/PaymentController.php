@@ -9,6 +9,7 @@ use App\Models\PaymentOrder;
 use App\Models\User;
 use Endroid\QrCode\Factory\QrCodeFactory;
 use Endroid\QrCode\QrCode;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Omnipay\Alipay\AbstractAopGateway;
 use Omnipay\Common\AbstractGateway;
@@ -222,6 +223,7 @@ class PaymentController extends Controller
 
     public function notify(PaymentOrder $order)
     {
+        Log::debug('--------order notify ----------');
         $payType = request('pay_type', 'WxPay');
         $gateway = request('gateway', 'Native');
         /**@var Gateway|AbstractAopGateway|AbstractGateway $notifyGateway */
