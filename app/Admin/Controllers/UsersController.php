@@ -155,7 +155,7 @@ SCRIPT;
         $(document).on('click', '.send-user-coupon', function() {
             swal({
                 title: '发送优惠券',
-                html: {$view},
+                html: '{$view}',
                 width: '720px',
                 confirmButtonText: '发送'
             }).then(function (data) {
