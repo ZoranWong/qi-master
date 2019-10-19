@@ -36,9 +36,14 @@ class Article extends Model
     //
     use ModelAttributesAccess;
 
-    protected $fillable = ['title', 'cover_url', 'content', 'sort', 'publish_at'];
+    protected $fillable = ['title', 'cover_url', 'content', 'sort', 'review', 'publish_at'];
 
     protected $casts = [
         'publish_at' => 'date'
+    ];
+
+    protected $attributes = [
+        'sort' => 0,
+        'review' => ''
     ];
 }
