@@ -117,6 +117,7 @@ class UsersController extends Controller
             let name = $(this).data('name');
             let status = $(this).data('status');
             let message = status > 0 ? '确定解除禁止此用户' : '确定禁止此用户';
+            let alertMessage = name + (status > 0 ? '已经解除禁止'': '已经被禁止');
             swal(message).then(() => {
                 $.ajax({
                     url: 'users/'+id + '/status/update', 
@@ -124,8 +125,9 @@ class UsersController extends Controller
                     data: {'status': status},
                     dataType: 'json',
                     success: (res) => {
+                        console.log(res);
                         if(res.status) {
-                            swal(name + '已被禁止').then(() => {
+                            swal(alertMessage).then(() => {
                                 location.reload();
                             });
                         } 
