@@ -266,12 +266,11 @@ class PaymentController extends Controller
             $order->user->balance += $order->amount;
         }
         $order->status = PaymentOrder::STATUS_PAID;
-
         $offerOrder = OfferOrder::find($order->offerOrderId);
         Log::debug('----------', [$order->toArray(), $offerOrder->toArray()]);
         $offerOrder->status = OfferOrder::STATUS_HIRED;
         $offerOrder->update(['status' => OfferOrder::STATUS_HIRED]);
-        $order->order->update(['status' => Order::ORDER_EMPLOYED]);
+        $order->order->update(['status' => Order::ORDER_PROCEEDING_WAIT_PRE_APPOINT]);
         $order->save();
     }
 
