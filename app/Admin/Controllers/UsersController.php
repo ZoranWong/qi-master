@@ -81,7 +81,7 @@ class UsersController extends Controller
             $freezeDisable = ($user->status === 1 ? 'disabled' : '');
             $actions->append("<a {$forbiddenDisable} class='btn btn-sm btn-primary user-status-opt user-forbidden' data-name = '{$user->name}' data-id='{$user->id}' data-status = '0'>禁止</a>");
             $actions->append("<a {$freezeDisable} class='btn btn-sm btn-primary user-status-opt user-freeze' data-name = '{$user->name}' data-id='{$user->id}' data-status='1' >启用</a>");
-            $actions->append("<a class='btn btn-sm btn-primary send-coupon' data-name = '{$user->name}' data-id='{$user->id}' >发优惠券</a>");
+            $actions->append("<a class='btn btn-sm btn-primary send-user-coupon' data-name = '{$user->name}' data-id='{$user->id}' >发优惠券</a>");
         });
 
         $grid->tools(function (Grid\Tools $tools) {
@@ -90,7 +90,9 @@ class UsersController extends Controller
                 $batch->disableDelete();
             });
         });
+        $this->formCSRFToken();
         $this->updateUserStatusScript();
+        $this->sendCouponScript();
         return $grid;
     }
 
@@ -106,12 +108,19 @@ class UsersController extends Controller
         }
     }
 
-
-    protected function updateUserStatusScript()
+    protected function formCSRFToken()
     {
         $token = csrf_token();
         $script = <<<SCRIPT
-         $.ajaxSetup({headers: {'X-CSRF-TOKEN': '$token'}});
+ $.ajaxSetup({headers: {'X-CSRF-TOKEN': '$token'}});
+SCRIPT;
+        Admin::script($script);
+    }
+
+    protected function updateUserStatusScript()
+    {
+
+        $script = <<<SCRIPT
          $(document).on('click', '.user-status-opt', function(){
             let id = $(this).data('id');
             let name = $(this).data('name');
@@ -136,5 +145,25 @@ class UsersController extends Controller
          });
 SCRIPT;
         Admin::script($script);
+    }
+
+
+    protected function sendCouponScript()
+    {
+        $view = '';
+        $script = <<<SCRIPT
+        $(document).on('click', '.send-user-coupon', function() {
+            swal({
+                title: '发送优惠券',
+                html: {$view},
+                width: '720px',
+                confirmButtonText: '发送'
+            }).then(function (data) {
+            
+            });
+        });
+        
+SCRIPT;
+
     }
 }
