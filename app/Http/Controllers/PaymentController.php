@@ -232,6 +232,7 @@ class PaymentController extends Controller
         $response = $notifyGateway->completePurchase([
             'request_params' => $data
         ])->send();
+        Log::debug('--------order notify ----------', [$response->isPaid()]);
         if ($response->isPaid()) {
             //pay success
             $this->orderPaidSuccess($order);
