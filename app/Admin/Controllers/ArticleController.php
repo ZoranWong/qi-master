@@ -63,7 +63,7 @@ class ArticleController extends AdminController
         $form = new Form(new Article);
         $form->text('title', '标题');
         $form->image('cover_url', '封面');
-        $form->number('sort', '排序');
+        $form->number('sort', '排序')->default(0);
         $form->date('publish_at', '发布时间');
         $form->text('review', '摘要');
         $form->UEditor('content');
