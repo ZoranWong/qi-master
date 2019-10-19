@@ -168,13 +168,19 @@ SCRIPT;
     <div class="form-group row">
         <label for="floor" class="col-sm-2 col-form-label">使用门槛</label>
         <div class="col-sm-10">
-          <input type="number" class="form-control" id="floor" value="" placeholder="请输入优惠券门槛">
+          <input type="number" aria-describedby="floor" class="form-control coupon-floor" id="floor" value="" placeholder="请输入优惠券门槛">
+          <div class="input-group-append">
+            <span class="input-group-text" id="floor">元</span>
+          </div>
         </div>
     </div>
     <div class="form-group row">
         <label for="value" class="col-sm-2 col-form-label">优惠力度</label>
         <div class="col-sm-10">
-          <input type="number" class="form-control" id="value" value="" placeholder="请输入优惠券金额或者折扣力度">
+          <input type="number" aria-describedby="value" class="form-control coupon-value" id="value" value="" placeholder="请输入优惠券金额或者折扣力度">
+          <div class="input-group-append">
+            <span class="input-group-text" id="value">元</span>
+          </div>
         </div>
     </div>
 </div>
