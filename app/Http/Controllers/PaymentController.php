@@ -9,6 +9,7 @@ use App\Models\PaymentOrder;
 use App\Models\User;
 use Endroid\QrCode\Factory\QrCodeFactory;
 use Endroid\QrCode\QrCode;
+use Illuminate\Support\Str;
 use Omnipay\Alipay\AbstractAopGateway;
 use Omnipay\Common\AbstractGateway;
 use Omnipay\Common\Message\AbstractRequest;
@@ -65,13 +66,15 @@ class PaymentController extends Controller
         \Log::debug('--------------', $order->toArray());
         $orderPayData = [
             'body' => 'The test order',
-            'out_trade_no' => $order->code,
+            'out_trade_no' => $order->code.Str::random(5),
             'total_fee'         => $order->amount * 100, //=0.01
 //            'total_fee' => 1,
             'spbill_create_ip' => request()->ip(),
             'fee_type' => 'CNY',
             'notify_url' => route('pay.notify', ['order' => $order->id])
         ];
+
+        \Log::debug('--------------', $orderPayData);
 
         $gateway = request('gateway', 'Native');
 
