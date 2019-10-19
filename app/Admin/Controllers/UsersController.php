@@ -156,11 +156,11 @@ SCRIPT;
         <label class="col-form-label col-sm-2 ">优惠券类型</label>
         <div class = "col-sm-10 d-flex flex-row" style="display: flex;">
             <div class="form-check form-check-inline">
-              <input name = "type" class="form-check-input" type="checkbox" id="percent" value="percent">
+              <input name = "type" class="form-check-input" type="radio" id="percent" value="percent">
               <label class="form-check-label" for="percent">折扣券</label>
             </div>
             <div class="form-check form-check-inline">
-              <input name = "type"  class="form-check-input" type="checkbox" id="fixed" value="fixed">
+              <input name = "type"  class="form-check-input" type="radio" id="fixed" value="fixed">
               <label class="form-check-label" for="fixed">现金券</label>
             </div>
     </div>
