@@ -221,7 +221,7 @@ class PaymentController extends Controller
         return $response;
     }
 
-    public function notify(PaymentOrder $order)
+    public function notify($orderId)
     {
         Log::debug('--------order notify ----------');
         $payType = request('pay_type', 'WxPay');
@@ -233,7 +233,7 @@ class PaymentController extends Controller
             'request_params' => $data
         ])->send();
         Log::debug('--------order notify ----------', [$response->isPaid(), $response->getRequestData()]);
-        $this->orderPaidSuccess($order);
+        $this->orderPaidSuccess(PaymentOrder::find($orderId));
         die('success');
 //        if ($response->isPaid()) {
 //            //pay success
@@ -266,6 +266,9 @@ class PaymentController extends Controller
             $order->user->balance += $order->amount;
         }
         $order->status = PaymentOrder::STATUS_PAID;
+        $offerOrder = OfferOrder::find($order->offerOrderId);
+        $offerOrder->status = OfferOrder::STATUS_HIRED;
+        $offerOrder->save();
         $order->save();
     }
 
