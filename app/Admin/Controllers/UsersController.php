@@ -90,7 +90,7 @@ class UsersController extends Controller
                 $batch->disableDelete();
             });
         });
-
+        $this->updateUserStatusScript();
         return $grid;
     }
 
@@ -107,7 +107,7 @@ class UsersController extends Controller
     }
 
 
-    protected function updateUserStatus()
+    protected function updateUserStatusScript()
     {
         $token = csrf_token();
         $url = route('user.forbidden');
