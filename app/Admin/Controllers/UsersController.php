@@ -153,26 +153,28 @@ SCRIPT;
         $view = <<<HTML
 <div class="form">
     <div class="form-group row">
-        <label class="col-form-label">优惠券类型</label>
-        <div class="form-check form-check-inline">
-          <input name = "type" class="form-check-input" type="checkbox" id="percent" value="percent">
-          <label class="form-check-label" for="percent">折扣券</label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input name = "type"  class="form-check-input" type="checkbox" id="fixed" value="fixed">
-          <label class="form-check-label" for="fixed">现金券</label>
-        </div>
+        <label class="col-form-label col-sm-2 ">优惠券类型</label>
+        <div class = "col-sm-10">
+            <div class="form-check form-check-inline">
+              <input name = "type" class="form-check-input" type="checkbox" id="percent" value="percent">
+              <label class="form-check-label" for="percent">折扣券</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input name = "type"  class="form-check-input" type="checkbox" id="fixed" value="fixed">
+              <label class="form-check-label" for="fixed">现金券</label>
+            </div>
+    </div>
     </div>
     <div class="form-group row">
         <label for="floor" class="col-sm-2 col-form-label">使用门槛</label>
         <div class="col-sm-10">
-          <input type="number" class="form-control-plaintext" id="floor" value="" placeholder="请输入优惠券门槛">
+          <input type="number" class="form-control" id="floor" value="" placeholder="请输入优惠券门槛">
         </div>
     </div>
     <div class="form-group row">
         <label for="value" class="col-sm-2 col-form-label">优惠力度</label>
         <div class="col-sm-10">
-          <input type="number" class="form-control-plaintext" id="value" value="" placeholder="请输入优惠券金额或者折扣力度">
+          <input type="number" class="form-control" id="value" value="" placeholder="请输入优惠券金额或者折扣力度">
         </div>
     </div>
 </div>
