@@ -99,11 +99,11 @@ class UsersController extends Controller
     public function updateStatus($userId, UserRepository $userRepository)
     {
         $user = $userRepository->find($userId);
-        if($user){
+        if ($user) {
             $user->status = request('status', !$user->status);
             $user->save();
             return $this->response->array(['message' => '更新成功']);
-        }else{
+        } else {
             return $this->response->errorNotFound('没找到对应用户');
         }
     }
@@ -150,7 +150,30 @@ SCRIPT;
 
     protected function sendCouponScript()
     {
-        $view = '';
+        $view = <<<HTML
+<div class="layui-form">
+    <div class="layui-form-item">
+        <label class="layui-form-label">优惠券类型</label>
+        <div class="layui-input-block">
+          <input type="radio" name="type" value="percent" title="折扣券">
+          <input type="radio" name="type" value="fixed" title="代金券" checked>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">优惠券使用门槛</label>
+        <div class="layui-input-block">
+          <input type="text" name="" placeholder="请输入金额" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">优惠力度</label>
+        <div class="layui-input-block">
+          <input type="text" name="" placeholder="请输入优惠金额或者优惠折扣" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+</div>
+HTML;
+
         $script = <<<SCRIPT
         $(document).on('click', '.send-user-coupon', function() {
             swal({
