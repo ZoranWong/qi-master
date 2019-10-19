@@ -154,7 +154,7 @@ SCRIPT;
 <div class="form">
     <div class="form-group row">
         <label class="col-form-label col-sm-2 ">优惠券类型</label>
-        <div class = "col-sm-10">
+        <div class = "col-sm-10 form-inline">
             <div class="form-check form-check-inline">
               <input name = "type" class="form-check-input" type="checkbox" id="percent" value="percent">
               <label class="form-check-label" for="percent">折扣券</label>
