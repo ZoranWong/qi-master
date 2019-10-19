@@ -189,7 +189,8 @@ HTML;
                 width: '720px',
                 confirmButtonText: '发送', 
             }).then(function (data) {
-            
+                let data = $('.send-coupon-form').serialize();
+                console.log(data);
             });
         });
         
