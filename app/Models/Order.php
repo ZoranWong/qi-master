@@ -53,6 +53,7 @@ use Ramsey\Uuid\Uuid;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Complaint[] $complaints
  * @property-read \App\Models\CouponCode|null $couponCode
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OfferOrder[] $employedMasters
+ * @property-read mixed $statsDesc
  * @property-read mixed $statusDesc
  * @property-read mixed $typeDesc
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OrderItem[] $items
@@ -435,6 +436,11 @@ class Order extends Model implements HasPresenter
     public function endAt()
     {
         return $this->createdAt->addHours(self::OVER_DATE);
+    }
+
+    public function getStatsDescAttribute()
+    {
+        return self::ORDER_STATUS[floor(log($this->status))];
     }
 
 }

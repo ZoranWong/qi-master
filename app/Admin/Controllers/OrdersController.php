@@ -64,7 +64,7 @@ class OrdersController extends Controller
              * */
             $order = $this;
             if ($order->refundStatus === 0) {
-                return Order::ORDER_STATUS[$value];
+                return $order->statusDesc;
             } else {
                 return Order::STATUS_REFUND[$order->refundStatus];
             }
