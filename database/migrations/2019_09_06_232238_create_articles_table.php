@@ -18,8 +18,6 @@ class CreateArticlesTable extends Migration
             $table->string('title')->comment('标题');
             $table->string('cover_url')->comment('封面');
             $table->text('content')->comment('内容');
-            $table->unsignedInteger('sort')->default(0)->comment('排序');
-            $table->timestamp('publish_at')->nullable()->default(null)->comment('发稿时间');
             $table->timestamps();
         });
     }

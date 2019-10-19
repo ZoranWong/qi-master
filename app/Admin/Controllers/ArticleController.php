@@ -29,7 +29,8 @@ class ArticleController extends AdminController
         $grid->column('id', 'ID');
         $grid->column('title', '标题');
         $grid->column('cover_url', '封面')->image('', 64, 64);
-//        $grid->column('sort', '排序')->sortable();
+        $grid->column('review', '摘要');
+        $grid->column('sort', '排序')->sortable();
         $grid->column('publish_at', '发布时间')->sortable();
         return $grid;
     }
@@ -44,9 +45,10 @@ class ArticleController extends AdminController
     {
         $show = new Show(Article::findOrFail($id));
         $show->field('title', '标题');
-//        $show->field('sort', '排序');
+        $show->field('sort', '排序');
         $show->field('cover_url', '封面')->image();
         $show->field('publish_at', '发布时间');
+        $show->field('review', '摘要');
         $show->field('content', '文章');
         return $show;
     }
@@ -61,8 +63,9 @@ class ArticleController extends AdminController
         $form = new Form(new Article);
         $form->text('title', '标题');
         $form->image('cover_url', '封面');
-//        $form->number('sort', '排序');
+        $form->number('sort', '排序');
         $form->date('publish_at', '发布时间');
+        $form->text('review', '摘要');
         $form->UEditor('content');
         return $form;
     }
