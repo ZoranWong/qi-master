@@ -151,7 +151,7 @@ SCRIPT;
     protected function sendCouponScript()
     {
         $view = <<<HTML
-<div class="layui-form">
+<div class="layui-form send-coupon-form">
     <div class="layui-form-item">
         <label class="layui-form-label">优惠券类型</label>
         <div class="layui-input-block">
@@ -175,16 +175,24 @@ SCRIPT;
 HTML;
 
         $script = <<<SCRIPT
-        $(document).on('click', '.send-user-coupon', function() {
+        layui.use('form', function(){
+          var form = layui.form;
+          $(document).on('click', '.send-user-coupon', function() {
             swal({
                 title: '发送优惠券',
                 html: `{$view}`,
                 width: '720px',
-                confirmButtonText: '发送'
+                confirmButtonText: '发送',
+                onRender: function(){
+                    form.render($('.send-coupon-form'));
+                }
             }).then(function (data) {
             
             });
         });
+  //各种基于事件的操作，下面会有进一步介绍
+});
+
         
 SCRIPT;
         Admin::script($script);
