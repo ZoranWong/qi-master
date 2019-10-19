@@ -24,7 +24,7 @@ class PaymentController extends Controller
         $data = [
             'type' => PaymentOrder::TYPE_RECHARGE,
             'amount' => request('amount'),
-            'pay_type' =>request('pay_type'),
+            'pay_type' => request('pay_type'),
             'master_id' => 0,
             'order_id' => 0,
             'offer_order_id' => 0,
@@ -33,29 +33,29 @@ class PaymentController extends Controller
         ];
 
         $order = PaymentOrder::create($data);
-        if(!$order){
+        if (!$order) {
             $this->response->errorInternal('失败');
         }
 
-        if($order->payType == PaymentOrder::PAY_TYPE_AL) {
+        if ($order->payType == PaymentOrder::PAY_TYPE_AL) {
             return $this->aliPay($order);
-        }elseif($order->payType == PaymentOrder::PAY_TYPE_WX) {
+        } elseif ($order->payType == PaymentOrder::PAY_TYPE_WX) {
             return $this->wxPay($order);
         }
     }
 
     public function balancePay(PaymentOrder $order)
     {
-        try{
+        try {
             $user = auth()->user();
-            if($order->type === PaymentOrder::PAY_TYPE_BALANCE && $order->amount < $user->balance) {
+            if ($order->type === PaymentOrder::PAY_TYPE_BALANCE && $order->amount < $user->balance) {
                 $user->balance -= $order->amount;
                 $user->save();
                 $order->status = PaymentOrder::STATUS_PAID;
                 $order->save();
                 return $this->response->noContent();
             }
-        }catch (\Exception $exception) {
+        } catch (\Exception $exception) {
             $this->response->errorInternal('失败');
         }
     }
@@ -63,11 +63,12 @@ class PaymentController extends Controller
     public function wxPay(PaymentOrder $order)
     {
         $orderPayData = [
-            'body'              => 'The test order',
-            'out_trade_no'      => $order->code,
-            'total_fee'         => $order->amount * 100, //=0.01
-            'spbill_create_ip'  => request()->ip(),
-            'fee_type'          => 'CNY',
+            'body' => 'The test order',
+            'out_trade_no' => $order->code,
+//            'total_fee'         => $order->amount * 100, //=0.01
+            'total_fee' => 1,
+            'spbill_create_ip' => request()->ip(),
+            'fee_type' => 'CNY',
             'notify_url' => route('pay.notify', ['order' => $order->id])
         ];
 
@@ -80,7 +81,7 @@ class PaymentController extends Controller
 
         switch ($gateway) {
             case "Js":
-                $data =  $response->getJsOrderData();
+                $data = $response->getJsOrderData();
                 return $this->response->array([
                     'js_payment_data' => $data
                 ]);
@@ -117,7 +118,7 @@ class PaymentController extends Controller
     {
         $orderPayData = [
             'biz_content' => [
-                'subject'      => 'test',
+                'subject' => 'test',
                 'out_trade_no' => $order->code,
                 'total_amount' => $order->amount,
                 'product_code' => 'FAST_INSTANT_TRADE_PAY',
@@ -180,10 +181,10 @@ class PaymentController extends Controller
     public function unionPay(PaymentOrder $order)
     {
         $orderPayData = [
-            'orderId'   => $order->code, //Your order ID
-            'txnTime'   => date('YmdHis'), //Should be format 'YmdHis'
+            'orderId' => $order->code, //Your order ID
+            'txnTime' => date('YmdHis'), //Should be format 'YmdHis'
             'orderDesc' => 'My order title', //Order Title
-            'txnAmt'    => $order->amount, //Order Total Fee
+            'txnAmt' => $order->amount, //Order Total Fee
         ];
         $gateway = request('gateway', 'Express');
         /**
@@ -209,7 +210,7 @@ class PaymentController extends Controller
          * @var AbstractRequest $request
          * @var AbstractResponse $response
          */
-        $request  = $gateway->purchase($order);
+        $request = $gateway->purchase($order);
         $response = $request->send();
         return $response;
     }
@@ -218,7 +219,7 @@ class PaymentController extends Controller
     {
         $payType = request('pay_type', 'WxPay');
         $gateway = request('gateway', 'Native');
-        /**@var Gateway|AbstractAopGateway|AbstractGateway $notifyGateway*/
+        /**@var Gateway|AbstractAopGateway|AbstractGateway $notifyGateway */
         $notifyGateway = app($payType, [$gateway]);
         $data = $this->notifyData();
         $response = $notifyGateway->completePurchase([
@@ -228,7 +229,7 @@ class PaymentController extends Controller
             //pay success
             $this->orderPaidSuccess($order);
             die('success');
-        }else{
+        } else {
             //pay fail
             $this->orderPaidFail($order);
             die('fail');
@@ -239,11 +240,11 @@ class PaymentController extends Controller
     {
         $data = array_merge($_POST, $_GET);
 
-        if(empty($data)) {
+        if (empty($data)) {
             $data = file_get_contents('php://input');
         }
 
-        if(empty($data)) {
+        if (empty($data)) {
             $data = $_REQUEST;
         }
         return $data;
@@ -251,7 +252,7 @@ class PaymentController extends Controller
 
     protected function orderPaidSuccess(PaymentOrder $order)
     {
-        if($order->type === PaymentOrder::TYPE_RECHARGE) {
+        if ($order->type === PaymentOrder::TYPE_RECHARGE) {
             $order->user->balance += $order->amount;
         }
         $order->status = PaymentOrder::STATUS_PAID;
