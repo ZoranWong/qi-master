@@ -116,7 +116,8 @@ class UsersController extends Controller
             let id = $(this).data('id');
             let name = $(this).data('name');
             let status = $(this).data('status');
-            swal('确定禁止此用户').then(() => {
+            let message = status > 0 ? '确定解除禁止此用户' : '确定禁止此用户';
+            swal(message).then(() => {
                 $.ajax({
                     url: 'users/'+id + '/status/update', 
                     method: 'PUT',
