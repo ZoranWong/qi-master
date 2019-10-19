@@ -182,7 +182,7 @@
                                                 </button>
                                             @elseif($offerOrder->status === \App\Models\OfferOrder::STATUS_HIRED &&
                                             ($order->status & \App\Models\Order::ORDER_EMPLOYED && $order->status < \App\Models\Order::ORDER_PROCEEDING_WAIT_PRE_APPOINT))
-                                                <button class="pay-btn">去支付</button>
+                                                <button class="pay-btn" data-offer-id = "{!!$offerOrder->id!!}">去支付</button>
                                             @endif
                                             <div class="phone">{{$offerOrder->master->mobile}}</div>
                                         </div>
@@ -253,7 +253,8 @@
             }
 
             $('.pay-btn').click(function () {
-                payLayer(currentOrderData['id']);
+                let id = $(this).data('offer-id');
+                payLayer(id);
             });
             $('.employ-btn').click(function () {
                 let url = $(this).data('url');
