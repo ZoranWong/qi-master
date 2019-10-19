@@ -124,9 +124,8 @@ class UsersController extends Controller
                     method: 'PUT',
                     data: {'status': status},
                     dataType: 'json',
-                    success: (res) => {
-                        console.log(res);
-                        if(res.status) {
+                    success: (res) => { 
+                        if(res) {
                             swal(alertMessage).then(() => {
                                 location.reload();
                             });
