@@ -151,8 +151,8 @@ SCRIPT;
     protected function sendCouponScript()
     {
         $view = <<<HTML
-<div class="form-group">
-    <div class="input-group row">
+<div class="form">
+    <div class="form-group row">
         <label class="col-form-label col-sm-2 ">优惠券类型</label>
         <div class = "col-sm-10 d-flex flex-row" style="display: flex;">
             <div class="form-check form-check-inline">
@@ -165,22 +165,16 @@ SCRIPT;
             </div>
     </div>
     </div>
-    <div class="input-group row">
+    <div class="form-group row">
         <label for="floor" class="col-sm-2 col-form-label">使用门槛</label>
         <div class="col-sm-10">
-          <input type="number" aria-describedby="floor" class="form-control coupon-floor" id="floor" value="" placeholder="请输入优惠券门槛">
-          <div class="input-group-append">
-            <span class="input-group-text" id="floor">元</span>
-          </div>
+          <input type="number" class="form-control coupon-floor" id="floor" value="" placeholder="请输入优惠券门槛">
         </div>
     </div>
-    <div class="input-group row">
+    <div class="form-group row">
         <label for="value" class="col-sm-2 col-form-label">优惠力度</label>
         <div class="col-sm-10">
-          <input type="number" aria-describedby="value" class="form-control coupon-value" id="value" value="" placeholder="请输入优惠券金额或者折扣力度">
-          <div class="input-group-append">
-            <span class="input-group-text" id="value">元</span>
-          </div>
+          <input type="number" class="form-control coupon-value" id="value" value="" placeholder="请输入优惠券金额或者折扣力度">
         </div>
     </div>
 </div>
