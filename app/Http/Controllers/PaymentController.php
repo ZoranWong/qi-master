@@ -62,11 +62,12 @@ class PaymentController extends Controller
 
     public function wxPay(PaymentOrder $order)
     {
+        \Log::debug('--------------', $order->toArray());
         $orderPayData = [
             'body' => 'The test order',
             'out_trade_no' => $order->code,
-//            'total_fee'         => $order->amount * 100, //=0.01
-            'total_fee' => 1,
+            'total_fee'         => $order->amount * 100, //=0.01
+//            'total_fee' => 1,
             'spbill_create_ip' => request()->ip(),
             'fee_type' => 'CNY',
             'notify_url' => route('pay.notify', ['order' => $order->id])
