@@ -77,8 +77,8 @@ class UsersController extends Controller
             $actions->disableDelete();
             // 不在每一行后面展示编辑按钮
             $actions->disableEdit();
-            $forbiddenDisable = ($user->status === 1 ? 'disable' : '');
-            $freezeDisable = ($user->status === 1 ? 'disable' : '');
+            $forbiddenDisable = ($user->status === 0 ? 'disabled' : '');
+            $freezeDisable = ($user->status === 1 ? 'disabled' : '');
             $actions->append("<a {$forbiddenDisable} class='btn btn-sm btn-primary user-status-opt user-forbidden' data-id='{$user->id}' data-status = '0'>禁止</a>");
             $actions->append("<a {$freezeDisable} class='btn btn-sm btn-primary user-status-opt user-freeze' data-id='{$user->id}' data-status='1' >启用</a>");
             $actions->append("<a class='btn btn-sm btn-primary send-coupon' data-name = '{$user->name}' data-id='{$user->id}' >发优惠券</a>");
