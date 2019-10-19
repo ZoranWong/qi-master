@@ -164,6 +164,6 @@ SCRIPT;
         });
         
 SCRIPT;
-
+        Admin::script($script);
     }
 }
