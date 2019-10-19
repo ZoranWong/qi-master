@@ -233,15 +233,17 @@ class PaymentController extends Controller
             'request_params' => $data
         ])->send();
         Log::debug('--------order notify ----------', [$response->isPaid(), $response->getRequestData()]);
-        if ($response->isPaid()) {
-            //pay success
-            $this->orderPaidSuccess($order);
-            die('success');
-        } else {
-            //pay fail
-            $this->orderPaidFail($order);
-            die('fail');
-        }
+        $this->orderPaidSuccess($order);
+        die('success');
+//        if ($response->isPaid()) {
+//            //pay success
+//            $this->orderPaidSuccess($order);
+//            die('success');
+//        } else {
+//            //pay fail
+//            $this->orderPaidFail($order);
+//            die('fail');
+//        }
     }
 
     protected function notifyData()
