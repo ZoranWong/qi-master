@@ -12,7 +12,7 @@ Route::group([
     $router->group(['namespace' => config('admin.route.namespace')], function (Router $router) {
         $router->get('/', 'HomeController@index');
         $router->get('users', 'UsersController@index');
-        $router->put('users/{order}/status/update', 'UserController@updateStatus')->name('user.status.update');
+        $router->put('users/{order}/status/update', 'UsersController@updateStatus')->name('user.status.update');
 
         /**
          * 师傅管理页面
