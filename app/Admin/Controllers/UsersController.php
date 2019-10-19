@@ -110,7 +110,6 @@ class UsersController extends Controller
     protected function updateUserStatusScript()
     {
         $token = csrf_token();
-        $url = route('user.forbidden');
         $script = <<<SCRIPT
          $.ajaxSetup({headers: {'X-CSRF-TOKEN': '$token'}});
          $(document).on('click', '.user-status-opt', function(){
@@ -119,7 +118,7 @@ class UsersController extends Controller
             let status = $(this).data('status');
             swal('确定禁止此用户').then(() => {
                 $.ajax({
-                    url: '{$url}/'+id + '/status/update', 
+                    url: 'users/'+id + '/status/update', 
                     method: 'PUT',
                     data: {'status': status},
                     dataType: 'json',
@@ -134,6 +133,6 @@ class UsersController extends Controller
              });
          });
 SCRIPT;
-        Admin::script("");
+        Admin::script($script);
     }
 }
