@@ -64,13 +64,16 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        dd($data);
         return User::create([
             'mobile' => $data['mobile'],
             'password' => Hash::make($data['password']),
         ]);
     }
 
+    public function registerUser(Request $request)
+    {
+        return $this->register($request);
+    }
 
     protected function registered(\Illuminate\Http\Request $request, $user)
     {
