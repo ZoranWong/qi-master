@@ -92,7 +92,7 @@ class UsersController extends Controller
         });
         $this->formCSRFToken();
         $this->updateUserStatusScript();
-//        $this->sendCouponScript();
+        $this->sendCouponScript();
         return $grid;
     }
 
