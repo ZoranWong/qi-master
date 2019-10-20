@@ -123,7 +123,10 @@ $(document).on('click', '.withdraw-agree', function () {
             formData[data['name']] = data['value'];
          });
          if(formData['transfer_amount'] > 0 && formData['comment'] && formData['transfer_amount'] <= amount) { 
-            swal('确定同意提现').then(() => {
+            swal('确定同意提现').then((data) => {
+                if(!data['value'])   {
+                    return;
+                }
                 $.ajax({
                     url: '{$route}/'+id, 
                     method: 'PUT',
