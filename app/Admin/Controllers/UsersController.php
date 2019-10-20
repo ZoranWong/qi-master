@@ -174,7 +174,7 @@ SCRIPT;
     <div class="form-group row">
         <label for="value" class="col-sm-2 col-form-label">优惠力度</label>
         <div class="col-sm-10">
-          <input name="value" type="number" class="form-control coupon-value" id="value" value="" placeholder="请输入优惠券金额或者折扣力度(9折-90)">
+          <input name="value" type="number" class="form-control coupon-value" id="value" value="" placeholder="请输入折扣券折扣力度(9折-90)">
         </div>
     </div>
 </form>
