@@ -266,7 +266,7 @@
                         url: url,
                         data: {'offer_order_id': id},
                         success(data) {
-                            payLayer();
+                            payLayer(id);
                         },
                         fail() {
 

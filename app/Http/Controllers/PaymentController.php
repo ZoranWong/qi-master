@@ -270,7 +270,7 @@ class PaymentController extends Controller
         Log::debug('----------', [$order->toArray(), $offerOrder->toArray()]);
         $offerOrder->status = OfferOrder::STATUS_HIRED;
         $offerOrder->update(['status' => OfferOrder::STATUS_HIRED]);
-        $order->order->update(['status' => Order::ORDER_PROCEEDING_WAIT_PRE_APPOINT]);
+        $order->order->update(['status' => Order::ORDER_PROCEEDING_WAIT_PRE_APPOINT, 'order_checked_code' => Str::random(6)]);
         $order->save();
     }
 
