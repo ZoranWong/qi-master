@@ -130,7 +130,10 @@ SCRIPT;
             let status = $(this).data('status');
             let message = status > 0 ? '确定解除禁止此用户' : '确定禁止此用户';
             let alertMessage = name + (status > 0 ? '已经解除禁止': '已经被禁止');
-            swal(message).then(() => {
+            swal(message).then((data) => {
+                if(!data['value'])   {
+                    return;
+                }
                 $.ajax({
                     url: 'users/'+id + '/status/update', 
                     method: 'PUT',
@@ -208,6 +211,9 @@ HTML;
                 width: '720px',
                 confirmButtonText: '发送', 
             }).then(function (data) {
+                if(!data['value'])   {
+                    return;
+                }
                 let form = $('.send-coupon-form');
                 let formData = form.serializeArray(); 
                 let postData = {
@@ -219,7 +225,10 @@ HTML;
                     postData[field.name] = field.value;
                 });
                 if(postData['type'] && postData['value']) {
-                    swal('确定发放优惠券').then(() => {
+                    swal('确定发放优惠券').then((data) => {
+                        if(!data['value'])   {
+                            return;
+                        }
                         $.ajax({
                             url: 'coupons/users/'+id + '/send', 
                             method: 'POST',

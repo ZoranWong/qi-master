@@ -96,7 +96,10 @@ SCRIPT;
             let status = $(this).data('status');
             let message = status > 0 ? '确定解除禁止此用户' : '确定禁止此用户';
             let alertMessage = name + (status > 0 ? '已经解除禁止': '已经被禁止');
-            swal(message).then(() => {
+            swal(message).then((data) => {
+                if(!data['value'])   {
+                    return;
+                }
                 $.ajax({
                     url: 'masters/'+id + '/status/update', 
                     method: 'PUT',
