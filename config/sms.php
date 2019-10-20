@@ -23,7 +23,8 @@ return [
                     'register' => 'SMS_174900588',
                     'login' => 'SMS_174900590',
                     'reset_password' => 'SMS_174900587',
-                    'reset_payment_password' => 'SMS_174989720'
+                    'reset_payment_password' => 'SMS_174989720',
+                    'order_check_code' => 'SMS_174900586'
                 ]
             ],
         ]

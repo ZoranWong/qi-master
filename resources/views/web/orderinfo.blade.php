@@ -92,7 +92,7 @@
                     <div class="tab-item {{request('service', false)? 'hide' : ''}}">
                         <dl class="tab-info">
                             <dt>服务需求</dt>
-                            <dd>服务类型：（{{$order->classification->name}}）</dd>
+                            <dd>服务类型：（{{$order->classification ? $order->classification->name : ''}}）</dd>
                             <dd>期望服务日期：{{$order->hopeServiceAt}}</dd>
                             <dd>订单备注：{{$order->remark ?? '-'}}</dd>
                             <dt>客户地址</dt>
