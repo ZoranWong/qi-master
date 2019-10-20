@@ -64,7 +64,9 @@ class UsersController extends Controller
         });
 
         $grid->created_at('注册时间');
-        $grid->couponRecordCount('优惠券数量');
+        $grid->column('userCouponRecords','优惠券数量', function ($value) {
+            return count($value);
+        });
 
         // 不在页面显示 `新建` 按钮，因为我们不需要在后台新建用户
         $grid->disableCreateButton();
