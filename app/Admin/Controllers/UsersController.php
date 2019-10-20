@@ -193,7 +193,7 @@ SCRIPT;
             $('input.coupon-value').attr('placeholder', '请输入折扣券折扣力度(9折-90)');
         });
         
-//        $(document).on('click', '.send-user-coupon', function() {
+        $(document).on('click', '.send-user-coupon', function() {
 //            swal({
 //                title: '发送优惠券',
 //                html: ``,
@@ -216,7 +216,7 @@ SCRIPT;
 //                    }
 //                });
 //            });
-//        });
+        });
         
 SCRIPT;
         Admin::script($script);
