@@ -178,7 +178,7 @@
                                             && $order->status < \App\Models\Order::ORDER_EMPLOYED))
                                                 <button class="employ-btn"
                                                         data-url="{{api_route('user.order.hire_master', ['order' => $order->id]).'?token='.$token}}"
-                                                        data-id="{{$offerOrder->id}}">雇佣并支付
+                                                        data-id="{{$offerOrder->id}}">雇佣
                                                 </button>
                                             @elseif($offerOrder->status === \App\Models\OfferOrder::STATUS_HIRED &&
                                             ($order->status & \App\Models\Order::ORDER_EMPLOYED && $order->status < \App\Models\Order::ORDER_PROCEEDING_WAIT_PRE_APPOINT))
@@ -266,7 +266,7 @@
                         url: url,
                         data: {'offer_order_id': id},
                         success(data) {
-                            payLayer(id);
+                            location.reload();
                         },
                         fail() {
 
