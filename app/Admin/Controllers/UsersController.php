@@ -179,8 +179,19 @@ SCRIPT;
     </div>
 </form>
 HTML;
-
         $script = <<<SCRIPT
+        
+        $(document).on('click', '.form-check-input[id="fixed"]', function(){
+            $('input.coupon-value').attr('min', 0);
+            $('input.coupon-value').removeAttr('max');
+            $('input.coupon-value').attr('placeholder', '请输入优惠券优惠券金额');
+        });
+        
+        $(document).on('click', '.form-check-input[id="percent"]', function(){
+            $('input.coupon-value').attr('min', 0);
+            $('input.coupon-value').attr('max', 100);
+            $('input.coupon-value').attr('placeholder', '请输入折扣券折扣力度(9折-90)');
+        });
         
         $(document).on('click', '.send-user-coupon', function() {
             swal({
@@ -189,8 +200,21 @@ HTML;
                 width: '720px',
                 confirmButtonText: '发送', 
             }).then(function (data) {
-                let formData = $('.send-coupon-form').serialize();
-                console.log(formData, data);
+                let formData = $('.send-coupon-form').serialize(); 
+                swal(message).then(() => {
+                $.ajax({
+                    url: 'users/'+id + '/send/coupon', 
+                    method: 'POSTT',
+                    data: formData,
+                    dataType: 'json',
+                    success: (res) => { 
+                        if(res) {
+                            swal(alertMessage).then(() => {
+                                location.reload();
+                            });
+                        } 
+                    }
+                });
             });
         });
         
