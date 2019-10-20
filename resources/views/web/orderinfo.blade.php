@@ -46,9 +46,14 @@
                 <div class="left">
                     <p class="status-intro" style="margin-top: 130px;">
                         已有 <b>{{$order->offerOrders->count()}}</b> 位师傅参与报价
-                        {{--<a href="javascript:void(0)">查看</a>--}}
                         {{--<a href="javascript:void(0)">刷新</a>--}}
                     </p>
+                    @if($order->orderCheckedCode)
+                    <p class="status-intro" style="margin-top: 130px;">
+                        验收码： <b>{{$order->orderCheckedCode}}</b>
+                        {{--<a href="javascript:void(0)">刷新</a>--}}
+                    </p>
+                    @endif
                     {{--<div class="time">订单有效倒计时：</div>--}}
                 </div>
                 <div class="right">
