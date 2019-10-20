@@ -197,6 +197,8 @@ HTML;
         });
         
         $(document).on('click', '.send-user-coupon', function() {
+            let id = $(this).data('id');
+            let name = $(this).data('name');
             swal({
                 title: '发送优惠券',
                 html: `{$view}`,
@@ -222,7 +224,7 @@ HTML;
                             dataType: 'json',
                             success: (res) => { 
                                 if(res) {
-                                    swal(alertMessage).then(() => {
+                                    swal(name + '已经获得优惠券').then(() => {
                                         location.reload();
                                     });
                                 } 
