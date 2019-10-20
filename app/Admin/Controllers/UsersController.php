@@ -163,7 +163,7 @@ SCRIPT;
               <input name = "type"  class="form-check-input" type="radio" id="fixed" value="fixed">
               <label class="form-check-label" for="fixed">现金券</label>
             </div>
-    </div>
+        </div>
     </div>
     <div class="form-group row">
         <label for="floor" class="col-sm-2 col-form-label">使用门槛</label>
@@ -196,7 +196,7 @@ HTML;
         $(document).on('click', '.send-user-coupon', function() {
             swal({
                 title: '发送优惠券',
-                html: `{$view}`,
+                html: ``,
                 width: '720px',
                 confirmButtonText: '发送', 
             }).then(function (data) {
