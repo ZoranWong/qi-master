@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddBalanceToMasterTable extends Migration
+class AddStatusToMastersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,7 +15,7 @@ class AddBalanceToMasterTable extends Migration
     {
         Schema::table('masters', function (Blueprint $table) {
             //
-            $table->unsignedInteger('balance')->default(0)->comment('余额');
+            $table->unsignedTinyInteger('status')->default(1)->comment('状态');
         });
     }
 
@@ -28,7 +28,7 @@ class AddBalanceToMasterTable extends Migration
     {
         Schema::table('masters', function (Blueprint $table) {
             //
-            $table->dropColumn('balance');
+            $table->dropColumn('status');
         });
     }
 }

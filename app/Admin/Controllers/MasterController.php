@@ -3,6 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\Models\Master;
+use App\Repositories\MasterRepository;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -27,8 +28,14 @@ class MasterController extends AdminController
     {
         $grid = new Grid(new Master);
         $grid->actions(function (Grid\Displayers\Actions $actions) {
+            /**@var Master $user */
+            $user = $actions->row;
+            $forbiddenDisable = ($user->status === 0 ? 'disabled' : '');
+            $freezeDisable = ($user->status === 1 ? 'disabled' : '');
             $actions->disableDelete();
             $actions->disableEdit();
+            $actions->append("<a {$forbiddenDisable} class='btn btn-sm btn-primary user-status-opt user-forbidden' data-name = '{$user->name}' data-id='{$user->id}' data-status = '0'>禁止</a>");
+            $actions->append("<a {$freezeDisable} class='btn btn-sm btn-primary user-status-opt user-freeze' data-name = '{$user->name}' data-id='{$user->id}' data-status='1' >启用</a>");
         });
         $grid->disableCreateButton();
         $grid->column('id', 'ID');
@@ -51,7 +58,60 @@ class MasterController extends AdminController
         });
 
         $grid->column('email', '邮箱');
+        $this->formCSRFToken();
+        $this->updateUserStatusScript();
         return $grid;
+    }
+
+    public function updateStatus($masterId, MasterRepository $masterRepository)
+    {
+        $master = $masterRepository->find($masterId);
+        if ($master) {
+            $master->status = request('status', !$master->status);
+            $master->save();
+            return $this->response->array(['message' => '更新成功']);
+        } else {
+            return $this->response->errorNotFound('没找到对应用户');
+        }
+    }
+
+    protected function formCSRFToken()
+    {
+        $token = csrf_token();
+        $script = <<<SCRIPT
+ $.ajaxSetup({headers: {'X-CSRF-TOKEN': '$token'}});
+SCRIPT;
+        Admin::script($script);
+    }
+
+    protected function updateUserStatusScript()
+    {
+
+        $script = <<<SCRIPT
+         $(document).on('click', '.user-status-opt', function(){
+            let id = $(this).data('id');
+            let name = $(this).data('name');
+            let status = $(this).data('status');
+            let message = status > 0 ? '确定解除禁止此用户' : '确定禁止此用户';
+            let alertMessage = name + (status > 0 ? '已经解除禁止': '已经被禁止');
+            swal(message).then(() => {
+                $.ajax({
+                    url: 'masters/'+id + '/status/update', 
+                    method: 'PUT',
+                    data: {'status': status},
+                    dataType: 'json',
+                    success: (res) => { 
+                        if(res) {
+                            swal(alertMessage).then(() => {
+                                location.reload();
+                            });
+                        } 
+                    }
+                });
+             });
+         });
+SCRIPT;
+        Admin::script($script);
     }
 
     /**

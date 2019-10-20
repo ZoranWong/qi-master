@@ -94,7 +94,7 @@ class Master extends Model implements JWTSubject, Authenticatable, MustVerifyEma
         'name', 'real_name', 'avatar', 'mobile', 'email', 'email_verified_at', 'password', 'remember_token',
         'balance', 'province_code', 'city_code', 'area_code', 'wallet_password', 'sex', 'emergency_mobile',
         'address', 'work_day', 'work_time', 'team_nums', 'truck_nums', 'truck_type', 'truck_tonnage', 'id_card_no',
-        'score'
+        'score', 'status'
     ];
 
     protected $casts = [
