@@ -99,6 +99,7 @@
                 dataType: 'json',
                 success(res) {
                     console.log(res);
+                    window.location.href = res.redirect;
                 }
             });
             return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
