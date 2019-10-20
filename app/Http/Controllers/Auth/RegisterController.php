@@ -73,6 +73,7 @@ class RegisterController extends Controller
 
     protected function registered(\Illuminate\Http\Request $request, $user)
     {
+        dd('--------');
         return response(['redirect' => route('home')]);
     }
 }
