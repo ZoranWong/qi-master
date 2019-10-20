@@ -111,6 +111,9 @@ $(document).on('click', '.withdraw-agree', function () {
         width: '720px',
         confirmButtonText: '同意'
     }).then(function (data) {
+        if(!data)   {
+            return;
+        }
          let form = $('.agree-form').serializeArray();
          let formData = {
             comment: '',
