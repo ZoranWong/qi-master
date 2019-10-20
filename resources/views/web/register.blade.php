@@ -102,7 +102,7 @@
                     window.location.href = res.redirect;
                 }
             });
-            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+            // return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
         });
         //各种基于事件的操作，下面会有进一步介绍
     });
