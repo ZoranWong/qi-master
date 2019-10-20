@@ -72,7 +72,13 @@ class RegisterController extends Controller
 
     public function registerUser(Request $request)
     {
-        return $this->register($request);
+        $this->validator($request->toArray());
+        $user = $this->create($request->toArray());
+        if($user){
+            $this->guard()->login($user);
+            return $this->registered($request, $user);
+        }
+        throw new \HttpResponseException('注册失败');
     }
 
     protected function registered(\Illuminate\Http\Request $request, $user)
