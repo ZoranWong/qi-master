@@ -96,9 +96,9 @@
                             <dd>期望服务日期：{{$order->hopeServiceAt}}</dd>
                             <dd>订单备注：{{$order->remark ?? '-'}}</dd>
                             <dt>客户地址</dt>
-                            <dd>客户姓名：{{$order->customerInfo['name']}}</dd>
-                            <dd>联系电话：{{$order->customerInfo['phone']}}</dd>
-                            <dd>客户地址： {{$order->customerInfo['address']}}</dd>
+                            <dd>客户姓名：{{$order->customerInfo ? $order->customerInfo['name'] : ""}}</dd>
+                            <dd>联系电话：{{$order->customerInfo ? $order->customerInfo['phone'] : ''}}</dd>
+                            <dd>客户地址： {{$order->customerInfo ? $order->customerInfo['address'] : ''}}</dd>
                             <dt>联系人信息</dt>
                             <dd>下单人：{{$order->contactUserName}} / {{$order->contactUserPhone}}</dd>
                             <dt style="border-bottom: none;">商品信息</dt>
