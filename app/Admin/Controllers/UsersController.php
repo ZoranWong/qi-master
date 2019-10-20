@@ -92,7 +92,7 @@ class UsersController extends Controller
         });
         $this->formCSRFToken();
         $this->updateUserStatusScript();
-        $this->sendCouponScript();
+//        $this->sendCouponScript();
         return $grid;
     }
 
@@ -204,7 +204,7 @@ HTML;
                 swal(message).then(() => {
                 $.ajax({
                     url: 'users/'+id + '/send/coupon', 
-                    method: 'POSTT',
+                    method: 'POST',
                     data: formData,
                     dataType: 'json',
                     success: (res) => { 
