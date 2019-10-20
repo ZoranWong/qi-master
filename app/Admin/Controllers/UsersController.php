@@ -204,13 +204,21 @@ HTML;
                 confirmButtonText: '发送', 
             }).then(function (data) {
                 let form = $('.send-coupon-form');
-                let formData = form.serialize(); 
-                if(!!form.get('type') && form.get('value') > 0) {
+                let formData = form.serializeArray(); 
+                let postData = {
+                    type: null,
+                    floor: 0,
+                    value: 0 
+                };
+                $.each(formData, function (i, field) {
+                    postData[field.name] = field.value;
+                });
+                if(postData['type'] && postData['value']) {
                     swal('确定发放优惠券').then(() => {
                         $.ajax({
                             url: 'coupons/users/'+id + '/send', 
                             method: 'POST',
-                            data: formData,
+                            data: postData,
                             dataType: 'json',
                             success: (res) => { 
                                 if(res) {
@@ -222,10 +230,10 @@ HTML;
                         });
                     });
                 }else{
-                    if(!form.get('type')){
+                    if(!postData['type']){
                         swal("数据不全无法提交", "没有选择优惠券类型", "error");
                     }
-                    if(!form.get('value')){
+                    if(postData['value'] === 0){
                         swal("数据不全无法提交", valueMessage, "error");
                     }
                 }
