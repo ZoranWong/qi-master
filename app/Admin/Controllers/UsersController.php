@@ -202,18 +202,19 @@ HTML;
             }).then(function (data) {
                 let formData = $('.send-coupon-form').serialize(); 
                 swal('确定发放优惠券').then(() => {
-                $.ajax({
-                    url: 'users/'+id + '/send/coupon', 
-                    method: 'POST',
-                    data: formData,
-                    dataType: 'json',
-                    success: (res) => { 
-                        if(res) {
-                            swal(alertMessage).then(() => {
-                                location.reload();
-                            });
-                        } 
-                    }
+                    $.ajax({
+                        url: 'users/'+id + '/send/coupon', 
+                        method: 'POST',
+                        data: formData,
+                        dataType: 'json',
+                        success: (res) => { 
+                            if(res) {
+                                swal(alertMessage).then(() => {
+                                    location.reload();
+                                });
+                            } 
+                        }
+                    });
                 });
             });
         });
