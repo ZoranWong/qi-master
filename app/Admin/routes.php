@@ -20,7 +20,7 @@ Route::group([
         $router->group(['prefix' => 'masters'], function (Router $router) {
             $router->get('/', 'MasterController@index')->name('admin.masters.index');
             $router->get('/{master}', 'MasterController@show')->name('admin.masters.show');
-            $router->get('/{master}/status/update', 'MasterController@updateStatus')->name('admin.masters.updateStatus');
+            $router->put('/{master}/status/update', 'MasterController@updateStatus')->name('admin.masters.updateStatus');
         });
 
         $router->group(['prefix' => 'coupons'], function (Router $router) {
