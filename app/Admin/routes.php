@@ -22,6 +22,10 @@ Route::group([
             $router->get('/{master}', 'MasterController@show')->name('admin.masters.show');
         });
 
+        $router->group(['prefix' => 'coupons'], function (Router $router) {
+            $router->post('users/{userId}/send', 'CouponCodesController@sendUserCoupon');
+        });
+
         /**
          * 投诉类型
          * */

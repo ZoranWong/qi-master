@@ -180,17 +180,20 @@ SCRIPT;
 </form>
 HTML;
         $script = <<<SCRIPT
-        
+        let valueMessage = '没有填写折扣券折扣力度';
         $(document).on('click', '.form-check-input[id="fixed"]', function(){
             $('input.coupon-value').attr('min', 0);
             $('input.coupon-value').removeAttr('max');
             $('input.coupon-value').attr('placeholder', '请输入优惠券优惠券金额');
+            valueMessage = '没有填写优惠券优惠金额';
+            
         });
         
         $(document).on('click', '.form-check-input[id="percent"]', function(){
             $('input.coupon-value').attr('min', 0);
             $('input.coupon-value').attr('max', 100);
             $('input.coupon-value').attr('placeholder', '请输入折扣力度(9折-90)');
+            valueMessage = '没有填写折扣券折扣力度';
         });
         
         $(document).on('click', '.send-user-coupon', function() {
@@ -200,22 +203,32 @@ HTML;
                 width: '720px',
                 confirmButtonText: '发送', 
             }).then(function (data) {
-                let formData = $('.send-coupon-form').serialize(); 
-                swal('确定发放优惠券').then(() => {
-                    $.ajax({
-                        url: 'users/'+id + '/send/coupon', 
-                        method: 'POST',
-                        data: formData,
-                        dataType: 'json',
-                        success: (res) => { 
-                            if(res) {
-                                swal(alertMessage).then(() => {
-                                    location.reload();
-                                });
-                            } 
-                        }
+                let form = $('.send-coupon-form');
+                let formData = form.serialize(); 
+                if(!!form.get('type') && form.get('value') > 0) {
+                    swal('确定发放优惠券').then(() => {
+                        $.ajax({
+                            url: 'coupons/users/'+id + '/send', 
+                            method: 'POST',
+                            data: formData,
+                            dataType: 'json',
+                            success: (res) => { 
+                                if(res) {
+                                    swal(alertMessage).then(() => {
+                                        location.reload();
+                                    });
+                                } 
+                            }
+                        });
                     });
-                });
+                }else{
+                    if(!form.get('type')){
+                        swal("数据不全无法提交", "没有选择优惠券类型", "error");
+                    }
+                    if(!form.get('value')){
+                        swal("数据不全无法提交", valueMessage, "error");
+                    }
+                }
             });
         });
         
