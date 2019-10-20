@@ -193,30 +193,30 @@ SCRIPT;
             $('input.coupon-value').attr('placeholder', '请输入折扣券折扣力度(9折-90)');
         });
         
-        $(document).on('click', '.send-user-coupon', function() {
-            swal({
-                title: '发送优惠券',
-                html: ``,
-                width: '720px',
-                confirmButtonText: '发送', 
-            }).then(function (data) {
-                let formData = $('.send-coupon-form').serialize(); 
-                swal(message).then(() => {
-                $.ajax({
-                    url: 'users/'+id + '/send/coupon', 
-                    method: 'POST',
-                    data: formData,
-                    dataType: 'json',
-                    success: (res) => { 
-                        if(res) {
-                            swal(alertMessage).then(() => {
-                                location.reload();
-                            });
-                        } 
-                    }
-                });
-            });
-        });
+//        $(document).on('click', '.send-user-coupon', function() {
+//            swal({
+//                title: '发送优惠券',
+//                html: ``,
+//                width: '720px',
+//                confirmButtonText: '发送', 
+//            }).then(function (data) {
+//                let formData = $('.send-coupon-form').serialize(); 
+//                swal(message).then(() => {
+//                $.ajax({
+//                    url: 'users/'+id + '/send/coupon', 
+//                    method: 'POST',
+//                    data: formData,
+//                    dataType: 'json',
+//                    success: (res) => { 
+//                        if(res) {
+//                            swal(alertMessage).then(() => {
+//                                location.reload();
+//                            });
+//                        } 
+//                    }
+//                });
+//            });
+//        });
         
 SCRIPT;
         Admin::script($script);
