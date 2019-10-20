@@ -10,6 +10,7 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class MasterController extends AdminController
 {
@@ -70,9 +71,9 @@ class MasterController extends AdminController
         if ($master) {
             $master->status = request('status', !$master->status);
             $master->save();
-            return $this->response->array(['message' => '更新成功']);
+            return response(['message' => '更新成功']);
         } else {
-            return $this->response->errorNotFound('没找到对应用户');
+            throw new ModelNotFoundException('没找到对应用户');
         }
     }
 
