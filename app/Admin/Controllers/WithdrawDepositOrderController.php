@@ -34,7 +34,7 @@ class WithdrawDepositOrderController extends AdminController
             $actions->disableEdit();
             $actions->disableDelete();
         });
-        $grid->column('id', 'ID');
+        $grid->column('id', 'ID')->sortable();
         $grid->column('master.name', '申请提现师傅');
         $grid->column('apply_amount', '申请提现金额')->display(function ($value) {
             return number_format($value, 2);
