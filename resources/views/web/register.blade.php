@@ -82,7 +82,7 @@
             confirm_password: function (value) {
                 if(!new RegExp( /^[\S]{6,12}$/).test(value)) {
                     return '密码必须6到12位，且不能出现空格';
-                }else if($('input[name="password"]') !== value) {
+                }else if($('input[name="password"]').val() !== value) {
                     return '两次输入密码不一致';
                 }
             }
