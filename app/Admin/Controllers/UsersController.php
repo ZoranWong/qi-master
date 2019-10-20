@@ -150,35 +150,35 @@ SCRIPT;
 
     protected function sendCouponScript()
     {
-        $view = <<<HTML
-<!--<form class="send-coupon-form">-->
-    <!--<div class="form-group row">-->
-        <!--<label class="col-form-label col-sm-2 ">优惠券类型</label>-->
-        <!--<div class = "col-sm-10 d-flex flex-row" style="display: flex;">-->
-            <!--<div class="form-check form-check-inline">-->
-              <!--<input name = "type" class="form-check-input" type="radio" id="percent" value="percent" checked>-->
-              <!--<label class="form-check-label" for="percent">折扣券</label>-->
-            <!--</div>-->
-            <!--<div class="form-check form-check-inline" style="margin-left: 12px;">-->
-              <!--<input name = "type"  class="form-check-input" type="radio" id="fixed" value="fixed">-->
-              <!--<label class="form-check-label" for="fixed">现金券</label>-->
-            <!--</div>-->
-        <!--</div>-->
-    <!--</div>-->
-    <!--<div class="form-group row">-->
-        <!--<label for="floor" class="col-sm-2 col-form-label">使用门槛</label>-->
-        <!--<div class="col-sm-10">-->
-          <!--<input name = "floor" type="number" class="form-control coupon-floor" id="floor" value="" placeholder="请输入优惠券门槛">-->
-        <!--</div>-->
-    <!--</div>-->
-    <!--<div class="form-group row">-->
-        <!--<label for="value" class="col-sm-2 col-form-label">优惠力度</label>-->
-        <!--<div class="col-sm-10">-->
-          <!--<input name="value" type="number" class="form-control coupon-value" id="value" value="" placeholder="请输入优惠券金额或者折扣力度(9折-90)">-->
-        <!--</div>-->
-    <!--</div>-->
-<!--</form>-->
-HTML;
+//        $view = <<<HTML
+//<form class="send-coupon-form">
+//    <div class="form-group row">
+//        <label class="col-form-label col-sm-2 ">优惠券类型</label>
+//        <div class = "col-sm-10 d-flex flex-row" style="display: flex;">
+//            <div class="form-check form-check-inline">
+//              <input name = "type" class="form-check-input" type="radio" id="percent" value="percent" checked>
+//              <label class="form-check-label" for="percent">折扣券</label>
+//            </div>
+//            <div class="form-check form-check-inline" style="margin-left: 12px;">
+//              <input name = "type"  class="form-check-input" type="radio" id="fixed" value="fixed">
+//              <label class="form-check-label" for="fixed">现金券</label>
+//            </div>
+//        </div>
+//    </div>
+//    <div class="form-group row">
+//        <label for="floor" class="col-sm-2 col-form-label">使用门槛</label>
+//        <div class="col-sm-10">
+//          <input name = "floor" type="number" class="form-control coupon-floor" id="floor" value="" placeholder="请输入优惠券门槛">
+//        </div>
+//    </div>
+//    <div class="form-group row">
+//        <label for="value" class="col-sm-2 col-form-label">优惠力度</label>
+//        <div class="col-sm-10">
+//          <input name="value" type="number" class="form-control coupon-value" id="value" value="" placeholder="请输入优惠券金额或者折扣力度(9折-90)">
+//        </div>
+//    </div>
+//</form>
+//HTML;
         $script = <<<SCRIPT
         
         $(document).on('click', '.form-check-input[id="fixed"]', function(){
@@ -196,7 +196,7 @@ HTML;
         $(document).on('click', '.send-user-coupon', function() {
             swal({
                 title: '发送优惠券',
-                html: `{$view}`,
+                html: ``,
                 width: '720px',
                 confirmButtonText: '发送', 
             }).then(function (data) {
