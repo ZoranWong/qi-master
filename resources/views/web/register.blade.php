@@ -44,7 +44,7 @@
                         <input type="password" id="password" class="password" placeholder="请输入您的密码">
                         <i></i>
                     </li>
-                    <li>
+                    <li class="layui-form-item">
                         <input type="password" id="password_confirmation" class="password_confirmation" placeholder="请再次输入密码">
                         <i></i>
                     </li>
