@@ -113,7 +113,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach(($order->products ? $order->$products : []) as $product)
+                                    @foreach($order->products as $product)
                                         <tr>
                                             <td>
                                                 <div class="item-img">
