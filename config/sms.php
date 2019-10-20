@@ -20,9 +20,9 @@ return [
                 'access_secret' => env('ALIYUN_SMS_AS'), // accessSecret
                 'sign_name' => env('ALIYUN_SMS_SIGN_NAME'), // 签名
                 'templates' => [
-                    'register' => 'SMS_169980067',
-                    'login' => 'SMS_157075027',
-                    'reset_password' => 'SMS_169980066',
+                    'register' => 'SMS_174900588',
+                    'login' => 'SMS_174900590',
+                    'reset_password' => 'SMS_174900587',
                     'reset_payment_password' => 'SMS_174989720'
                 ]
             ],

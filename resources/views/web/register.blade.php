@@ -28,10 +28,10 @@
             <div class="title">
                 <span class="fr">已有账号？ <a href="login">立即登录&gt;&gt;</a></span>
             </div>
-            <div class="left">
+            <div class="left layui-form">
                 <div class="welcome">欢迎注册齐师傅<span class="tips"></span></div>
                 <ul>
-                    <li>
+                    <li class="layui-form-item">
                         <input type="tel" id="phone" class="r-phone" maxlength="11" placeholder="请输入您的手机号">
                         <i></i>
                     </li>
@@ -40,7 +40,7 @@
                         {{--<button class="getCode" onclick="getCode()">获取验证码</button>--}}
                         {{--<i></i>--}}
                     {{--</li>--}}
-                    <li>
+                    <li class="layui-form-item">
                         <input type="password" id="password" class="password" placeholder="请输入您的密码">
                         <i></i>
                     </li>
@@ -49,12 +49,14 @@
                         <i></i>
                     </li>
                 </ul>
-                <div class="agree">
+                <div class="agree layui-form-item">
                     <input type="checkbox" id="agree" checked="">
                     <label for="agree">我已经阅读并同意</label>
                     <a href="">网站注册协议</a>
                 </div>
-                <button class="register-btn" onclick="register()">立即注册</button>
+                <div class="layui-form-item">
+                    <button class="register-btn" onclick="register()">立即注册</button>
+                </div>
             </div>
             <div class="line"><img src="/web/image/line.png"></div>
             <div class="right">
