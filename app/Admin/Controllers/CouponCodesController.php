@@ -4,11 +4,16 @@ namespace App\Admin\Controllers;
 
 use App\Models\CouponCode;
 use App\Http\Controllers\Controller;
+use App\Models\CouponRecord;
+use App\Models\User;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class CouponCodesController extends Controller
 {
@@ -124,5 +129,38 @@ class CouponCodesController extends Controller
         });
 
         return $form;
+    }
+
+
+    public function sendUserCoupon($userId)
+    {
+        $user = User::find($userId);
+        if($user) {
+            return DB::transaction(function () use ($user){
+                $coupon = new CouponCode();
+                $coupon->code = Str::upper(Str::random(10));
+                $coupon->name = '优惠券';
+                $coupon->type = request('type');
+                $coupon->minAmount = request('floor', 0);
+                $coupon->value = request('value');
+                $coupon->total = 1;
+                $coupon->save();
+                $couponRecord = new CouponRecord();
+                $couponRecord->code = Str::upper(Str::random(10));
+                $couponRecord->name = '优惠券';
+                $couponRecord->type = request('type');
+                $couponRecord->minAmount = request('floor', 0);
+                $couponRecord->value = request('value');
+                $couponRecord->total = 1;
+                $couponRecord->used = false;
+                $couponRecord->userId = $user->id;
+                $couponRecord->couponCodeId = $coupon->id;
+                $couponRecord->save();
+
+                return $this->response->array(['message' => '发送成功']);
+            });
+        }else{
+            throw new ModelNotFoundException('用户不存在');
+        }
     }
 }

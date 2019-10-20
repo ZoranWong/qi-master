@@ -77,6 +77,10 @@ class CouponCode extends Model
 
     protected $appends = ['description'];
 
+    protected $attributes = [
+        'name' => '',
+        'min_amount' => 0
+    ];
     public function getDescriptionAttribute()
     {
         $str = '';
