@@ -78,7 +78,7 @@ class WithdrawDepositOrderController extends AdminController
             $actions->disableEdit();
             $actions->disableView();
             if ($order->status === WithdrawDepositOrder::HANDLING) {
-                $actions->append("<a class='btn btn-sm btn-primary withdraw-agree' data-id='{$order->id}'>同意</a>
+                $actions->append("<a class='btn btn-sm btn-primary withdraw-agree' data-id='{$order->id}' data-fee='{$order->applyAmount}'>同意</a>
 <a class='btn btn-sm btn-dark withdraw-refuse' data-id='{$order->id}'>拒绝</a> ");
             }
         });
@@ -104,6 +104,7 @@ let agreeTemplate = `$view`;
 $(document).off('click', '.withdraw-agree');
 $(document).on('click', '.withdraw-agree', function () {
     let id = $(this).data('id');
+    let amount = $(this).data('fee');
     swal({
         title: '同意提现',
         html: agreeTemplate,
@@ -111,25 +112,35 @@ $(document).on('click', '.withdraw-agree', function () {
         confirmButtonText: '同意'
     }).then(function (data) {
          let form = $('.agree-form').serializeArray();
-         let formData = {};
+         let formData = {
+            comment: '',
+            transfer_amount: 0
+         };
          form.forEach((data) => {
             formData[data['name']] = data['value'];
          });
-         swal('确定同意提现').then(() => {
-            $.ajax({
-                url: '{$route}/'+id, 
-                method: 'PUT',
-                data: formData,
-                dataType: 'json',
-                success: (res) => {
-                    if(res.status) {
-                        swal('转账成功').then(() => {
-                            location.reload();
-                        });
-                    } 
-                }
-            });
-         });
+         if(formData['transfer_amount'] > 0 && formData['comment'] && formData['transfer_amount'] <= amount) { 
+            swal('确定同意提现').then(() => {
+                $.ajax({
+                    url: '{$route}/'+id, 
+                    method: 'PUT',
+                    data: formData,
+                    dataType: 'json',
+                    success: (res) => {
+                        if(res.status) {
+                            swal('转账成功').then(() => {
+                                location.reload();
+                            });
+                        } 
+                    }
+                });
+             });
+         }else if(formData['transfer_amount'] === 0 || !formData['comment'] ){
+            swal("数据不全无法提交", "请输入转账金额与说明", "error");
+         }else if(formData['transfer_amount'] > amount)){ 
+            swal("数据错误", "请输入转账金额不能大于申请金额", "error");
+         }
+         
     });
 });
 SCRIPT;
