@@ -27,7 +27,7 @@ class ComplaintTypesController extends AdminController
         $grid = new Grid(new ComplaintType);
 
         $grid->column('id', 'ID');
-        $grid->column('parent.name', '父类型');
+//        $grid->column('parent.name', '父类型');
         $grid->column('name', '投诉类型名称');
         $grid->column('children', '子类型数量')->display(function ($value) {
             return count($value);
