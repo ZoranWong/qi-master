@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\InvalidRequestException;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -86,7 +87,10 @@ class UsersController extends Controller
 
     public function registerUser(Request $request)
     {
-        $this->validator($request->toArray());
+        $validator = $this->validator($request->toArray());
+        if($validator->fails()) {
+            throw new InvalidRequestException($validator->errors()->toJson());
+        }
         $user = $this->create($request->toArray());
         if($user){
             auth()->login($user);
