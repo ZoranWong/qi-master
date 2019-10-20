@@ -42,10 +42,12 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Product[] $favoriteProducts
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Master[] $favouriteMasters
  * @property-read mixed $sexDesc
+ * @property-read mixed $userCouponRecordCount
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Message[] $messages
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Order[] $orders
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\RefundOrder[] $refundOrders
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\CouponRecord[] $userCouponRecords
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User query()
@@ -120,6 +122,16 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject, HasPr
 //            $user->name = '';
             return $user;
         });
+    }
+
+    public function userCouponRecords()
+    {
+        return $this->hasMany(CouponRecord::class);
+    }
+
+    public function getUserCouponRecordCountAttribute()
+    {
+        return $this['user_coupon_records_count'] ? $this['user_coupon_records_count']  : $this->userCouponRecords->count();
     }
 
     public function addresses()
