@@ -95,7 +95,7 @@
             $.ajax({
                 url: url,
                 method: 'POST',
-                data: data,
+                data: data.field,
                 dataType: 'json',
                 success(res) {
                     console.log(res);
