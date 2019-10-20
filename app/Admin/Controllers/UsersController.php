@@ -64,7 +64,7 @@ class UsersController extends Controller
         });
 
         $grid->created_at('注册时间');
-        $grid->column('userCouponRecords','优惠券数量', function ($value) {
+        $grid->column('userCouponRecords','优惠券数量')->display( function ($value) {
             return count($value);
         });
 
