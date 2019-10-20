@@ -137,7 +137,7 @@ $(document).on('click', '.withdraw-agree', function () {
              });
          }else if(formData['transfer_amount'] === 0 || !formData['comment'] ){
             swal("数据不全无法提交", "请输入转账金额与说明", "error");
-         }else if(formData['transfer_amount'] > amount)){ 
+         }else if(formData['transfer_amount'] > amount){ 
             swal("数据错误", "请输入转账金额不能大于申请金额", "error");
          }
          
