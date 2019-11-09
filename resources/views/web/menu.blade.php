@@ -49,9 +49,9 @@
                     <li class="{{$currentMenu === 'profile' ? 'router-link-active' : ''}}">
                         <a href="/profile">基本资料</a>
                     </li>
-                    <li class="{{$currentMenu === 'security' ? 'router-link-active' : ''}}">
-                        <a href="/security">安全设置</a>
-                    </li>
+                    {{--<li class="{{$currentMenu === 'security' ? 'router-link-active' : ''}}">--}}
+                        {{--<a href="/security">安全设置</a>--}}
+                    {{--</li>--}}
                 </ul>
             </li>
             <li>

@@ -40,7 +40,7 @@
                     <li>
                         <span>登录密码<em>已设置</em></span>
                         <span>互联网账号存在被盗风险，建议您定期更改密码以保护账户安全。</span>
-                        <a href="modifypwd.html">修改密码</a>
+                        <a href="{{}}">修改密码</a>
                     </li>
                     <li>
                         <span>钱包密码<em>已设置</em></span>

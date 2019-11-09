@@ -38,7 +38,7 @@
             <div class="bottom clearfix">
                 <div class="balance fl">
                     <span class="txt">可用余额（元）</span>
-                    <span class="money">2019.70</span>
+                    <span class="money">{{$user->balance}}</span>
                     <div>
                         <a href="{{route("user.charge")}}">充值</a>
                     </div>

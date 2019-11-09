@@ -15,7 +15,8 @@ class WalletController extends Controller
         }else{
             return view('web.wallet')->with([
                 'selected' => 'wallet',
-                'currentMenu' => 'wallet'
+                'currentMenu' => 'wallet',
+                'user' => auth()->user()
             ]);
         }
     }
