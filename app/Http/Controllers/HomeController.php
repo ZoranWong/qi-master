@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Dingo\Api\Dispatcher;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 
 class HomeController extends Controller
@@ -30,6 +31,8 @@ class HomeController extends Controller
         }
         $orders = $user->orders()->with(['items', 'offerOrders'])->offset(0)->limit(10)->get();
         $view->with('user', $user)->with('orders', $orders);
+        $token = JWTAuth::fromUser($user);
+        $view->with('token', $token);
         return $view;
     }
 

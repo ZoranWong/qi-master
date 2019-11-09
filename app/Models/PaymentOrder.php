@@ -62,6 +62,10 @@ class PaymentOrder extends Model implements HasPresenter
 
     protected $dates = ['deleted_at', 'paid_at'];
 
+    protected $attributes = [
+        'status' => self::STATUS_UNPAID
+    ];
+
     const STATUS_UNPAID = 1;
     const STATUS_PAID = 2;
     const STATUS_CLOSED = 3;

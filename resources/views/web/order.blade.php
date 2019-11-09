@@ -44,7 +44,8 @@
         .order-operation .order-operation-btn {
             background-color: #29bbe6;
         }
-        .order-operation .order-operation-btn:hover{
+
+        .order-operation .order-operation-btn:hover {
             cursor: pointer;
         }
     </style>
@@ -98,9 +99,12 @@
                         <div class="layui-input-block radio-style">
                             <input type="radio" name="tag" value="" title="全部" {{$tag === null ? 'checked' : ''}}>
                             {{--<input type="radio" name="fee" value="" title="申请空跑费">--}}
-                            <input type="radio" name="tag" value="ADDITION_FEE" title="增加费用" {{$tag === 'ADDITION_FEE' ? 'checked' : ''}}>
-                            <input type="radio" name="tag" value="REFUND" title="申请退款" {{$tag === 'REFUND' ? 'checked' : ''}}>
-                            <input type="radio" name="tag" value="AFTER_SALE" title="申请售后" {{$tag === 'AFTER_SALE' ? 'checked' : ''}}>
+                            <input type="radio" name="tag" value="ADDITION_FEE"
+                                   title="增加费用" {{$tag === 'ADDITION_FEE' ? 'checked' : ''}}>
+                            <input type="radio" name="tag" value="REFUND"
+                                   title="申请退款" {{$tag === 'REFUND' ? 'checked' : ''}}>
+                            <input type="radio" name="tag" value="AFTER_SALE"
+                                   title="申请售后" {{$tag === 'AFTER_SALE' ? 'checked' : ''}}>
                         </div>
                     </div>
                     <div class="layui-form-item">
@@ -116,21 +120,22 @@
                         <div class="layui-inline">
                             <label class="layui-form-label">下单时间</label>
                             <div class="layui-input-inline date-width">
-                                <input name = "order_date" type="text" class="layui-input" id="selectData" placeholder=" 开始日期-结束日期 " value="{{$orderDate}}">
+                                <input name="order_date" type="text" class="layui-input" id="selectData"
+                                       placeholder=" 开始日期-结束日期 " value="{{$orderDate}}">
                             </div>
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">客户信息</label>
                         <div class="layui-input-inline date-width">
-                            <input type="text" name="search_field"  placeholder="请输入客户姓名或手机号"
+                            <input type="text" name="search_field" placeholder="请输入客户姓名或手机号"
                                    autocomplete="off" class="layui-input" value="{{$searchField}}">
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">订单编号</label>
                         <div class="layui-input-inline date-width">
-                            <input type="text" name="order_no"  placeholder="请输入订单号"
+                            <input type="text" name="order_no" placeholder="请输入订单号"
                                    autocomplete="off" class="layui-input" value="{{$orderNo}}">
                         </div>
                     </div>
@@ -205,71 +210,7 @@
 <!--content--end-->
 
 </body>
-<script>
-    layui.use(['form', 'layedit', 'laydate', 'laypage', 'element'], function () {
-        var form = layui.form,
-            layer = layui.layer,
-            layedit = layui.layedit,
-            laydate = layui.laydate;
-        element = layui.element;
-        laypage = layui.laypage;
-        let search = {};
-        laydate.render({
-            elem: '#selectData',
-            range: true
-        });
-        let first = true;
-        laypage.render({
-            elem: 'pagination',
-            count: {{$count}}, //数据总数
-            curr: {{$page}},
-            jump: function (obj) {
-                console.log(obj);
-                if (!first) {
-                    jump(search, obj.curr);
-                    {{--location.href = "/orders?{{ $status !== null ? 'status='.$status : '' }}&page=" + obj.curr + '&limit=' + obj.limit;--}}
-                }
-                first = false;
-            }
-        });
-        function jump(data, page = 1){
-            let url = "/orders?{{ $status !== null ? 'status='.$status : '' }}&limit={{$limit}}&page="+page;
-            for (let key in data.field) {
-                let value = data.field[key];
-                if(value) {
-                    url += `&${key}=${value}`;
-                }
-            }
-            location.href = url;
-        }
-        form.on('submit(search)', function (data) {
-            console.log(data);
-            search = data;
-            jump(data);
-        });
-
-        $(".order-operation .order-operation-btn.order-check-opt-btn").click(function () {
-            console.log("--------- order check -----------");
-            let id = $(this).data('order-id');
-            {{--$.ajax("{{api_route('user.order.checked', ['order' => $order->id]).'?token='.$token}}", {--}}
-                {{--method: 'PUT',--}}
-
-            {{--})--}}
-        });
-        $(".order-operation .order-operation-btn.order-comment-opt-btn").click(function () {
-            console.log("--------- order comment -----------");
-            let id = $(this).data('order-id');
-        });
-        $(".order-operation .order-operation-btn.order-addition-opt-btn").click(function () {
-            console.log("--------- order comment -----------");
-            let id = $(this).data('order-id');
-        });
-
-        $(".order-operation .order-cancel-opt-btn").click(function () {
-            console.log("--------- order cancel -----------");
-            let id = $(this).data('order-id');
-        });
-    });
-</script>
+@include('web.pager')
+@include('web.orderListScript')
 </html>
 

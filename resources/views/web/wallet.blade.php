@@ -40,7 +40,7 @@
                     <span class="txt">可用余额（元）</span>
                     <span class="money">2019.70</span>
                     <div>
-                        <a href="recharge.html">充值</a>
+                        <a href="{{route("user.charge")}}">充值</a>
                     </div>
                 </div>
                 <div class="account-info  fr">

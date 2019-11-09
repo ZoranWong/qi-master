@@ -201,17 +201,6 @@
 
         </div>
     </div>
-    <div id="payTypePopup" style="display: none;">
-        <form class="layui-form">
-            <div class="layui-form-item">
-                <ul>
-                    <li><input type="radio" name="pay_type" value="WechatPay" title="微信支付" checked></li>
-                    <li><input type="radio" name="pay_type" value="AliPay" title="支付宝支付"></li>
-                    <li><input type="radio" name="pay_type" value="BalancePay" title="余额支付"></li>
-                </ul>
-            </div>
-        </form>
-    </div>
 </div>
 
 <!--content--end-->
@@ -219,47 +208,25 @@
 </body>
 
 </html>
+@include("web.orderPayTypeScript")
 <script>
     const currentOrderData = {!! $order !!};
     $(function () {
         layui.use(['layer', 'form'], function () {
             let form = layui.form;
             form.render();
-            function payLayer(id = 1) {
-                layer.open({
-                    title: '选择支付方式',
-                    content: $('#payTypePopup').html(),
-                    success(data) {
-                        form.render();
-                    },
-                    yes(data) {
-                        let payType = $('div#layui-layer1.layui-layer.layui-layer-dialog input:radio:checked[name="pay_type"]').val();
-                        let host = location.origin;
-                        let url = "";
-                        switch (payType) {
-                            case 'WechatPay':
-                                url = `${host}/wx/pay/${id}`;
-                                layer.closeAll();
-                                window.open(url)
-                                break;
-                            case 'AliPay':
-                                url = `${host}/ali/pay/${id}`;
-                                layer.closeAll();
-                                window.open(url)
-                                break;
-                            case 'BalancePay':
-                                url = `${host}/balance/pay/${id}?token=` + "{{$token}}";
-                                $.get(url);
-                                break;
-                        }
-                    }
-                });
-
-            }
 
             $('.pay-btn').click(function () {
                 let id = $(this).data('offer-id');
-                payLayer(id);
+                let url = "{{route('user.offer_order.pay.order', ["order" => '$id$'])}}";
+                url = urlReplace(url, id);
+                $.get({
+                    url: url,
+                    success(data) {
+                        payLayer(layer, form, data['pay_order_id']);
+                    }
+                });
+
             });
             $('.employ-btn').click(function () {
                 let url = $(this).data('url');

@@ -16,6 +16,7 @@ use App\Models\User;
 use App\Models\UserAddress;
 use App\Models\Order;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use App\Services\OrderService;
 use Illuminate\Support\Facades\DB;
@@ -39,6 +40,8 @@ class OrdersController extends Controller
         // 参数中加入 $coupon 变量
         return $orderService->store($user, $address, $request->input('remark'), $request->input('items'), $coupon);
     }
+
+    public function checked(){}
 
     public function index(Request $request)
     {
@@ -84,8 +87,26 @@ class OrdersController extends Controller
             $query->where('created_at', '>=', $start->format('Y-m-d H:i:s'))
                 ->where('created_at', '<', $now->format('Y-m-d H:i:s'));
         }
+
+        if(($date = $request->input('order_date', null))) {
+            $dates = explode(' - ', $date);
+            $query->where('created_at', '>=', \Illuminate\Support\Carbon::createFromTimeString($dates[0]." 00:00:00"))
+                ->where('created_at', '<', \Illuminate\Support\Carbon::createFromTimeString($dates[1]." 23:59:59"));
+        }
+        if(($orderNo = $request->input('order_no', null))){
+            $query->where('order_no', $orderNo);
+        }
+
+        if(($search = $request->input('search_field', null))) {
+            $query->whereHas('user', function ($query) use($search){
+                /**@var Builder $query*/
+                return $query->where('name', 'like', "%{$search}%")
+                    ->orWhere('mobile', 'like', "%{$search}%")
+                    ->orWhere('real_name', 'like', "%{$search}%");
+            });
+        }
+
         $count = $query->count();
-//        dd(DB::getQueryLog(), $count);
         $orders = $query
             ->with(['offerOrders'])
             ->offset($offset)
@@ -106,6 +127,9 @@ class OrdersController extends Controller
             'orderNo' => $request->input('order_no', null),
             'searchField' => $request->input('search_field', null)
         ]);
+        $user = auth()->user();
+        $token = JWTAuth::fromUser($user);
+        $view->with('token', $token);
 
         return $view;
     }

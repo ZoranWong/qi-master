@@ -22,7 +22,7 @@ Route::group(['middleware' => ['guard:web']], function (Router $router) {
         $router->get('', 'HomeController@index')->name('home');
         $router->get('orders', 'OrdersController@index')->name('user.orders');
         $router->get('orders/{order}', 'OrdersController@show')->name('user.order.detail');
-        $router->get('orders/{order}/comment', 'CommentsController@comment')->name('user.order.comment');
+        $router->get('orders/{order}/comment', 'CommentsController@comment')->name('user.order.comment.view');
         $router->get('publish/{step?}', 'OrdersController@publish')->name('user.publish.order');
         $router->get('comments', 'CommentsController@index')->name('user.orders.comments');
         $router->get('gallery', 'ProductsController@index');
@@ -33,16 +33,17 @@ Route::group(['middleware' => ['guard:web']], function (Router $router) {
         $router->get('wallet', 'WalletController@show');
         $router->get('profile', 'UsersController@profile');
         $router->get('security', 'UsersController@security');
-        $router->get('recharge', 'UsersController@recharge');
+        $router->get('recharge', 'UsersController@recharge')->name('user.charge');
         $router->get('message', 'ServicesController@message');
-        $router->any('wx/pay/{order}', 'PaymentController@wxPayOrder');
-        $router->any('ali/pay/{order}', 'PaymentController@aliPayOrder');
+        $router->get('wx/pay/{order}', 'PaymentController@wxPay')->name('user.wx.pay');
+        $router->get('ali/pay/{order}', 'PaymentController@aliPay')->name('user.ali.pay');
+        $router->get('offer/order/{order}/pay/order', 'PaymentController@offerOrderCreatePayOrder')->name('user.offer_order.pay.order');
+        $router->get('balance/pay/{order}', 'PaymentController@balancePay')->name('user.balance.pay');
+        $router->get('charge/pay', 'PaymentController@charge')->name('user.charge.pay');
+        $router->any('union/pay/{order}', 'PaymentController@unionPay')->name('user.union.pay');
     });
 
-    $router->any('balance/pay/{order}', 'PaymentController@balancePay');
-    $router->any('charge/pay', 'PaymentController@charge')->name('charge.pay');
-    $router->any('union/pay/{order}', 'PaymentController@unionPay');
-    $router->any('/notify/{order}', 'PaymentController@notify')->name('pay.notify');
+    $router->any('{payType}/notify/{order}', 'PaymentController@notify')->name('pay.notify');
     $router->any('test/ali/pay', 'PaymentController@aliPayOrderTest');
     $router->any('test/wx/pay', 'PaymentController@wxPayOrderTest');
 });

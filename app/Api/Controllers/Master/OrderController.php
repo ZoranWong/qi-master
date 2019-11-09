@@ -70,6 +70,11 @@ class OrderController extends Controller
             $order->status |= Order::ORDER_PROCEEDING_APPOINTED;
             $order->reservationDate = Carbon::createFromFormat('Y-m-d H:i:s', $reservationDate.' 23:59:59');
             if($order->save()) {
+                // 尊敬的客户，师傅与您预约的上门时间为${time}，如需尽快服务请直接拨打师傅手机${phone}。
+                app('sms')->sendSms($order->user->mobile, 'reserved_service', [
+                    'phone' => $order->user->mobile,
+                    'time' => $order->secondaryServiceDate->format('Y-m-d')
+                ]);
                 return $this->response->array([
                     'message' => '预约成功'
                 ]);
@@ -114,6 +119,13 @@ class OrderController extends Controller
             $order->needSecondaryService = true;
             $order->secondaryServiceDate = Carbon::now();
             if($order->save()){
+                // 您的订单${orderNo}，师傅已确认需要二次上门服务（缺货、少配件无法服务完成）。如有疑问，您可以联系谢师傅（${phone}）进行再次确认。
+                app('sms')->sendSms($order->user->mobile, 'twice_service', [
+                    'orderNo' => $order->orderNo,
+                    'master' => $order->master->realName ? $order->master->realName : $order->master->name,
+                    'phone' => $order->user->mobile,
+                    'time' => $order->secondaryServiceDate->format('Y-m-d')
+                ]);
                 return $this->response->array([
                     'message' => '已经预约二次上门'
                 ]);

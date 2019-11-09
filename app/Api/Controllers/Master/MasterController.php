@@ -19,6 +19,7 @@ use App\Transformers\MasterTransformer;
 use Dingo\Api\Http\Response;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Carbon;
 
 class MasterController extends Controller
 {
@@ -183,8 +184,16 @@ class MasterController extends Controller
         $order = new WithdrawDepositOrder();
         $order->applyAmount = $request->input('apply_amount');
         $order->status = WithdrawDepositOrder::HANDLING;
+        if($master->withdrawOrders()->whereIn('status', [WithdrawDepositOrder::HANDLING, WithdrawDepositOrder::AGREE_WITHDRAW])
+                ->where('created_at', '>=', Carbon::now()->startOfMonth())
+            ->where('created_at', '<', Carbon::now()->endOfMonth())->count() > config('withdraw.free_time')) {
+            $order->commission = $order->applyAmount * config('withdraw.commission_rate');
+        }
         $master->withdrawOrders()->save($order);
-        return $this->response->noContent();
+        return $this->response->array([
+            'message' => 'OK',
+            'code' => 'SUCCESS'
+        ]);
     }
 
     public function drawDeposits()

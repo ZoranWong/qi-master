@@ -65,9 +65,20 @@ class RefundOrderController extends Controller
         $data['timestamp'] = now()->format('Y-M-d H:m:s');
         $data['amount'] = $data['pass'] ? $refundOrder->amount : 0;
         $data['note'] = isset($data['note']) ? $data['note'] ?: '' : '';
-
-        $refundOrder->update(['audit' => $data]);
-
+        $refundOrder->audit = $data;
+        if ($data['pass']) {
+            $refundOrder->status = RefundOrder::APPLY_STATUS_DONE;
+//            师傅（${master}）已同意您的退款申请（订单：${orderNo}），请前往退款管理查看。
+            app('sms')->sendSms($refundOrder->user->mobile, 'agreed_refund', [
+                'orderNo' => $refundOrder->order->orderNo,
+                'master' => $refundOrder->master->realName ? $refundOrder->master->realName : $refundOrder->master->name
+            ]);
+            $refundOrder->user->balance += $refundOrder->amount;
+            $refundOrder->user->save();
+        } else {
+            $refundOrder->status = RefundOrder::APPLY_STATUS_REFUSED;
+        }
+        $refundOrder->save();
         return $this->response->noContent();
     }
 }

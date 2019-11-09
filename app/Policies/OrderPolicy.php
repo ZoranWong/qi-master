@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\Order;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Support\Facades\Log;
 
 class OrderPolicy
 {
@@ -12,6 +13,7 @@ class OrderPolicy
 
     public function own(User $user, Order $order)
     {
-        return $order->user_id == $user->id;
+
+        return $order->userId === $user->id;
     }
 }

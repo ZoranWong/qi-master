@@ -38,6 +38,17 @@ class UserController extends Controller
     }
 
     /**
+     * 个人信息
+     */
+    public function profileUpdate()
+    {
+        /** @var User $user */
+        $user = auth()->user();
+        $user->update(request()->toArray());
+        return $this->response->item($user, new UserTransformer);
+    }
+
+    /**
      * 修改密码：已知原密码
      * @param UserUpdatePasswordRequest $request
      * @return JsonResponse

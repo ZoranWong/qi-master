@@ -42,10 +42,12 @@ class SmsClient
      * @param string $mobile 手机号码
      * @param string $templateId 模版ID
      * @param array $params 模版参数
+     * @return mixed
      */
     public function sendSms(string $mobile, string $templateId, array $params)
     {
-        dispatch(new SendSms($this->client, $mobile, $templateId, $params));
+//        dispatch(new SendSms($this->client, $mobile, $templateId, $params));
+        return $this->client->sendSms($mobile, $templateId, $params);
     }
 
     /**

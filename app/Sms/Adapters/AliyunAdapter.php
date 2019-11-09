@@ -13,6 +13,7 @@ use AlibabaCloud\Client\Exception\ClientException;
 use AlibabaCloud\Client\Exception\ServerException;
 use AlibabaCloud\Client\Result\Result;
 use Exception;
+use Illuminate\Support\Facades\Log;
 
 /**
  * 阿里云短息服务适配器
@@ -48,11 +49,14 @@ class AliyunAdapter implements SmsAdapterInterface
                 ->options(['query' => $options])
                 ->request();
         } catch (ClientException $e) {
-            dd($e);
+//            dd($e);
+            Log::debug($e->getMessage());
         } catch (ServerException $e) {
-            dd($e->getMessage());
+//            ($e->getMessage());
+            Log::debug($e->getMessage());
         } catch (Exception $e) {
-            dd($e);
+//            dd($e);
+            Log::debug($e->getMessage());
         }
         return null;
     }
@@ -67,6 +71,7 @@ class AliyunAdapter implements SmsAdapterInterface
     public function sendSms(string $mobile, string $templateId, array $params)
     {
         try {
+            $templateId = $this->config['templates'][$templateId] ?? $templateId;
             $result = $this->request('POST', self::SEND_SMS, [
                 'RegionId' => $this->config['region_id'],
                 'PhoneNumbers' => $mobile,
@@ -100,6 +105,7 @@ class AliyunAdapter implements SmsAdapterInterface
      */
     protected function optionsBuilder(string $mobile, string $templateId, array $params)
     {
+        $templateId = $this->config['templates'][$templateId] ?? $templateId;
         return [
             'query' => [
                 'RegionId' => $this->config['region_id'],
@@ -118,6 +124,7 @@ class AliyunAdapter implements SmsAdapterInterface
      */
     public function queryTemplate(string $templateId)
     {
+        $templateId = $this->config['templates'][$templateId] ?? $templateId;
         try {
             $result = $this->request('GET', self::QUERY_SMS_TEMPLATE, ['TemplateCode' => $templateId]);
             return $result->toArray();
@@ -155,6 +162,7 @@ class AliyunAdapter implements SmsAdapterInterface
      */
     public function updateTemplate(string $templateId, int $type, string $name, string $content, string $remark = '')
     {
+        $templateId = $this->config['templates'][$templateId] ?? $templateId;
         return $this->request('POST', self::MODIFY_SMS_TEMPLATE, [
             'TemplateCode' => $templateId,
             'TemplateType' => $type,
@@ -171,6 +179,7 @@ class AliyunAdapter implements SmsAdapterInterface
      */
     public function deleteTemplate(string $templateId)
     {
+        $templateId = $this->config['templates'][$templateId] ?? $templateId;
         return $this->request('GET', self::DELETE_SMS_TEMPLATE, [
             'TemplateCode' => $templateId
         ]);

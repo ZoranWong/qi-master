@@ -45,38 +45,29 @@
         <div class="right-content">
             <h2>基本资料</h2>
             <div>
-                <form class="layui-form float-none profile" action="">
+                <form class="layui-form float-none profile" action="" onsubmit="return false">
                     <div class="layui-form-item modify-head-img">
                         <label class="layui-form-label">头像</label>
                         <div class="layui-input-inline">
                             <div class="upload-head-img">
                                 <img src="{{$user->avatarUrl}}" id="headimg">
-                                <input name="avatar" type="file" accept="image/*" id="upload-head-img">
+                                <input name="avatar" type="hidden" >
+                                <input name="avatarBtn" type="file" accept="image/*" id="upload-head-img">
                             </div>
                         </div>
                     </div>
                     <div class="layui-form-item" style="margin-top: 65px;">
                         <label class="layui-form-label">用户名</label>
                         <div class="layui-input-inline">
-                            <input type="text" name="username" lay-verify="title" autocomplete="off" placeholder="{{$user->name}}"
+                            <input type="text" name="name" lay-verify="title" autocomplete="off" placeholder="{{$user->name}}"
                                    class="layui-input disabled" value="{{$user->name}}" disabled>
                         </div>
                     </div>
-                    {{--<div class="layui-form-item">--}}
-                        {{--<label class="layui-form-label">注册类型</label>--}}
-                        {{--<div class="layui-input-inline">--}}
-                            {{--<select name="interest" lay-filter="aihao">--}}
-                                {{--<option value="" selected="">家具商家</option>--}}
-                                {{--<option value="0">灯具商家</option>--}}
-                                {{--<option value="1">个人</option>--}}
-                            {{--</select>--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
                     <div class="layui-form-item">
                         <label class="layui-form-label">姓名</label>
                         <div class="layui-input-inline">
-                            <input type="text" name="name" lay-verify="title" autocomplete="off" placeholder="{{$user->realName}}"
-                                   class="layui-input">
+                            <input type="text" name="real_name" lay-verify="title" autocomplete="off" placeholder="{{$user->realName}}"
+                                   class="layui-input" value="{{$user->realName}}">
                         </div>
                     </div>
                     <div class="layui-form-item">
@@ -93,21 +84,21 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">所在地区</label>
                         <div class="layui-input-flex" data-toggle="distpicker"  data-autoselect="3">
-                            <select lay-filter="a" id="a"></select>
-                            <select lay-filter="b" id="b"></select>
-                            <select lay-filter="c" id="c"></select>
+                            <select lay-filter="a" id="a" name="province"></select>
+                            <select lay-filter="b" id="b" name="city"></select>
+                            <select lay-filter="c" id="c" name="area"></select>
                         </div>
                     </div>
                     <div class="layui-form-item layui-form-text">
                         <label class="layui-form-label">详细地址</label>
                         <div class="layui-input-inline">
-                            <textarea placeholder="请输入详细地址" class="layui-textarea" value="{{$user->address}}">
+                            <textarea name= "address" placeholder="请输入详细地址" class="layui-textarea" value="{{$user->address}}">
                                 {{$user->address}}
                             </textarea>
                         </div>
                     </div>
                     <div class="layui-form-item" style="margin-left: 13px;">
-                        <button class="layui-btn inquire" lay-submit="" lay-filter="">保存</button>
+                        <button class="layui-btn inquire" lay-submit lay-filter="*">保存</button>
                     </div>
                 </form>
             </div>
@@ -142,6 +133,20 @@
             $("#c").val(data.value).change();
             form.render();
         })
+        form.on("submit(*)", function (formData) {
+            let data = formData.field;
+            delete data['avatarBtn'];
+            data['token'] = "{{$token}}";
+            $.ajax({
+                url:"{{api_route('user.profile.update')}}",
+                data: data,
+                method: 'PUT',
+                success(){
+                    location.reload();
+                }
+            });
+            return false;
+        });
     })
     //上传头像
     $(function () {
@@ -154,7 +159,7 @@
             if (fileObj && fileObj.files && fileObj.files[0]) {
                 dataURL = windowURL.createObjectURL(fileObj.files[0]);
                 $img.attr('src', dataURL);
-                uploadFiles(fileObj.files[0], 'files', "{{api_route('upload.file')}}", function () {
+                uploadFiles(fileObj.files[0], 'files', "{{api_route('upload.file')}}", function (data) {
                     $('input[name="avatar"]').val(data['paths'][0]);
                 }, function () {
 

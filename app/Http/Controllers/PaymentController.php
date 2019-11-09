@@ -64,20 +64,17 @@ class PaymentController extends Controller
 
     public function wxPay(PaymentOrder $order)
     {
-        \Log::debug('--------------', $order->toArray());
+        $gateway = request('gateway', 'Native');
         $orderPayData = [
             'body' => 'The test order',
             'out_trade_no' => $order->code.Str::random(5),
             'total_fee'         => $order->amount * 100, //=0.01
-//            'total_fee' => 1,
             'spbill_create_ip' => request()->ip(),
             'fee_type' => 'CNY',
-            'notify_url' => route('pay.notify', ['order' => $order->id])
+            'notify_url' => route('pay.notify', ['order' => $order->id, 'payType' => 'wx'])."?gateway={$gateway}"
         ];
 
-        \Log::debug('--------------', $orderPayData);
 
-        $gateway = request('gateway', 'Native');
 
         /**
          * @var CreateOrderResponse $response
@@ -93,11 +90,15 @@ class PaymentController extends Controller
                 break;
             case 'Native':
                 $data = $response->getCodeUrl();
-                \Log::debug('------------------', [$response->getData()]);
-                $qrCode = app(QrCodeFactory::class)->create($data);
-                return $this->response()->created()
-                    ->header('Content-Type', $qrCode->getContentType())
-                    ->setContent($qrCode->writeString());
+                if($response->isSuccessful()) {
+                    $qrCode = app(QrCodeFactory::class)->create($data);
+                    return $this->response()->created()
+                        ->header('Content-Type', $qrCode->getContentType())
+                        ->setContent($qrCode->writeString());
+                }else{
+                    return $this->response->array($response->getData());
+                }
+
                 break;
             case 'Mweb':
                 $data = $response->getMwebUrl();
@@ -121,16 +122,17 @@ class PaymentController extends Controller
 
     public function aliPay(PaymentOrder $order)
     {
+        $gateway = request('gateway', 'AopPage');
         $orderPayData = [
             'biz_content' => [
                 'subject' => 'test',
                 'out_trade_no' => $order->code,
                 'total_amount' => $order->amount,
                 'product_code' => 'FAST_INSTANT_TRADE_PAY',
-                'notify_url' => route('pay.notify', ['order' => $order->id])
+                'notify_url' => route('pay.notify', ['order' => $order->id, 'payType' => 'ali'])."?gateway={$gateway}"
             ]
         ];
-        $gateway = request('gateway', 'AopPage');
+
         /**
          * @var  \Omnipay\Alipay\Responses\AbstractResponse $response
          * */
@@ -138,7 +140,11 @@ class PaymentController extends Controller
         switch ($gateway) {
             case 'AopPage':
                 $url = $response->getRedirectUrl();
-                return redirect($url);
+                if($response->isSuccessful()) {
+                    return redirect($url);
+                }else{
+                    return $this->response->array($response->getData());
+                }
             default:
                 $data = $response->getData();
                 return $this->response->array([
@@ -149,40 +155,22 @@ class PaymentController extends Controller
 
     }
 
-    public function aliPayOrder(OfferOrder $offerOrder)
+    public function offerOrderCreatePayOrder($offerOrder)
     {
+        $offerOrder = OfferOrder::find($offerOrder);
         $order = new PaymentOrder();
         $order->amount = $offerOrder->quotePrice;
-//        $order->payType = PaymentOrder::TYPE_QUOTE_ORDER;
         $order->masterId = $offerOrder->masterId ?? 0;
         $order->userId = $offerOrder->userId;
         $order->orderId = $offerOrder->orderId;
         $order->status = PaymentOrder::STATUS_UNPAID;
-        $order->payType = PaymentOrder::PAY_TYPE_AL;
         $order->type = PaymentOrder::TYPE_QUOTE_ORDER;
-        $order = $offerOrder->order()->create($order->toArray());
-        request()['gateway'] = 'AopJs';
-        return app(PaymentController::class)->aliPay($order);
-    }
-
-    public function wxPayOrder($offerOrderId)
-    {
-        $offerOrder = OfferOrder::find($offerOrderId);
-        \Log::debug('-------++++++++++-------', $offerOrder->toArray());
-        $order = new PaymentOrder();
-        $order->amount = $offerOrder->quotePrice;
-//        $order->payType = PaymentOrder::TYPE_QUOTE_ORDER;
-        $order->masterId = $offerOrder->masterId ?? 0;
-        $order->userId = auth()->user()->id;
-        $order->orderId = $offerOrder->orderId ?? 0;
-        $order->status = PaymentOrder::STATUS_UNPAID;
-        $order->payType = PaymentOrder::PAY_TYPE_WX;
-        $order->type = PaymentOrder::TYPE_QUOTE_ORDER;
+        $order->orderId = $offerOrder->orderId;
         $order->offerOrderId = $offerOrder->id;
         $order->save();
-//        request()['gateway'] = 'AopJs';
-        return app(PaymentController::class)->wxPay($order);
+        return $this->response->array(['pay_order_id' => $order->id]);
     }
+
 
     public function unionPay(PaymentOrder $order)
     {
@@ -221,10 +209,16 @@ class PaymentController extends Controller
         return $response;
     }
 
-    public function notify($orderId)
+    public function notify($payType, $orderId)
     {
-        Log::debug('--------order notify ----------');
-        $payType = request('pay_type', 'WxPay');
+        switch ($payType) {
+            case 'wx':
+                $payType = 'WxPay';
+                break;
+            case 'ali':
+                $payType = 'AliPay';
+                break;
+        }
         $gateway = request('gateway', 'Native');
         /**@var Gateway|AbstractAopGateway|AbstractGateway $notifyGateway */
         $notifyGateway = app($payType, [$gateway]);
@@ -232,18 +226,14 @@ class PaymentController extends Controller
         $response = $notifyGateway->completePurchase([
             'request_params' => $data
         ])->send();
-        Log::debug('--------order notify ----------', [$response->isPaid(), $response->getRequestData()]);
-        $this->orderPaidSuccess(PaymentOrder::find($orderId));
-        die('success');
-//        if ($response->isPaid()) {
-//            //pay success
-//            $this->orderPaidSuccess($order);
-//            die('success');
-//        } else {
-//            //pay fail
-//            $this->orderPaidFail($order);
-//            die('fail');
-//        }
+        if($response->isPaid()) {
+            $this->orderPaidSuccess(PaymentOrder::find($orderId), $payType);
+            die('success');
+        }else{
+            $this->orderPaidFail(PaymentOrder::find($orderId));
+            die('failed');
+        }
+
     }
 
     protected function notifyData()
@@ -260,18 +250,41 @@ class PaymentController extends Controller
         return $data;
     }
 
-    protected function orderPaidSuccess(PaymentOrder $order)
+    protected function orderPaidSuccess(PaymentOrder $order, $payType)
     {
         if ($order->type === PaymentOrder::TYPE_RECHARGE) {
             $order->user->balance += $order->amount;
+            $order->user->save();
         }
-        $order->status = PaymentOrder::STATUS_PAID;
         $offerOrder = OfferOrder::find($order->offerOrderId);
-        Log::debug('----------', [$order->toArray(), $offerOrder->toArray()]);
         $offerOrder->status = OfferOrder::STATUS_HIRED;
-        $offerOrder->update(['status' => OfferOrder::STATUS_HIRED]);
-        $order->order->update(['status' => Order::ORDER_PROCEEDING_WAIT_PRE_APPOINT, 'order_checked_code' => Str::random(6)]);
+        $offerOrder->save();
+        switch ($payType) {
+            case 'WxPay':
+                $payType = PaymentOrder::PAY_TYPE_WX;
+                break;
+            case "AliPay":
+                $payType = PaymentOrder::PAY_TYPE_AL;
+                break;
+        }
+        $order->order->status = Order::ORDER_PROCEEDING_WAIT_PRE_APPOINT;
+        $order->order->orderCheckedCode = random_int(100000, 999999);
+        $order->order->totalAmount += $order->amount;
+        $order->payType = $payType;
         $order->save();
+        $order->order->save();
+        if($order->type === PaymentOrder::TYPE_QUOTE_ORDER) {
+            app('sms')->sendSms($order->master->mobile, 'remind_reserved', [
+                'master' => $order->master->realName ? $order->master->realName : $order->master->name,
+                'orderNo' => $order->order->orderNo
+            ]);
+        }elseif($order->type === PaymentOrder::TYPE_ADDITION_ORDER) {
+            app('sms')->sendSms($order->master->mobile, 'addition_fee', [
+                'master' => $order->master->realName ? $order->master->realName : $order->master->name,
+                'user' => $order->user->realName ? $order->user->realName : $order->user->name,
+                'fee' => $order->amount
+            ]);
+        }
     }
 
     protected function orderPaidFail(PaymentOrder $order)

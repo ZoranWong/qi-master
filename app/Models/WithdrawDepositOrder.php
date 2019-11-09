@@ -22,6 +22,7 @@ use McCool\LaravelAutoPresenter\HasPresenter;
  * @property \Illuminate\Support\Carbon|null $updatedAt
  * @property string|null $deletedAt
  * @property int $optAdminId 操作管理员ID
+ * @property int $commission 提现佣金
  * @property-read \App\Models\Master $master
  * @property-read \Encore\Admin\Auth\Database\Administrator $operator
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WithdrawDepositOrder newModelQuery()
@@ -29,6 +30,7 @@ use McCool\LaravelAutoPresenter\HasPresenter;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WithdrawDepositOrder query()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WithdrawDepositOrder whereApplyAmount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WithdrawDepositOrder whereComment($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WithdrawDepositOrder whereCommission($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WithdrawDepositOrder whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WithdrawDepositOrder whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WithdrawDepositOrder whereId($value)
@@ -54,13 +56,14 @@ class WithdrawDepositOrder extends Model implements HasPresenter
         self::REFUSE_WITHDRAW => '拒绝提现'
     ];
 
-    protected $fillable = ['transfer_amount', 'apply_amount', 'master_id', 'status', 'comment'];
+    protected $fillable = ['transfer_amount', 'apply_amount', 'master_id', 'status', 'comment', 'commission'];
 
     public function __construct(array $attributes = [])
     {
         $this->currencyColumns = [
             'transfer_amount',
-            'apply_amount'
+            'apply_amount',
+            'commission'
         ];
         parent::__construct($attributes);
     }

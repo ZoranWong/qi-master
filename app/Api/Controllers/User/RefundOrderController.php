@@ -4,6 +4,7 @@ namespace App\Api\Controllers\User;
 
 use App\Api\Controller;
 use App\Http\Requests\RefundOrderCreateRequest;
+use App\Jobs\RefundOrderAutoCompleted;
 use App\Models\Order;
 use App\Models\RefundOrder;
 use App\Repositories\OrderRepository;
@@ -11,6 +12,7 @@ use App\Repositories\RefundOrderRepository;
 use App\Transformers\RefundDetailTransformer;
 use App\Transformers\RefundOrderTransformer;
 use Dingo\Api\Http\Response;
+use Illuminate\Support\Carbon;
 
 class RefundOrderController extends Controller
 {
@@ -75,8 +77,14 @@ class RefundOrderController extends Controller
         $data['status'] = RefundOrder::REFUND_STATUS_WAIT;
         $data['apply_status'] = RefundOrder::APPLY_STATUS_WAIT;
 
+        /**@var RefundOrder $refund*/
         $refund = $this->repository->create($data);
-
+        app('sms')->sendSms($refund->master->mobile, 'refund_apply', [
+            'master' => $refund->master->realName ? $refund->master->realName : $refund->master->name,
+            'orderNo' => $refund->order->orderNo,
+            'day' => config('order.refund_auto_completed_day')
+        ]);
+        $this->dispatch((new RefundOrderAutoCompleted($refund))->delay(Carbon::now()->addDays(config('order.refund_auto_completed_day'))));
         return $this->response->item($refund, new RefundOrderTransformer);
     }
 
@@ -93,7 +101,10 @@ class RefundOrderController extends Controller
 
         $refundOrder->update(['has_customer' => true, 'status' => RefundOrder::REFUND_STATUS_HANDLING]);
 
-        return $this->response->noContent();
+        return $this->response->array([
+            'message' => 'OK',
+            'code' => 'SUCCESS'
+        ]);
     }
 
     /**
@@ -109,6 +120,9 @@ class RefundOrderController extends Controller
 
         $refundOrder->update(['status' => RefundOrder::REFUND_STATUS_CLOSED]);
 
-        return $this->response->noContent();
+        return $this->response->array([
+            'message' => 'OK',
+            'code' => 'SUCCESS'
+        ]);
     }
 }

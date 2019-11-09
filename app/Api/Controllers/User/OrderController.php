@@ -178,9 +178,23 @@ class OrderController extends Controller
 
     public function checkedOrder(Order $order)
     {
-        $order->status |= Order::ORDER_CHECKED;
-        $order->save();
-        return $this->response->noContent();
+        if(app('sms')->sendSms($order->master->mobile, 'order_check_code', [
+            'master' => $order->master->realName? $order->master->realName : $order->master->name,
+            'orderNo' => $order->orderNo,
+            'code' => $order->orderCheckedCode
+        ])){
+            $order->hadSendCode = true;
+            $order->save();
+            return $this->response->array([
+                'code' => 'SUCCESS'
+            ]);
+        }else{
+            return $this->response->array([
+                'code' => 'FAIL',
+                'message' => '短信发送错误'
+            ]);
+        }
+
     }
 
     public function commentOrder(Order $order)

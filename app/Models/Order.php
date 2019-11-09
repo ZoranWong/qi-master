@@ -48,6 +48,7 @@ use Ramsey\Uuid\Uuid;
  * @property string $orderCheckedCode 验收码
  * @property string $provinceCode 省份编号
  * @property string $cityCode 省份编号
+ * @property int $hadSendCode 订单确认码是否发送
  * @property-read \App\Models\Classification $classification
  * @property-read \App\Models\MasterComment $comment
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Complaint[] $complaints
@@ -79,6 +80,7 @@ use Ramsey\Uuid\Uuid;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereCustomerInfo($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereHadSendCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereImage($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereMasterId($value)
@@ -215,7 +217,8 @@ class Order extends Model implements HasPresenter
         'refund_status' => self::STATUS_REFUND_DEFAULT,
         'remark' => '',
         'customer_info' => '[]',
-        'shipping_info' => '[]'
+        'shipping_info' => '[]',
+        'total_amount' => 0
     ];
 
     public function __construct(array $attributes = [])

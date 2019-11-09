@@ -39,6 +39,9 @@ class WithdrawDepositOrderController extends AdminController
         $grid->column('apply_amount', '申请提现金额')->display(function ($value) {
             return number_format($value, 2);
         });
+        $grid->column('commission', '佣金')->display(function ($value) {
+            return number_format($value, 2);
+        });
         $grid->column('transfer_amount', '实际转账金额')->display(function ($value) {
             return number_format($value, 2);
         });
@@ -78,7 +81,8 @@ class WithdrawDepositOrderController extends AdminController
             $actions->disableEdit();
             $actions->disableView();
             if ($order->status === WithdrawDepositOrder::HANDLING) {
-                $actions->append("<a class='btn btn-sm btn-primary withdraw-agree' data-id='{$order->id}' data-fee='{$order->applyAmount}'>同意</a>
+                $fee = $order->applyAmount - $order->commission;
+                $actions->append("<a class='btn btn-sm btn-primary withdraw-agree' data-id='{$order->id}' data-fee='{$fee}'>同意</a>
 <a class='btn btn-sm btn-dark withdraw-refuse' data-id='{$order->id}'>拒绝</a> ");
             }
         });

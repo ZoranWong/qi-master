@@ -151,5 +151,5 @@
         margin-bottom: 32px;
     }
 </style>
-
+@include('web.orderListScript')
 </html>

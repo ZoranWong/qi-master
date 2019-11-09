@@ -25,8 +25,11 @@ class UsersController extends Controller
                 'currentMenu' => 'profile'
             ]);
         }
+        $user = auth()->user();
+        $token = JWTAuth::fromUser($user);
         return $view->with([
-            'user' => $user
+            'user' => $user,
+            'token' => $token
         ]);
     }
 
@@ -52,7 +55,7 @@ class UsersController extends Controller
             return view('web.recharge')->with([
                 'selected' => 'wallet',
                 'currentMenu' => 'recharge',
-                //'token' => $token
+                'token' => $token
             ]);
         }
     }
