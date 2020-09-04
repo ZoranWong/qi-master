@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@fortawesome/fontawesome-free@^5.6.3":
-  version "5.6.3"
-  resolved "https://npm.fontawesome.com/F9353EEE-C628-4DED-B9C3-76844C3B2C9D/@fortawesome/fontawesome-free/-/fontawesome-free-5.6.3.tgz#61c122c420d7a91613f393d6a06e5a4c6ae6abf3"
-  integrity sha512-s5PLdI9NYgjBvfrv6rhirPHlAHWx+Sfo/IjsAeiXYfmemC/GSjwsyz1wLnGPazbLPXWfk62ks980o9AmsxYUEQ==
+"@fortawesome/fontawesome-free@^5.9.0":
+  version "5.14.0"
+  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free/-/fontawesome-free-5.14.0.tgz#a371e91029ebf265015e64f81bfbf7d228c9681f"
+  integrity sha512-OfdMsF+ZQgdKHP9jUbmDcRrP0eX90XXrsXIdyjLbkmSBzmMXPABB8eobUJtivaupucYaByz6WNe1PI1JuYm3qA==
 
 abbrev@1:
   version "1.1.1"
@@ -1367,6 +1367,11 @@ code-point-at@^1.0.0:
   version "1.1.0"
   resolved "http://registry.npm.taobao.org/code-point-at/download/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
   integrity sha1-DQcLTQQ6W+ozovGkDi7bPZpMz3c=
+
+collect.js@^4.20.3:
+  version "4.28.2"
+  resolved "https://registry.yarnpkg.com/collect.js/-/collect.js-4.28.2.tgz#08c11c48923641f7e86899adbd55aa31ed5de5b0"
+  integrity sha512-Ok2z0kuyywWJ4AtkeUI61pbSxCmaN5XYr/fkUYJP4bYk6Dz3NKH2FA8RhF7i3Do9Iq80MLRFWasSOpyE9X7hDA==
 
 collection-visit@^1.0.0:
   version "1.0.0"
@@ -3806,9 +3811,9 @@ lodash.memoize@^4.1.2:
   integrity sha1-vMbEmkKihA7Zl/Mj6tpezRguC/4=
 
 lodash.mergewith@^4.6.0:
-  version "4.6.1"
-  resolved "http://registry.npm.taobao.org/lodash.mergewith/download/lodash.mergewith-4.6.1.tgz#639057e726c3afbdb3e7d42741caa8d6e4335927"
-  integrity sha1-Y5BX5ybDr72z59QnQcqo1uQzWSc=
+  version "4.6.2"
+  resolved "https://registry.yarnpkg.com/lodash.mergewith/-/lodash.mergewith-4.6.2.tgz#617121f89ac55f59047c7aec1ccd6654c6590f55"
+  integrity sha512-GK3g5RPZWTRSeLSpgP8Xhra+pnjBC56q9FZYe1d5RN3TJ35dbkGy3YqBSMbyCrlbi+CM9Z3Jk5yTL7RCsqboyQ==
 
 lodash.restparam@^3.0.0:
   version "3.6.1"
@@ -6659,6 +6664,13 @@ webpack-dev-server@^2.11.1:
     supports-color "^5.1.0"
     webpack-dev-middleware "1.12.2"
     yargs "6.6.0"
+
+webpack-laravel-mix-manifest@^2.0.1:
+  version "2.1.5"
+  resolved "https://registry.yarnpkg.com/webpack-laravel-mix-manifest/-/webpack-laravel-mix-manifest-2.1.5.tgz#0379335efd3fc7f6b02985106f4d0dcf096812a8"
+  integrity sha512-GWZ1nmoj1TfAzS5Qy1Yen+bs7+NyzosJ2qo9lW6vWjKDFNqYoa4DxFtB1siGJyutnZIAbA+La6KAxIAcu4EdIQ==
+  dependencies:
+    collect.js "^4.20.3"
 
 webpack-merge@^4.1.0:
   version "4.1.5"
