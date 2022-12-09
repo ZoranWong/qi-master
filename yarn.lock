@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@fortawesome/fontawesome-free@^5.6.3":
-  version "5.6.3"
-  resolved "https://npm.fontawesome.com/F9353EEE-C628-4DED-B9C3-76844C3B2C9D/@fortawesome/fontawesome-free/-/fontawesome-free-5.6.3.tgz#61c122c420d7a91613f393d6a06e5a4c6ae6abf3"
-  integrity sha512-s5PLdI9NYgjBvfrv6rhirPHlAHWx+Sfo/IjsAeiXYfmemC/GSjwsyz1wLnGPazbLPXWfk62ks980o9AmsxYUEQ==
+"@fortawesome/fontawesome-free@^5.9.0":
+  version "5.15.4"
+  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free/-/fontawesome-free-5.15.4.tgz#ecda5712b61ac852c760d8b3c79c96adca5554e5"
+  integrity sha512-eYm8vijH/hpzr/6/1CJ/V/Eb1xQFW2nnUKArb3z+yUWv7HTwj6M7SP957oMjfZjAHU6qpoNc2wQvIxBLWYa/Jg==
 
 abbrev@1:
   version "1.1.1"
@@ -1367,6 +1367,11 @@ code-point-at@^1.0.0:
   version "1.1.0"
   resolved "http://registry.npm.taobao.org/code-point-at/download/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
   integrity sha1-DQcLTQQ6W+ozovGkDi7bPZpMz3c=
+
+collect.js@^4.28.2:
+  version "4.34.3"
+  resolved "https://registry.yarnpkg.com/collect.js/-/collect.js-4.34.3.tgz#8169aff62d18a973b2ea23ace76da03517463ac1"
+  integrity sha512-aFr67xDazPwthsGm729mnClgNuh15JEagU6McKBKqxuHOkWL7vMFzGbhsXDdPZ+H6ia5QKIMGYuGOMENBHnVpg==
 
 collection-visit@^1.0.0:
   version "1.0.0"
@@ -5189,10 +5194,15 @@ q@^1.1.2:
   resolved "http://registry.npm.taobao.org/q/download/q-1.5.1.tgz#7e32f75b41381291d04611f1bf14109ac00651d7"
   integrity sha1-fjL3W0E4EpHQRhHxvxQQmsAGUdc=
 
-qs@6.5.2, qs@~6.5.2:
+qs@6.5.2:
   version "6.5.2"
   resolved "http://registry.npm.taobao.org/qs/download/qs-6.5.2.tgz#cb3ae806e8740444584ef154ce8ee98d403f3e36"
   integrity sha1-yzroBuh0BERYTvFUzo7pjUA/PjY=
+
+qs@~6.5.2:
+  version "6.5.3"
+  resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.3.tgz#3aeeffc91967ef6e35c0e488ef46fb296ab76aad"
+  integrity sha512-qxXIEh4pCGfHICj1mAJQ2/2XVZkjCDTcEgfoSQxc/fYivUZxTkk7L3bDBJSoNrEzXI17oUO5Dp07ktqE5KzczA==
 
 query-string@^4.1.0:
   version "4.3.4"
@@ -6659,6 +6669,13 @@ webpack-dev-server@^2.11.1:
     supports-color "^5.1.0"
     webpack-dev-middleware "1.12.2"
     yargs "6.6.0"
+
+webpack-laravel-mix-manifest@^2.0.1:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/webpack-laravel-mix-manifest/-/webpack-laravel-mix-manifest-2.2.2.tgz#b077d8b08d4d588ac596643f55d6b344a34a141d"
+  integrity sha512-QV7u3cX/VOe7S/2bvRIuYlqhEEq+GFbErIuoEcPIPyI39K7UeLVNYBLpp5ZMySOP4q8EkklLPESgfFoIoYAZ3A==
+  dependencies:
+    collect.js "^4.28.2"
 
 webpack-merge@^4.1.0:
   version "4.1.5"
